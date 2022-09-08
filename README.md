@@ -1,2 +1,4 @@
 # BarBarians
-Capstone project 2022-2023 for SOEN 490
+Capstone project for SOEN 490
+
+Note: When merging, have your code reviewed by at least 2 other peers
