@@ -4,8 +4,11 @@ const bodyParser = require("body-parser")
 const cors = require("cors")
 const morgan = require("morgan")
 
+const Router = require('./routes/routes.js')
+
 //database
 const db = require('./config/database.js')
+const { route } = require("./routes/routes.js")
 
 
 const app = express()
@@ -13,13 +16,9 @@ app.use(morgan('combine'))
 app.use(bodyParser.json())
 app.use(cors())
 
-app.get('/',(req,res) =>{
-    res.send({
-        message: "hello"
-    })
-})
 
 //routes
+app.use(Router)
 
 //test if the connection has been built
 db.authenticate()
