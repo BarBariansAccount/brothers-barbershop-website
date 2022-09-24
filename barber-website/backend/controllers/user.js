@@ -1,20 +1,14 @@
-const UserModel = require("../models/userModel.js");
+const pool = require('../config/database.js')
+const UserModel = require("../models/UserModel.js")
 
-// Create New User
-const createUser=(req, res) =>{
-    const data = req.body;
-    const email= data.email
-    const password= data.password
-    UserModel.insertUser(email,password, (err, results) => {
-        console.log("ll")
-        if (err){
-            console.log(err)
-            res.send(err);
-            
-        }else{
-            console.log
-            res.json(results);
-        }
-    });
-}
-module.exports.createUser=createUser;
+const getusers = (req,res) => {
+    pool.query(UserModel.getUsers, (err, results) =>{
+        if (err) throw err;
+        res.status(200).json(results.rows);
+
+    })
+};
+
+module.exports = {
+    getusers,
+};

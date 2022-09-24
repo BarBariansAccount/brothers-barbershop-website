@@ -8,8 +8,6 @@ router.get('/',(req,res) =>{
         })
     })
 
-router.post('/users', function(req, res){
-    User.createUser
-});
+router.get('/users',User.getusers);
 
 module.exports = router;
