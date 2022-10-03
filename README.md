@@ -16,11 +16,6 @@ Install the dependencies
 ```
 npm install
 ```
-
-Add vuetify into the project
-```
-vue add vuetify
-```
 Start the application and run the server
 ```
 npm run serve
