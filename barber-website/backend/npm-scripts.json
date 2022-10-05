@@ -1,0 +1,7 @@
+{
+  "scripts": {
+    "start": "nodemon backend.js",
+    "test": "mocha -exit",
+    "test-integration": "mocha -exit './test/integrationTest/*'"
+  }
+}
