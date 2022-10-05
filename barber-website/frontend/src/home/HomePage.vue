@@ -1,17 +1,16 @@
 <template>
   <div>
-    <router-view></router-view>
+    <h1>Home page</h1>
   </div>
 </template>
 
 <script>
 export default {
-  name: "App",
-
-  components: {},
-
+  name: "HomePage",
   data: () => ({
     //
   }),
 };
 </script>
+
+<style></style>
