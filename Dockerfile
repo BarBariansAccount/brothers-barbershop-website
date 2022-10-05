@@ -1,18 +1,10 @@
 # syntax=docker/dockerfile:1
-FROM ubuntu:22.04
+FROM alpine:3.14
 
-# install app and dependencies
-RUN apt-get update && apt-get install -y npm
 RUN mkdir /barber-website
+COPY barber-website/ barber-website/ 
 
-COPY barber-website/backend/ /barber-website/
-COPY barber-website/frontend/ /barber-website/
+RUN apk update && apk add npm
 
-WORKDIR /barber-website/backend/
-RUN npm init -y
-RUN npm install express
-RUN npm install -D nodemon
-
-# final configuration
-EXPOSE 8080
+WORKDIR barber-website/backend/
 CMD npm start
