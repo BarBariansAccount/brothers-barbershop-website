@@ -10,5 +10,6 @@
             "database": "barbershop",
             "username": "postgres"
         }
-    ]
+    ],
+    "editor.formatOnSave": true
 }
