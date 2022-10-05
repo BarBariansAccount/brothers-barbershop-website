@@ -20,4 +20,8 @@ Start the application and run the server
 ```
 npm run serve
 ```
+Installing vue-router if need be
+```
+npm install vue-router@3
+```
 
