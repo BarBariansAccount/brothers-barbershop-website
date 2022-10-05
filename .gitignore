@@ -1,6 +1,11 @@
 .DS_Store
 node_modules
 /dist
+*.jsonLockfile
+*.json
+*.DS_Store
+*.http
+
 
 
 # local env files
@@ -13,6 +18,7 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
+#JsonLockfile
 # Editor directories and files
 .idea
 .vscode
