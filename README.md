@@ -25,3 +25,13 @@ Installing vue-router if need be
 npm install vue-router@3
 ```
 
+# Docker
+To build the image, run the following command from the root directory:
+```
+docker build -f Dockerfile -t barbershop:customBuild .
+```
+
+To run the image, run the following command:
+```
+docker run --rm -it -p 8080:8080/tcp barbershop:custom
+```
