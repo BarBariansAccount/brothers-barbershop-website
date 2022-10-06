@@ -82,7 +82,7 @@ export default {
       }
     },onUserRoleMenu(){
       if(this.userRole == "Admin"){
-        this.menuItems.push({ title: "Admin", path: "/somewhere" });
+        this.menuItems.push({ title: "Admin", path: "/admin" });
       }
     }
   },
