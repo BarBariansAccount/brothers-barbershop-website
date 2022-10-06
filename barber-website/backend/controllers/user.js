@@ -1,5 +1,6 @@
 const pool = require('../config/database.js')
 const UserModel = require("../models/UserModel.js")
+const bcrypt = require("bcryptjs")
 
 const getusers = (req,res) => {
     pool.query(UserModel.getUsers, (err, results) =>{
@@ -50,8 +51,38 @@ const validateLogin=(req,res) =>{
     })   
 }
 
+const updateUser = (req, res) =>{
+    const {Email, FirstName, LastName, Telephone, Password} = req.body;
+
+    // Check if logged in
+    // ...
+
+    // Retrieve old password
+    pool.query(UserModel.checkUserExists , [Telephone], (error, results) => {
+        if(results.rows.length == 0){
+            res.send(`There is no user with the number: ${Telephone}.`);
+        }
+        if (error) throw error;
+
+	// Check if old password matches
+	// if(bcrypt.compareSync(Password, results.row[0].password)) {
+	if(Password === results.rows[0].password) {
+
+	    // Replace old password with new
+	    const hash = bcrypt.hashSync(Password, 12);
+	    pool.query(UserModel.updateUser, [Email, FirstName, LastName, Telephone, hash], (error, results) => {
+		if (error) throw error;
+		res.status(200)
+	    }) 
+	} else {
+	    res.send(`Error`);
+	}
+    }) 
+}
+
 module.exports = {
     getusers,
     createUser,
     validateLogin,
+    updateUser,
 };
