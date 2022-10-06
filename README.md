@@ -26,12 +26,11 @@ npm install vue-router@3
 ```
 
 # Docker
-To build the image, run the following command from the root directory:
+Requirements: For the following instructions, you must have docker installed.
+
+To setup the server and database containers, simply run the following from the root directory of the repository:
 ```
-docker build -f Dockerfile -t barbershop:custom .
+./setup.sh
 ```
 
-To run the image, run the following command:
-```
-docker run --rm -it -p 8080:8080/tcp barbershop:custom
-```
+If you are on Windows, or you don't have bash installed, you must run each command from inside the setup.sh file individually.
