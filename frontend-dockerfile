@@ -1,0 +1,14 @@
+# syntax=docker/dockerfile:1
+FROM alpine:3.14
+
+RUN apk update && apk add npm
+
+RUN mkdir /frontend
+COPY barber-website/frontend/ frontend/
+WORKDIR frontend/
+
+RUN npm install
+
+ENV PORT=8080
+EXPOSE 8080/tcp
+CMD npm run serve
