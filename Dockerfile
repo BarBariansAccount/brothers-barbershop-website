@@ -7,6 +7,8 @@ RUN mkdir /barber-website
 COPY barber-website/ barber-website/ 
 WORKDIR barber-website/backend/
 
+RUN npm install express nodemon
+
 ENV PORT=8080
 EXPOSE 8080/tcp
 CMD npm start
