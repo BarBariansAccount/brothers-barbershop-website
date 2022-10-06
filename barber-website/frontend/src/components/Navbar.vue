@@ -48,6 +48,7 @@ export default {
   data() {
     return {
       appTitle: "Brothers' Barbershop",
+      userRole:'',
       sidebar: false,
       group: null,
       menuItems: [
@@ -69,6 +70,7 @@ export default {
   },
   mounted() {
     window.addEventListener("resize", this.onWindowResize);
+    this.onUserRoleMenu();
   },
   unmounted() {
     window.removeEventListener("resize", this.onWindowResize);
@@ -78,7 +80,11 @@ export default {
       if (window.innerWidth >= 600) {
         this.sidebar = false;
       }
-    },
+    },onUserRoleMenu(){
+      if(this.userRole == "Admin"){
+        this.menuItems.push({ title: "Admin", path: "/somewhere" });
+      }
+    }
   },
 };
 </script>
