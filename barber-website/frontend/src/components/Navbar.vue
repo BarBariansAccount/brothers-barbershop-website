@@ -17,6 +17,7 @@
         <v-app-bar-nav-icon @click.stop="sidebar = !sidebar">
         </v-app-bar-nav-icon>
       </span>
+      <img src="../assets/barbershop-logo.png" class="logo-img" />
       <v-toolbar-title>
         <router-link to="/" tag="span" style="cursor: pointer">
           <span class="app-title">{{ appTitle }}</span>
@@ -48,7 +49,7 @@ export default {
   data() {
     return {
       appTitle: "Brothers' Barbershop",
-      userRole:'',
+      userRole: "",
       sidebar: false,
       group: null,
       menuItems: [
@@ -80,11 +81,12 @@ export default {
       if (window.innerWidth >= 600) {
         this.sidebar = false;
       }
-    },onUserRoleMenu(){
-      if(this.userRole == "Admin"){
+    },
+    onUserRoleMenu() {
+      if (this.userRole == "Admin") {
         this.menuItems.push({ title: "Admin", path: "/admin" });
       }
-    }
+    },
   },
 };
 </script>
@@ -94,5 +96,10 @@ export default {
   font-style: normal;
   font-weight: 400;
   font-size: 30px;
+}
+.logo-img {
+  width: 25px;
+  height: 45px;
+  margin-right: 3px;
 }
 </style>
