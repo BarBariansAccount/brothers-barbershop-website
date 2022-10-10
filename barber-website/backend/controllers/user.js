@@ -99,12 +99,23 @@ const deleteUser = (req, res) =>{
     })
 }
 
+const getUser = (req, res) =>{
+    const {Telephone} = req.body;
+    pool.query(UserModel.checkUserExists , [Telephone], (error, results) => {
+        if(results.rows.length == 0){
+            res.send(`There is no user with the number: ${Telephone}.`);
+        }
+        if (error) throw error;
+        res.status(200).json(results.rows);
+    })
 
+}
 
 module.exports = {
     getusers,
     createUser,
     validateLogin,
     updateUser,
-    deleteUser
+    deleteUser,
+    getUser
 };
