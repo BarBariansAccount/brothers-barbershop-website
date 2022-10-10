@@ -1,6 +1,7 @@
 const pool = require('../config/database.js')
 const UserModel = require("../models/UserModel.js")
-const bcrypt = require("bcryptjs")
+const bcrypt = require("bcrypt")
+const JWT = require("jsonwebtoken")
 
 const getusers = (req,res) => {
     pool.query(UserModel.getUsers, (err, results) =>{
@@ -13,19 +14,22 @@ const getusers = (req,res) => {
 const createUser = (req,res) => {
     const {UserRole, Email, FirstName, LastName, Telephone, Password} = req.body;
 
+    const hash = bcrypt.hashSync(Password, 12);
+
     //checking if email already exists
     pool.query(UserModel.checkUserExists, [Telephone], (error,result) =>{
         if(result.rows.length){
-            res.send('Email already exists.');
+            res.send('User already exists.');
         }
         if (error) throw error;
         //adding a new user
-        pool.query(UserModel.addUser, [UserRole, Email, FirstName, LastName, Telephone, Password], (error,results) => {
+        pool.query(UserModel.addUser, [UserRole, Email, FirstName, LastName, Telephone, hash], (error,results) => {
             if (error) throw error;
             res.status(201).send(`New user: ${Telephone} sucessfully created.`) 
         })
     }) 
 }
+
 const validateLogin=(req,res) =>{
     const {Telephone, Password} = req.body;
     pool.query(UserModel.checkUserExists, [Telephone], (error,results) =>{
@@ -33,14 +37,14 @@ const validateLogin=(req,res) =>{
             res.send(`There is no user with ${Telephone}.`);
         }
         if (error) throw error;
-    }) 
+    })
     
-     pool.query(UserModel.checkPassword, [Telephone,Password], (err,result) =>{
+     pool.query(UserModel.getPassword, [Telephone], (err,result) =>{
 
-         if(result.rows.length==0){
+         if(!bcrypt.compareSync(Password,result.rows[0].password)){
             res.send('Password is incorrect');
         }
-        if (result.rows.length!=0){
+        if (bcrypt.compareSync(Password,result.rows[0].password)){
             res.status(200).json(result.rows);
         }
 
@@ -80,9 +84,25 @@ const updateUser = (req, res) =>{
     }) 
 }
 
+const deleteUser = (req, res) =>{
+    const {Telephone} = req.body;
+    pool.query(UserModel.checkUserExists , [Telephone], (error, results) => {
+        if(results.rows.length == 0){
+            res.send(`There is no user with the number: ${Telephone}.`);
+        }
+        if (error) throw error;
+    })
+    pool.query(UserModel.deleteUser, [Telephone], (error,result)=>{
+        if(error) throw error;
+        res.send(`User has been sucessfully deleted with: ${Telephone}`)
+
+    })
+}
+
 module.exports = {
     getusers,
     createUser,
     validateLogin,
     updateUser,
+    deleteUser
 };
