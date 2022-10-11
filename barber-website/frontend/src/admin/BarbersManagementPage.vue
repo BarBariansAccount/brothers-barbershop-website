@@ -59,23 +59,6 @@ export default {
                 { title: "OUR INFO", },
                 { title: "OUR INF", }
             ],
-            messages: [
-                {
-                    from: 'You',
-                    message: `Sure, I'll see you later.`,
-                    time: '10:42am',
-                    color: 'deep-purple lighten-1',
-                },
-                {
-                    from: 'John Doe',
-                    message: 'Yeah, sure. Does 1:00pm work?',
-                    time: '10:37am',
-                    color: 'green',
-                },
-                {
-                    from: 'Started: 9:00am',
-                },
-            ],
         }
     }
 }
