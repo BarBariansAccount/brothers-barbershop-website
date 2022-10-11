@@ -30,6 +30,12 @@
                 </v-card>
             </v-col>
         </v-row>
+        <v-row>
+            <v-col cols="12" class="text-center">
+                <v-btn color="#5F6BBA" class="white--text mb-15" @click="bookNow()">ADD+</v-btn>
+            </v-col>
+        </v-row>
+
     </v-container>
 </template>
 
