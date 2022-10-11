@@ -32,7 +32,9 @@
         </v-row>
         <v-row>
             <v-col cols="12" class="text-center">
-                <v-btn color="#5F6BBA" class="white--text mb-15" @click="bookNow()">ADD+</v-btn>
+                <v-btn class="white--text mb-15" @click="bookNow()">
+                    <SignUp> Add New Account </SignUp>
+                </v-btn>
             </v-col>
         </v-row>
 
@@ -40,7 +42,9 @@
 </template>
 
 <script>
+import SignUp from "../components/SignUp.vue";
 export default {
+    components: { SignUp },
     name: "BarbersManagementPage",
     data() {
         return {
