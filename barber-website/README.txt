@@ -9,10 +9,8 @@ backend setup:
 
 cd into backend folder and run the following commands:
 
-1-npm init
-2-npm install express
-3-npm install express
-4-npm install --save pg pg-hstore
-5-npm i -D nodemon
-6- then do -->  npm start 
+1-npm install express
+2-npm install --save pg pg-hstore
+3-npm i -D nodemon
+4- then do -->  npm start 
 
