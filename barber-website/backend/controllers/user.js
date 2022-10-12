@@ -3,6 +3,8 @@ const UserModel = require("../models/UserModel.js")
 const bcrypt = require("bcrypt")
 const JWT = require("jsonwebtoken")
 
+
+// to get all users in the database
 const getusers = (req,res) => {
     pool.query(UserModel.getUsers, (err, results) =>{
         if (err) throw err;
@@ -35,6 +37,7 @@ const createUser = (req,res) => {
 
 const validateLogin=(req,res) =>{
     const {Telephone, Password} = req.body;
+    
     pool.query(UserModel.checkUserExists, [Telephone], (error,Results) =>{
         if(Results.rows.length==0){
             res.send(`There is no user with ${Telephone}.`);
@@ -43,13 +46,14 @@ const validateLogin=(req,res) =>{
     
     
      pool.query(UserModel.getPassword, [Telephone], (err,result) =>{
+    
 
          if(!bcrypt.compareSync(Password,result.rows[0].password)){
             res.send('Password is incorrect');
         }
         if (bcrypt.compareSync(Password,result.rows[0].password)){
 
-            res.status(200).json(Result.rows[0]);
+            res.status(200).json(Results.rows);
         }
 
         if (err) {

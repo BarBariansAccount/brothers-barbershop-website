@@ -16,7 +16,7 @@ router.get('/users',User.getusers);
 
 /*
 Takes --> {UserRole, Email, FirstName, LastName, Telephone, Password} As json 
-returns --> res.send('User already exists.') || res.status(201).send(`New user: ${Telephone} sucessfully created.`) || throws error
+returns --> res.send('User already exists.') || res.status(201).send(`New user: ${FirstName} sucessfully created.`) || throws error
 */
 router.post('/createUser', User.createUser); 
 
