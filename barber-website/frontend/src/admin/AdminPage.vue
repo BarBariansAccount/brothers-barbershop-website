@@ -12,7 +12,6 @@
               </v-btn>
             </v-btn-toggle>
           </div>
-
           <br />
           <div class="mt-2">
             <span class="text-fonts">Next Availability:</span>
@@ -22,9 +21,7 @@
           </div>
         </v-card>
       </v-col>
-
     </v-row>
-
     <v-row class="mt-10 pa-5">
       <v-col lg="2" md="4" sm="4" cols="6" v-for="items in menuItems" :key="items.title">
         <div>
@@ -49,6 +46,8 @@
 </template>
 
 <script>
+
+
 export default {
   data() {
     return {
@@ -63,9 +62,9 @@ export default {
         'end',
       ],
       menuItems: [
-        { title: "BARBERS", path: "/" },
+        { title: "BARBERS", path: "/barbersManagement" },
         { title: "CLIENTS", path: "/" },
-        { title: "APPOINTMENTS", path: "/" },
+        { title: "APPOINTMENT", path: "/" },
         { title: "PHOTOS", path: "/" },
         { title: "PRODUCTS", path: "/" },
         { title: "QUESTIONS", path: "/" },
@@ -77,10 +76,6 @@ export default {
 </script>
 
 <style>
-container {
-  flex: auto;
-}
-
 .text-fonts {
   font-family: 'Inter';
   font-style: normal;
@@ -105,11 +100,9 @@ container {
   font-family: 'Inter';
   font-style: normal;
   font-weight: 400;
-  font-size: 60px;
+  font-size: 55px;
   /* identical to box height */
   letter-spacing: 0.05em;
   color: #FFFFFF;
-
-
 }
 </style>
