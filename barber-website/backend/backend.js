@@ -3,12 +3,13 @@ const express = require("express")
 const morgan = require("morgan")
 const Router = require('./routes/routes.js')
 const bodyParser = require('body-parser')
+const cors = require("cors")
 
 const app = express()
 app.use(morgan('combine'))
 
-
-app.use(bodyParser.urlencoded({ extended: false }))
+// use cors
+app.use(cors());
 
 // parse application/json
 app.use(bodyParser.json())
