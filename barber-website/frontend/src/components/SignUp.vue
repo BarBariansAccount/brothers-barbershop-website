@@ -37,7 +37,7 @@
         </v-row>
         <v-row justify="center">
           <v-btn class="white--text" @click="signUp()" color="#5f6bba">
-            Sign Up
+            <slot>Sign Up </slot>
           </v-btn>
         </v-row>
       </v-card>

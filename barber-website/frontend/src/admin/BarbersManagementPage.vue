@@ -33,7 +33,7 @@
         <v-row>
             <v-col cols="12" class="text-center">
                 <v-btn class="white--text mb-15" @click="bookNow()">
-                    <SignUp> Add New Account </SignUp>
+                    <SignUp> Add Account </SignUp>
                 </v-btn>
             </v-col>
         </v-row>
