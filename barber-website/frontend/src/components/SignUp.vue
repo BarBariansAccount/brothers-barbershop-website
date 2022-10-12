@@ -8,7 +8,7 @@
       </template>
       <v-card height="650px" width="500px" color="#DBDDEF">
         <v-card-title class="text-h4 justify-center">
-          <slot>Sign UP </slot>
+          <slot>Sign Up </slot>
         </v-card-title>
         <v-row justify="center">
           <v-col cols="8">
