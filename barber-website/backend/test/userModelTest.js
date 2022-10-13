@@ -33,10 +33,11 @@ describe("UserController related Test", function () {
         res = mockResponse()
         //console.log(req.body)
         createUser(req, res)
-        //validateLogin(req, res)
+        await sleep()
+        validateLogin(req, res)
         updateUser(mockRequest(updateData), res)
         deleteUser(req, res)
-        //await sleep()
+
         //console.log(res.status.getCall())
         //assert.equal(res.status.calledWith(200), true);
         //assert.equal(true, res.send.calledWith("Information has been updated."))
