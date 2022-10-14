@@ -24,7 +24,7 @@ router.post('/createUser', User.createUser);
 Takes --> {Telephone, Password} As json 
 returns --> res.send(`There is no user with ${Telephone}.`) || res.send('Password is incorrect'); || JWT token if the authorization is sucessfull || throws error
 */
-router.get('/Login', User.validateLogin)
+router.post('/Login', User.validateLogin)
 
 /*
 Takes --> {Email, FirstName, LastName, Telephone, Password} As json 
@@ -46,7 +46,7 @@ router.post('/deleteUser', User.deleteUser);
 Takes --> {Telephone} As json 
 returns --> res.status(200).json(results.rows); || throws error
 */
-router.get('/getUser',User.getUser);
+router.get('/getUser', User.getUser);
 
 
 

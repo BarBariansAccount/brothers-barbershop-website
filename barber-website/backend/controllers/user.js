@@ -7,7 +7,9 @@ const JWT = require("jsonwebtoken")
 // to get all users in the database
 const getusers = (req,res) => {
     pool.query(UserModel.getUsers, (err, results) =>{
-        if (err) throw err;
+        if (err){
+            res.send(err)
+        }
         res.status(200).json(results.rows);
 
     })
@@ -23,13 +25,17 @@ const createUser = (req,res) => {
         if(result.rows.length){
             res.send('User already exists.');
         }
-        if (error) throw error;
+        if (error){
+            res.send(error)
+        }
     })
     
 
         //adding a new user
      pool.query(UserModel.addUser, [UserRole, Email, FirstName, LastName, Telephone, hash], (error,results) => {
-        if (error) throw error;
+        if (error){
+            res.send(error)
+        }
         res.status(201).send(`New user: ${FirstName} sucessfully created.`) 
         })
     
@@ -42,7 +48,9 @@ const validateLogin=(req,res) =>{
         if(Results.rows.length==0){
             res.send(`There is no user with ${Telephone}.`);
         }
-        if (error) throw error;
+        if (error){
+            res.send(error)
+        }
     
     
      pool.query(UserModel.getPassword, [Telephone], (err,result) =>{
@@ -56,10 +64,9 @@ const validateLogin=(req,res) =>{
             res.status(200).json(Results.rows);
         }
 
-        if (err) {
-            
-            throw err;
-            }
+        if (err){
+            res.send(err)
+        }
     })
 })
 }
@@ -71,13 +78,17 @@ const updateUser = (req, res) =>{
         if(results.rows.length == 0){
             res.send(`This phone number is not associated with any account: ${Telephone}. Please try providing another phone number.`);
         }
-        if (error) throw error;
+        if (error){
+            res.send(error)
+        }
     })
    
 	    // Replace old password with new
 	    const hash = bcrypt.hashSync(Password, 12);
 	    pool.query(UserModel.updateUser, [Email, FirstName, LastName, Telephone, hash], (error, results) => {
-		if (error) throw error;
+            if (error){
+                res.send(error)
+            }
 		res.send("Information has been updated.")
 	    })
 }
@@ -88,10 +99,14 @@ const deleteUser = (req, res) =>{
         if(results.rows.length == 0){
             res.send(`There is no user with the number: ${Telephone}.`);
         }
-        if (error) throw error;
+        if (error){
+            res.send(error)
+        }
     })
     pool.query(UserModel.deleteUser, [Telephone], (error,result)=>{
-        if(error) throw error;
+        if (error){
+            res.send(error)
+        }
         res.send(`User has been sucessfully deleted with: ${Telephone}.`)
 
     })
@@ -103,7 +118,9 @@ const getUser = (req, res) =>{
         if(results.rows.length == 0){
             res.send(`There is no user with the number: ${Telephone}.`);
         }
-        if (error) throw error;
+        if (error){
+            res.send(error)
+        }
         res.status(200).json(results.rows);
     })
 
