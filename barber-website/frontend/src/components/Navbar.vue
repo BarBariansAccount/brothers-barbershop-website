@@ -35,23 +35,36 @@
           {{ item.title }}
         </v-btn>
       </v-toolbar-items>
-      <v-btn to="/profile" icon
-        ><v-icon>{{ icons.mdiAccount }}</v-icon></v-btn
-      >
+      <v-menu offset-y>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn v-bind="attrs" v-on="on" icon
+            ><v-icon>{{ icons.mdiAccount }}</v-icon></v-btn
+          >
+        </template>
+        <v-list>
+          <v-list-item>
+            <SignIn />
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </v-toolbar>
   </div>
 </template>
 
 <script>
 import { mdiAccount } from "@mdi/js";
+import SignIn from "./SignIn.vue";
 export default {
   name: "Navbar-component",
+  components: { SignIn },
   data() {
     return {
       appTitle: "Brothers' Barbershop",
       userRole: "",
       sidebar: false,
       group: null,
+      profileItemsDialog: false,
+      profileItems: [{ title: "Sign Out" }, { title: "Profile" }],
       menuItems: [
         { title: "Home", path: "/" },
         { title: "Products" },
@@ -87,6 +100,13 @@ export default {
         this.menuItems.push({ title: "Admin", path: "/admin" });
       }
     },
+    // profileItemsPopup(title) {
+    //   console.log(this.profileItemsDialog);
+    //   if (title == "Sign In") {
+    //     this.profileItemsDialog = true;
+    //     console.log(this.profileItemsDialog);
+    //   }
+    // },
   },
 };
 </script>
