@@ -16,7 +16,7 @@ router.get('/users',User.getusers);
 
 /*
 Takes --> {UserRole, Email, FirstName, LastName, Telephone, Password} As json 
-returns --> res.send('User already exists.') || res.status(201).send(`New user: ${Telephone} sucessfully created.`) || throws error
+returns --> res.send('User already exists.') || res.status(201).send(`New user: ${FirstName} sucessfully created.`) || throws error
 */
 router.post('/createUser', User.createUser); 
 
@@ -27,7 +27,11 @@ returns --> res.send(`There is no user with ${Telephone}.`) || res.send('Passwor
 router.get('/Login', User.validateLogin)
 
 /*
-
+Takes --> {Email, FirstName, LastName, Telephone, Password} As json 
+returns --> res.send(`This phone number is already associated with another account: ${Telephone}. Please try providing another phone number.`);
+            || res.send(`This email is already associated with another account: ${Email}. Please try providing another Email.`);
+            || res.send("Information has been updated")
+            || throws error
 */
 router.post('/updateUser', User.updateUser);
 
