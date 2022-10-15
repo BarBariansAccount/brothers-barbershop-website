@@ -12,38 +12,73 @@
         </v-card-title>
         <v-row justify="center">
           <v-col cols="8">
-            <v-text-field label="Full Name" placeholder="Full Name" v-model="form.fullname" :autocomplete="false" solo>
+            <v-text-field
+              label="Full Name"
+              placeholder="Full Name"
+              v-model="form.fullname"
+              :autocomplete="false"
+              solo
+            >
             </v-text-field>
           </v-col>
         </v-row>
         <v-row justify="center">
           <v-col cols="8">
-            <v-text-field label="Phone Number" placeholder="Phone Number" v-model="form.phoneNumber" type="phone"
-              :autocomplete="false" :error-messages="errorPhoneNumber" solo>
+            <v-text-field
+              label="Phone Number"
+              placeholder="Phone Number"
+              v-model="form.phoneNumber"
+              type="phone"
+              :autocomplete="false"
+              :error-messages="errorPhoneNumber"
+              solo
+            >
             </v-text-field>
           </v-col>
         </v-row>
         <v-row justify="center">
           <v-col cols="8">
-            <v-text-field label="Email" placeholder="Email" v-model="form.email" type="email" :autocomplete="false"
-              solo></v-text-field>
+            <v-text-field
+              label="Email"
+              placeholder="Email"
+              v-model="form.email"
+              type="email"
+              :autocomplete="false"
+              solo
+            ></v-text-field>
           </v-col>
         </v-row>
         <v-row justify="center">
           <v-col cols="8">
-            <v-text-field label="Password" placeholder="Password" v-model="form.password"
-              :error-messages="passwordErrorMessage" type="password" solo></v-text-field>
+            <v-text-field
+              label="Password"
+              placeholder="Password"
+              v-model="form.password"
+              :error-messages="passwordErrorMessage"
+              type="password"
+              solo
+            ></v-text-field>
           </v-col>
         </v-row>
         <v-row justify="center">
           <v-col cols="8">
-            <v-text-field label="Confirm Password" placeholder="Confirm Password" v-model="form.confirmPassword"
-              type="password" :error-messages="errorEmptyFields" solo>
+            <v-text-field
+              label="Confirm Password"
+              placeholder="Confirm Password"
+              v-model="form.confirmPassword"
+              type="password"
+              :error-messages="errorEmptyFields"
+              solo
+            >
             </v-text-field>
           </v-col>
         </v-row>
         <v-row justify="center">
-          <v-btn class="white--text" color="#5f6bba" @click="signUp(form)">
+          <v-btn
+            class="white--text"
+            color="#5f6bba"
+            @click="signUp(form), $emit('BarberCreated')"
+          >
             <slot>Sign Up </slot>
           </v-btn>
         </v-row>
@@ -111,6 +146,14 @@ export default {
           Password: form.password,
         });
         console.log("User account was successfully created");
+
+        /* TODO:
+          - Surrround the emit with an if statement
+          if the admin is the one creating the account than the value true should be emmited to Barbers management page
+          otherwise EMIT FALSE
+        */
+
+        this.$emit("BarberCreated", true);
         return (this.signUpValue = !this.signUpValue);
       } catch {
         console.log("In error occured while creating the user account");
@@ -120,6 +163,4 @@ export default {
 };
 </script>
 
-<style>
-
-</style>
+<style></style>
