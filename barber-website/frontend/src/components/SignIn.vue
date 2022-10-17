@@ -1,6 +1,6 @@
 <template>
   <v-row justify="center">
-    <v-dialog :v-model="signInDialog" width="500px" height="450px">
+    <v-dialog width="500px" height="450px">
       <template v-slot:activator="{ on, attrs }">
         <v-btn text v-bind="attrs" v-on="on"> Sign In </v-btn>
       </template>
@@ -25,7 +25,10 @@
           </v-btn>
         </v-row>
         <v-row justify="center">
-          <p class="mt-6">Don't have an account? <SignUp /></p>
+          <p class="mt-6">
+            Don't have an account?
+            <SignUp />
+          </p>
         </v-row>
       </v-card>
     </v-dialog>
@@ -33,12 +36,56 @@
 </template>
 
 <script>
+import axios from "axios";
 import SignUp from "./SignUp.vue";
 export default {
   components: { SignUp },
   data: () => ({
     signInDialogValue: false,
+    form: {
+      phoneNumber: "",
+      password: "",
+    },
+    errorNumberOrPassword: "",
+    invalidPhoneNumber: "",
   }),
+  methods: {
+    validatePhoneNumber() {
+      const validationRegex = /^\d{10}$/;
+      if (this.form.phoneNumber.match(validationRegex)) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    async signIn() {
+      this.errorNumberOrPassword = "";
+      this.invalidPhoneNumber = "";
+      if (this.form.phoneNumber == "" || this.form.password == "") {
+        this.errorNumberOrPassword = "Please fill up the fields";
+        return;
+      }
+      if (!this.validatePhoneNumber()) {
+        console.log("I'm in here");
+        this.invalidPhoneNumber = "Invalid Phone number";
+        return;
+      }
+      try {
+        console.log(this.form.password);
+        const data = await axios.post(`http://localhost:5001/Login`, {
+          Telephone: this.form.phoneNumber,
+          Password: this.form.password,
+        });
+
+        console.log('data', data.data[0]);
+
+        this.$store.commit('setUser', data.data[0])
+      } catch (error) {
+        this.errorNumberOrPassword = "Wrong phone Number or Password ";
+        console.log(error.message);
+      }
+    },
+  },
 };
 </script>
 
