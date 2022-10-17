@@ -23,23 +23,29 @@ describe("UserController related Test", function () {
         }
         const updateData = {
             Email: 'unitTesing@gmail.com',
-            FirstName: 'UnitFirst',
+            FirstName: 'UnitFirst1',
             LastName: 'UnitLast',
             Telephone: 5555555555,
-            Password: 'testPassword'
+            Password: 'testPassword1'
         }
 
-        req = mockRequest(userData)
-        res = mockResponse()
-        //console.log(req.body)
-        createUser(req, res)
-        await sleep()
-        validateLogin(req, res)
-        updateUser(mockRequest(updateData), res)
-        deleteUser(req, res)
+        let req = mockRequest(userData);
+        let res = mockResponse();
+
+        await createUser(req, res);
+        assert.equal(res.status.calledWith(200), true);
+        await validateLogin(req, res);
+        assert.equal(res.status.calledWith(200), true);
+        await updateUser(mockRequest(updateData), res);
+        assert.equal(res.status.calledWith(200), true);
+
+        await getUser(req, res);
+        assert.equal(res.json.calledWith(), true);
+        await deleteUser(req, res);
+        assert.equal(res.status.calledWith(200), true);
 
         //console.log(res.status.getCall())
-        //assert.equal(res.status.calledWith(200), true);
+
         //assert.equal(true, res.send.calledWith("Information has been updated."))
     })
 })
