@@ -1,3 +1,4 @@
+/* eslint-disable */
 import HomePage from "../home/HomePage.vue";
 import ProfilePage from "../profile/MainPage.vue";
 import AdminPage from "../admin/AdminPage.vue";
