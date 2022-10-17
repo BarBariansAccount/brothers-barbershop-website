@@ -10,7 +10,13 @@
         </v-icon>
       </div>
       <div class="mx-5">
-        username
+        <h1>
+          Profile
+        </h1>
+        <div>
+          {{firstname+" "+lastname}}
+        </div>
+       
       </div>
     </div>
     <ValidationObserver v-slot="{ handleSubmit }">
@@ -18,15 +24,15 @@
 
         <v-row>
           <v-col cols="12" md="6">
-            <ValidationProvider name="firstName" rules="required|alpha" v-slot="{ errors }">
-              <v-text-field outlined dense label="first name" v-model="firstName" append-icon="mdi-account"
+            <ValidationProvider name="firstname" rules="required|alpha" v-slot="{ errors }">
+              <v-text-field outlined dense label="first name" v-model="firstname" append-icon="mdi-account"
                 :error-messages="errors[0]">
               </v-text-field>
             </ValidationProvider>
           </v-col>
           <v-col cols="12" md="6">
-            <ValidationProvider name="lastName" rules="required|alpha" v-slot="{ errors }">
-              <v-text-field outlined dense label="last name" v-model="lastName" append-icon="mdi-account"
+            <ValidationProvider name="lastname" rules="required|alpha" v-slot="{ errors }">
+              <v-text-field outlined dense label="last name" v-model="lastname" append-icon="mdi-account"
                 :error-messages="errors[0]">
               </v-text-field>
             </ValidationProvider>
@@ -37,10 +43,10 @@
                 :error-messages="errors[0]"></v-text-field>
             </ValidationProvider>
           </v-col>
-          <!-- contact -->
+          <!-- telephone -->
           <v-col cols="12">
-            <ValidationProvider name="contact" rules="required|digits:11" v-slot="{ errors }">
-              <v-text-field outlined dense label="contact" v-model="contact" append-icon="mdi-phone"
+            <ValidationProvider name="telephone" rules="required|digits:11" v-slot="{ errors }">
+              <v-text-field outlined dense label="telephone" v-model="telephone" append-icon="mdi-phone"
                 :error-messages="errors[0]"></v-text-field>
             </ValidationProvider>
           </v-col>
@@ -76,10 +82,10 @@
               </v-menu>
             </ValidationProvider>
           </v-col>
-          <!-- Skill -->
+          <!-- userrole -->
           <v-col cols="12" md="6">
-            <ValidationProvider name="skill" v-slot="{ errors }">
-              <v-text-field outlined dense label="skill" v-model="skill" :error-messages="errors[0]">
+            <ValidationProvider name="userrole" v-slot="{ errors }">
+              <v-text-field outlined dense label="userrole" v-model="userrole" :error-messages="errors[0]">
               </v-text-field>
             </ValidationProvider>
           </v-col>
@@ -111,7 +117,7 @@
 <script>
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, email, alpha, digits } from 'vee-validate/dist/rules';
-import UserService from '@/services/user'
+// import UserService from '@/services/user'
 extend('required', {
   ...required,
   message: 'This field is required'
@@ -126,7 +132,7 @@ extend('alpha', {
 });
 extend('digits', {
   ...digits,
-  message: 'contact number must be 11 digits'
+  message: 'telephone number must be 11 digits'
 });
 export default {
   components: {
@@ -134,53 +140,38 @@ export default {
   },
   data: () => ({
     show4: false,
-    firstName: null,
-    lastName: null,
+    firstname: null,
+    lastname: null,
     email: null,
-    contact: null,
+    telephone: null,
     address: null,
     city: null,
     zip: null,
     birth: null,
-    skill: "Haircut",
+    userrole: null,
     password: null,
-    items: [
-      {
-        date: '2022-09-12 12:00', service: 'haircut by kevin'
-      },
-      {
-        date: '2022-09-12 12:00', service: 'haircut by kevin'
-      }
-    ],
-    orders: [
-      {
-        date: '2022-09-12 12:00', name: 'shampoo', count: 3
-      },
-      {
-        date: '2022-09-12 12:00', name: 'Conditioner', count: 1
-      }
-    ],
-    Availbility: [
-      {
-        date: '2022-09-12', from: '9:00 AM', to: '12:00 PM', day: 'Monday'
-      },
-      {
-        date: '2022-09-12', from: '9:00 AM', to: '12:00 PM', day: 'Tuseday'
-      },
-      {
-        date: '2022-09-12', from: '9:00 AM', to: '12:00 PM', day: 'Friday'
-      },
-    ],
+
     datepicker: false
   }),
   methods: {
     async get() {
-      await UserService.getAll()
+      // await UserService.getAll()
     }
   },
   mounted() {
-    
-    this.get()
+
+    // this.get()
+    const user = Object.assign({}, this.$store.state.user)
+    if(user){
+
+      this.firstname = user.firstname
+      this.lastname = user.lastname
+      this.email = user.email
+      this.telephone = user.telephone
+      this.password = user.password
+      this.userrole = user.userrole
+    }
+
   }
 }
 </script>

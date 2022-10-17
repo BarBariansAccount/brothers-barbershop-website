@@ -8,21 +8,15 @@
         <v-card-title class="text-h4 justify-center"> Sign In </v-card-title>
         <v-row justify="center">
           <v-col cols="8">
-            <v-text-field
-              class="mt-3"
-              label="Phone Number"
-              placeholder="Phone Number"
-              solo
-            ></v-text-field>
+            <v-text-field class="mt-3" label="Phone Number" placeholder="Phone Number" v-model="form.phoneNumber"
+              :error-messages="invalidPhoneNumber" solo>
+            </v-text-field>
           </v-col>
         </v-row>
         <v-row justify="center">
           <v-col cols="8">
-            <v-text-field
-              label="Password"
-              placeholder="Password"
-              solo
-            ></v-text-field>
+            <v-text-field label="Password" placeholder="Password" type="password"
+              :error-messages="errorNumberOrPassword" v-model="form.password" solo></v-text-field>
           </v-col>
         </v-row>
         <v-row justify="center">
@@ -48,4 +42,6 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+
+</style>
