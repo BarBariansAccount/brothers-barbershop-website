@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../controllers/user.js");
-const BusyStatus = require("../controllers/BusyStatus.js");
+const BusyStatus = require("../controllers/BusyStatus.js").default;
 
 
 router.get('/',(req,res) =>{

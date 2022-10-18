@@ -34,7 +34,9 @@ const updateStatus = (req,res) =>{
         busy=false;
         notBusy=false;
         res.status(200).send("Status is set to: Empty");
-
+    }
+    else{
+        res.status(400).send("Send a valid response");
     }
 }
 
