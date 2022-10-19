@@ -127,6 +127,7 @@ export default {
     },
 
     async signUp(form) {
+      var userRole = "";
       console.log(`Signup pressed`);
       if (
         this.form.firstname == "" ||
@@ -150,21 +151,31 @@ export default {
         console.log(this.passwordErrorMessage);
         return;
       }
+      if (this.$route.fullPath != "/barbersManagement") {
+        userRole = "Customer";
+      } else userRole = "Barber";
+
       try {
         await axios.post(`http://localhost:5001/createUser`, {
-          UserRole: "Barber",
+          UserRole: userRole,
           Email: form.email,
           LastName: form.lastname,
           FirstName: form.firstname,
           Telephone: form.phoneNumber,
           Password: form.password,
         });
-        const loginResponse = await axios.post(`http://localhost:5001/Login`, {
-          Telephone: form.phoneNumber,
-          Password: form.password,
-        });
-        this.$store.commit("setUser", loginResponse.data[0]);
-        console.log("User account was successfully created");
+
+        if (this.$route.fullPath != "/barbersManagement") {
+          const loginResponse = await axios.post(
+            `http://localhost:5001/Login`,
+            {
+              Telephone: form.phoneNumber,
+              Password: form.password,
+            }
+          );
+          this.$store.commit("setUser", loginResponse.data[0]);
+          console.log("User account was successfully created");
+        }
 
         /* TODO:
           - Surrround the emit with an if statement
