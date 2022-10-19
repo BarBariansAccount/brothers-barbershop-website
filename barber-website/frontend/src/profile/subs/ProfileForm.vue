@@ -128,6 +128,7 @@
                 readonly
                 v-model="userrole"
                 :error-messages="errors[0]"
+                disabled
               >
               </v-text-field>
             </ValidationProvider>
