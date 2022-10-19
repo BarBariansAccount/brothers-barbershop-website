@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../controllers/user.js");
+const BusyStatus = require("../controllers/BusyStatus.js").default;
 
 
 router.get('/',(req,res) =>{
@@ -49,9 +50,41 @@ router.post('/deleteUser', User.deleteUser);
 
 /*
 Takes --> {Telephone} As json 
-returns --> res.status(200).json(results.rows); || throws error
+returns -->  res.status(400).send(`There is no user with the number: ${Telephone}.`);
+             || res.status(200).json(results.rows)
+             || res.status(400).send(error)
 */
 router.get('/getUser', User.getUser);
+
+/*
+*****
+Busy Status
+*****
+*/
+
+/*
+Default--> Empty
+returns --> res.status(200).send("Busy");
+            || res.status(200).send("Not Busy");
+            || res.status(200).send("Empty");
+
+*/
+router.get('/getStatus',BusyStatus.getStatus);
+
+/*
+takes --> {"Status": "Busy"}
+        ||{"Status": "Not Busy"}
+        ||{"Status": "Empty"}
+
+ Returns -->  res.status(200).send("Status is set to: Busy");
+            ||res.status(200).send("Status is set to: Not Busy");
+            ||res.status(200).send("Status is set to: Empty");
+*/
+router.post('/updateStatus', BusyStatus.updateStatus);
+
+
+
+
 
 
 
