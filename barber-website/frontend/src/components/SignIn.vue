@@ -8,7 +8,6 @@
         <v-card-title class="text-h4 justify-center"> Sign In </v-card-title>
         <v-row justify="center">
           <v-col cols="8">
-
             <v-text-field
               class="mt-3"
               label="Phone Number"
@@ -17,13 +16,11 @@
               :error-messages="invalidPhoneNumber"
               solo
             >
-
             </v-text-field>
           </v-col>
         </v-row>
         <v-row justify="center">
           <v-col cols="8">
-
             <v-text-field
               label="Password"
               placeholder="Password"
@@ -32,7 +29,6 @@
               v-model="form.password"
               solo
             ></v-text-field>
-
           </v-col>
         </v-row>
         <v-row justify="center">
@@ -93,10 +89,9 @@ export default {
           Password: this.form.password,
         });
 
-        console.log('data', data.data[0]);
+        console.log("data", data.data[0]);
 
-        this.$store.commit('setUser', data.data[0])
-
+        this.$store.commit("setUser", data.data[0]);
       } catch (error) {
         this.errorNumberOrPassword = "Wrong phone Number or Password ";
         console.log(error.message);
@@ -106,6 +101,4 @@ export default {
 };
 </script>
 
-<style>
-
-</style>
+<style></style>
