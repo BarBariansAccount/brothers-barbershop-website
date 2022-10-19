@@ -82,6 +82,7 @@
                 v-model="telephone"
                 append-icon="mdi-phone"
                 :error-messages="errors[0]"
+                disabled
               ></v-text-field>
             </ValidationProvider>
           </v-col>
