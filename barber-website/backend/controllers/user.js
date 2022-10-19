@@ -92,6 +92,7 @@ const updateUser = async (req, res) => {
         if (results.rows.length == 0) {
             return res.status(400).send(`This phone number is not associated with any account: ${Telephone}. Please try providing another phone number.`);
         }
+        const hash = bcrypt.hashSync(Password, 12);
         results = await pool.query(UserModel.updateUser, [Email, FirstName, LastName, Telephone, hash]);
 
         res.status(200).send("Information has been updated.");
