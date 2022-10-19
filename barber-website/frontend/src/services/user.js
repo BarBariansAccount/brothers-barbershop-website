@@ -1,7 +1,7 @@
-import api from './http'
+import api from "./http";
 
-export default new class UserService {
-    getAll = () => {
-        return api.get('/users')
-    }
-}
+export default new (class UserService {
+  getAll = () => {
+    return api.get("/users");
+  };
+})();
