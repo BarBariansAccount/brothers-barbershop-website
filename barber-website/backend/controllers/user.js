@@ -88,7 +88,13 @@ const updateUser = async (req, res) => {
         Password
     } = req.body;
     try {
-        await pool.query(UserModel.checkUserExists, [Telephone])
+        let results = await pool.query(UserModel.checkUserExists, [Telephone]);
+        if (results.rows.length == 0) {
+            return res.status(400).send(`This phone number is not associated with any account: ${Telephone}. Please try providing another phone number.`);
+        }
+        results = await pool.query(UserModel.updateUser, [Email, FirstName, LastName, Telephone, hash]);
+
+        res.status(200).send("Information has been updated.");
     } catch (error) {
         res.status(400).send(error)
     }
