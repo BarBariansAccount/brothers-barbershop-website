@@ -14,6 +14,7 @@
                 active-class
                 elevation="3"
                 color="black"
+                @click="selectStatus(status.title)"
               >
                 {{ status.title }}
               </v-btn>
@@ -66,13 +67,14 @@
 </template>
 
 <script>
+import BarbershopStatusService from "@/services/barbershopStatus";
 export default {
   data() {
     return {
       statusItems: [
         { title: "Empty" },
         { title: "Busy" },
-        { title: "Very Busy" },
+        { title: "Not Busy" },
       ],
       menuItems: [
         { title: "BARBERS", path: "/barbersManagement" },
@@ -84,6 +86,14 @@ export default {
         { title: "OUR INFO", path: "/" },
       ],
     };
+  },
+  methods: {
+    selectStatus(status) {
+      this.updateStatus(status);
+    },
+    async updateStatus(status) {
+      await BarbershopStatusService.updateStatus({ Status: status });
+    },
   },
 };
 </script>

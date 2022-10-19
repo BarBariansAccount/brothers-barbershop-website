@@ -1,4 +1,4 @@
-import api from './http'
+import api from "./http";
 
 export default new class UserService {
     getUser = (Telephone) => {
