@@ -54,7 +54,7 @@ returns -->  res.status(400).send(`There is no user with the number: ${Telephone
              || res.status(200).json(results.rows)
              || res.status(400).send(error)
 */
-router.get('/getUser', User.getUser);
+router.post('/getUser', User.getUser);
 
 /*
 *****

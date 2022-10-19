@@ -81,11 +81,11 @@ export default {
         this.errorNumberOrPassword = "Please fill up the fields";
         return;
       }
-      if (!this.validatePhoneNumber()) {
-        console.log("I'm in here");
-        this.invalidPhoneNumber = "Invalid Phone number";
-        return;
-      }
+      // if (!this.validatePhoneNumber()) {
+      //   console.log("I'm in here");
+      //   this.invalidPhoneNumber = "Invalid Phone number";
+      //   return;
+      // }
       try {
         console.log(this.form.password);
         const data = await axios.post(`http://localhost:5001/Login`, {
