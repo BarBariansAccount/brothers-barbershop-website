@@ -51,7 +51,7 @@ router.post('/deleteUser', User.deleteUser);
 Takes --> {Telephone} As json 
 returns --> res.status(200).json(results.rows); || throws error
 */
-router.get('/getUser', User.getUser);
+router.post('/getUser', User.getUser);
 
 
 
