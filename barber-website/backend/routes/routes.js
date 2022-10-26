@@ -3,17 +3,16 @@ const router = express.Router();
 const User = require("../controllers/user.js");
 const BusyStatus = require("../controllers/BusyStatus.js");
 
-
-router.get('/',(req,res) =>{
-        res.send({
-            message: "hello"
-        })
-    })
+router.get("/", (req, res) => {
+  res.send({
+    message: "hello",
+  });
+});
 
 /* 
 To get all the users in users table Mainly for testing.
 */
-router.get('/users',User.getusers);
+router.get("/users", User.getusers);
 
 /*
 Takes --> {UserRole, Email, FirstName, LastName, Telephone, Password} As json 
@@ -21,7 +20,7 @@ returns --> res.status(200).send(`New user: ${FirstName} sucessfully created.`)
 || res.status(400).send('User already exists. Enter different phone number.');
  || res.status(400).send('User Role can only be "Customer" OR "Admin" OR "Barber"');
 */
-router.post('/createUser', User.createUser); 
+router.post("/createUser", User.createUser);
 
 /*
 Takes --> {Telephone, Password} As json 
@@ -31,7 +30,7 @@ returns -->
     || res.status(400).send('Password is incorrect'); 
 
 */
-router.post('/Login', User.validateLogin)
+router.post("/Login", User.validateLogin);
 
 /*
 Assumptions --> please dont send telephone numbers, instead send user id
@@ -40,7 +39,7 @@ returns --> res.send(User not exists.);
             || res.status(200).send(getuser.rows)--> {userid, userrole, email, firstname, lastname} As json;
             || res.status(400).send(error)
 */
-router.post('/updateUser', User.updateUser);
+router.post("/updateUser", User.updateUser);
 
 /*
 Takes --> {UserID} As json 
@@ -48,8 +47,7 @@ returns --> res.status(200).send(`User has been sucessfully deleted with User ID
             || res.status(400).send(`There is no user with this user ID: ${UserID}.`);
             ||res.status(400).send(error)
 */
-router.post('/deleteUser', User.deleteUser);
-
+router.post("/deleteUser", User.deleteUser);
 
 /*
 Takes --> {UserID} As json 
@@ -57,7 +55,8 @@ returns -->  res.status(400).send(`There is no user with this user ID: ${UserID}
              || res.status(200).json(results.rows) -->{userid, userrole, email, firstname, lastname} As json;
              || res.status(400).send(error)
 */
-router.get('/getUser', User.getUser);
+router.post("/getUser", User.getUser);
+
 
 
 /*
@@ -83,7 +82,7 @@ returns --> res.status(200).send("Busy");
             || res.status(200).send("Empty");
 
 */
-router.get('/getStatus',BusyStatus.getStatus);
+router.get("/getStatus", BusyStatus.getStatus);
 
 /*
 takes --> {"Status": "Busy"}
