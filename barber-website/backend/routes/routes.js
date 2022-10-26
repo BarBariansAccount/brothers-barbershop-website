@@ -79,6 +79,6 @@ takes --> {"Status": "Busy"}
             ||res.status(200).send("Status is set to: Not Busy");
             ||res.status(200).send("Status is set to: Empty");
 */
-router.post("/updateStatus", BusyStatus.updateStatus);
+router.post('/updateStatus', BusyStatus.updateStatus);
 
 module.exports = router;
