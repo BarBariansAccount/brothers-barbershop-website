@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../controllers/user.js");
-const BusyStatus = require("../controllers/BusyStatus.js").default;
+const BusyStatus = require("../controllers/BusyStatus.js");
 
 
 router.get('/',(req,res) =>{
@@ -25,36 +25,50 @@ router.post('/createUser', User.createUser);
 
 /*
 Takes --> {Telephone, Password} As json 
-returns --> res.status(400).send(`There is no user with ${Telephone}.`); || res.status(400).send('Password is incorrect'); || JWT token if the authorization is sucessfull
+returns --> 
+    res.status(200).json(Results.rows); -->{userid, userrole, email, firstname, lastname} As json;
+    ||res.status(400).send(`There is no user with ${Telephone}.`);
+    || res.status(400).send('Password is incorrect'); 
+
 */
 router.post('/Login', User.validateLogin)
 
 /*
-Assumptions --> Telephone number cannot be changed or updated.
-Takes --> {Email, FirstName, LastName, Telephone, Password} As json 
-returns --> res.send(`This phone number is already associated with another account: ${Telephone}. Please try providing another phone number.`);
-            || res.send(`This email is already associated with another account: ${Email}. Please try providing another Email.`);
-            || res.send("Information has been updated")
-            || throws error
+Assumptions --> please dont send telephone numbers, instead send user id
+Takes --> {UserID, Email, FirstName, LastName} As json 
+returns --> res.send(User not exists.);
+            || res.status(200).send(getuser.rows)--> {userid, userrole, email, firstname, lastname} As json;
+            || res.status(400).send(error)
 */
 router.post('/updateUser', User.updateUser);
 
 /*
-Takes --> {Telephone} As json 
-returns --> res.status(200).send(`User has been sucessfully deleted with: ${Telephone}.`) 
-            || res.status(400).send(`There is no user with the number: ${Telephone}.`);
+Takes --> {UserID} As json 
+returns --> res.status(200).send(`User has been sucessfully deleted with User ID: ${UserID}.`) 
+            || res.status(400).send(`There is no user with this user ID: ${UserID}.`);
             ||res.status(400).send(error)
 */
 router.post('/deleteUser', User.deleteUser);
 
 
 /*
-Takes --> {Telephone} As json 
-returns -->  res.status(400).send(`There is no user with the number: ${Telephone}.`);
-             || res.status(200).json(results.rows)
+Takes --> {UserID} As json 
+returns -->  res.status(400).send(`There is no user with this user ID: ${UserID}.`);
+             || res.status(200).json(results.rows) -->{userid, userrole, email, firstname, lastname} As json;
              || res.status(400).send(error)
 */
 router.get('/getUser', User.getUser);
+
+
+/*
+Takes --> {UserID, OldPassword,NewPassword} As json 
+returns -->  res.status(400).send(`There is no user with this user ID: ${UserID}.`);
+             ||  res.status(400).send('Old Password is incorrect.');
+             || res.status(200).send("Password is changed sucessfully.");
+             || res.status(400).send(error);
+*/
+
+router.post('/updatePassword',User.updatePassword);
 
 /*
 *****
@@ -81,11 +95,6 @@ takes --> {"Status": "Busy"}
             ||res.status(200).send("Status is set to: Empty");
 */
 router.post('/updateStatus', BusyStatus.updateStatus);
-
-
-
-
-
 
 
 module.exports = router;
