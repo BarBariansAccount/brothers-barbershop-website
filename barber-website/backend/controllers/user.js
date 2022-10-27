@@ -55,7 +55,7 @@ const validateLogin = async (req, res) => {
         if (Results.rows.length == 0) {
             res.status(400).send(`There is no user with ${Telephone}.`);
         } else if (Results.rows.length == 1) {
-            let getpassword = await pool.query(UserModel.getpassword_telephone, [Telephone])
+            let getpassword= await pool.query(UserModel.getpassword_telephone, [Telephone])
 
             if (!bcrypt.compareSync(Password, getpassword.rows[0].password)) {
                 res.status(400).send('Password is incorrect.');
@@ -83,10 +83,10 @@ const updateUser = async (req, res) => {
         if (results.rows.length == 0) {
             return res.status(400).send(`User not exists.`);
         }
-        //const hash = bcrypt.hashSync(Password, 12);
+    //const hash = bcrypt.hashSync(Password, 12);
         results = await pool.query(UserModel.updateUser, [Email, FirstName, LastName, UserID]);
-
-        let getuser = await pool.query(UserModel.checkUserExists, [UserID]);
+       
+        let getuser= await pool.query(UserModel.checkUserExists, [UserID]);
 
         res.status(200).send(getuser.rows);
     } catch (error) {
@@ -132,7 +132,7 @@ const getUser = async (req, res) => {
     }
 }
 
-const updatePassword = async (req, res) => {
+const updatePassword= async(req,res)=>{
     const {
         UserID,
         OldPassword,
@@ -146,14 +146,14 @@ const updatePassword = async (req, res) => {
             return res.status(400).send(`There is no user with this user ID: ${UserID}.`);
         } else {
 
-            let getpassword = await pool.query(UserModel.getpassword, [UserID]);
+            let getpassword= await pool.query(UserModel.getpassword, [UserID]);
             if (!bcrypt.compareSync(OldPassword, getpassword.rows[0].password)) {
                 res.status(400).send('Old Password is incorrect.');
             }
-
-            else {
+            
+            else{
                 const hash = bcrypt.hashSync(NewPassword, 12);
-                results = await pool.query(UserModel.updatePassword, [UserID, hash]);
+                results = await pool.query(UserModel.updatePassword, [UserID,hash]);
                 res.status(200).send("Password is changed sucessfully.");
             }
         }
