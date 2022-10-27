@@ -3,17 +3,14 @@ const UserModel = require("../models/UserModel.js")
 const bcrypt = require("bcrypt")
 const JWT = require("jsonwebtoken");
 
-
-// to get all users in the database
 const getusers = async (req, res) => {
     try {
         let results = await pool.query(UserModel.getUsers)
 
         res.status(200).json(results.rows);
 
-
     } catch (err) {
-        console.log(err)
+        res.status(400).send(err)
     }
 }
 
@@ -31,25 +28,20 @@ const createUser = async (req, res) => {
 
     //checking if email already exists
     try {
-        let result = await pool.query(UserModel.checkUserExists, [Telephone])
+        let result = await pool.query(UserModel.checkUserExists_telephone, [Telephone])
         if (!(UserRole == "Customer" || UserRole == "Admin" || UserRole == "Barber")) {
             res.status(400).send('User Role can only be "Customer" OR "Admin" OR "Barber"');
         } else if (result.rows.length) {
             res.status(400).send('User already exists. Enter different phone number.');
         } else {
             //adding a new user
-
             result = await pool.query(UserModel.addUser, [UserRole, Email, FirstName, LastName, Telephone, hash])
 
             res.status(200).send(`New user: ${FirstName} sucessfully created.`)
-
-
         }
-
     } catch (error) {
-        console.log(error)
+        res.status(400).send(error)
     }
-
 }
 
 const validateLogin = async (req, res) => {
@@ -59,43 +51,44 @@ const validateLogin = async (req, res) => {
     } = req.body;
 
     try {
-        let Results = await pool.query(UserModel.checkUserExists, [Telephone])
+        let Results = await pool.query(UserModel.checkUserExists_telephone, [Telephone])
         if (Results.rows.length == 0) {
             res.status(400).send(`There is no user with ${Telephone}.`);
         } else if (Results.rows.length == 1) {
+            let getpassword = await pool.query(UserModel.getpassword_telephone, [Telephone])
 
-            if (!bcrypt.compareSync(Password, Results.rows[0].password)) {
+            if (!bcrypt.compareSync(Password, getpassword.rows[0].password)) {
                 res.status(400).send('Password is incorrect.');
             }
-            if (bcrypt.compareSync(Password, Results.rows[0].password)) {
+            if (bcrypt.compareSync(Password, getpassword.rows[0].password)) {
 
                 res.status(200).json(Results.rows);
             }
         }
-
     } catch (error) {
         console.log(error)
+        res.status(400).send(error)
     }
-
 }
 
 const updateUser = async (req, res) => {
     const {
+        UserID,
         Email,
         FirstName,
         LastName,
-        Telephone,
-        Password
     } = req.body;
     try {
-        let results = await pool.query(UserModel.checkUserExists, [Telephone]);
+        let results = await pool.query(UserModel.checkUserExists, [UserID]);
         if (results.rows.length == 0) {
-            return res.status(400).send(`This phone number is not associated with any account: ${Telephone}. Please try providing another phone number.`);
+            return res.status(400).send(`User not exists.`);
         }
-        const hash = bcrypt.hashSync(Password, 12);
-        results = await pool.query(UserModel.updateUser, [Email, FirstName, LastName, Telephone, hash]);
+        //const hash = bcrypt.hashSync(Password, 12);
+        results = await pool.query(UserModel.updateUser, [Email, FirstName, LastName, UserID]);
 
-        res.status(200).send("Information has been updated.");
+        let getuser = await pool.query(UserModel.checkUserExists, [UserID]);
+
+        res.status(200).send(getuser.rows);
     } catch (error) {
         res.status(400).send(error)
     }
@@ -103,25 +96,18 @@ const updateUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
     const {
-        Telephone
+        UserID
     } = req.body;
     try {
-        let results = await pool.query(UserModel.checkUserExists, [Telephone])
-
-
-
+        let results = await pool.query(UserModel.checkUserExists, [UserID])
 
         if (results.rows.length == 0) {
-            return res.status(400).send(`There is no user with the number: ${Telephone}.`);
+            return res.status(400).send(`There is no user with this user ID: ${UserID}.`);
         }
 
-        results = await pool.query(UserModel.deleteUser, [Telephone]);
+        results = await pool.query(UserModel.deleteUser, [UserID]);
 
-        res.status(200).send(`User has been sucessfully deleted with: ${Telephone}.`)
-
-
-
-
+        res.status(200).send(`User has been sucessfully deleted with User ID: ${UserID}.`)
 
     } catch (error) {
         res.status(400).send(error)
@@ -130,17 +116,47 @@ const deleteUser = async (req, res) => {
 
 const getUser = async (req, res) => {
     const {
-        Telephone
+        UserID
     } = req.body;
     try {
-        let results = await pool.query(UserModel.checkUserExists, [Telephone])
+        let results = await pool.query(UserModel.checkUserExists, [UserID])
 
         if (results.rows.length == 0) {
-            res.status(400).send(`There is no user with the number: ${Telephone}.`);
+            return res.status(400).send(`There is no user with this user ID: ${UserID}.`);
         } else {
-            res.status(200).json(results.rows)
+            res.status(200).send(results.rows)
         }
 
+    } catch (error) {
+        res.status(400).send(error)
+    }
+}
+
+const updatePassword = async (req, res) => {
+    const {
+        UserID,
+        OldPassword,
+        NewPassword
+    } = req.body;
+
+    try {
+        let results = await pool.query(UserModel.checkUserExists, [UserID])
+
+        if (results.rows.length == 0) {
+            return res.status(400).send(`There is no user with this user ID: ${UserID}.`);
+        } else {
+
+            let getpassword = await pool.query(UserModel.getpassword, [UserID]);
+            if (!bcrypt.compareSync(OldPassword, getpassword.rows[0].password)) {
+                res.status(400).send('Old Password is incorrect.');
+            }
+
+            else {
+                const hash = bcrypt.hashSync(NewPassword, 12);
+                results = await pool.query(UserModel.updatePassword, [UserID, hash]);
+                res.status(200).send("Password is changed sucessfully.");
+            }
+        }
     } catch (error) {
         res.status(400).send(error)
     }
@@ -152,5 +168,6 @@ module.exports = {
     validateLogin,
     updateUser,
     deleteUser,
-    getUser
+    getUser,
+    updatePassword
 };

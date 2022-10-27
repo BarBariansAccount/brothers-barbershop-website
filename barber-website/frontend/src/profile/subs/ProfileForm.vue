@@ -1,70 +1,112 @@
 <template>
   <div class="bg-purp">
-    <div class="profile mb-5 ">
+    <div class="profile mb-5">
       <div class="icon">
-        <v-icon size="140">
-          mdi-account-circle-outline
-        </v-icon>
+        <v-icon size="140"> mdi-account-circle-outline </v-icon>
         <v-icon class="edit-icon" size="30" color="blue">
           mdi-pencil-circle-outline
         </v-icon>
       </div>
       <div class="mx-5">
-        username
+        <h1>Profile</h1>
+        <div>
+          {{ firstname + " " + lastname }}
+        </div>
       </div>
     </div>
     <ValidationObserver v-slot="{ handleSubmit }">
-      <form @submit.prevent="handleSubmit(onSubmit)" class=" px-4">
-
+      <form @submit.prevent="handleSubmit(onSubmit)" class="px-4">
         <v-row>
           <v-col cols="12" md="6">
-            <ValidationProvider name="firstName" rules="required|alpha" v-slot="{ errors }">
-              <v-text-field outlined dense label="first name" v-model="firstName" append-icon="mdi-account"
-                :error-messages="errors[0]">
+            <ValidationProvider
+              name="firstname"
+              rules="required|alpha"
+              v-slot="{ errors }"
+            >
+              <v-text-field
+                outlined
+                dense
+                label="first name"
+                v-model="firstname"
+                append-icon="mdi-account"
+                :error-messages="errors[0]"
+              >
               </v-text-field>
             </ValidationProvider>
           </v-col>
           <v-col cols="12" md="6">
-            <ValidationProvider name="lastName" rules="required|alpha" v-slot="{ errors }">
-              <v-text-field outlined dense label="last name" v-model="lastName" append-icon="mdi-account"
-                :error-messages="errors[0]">
+            <ValidationProvider
+              name="lastname"
+              rules="required|alpha"
+              v-slot="{ errors }"
+            >
+              <v-text-field
+                outlined
+                dense
+                label="last name"
+                v-model="lastname"
+                append-icon="mdi-account"
+                :error-messages="errors[0]"
+              >
               </v-text-field>
             </ValidationProvider>
           </v-col>
           <v-col cols="12">
-            <ValidationProvider name="email" rules="email|required" v-slot="{ errors }">
-              <v-text-field outlined dense label="email" v-model="email" append-icon="mdi-email"
-                :error-messages="errors[0]"></v-text-field>
+            <ValidationProvider
+              name="email"
+              rules="email|required"
+              v-slot="{ errors }"
+            >
+              <v-text-field
+                outlined
+                dense
+                label="email"
+                v-model="email"
+                append-icon="mdi-email"
+                :error-messages="errors[0]"
+              ></v-text-field>
             </ValidationProvider>
           </v-col>
-          <!-- contact -->
+          <!-- telephone -->
           <v-col cols="12">
-            <ValidationProvider name="contact" rules="required|digits:11" v-slot="{ errors }">
-              <v-text-field outlined dense label="contact" v-model="contact" append-icon="mdi-phone"
-                :error-messages="errors[0]"></v-text-field>
+            <ValidationProvider
+              name="telephone"
+              rules="required|digits:10"
+              v-slot="{ errors }"
+            >
+              <v-text-field
+                readonly
+                outlined
+                dense
+                label="telephone"
+                v-model="telephone"
+                append-icon="mdi-phone"
+                :error-messages="errors[0]"
+                disabled
+              ></v-text-field>
             </ValidationProvider>
           </v-col>
           <!-- address -->
-          <v-col cols="12">
+          <!-- <v-col cols="12">
             <ValidationProvider name="address" v-slot="{ errors }">
               <v-text-field outlined dense label="address" v-model="address" :error-messages="errors[0]">
               </v-text-field>
             </ValidationProvider>
-          </v-col>
+          </v-col> -->
           <!-- city -->
-          <v-col cols="12" md="6">
+          <!-- <v-col cols="12" md="6">
             <ValidationProvider name="city" v-slot="{ errors }">
               <v-text-field outlined dense label="city" v-model="city" :error-messages="errors[0]"></v-text-field>
             </ValidationProvider>
-          </v-col>
+          </v-col> -->
           <!-- zip -->
-          <v-col cols="12" md="6">
+          <!-- <v-col cols="12" md="6">
             <ValidationProvider name="zip" rules="numeric" v-slot="{ errors }">
               <v-text-field outlined dense label="zip" v-model="zip" :error-messages="errors[0]"></v-text-field>
             </ValidationProvider>
-          </v-col>
+          </v-col> -->
           <!-- birthday -->
-          <v-col cols="12" md="6">
+          <!-- <v-col cols="12" md="6">
             <ValidationProvider name="birth" v-slot="{ errors }">
               <v-menu v-model="datepicker" :close-on-content-click="false" :nudge-right="40"
                 transition="scale-transition" offset-y min-width="auto">
@@ -75,32 +117,49 @@
                 <v-date-picker v-model="birth" @input="datepicker = false"></v-date-picker>
               </v-menu>
             </ValidationProvider>
-          </v-col>
-          <!-- Skill -->
+          </v-col> -->
+          <!-- userrole -->
           <v-col cols="12" md="6">
-            <ValidationProvider name="skill" v-slot="{ errors }">
-              <v-text-field outlined dense label="skill" v-model="skill" :error-messages="errors[0]">
+            <ValidationProvider name="userrole" v-slot="{ errors }">
+              <v-text-field
+                outlined
+                dense
+                label="userrole"
+                readonly
+                v-model="userrole"
+                :error-messages="errors[0]"
+                disabled
+              >
               </v-text-field>
             </ValidationProvider>
           </v-col>
           <!-- password -->
-          <v-col cols="12">
-            <ValidationProvider name="password" rules="required" v-slot="{ errors }">
-              <v-text-field outlined dense label="password" v-model="password" :error-messages="errors[0]"
-                @click:append="show4 = !show4" :append-icon="show4 ? 'mdi-eye' : 'mdi-eye-off'"
-                :type="show4 ? 'text' : 'password'"></v-text-field>
+          <v-col cols="6">
+            <ValidationProvider
+              name="password"
+              rules="required"
+              v-slot="{ errors }"
+            >
+              <v-text-field
+                outlined
+                dense
+                label="password"
+                v-model="password"
+                :error-messages="errors[0]"
+                @click:append="show4 = !show4"
+                :append-icon="show4 ? 'mdi-eye' : 'mdi-eye-off'"
+                :type="show4 ? 'text' : 'password'"
+              ></v-text-field>
             </ValidationProvider>
           </v-col>
           <!-- action -->
           <v-col cols="12" class="text-center">
-            <v-btn type="reset" color="primary">Cancel</v-btn>
+            <v-btn type="reset" color="primary" @click="get">Cancel</v-btn>
             <v-btn type="submit" color="primary" class="ml-3">Save</v-btn>
           </v-col>
           <!-- back -->
           <v-col cols="12" class="text-center">
-            <v-btn small text>
-              go back to home page
-            </v-btn>
+            <v-btn small text to="/"> go back to home page </v-btn>
           </v-col>
         </v-row>
       </form>
@@ -109,80 +168,97 @@
 </template>
 
 <script>
-import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
-import { required, email, alpha, digits } from 'vee-validate/dist/rules';
-import UserService from '@/services/user'
-extend('required', {
+import { ValidationProvider, ValidationObserver, extend } from "vee-validate";
+import { required, email, alpha, digits } from "vee-validate/dist/rules";
+import UserService from "@/services/user";
+import Swal from "sweetalert2";
+extend("required", {
   ...required,
-  message: 'This field is required'
+  message: "This field is required",
 });
-extend('email', {
+extend("email", {
   ...email,
-  message: 'Enter valid email'
+  message: "Enter valid email",
 });
-extend('alpha', {
+extend("alpha", {
   ...alpha,
-  message: 'just alpha is accepted'
+  message: "just alpha is accepted",
 });
-extend('digits', {
+extend("digits", {
   ...digits,
-  message: 'contact number must be 11 digits'
+  message: "telephone number must be 10 digits",
 });
 export default {
   components: {
-    ValidationProvider, ValidationObserver
+    ValidationProvider,
+    ValidationObserver,
   },
   data: () => ({
     show4: false,
-    firstName: null,
-    lastName: null,
+    firstname: null,
+    lastname: null,
     email: null,
-    contact: null,
+    telephone: null,
     address: null,
     city: null,
     zip: null,
     birth: null,
-    skill: "Haircut",
+    userrole: null,
     password: null,
-    items: [
-      {
-        date: '2022-09-12 12:00', service: 'haircut by kevin'
-      },
-      {
-        date: '2022-09-12 12:00', service: 'haircut by kevin'
-      }
-    ],
-    orders: [
-      {
-        date: '2022-09-12 12:00', name: 'shampoo', count: 3
-      },
-      {
-        date: '2022-09-12 12:00', name: 'Conditioner', count: 1
-      }
-    ],
-    Availbility: [
-      {
-        date: '2022-09-12', from: '9:00 AM', to: '12:00 PM', day: 'Monday'
-      },
-      {
-        date: '2022-09-12', from: '9:00 AM', to: '12:00 PM', day: 'Tuseday'
-      },
-      {
-        date: '2022-09-12', from: '9:00 AM', to: '12:00 PM', day: 'Friday'
-      },
-    ],
-    datepicker: false
+
+    datepicker: false,
   }),
   methods: {
+    async onSubmit() {
+      const data = {
+        FirstName: this.firstname,
+        LastName: this.lastname,
+        Email: this.email,
+        Telephone: this.telephone,
+        Password: this.password,
+      };
+      try {
+        await UserService.update(data);
+        this.get();
+        Swal.fire("User updated successfully !");
+      } catch (error) {
+        console.log("erro", error);
+      }
+    },
     async get() {
-      await UserService.getAll()
-    }
+      try {
+        const res = await UserService.getUser(this.$store.state.user.telephone);
+        this.$store.commit("setUser", res.data[0]);
+
+        const user = res.data[0];
+
+        this.firstname = user.firstname;
+        this.lastname = user.lastname;
+        this.email = user.email;
+        this.telephone = user.telephone;
+        this.password = user.password;
+        this.userrole = user.userrole;
+
+        console.log("res", res);
+      } catch (error) {
+        console.log("erro", error);
+      }
+    },
   },
   mounted() {
-    
-    this.get()
-  }
-}
+    this.get();
+    // const user = Object.assign({}, this.$store.state.user)
+    // if (user) {
+
+    //   this.firstname = user.firstname
+    //   this.lastname = user.lastname
+    //   this.email = user.email
+    //   this.telephone = user.telephone
+    //   this.password = user.password
+    //   this.userrole = user.userrole
+    // }
+  },
+};
 </script>
 
 <style>
@@ -203,6 +279,6 @@ export default {
 }
 
 .bg-purp {
-  background-color: #DBDDEF !important;
+  background-color: #dbddef !important;
 }
 </style>

@@ -1,21 +1,33 @@
 <template>
   <v-row justify="center">
-    <v-dialog :v-model="signUpDialog" width="500px" height="650px">
+    <v-dialog :v-model="signUpDialog" width="500px" height="750px">
       <template v-slot:activator="{ on, attrs }">
         <v-btn text v-bind="attrs" v-on="on" depressed>
           <slot>Sign UP </slot>
         </v-btn>
       </template>
-      <v-card height="650px" width="500px" color="#DBDDEF">
+      <v-card height="750px" width="500px" color="#DBDDEF">
         <v-card-title class="text-h4 justify-center">
           <slot>Sign Up </slot>
         </v-card-title>
         <v-row justify="center">
           <v-col cols="8">
             <v-text-field
-              label="Full Name"
-              placeholder="Full Name"
-              v-model="form.fullname"
+              label="First Name"
+              placeholder="First Name"
+              v-model="form.firstname"
+              :autocomplete="false"
+              solo
+            >
+            </v-text-field>
+          </v-col>
+        </v-row>
+        <v-row justify="center">
+          <v-col cols="8">
+            <v-text-field
+              label="Last Name"
+              placeholder="Last Name"
+              v-model="form.lastname"
               :autocomplete="false"
               solo
             >
@@ -92,7 +104,8 @@ import axios from "axios";
 export default {
   data: () => ({
     form: {
-      fullname: "",
+      firstname: "",
+      lastname: "",
       phoneNumber: "",
       email: "",
       password: "",
@@ -114,9 +127,11 @@ export default {
     },
 
     async signUp(form) {
+      var userRole = "";
       console.log(`Signup pressed`);
       if (
-        this.form.fullname == "" ||
+        this.form.firstname == "" ||
+        this.form.lastname == "" ||
         this.form.email == "" ||
         this.form.phoneNumber == "" ||
         this.form.password == "" ||
@@ -136,23 +151,38 @@ export default {
         console.log(this.passwordErrorMessage);
         return;
       }
+      if (this.$route.fullPath != "/barbersManagement") {
+        userRole = "Customer";
+      } else userRole = "Barber";
+
       try {
         await axios.post(`http://localhost:5001/createUser`, {
-          UserRole: "Barber",
+          UserRole: userRole,
           Email: form.email,
-          LastName: "",
-          FirstName: form.fullname,
+          LastName: form.lastname,
+          FirstName: form.firstname,
           Telephone: form.phoneNumber,
           Password: form.password,
         });
-        console.log("User account was successfully created");
+
+        if (this.$route.fullPath != "/barbersManagement") {
+          const loginResponse = await axios.post(
+            `http://localhost:5001/Login`,
+            {
+              Telephone: form.phoneNumber,
+              Password: form.password,
+            }
+          );
+          this.$store.commit("setUser", loginResponse.data[0]);
+          console.log("User account was successfully created");
+        }
 
         /* TODO:
           - Surrround the emit with an if statement
           if the admin is the one creating the account than the value true should be emmited to Barbers management page
           otherwise EMIT FALSE
         */
-
+        this.signUpDialog = false;
         this.$emit("BarberCreated", true);
         return (this.signUpValue = !this.signUpValue);
       } catch {

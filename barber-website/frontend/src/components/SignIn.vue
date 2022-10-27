@@ -77,11 +77,11 @@ export default {
         this.errorNumberOrPassword = "Please fill up the fields";
         return;
       }
-      if (!this.validatePhoneNumber()) {
-        console.log("I'm in here");
-        this.invalidPhoneNumber = "Invalid Phone number";
-        return;
-      }
+      // if (!this.validatePhoneNumber()) {
+      //   console.log("I'm in here");
+      //   this.invalidPhoneNumber = "Invalid Phone number";
+      //   return;
+      // }
       try {
         console.log(this.form.password);
         const data = await axios.post(`http://localhost:5001/Login`, {
@@ -89,7 +89,9 @@ export default {
           Password: this.form.password,
         });
 
-        console.log(data.data[0]);
+        console.log("data", data.data[0]);
+
+        this.$store.commit("setUser", data.data[0]);
       } catch (error) {
         this.errorNumberOrPassword = "Wrong phone Number or Password ";
         console.log(error.message);
