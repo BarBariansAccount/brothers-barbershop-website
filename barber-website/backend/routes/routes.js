@@ -16,7 +16,7 @@ function authenticateToken(req,res,next){
         if (err){
            return res.status(403).send("Please Login again.");
         }
-        console.log("you are signed in.")
+        
         next()
     })
 }
@@ -38,7 +38,8 @@ returns --> res.status(200).send(`New user: ${FirstName} sucessfully created.`)
 || res.status(400).send('User already exists. Enter different phone number.');
  || res.status(400).send('User Role can only be "Customer" OR "Admin" OR "Barber"');
 */
-router.post('/createUser',authenticateToken, User.createUser); 
+router.post('/createUser',authenticateToken, User.createUser); //FOR ADMINS TO CREATE BARBERS ACCOUNTS
+router.post('/createUser_customers',User.createUser);//FOR CUSTOMERS
 
 /*
 Takes --> {Telephone, Password} As json 
