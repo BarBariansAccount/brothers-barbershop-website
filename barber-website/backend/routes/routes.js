@@ -58,7 +58,7 @@ returns --> res.send(User not exists.);
             || res.status(200).send(getuser.rows)--> {userid, userrole, email, firstname, lastname} As json;
             || res.status(400).send(error)
 */
-router.post('/updateUser',authenticateToken, User.updateUser);
+router.post('/updateUser' ,authenticateToken, User.updateUser);
 
 /*
 Takes --> {UserID} As json 
