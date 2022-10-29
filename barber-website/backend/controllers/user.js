@@ -1,9 +1,12 @@
+require('dotenv').config();
 const pool = require('../config/database.js')
 const UserModel = require("../models/UserModel.js")
 const bcrypt = require("bcrypt")
 const JWT = require("jsonwebtoken");
 
+
 const getusers = async (req, res) => {
+
     try {
         let results = await pool.query(UserModel.getUsers)
 
@@ -51,6 +54,7 @@ const validateLogin = async (req, res) => {
     } = req.body;
 
     try {
+        
         let Results = await pool.query(UserModel.checkUserExists_telephone, [Telephone])
         if (Results.rows.length == 0) {
             res.status(400).send(`There is no user with ${Telephone}.`);
@@ -62,7 +66,12 @@ const validateLogin = async (req, res) => {
             }
             if (bcrypt.compareSync(Password, getpassword.rows[0].password)) {
 
-                res.status(200).json(Results.rows);
+                const accessToken= JWT.sign({
+                    exp: Math.floor(Date.now() / 1000) + (60 * 60),
+                    data: Results.rows[0].userid
+                  }, process.env.ACCESS_TOKEN_SECRET);
+
+                res.status(200).json({Token: accessToken,UserRole: Results.rows[0].userrole});
             }
         }
     } catch (error) {

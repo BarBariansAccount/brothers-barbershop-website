@@ -10,7 +10,7 @@ Backend setup:
 
 cd into backend folder and run the following commands:
 
-1-npm install express cors morgan bcrypt jsonwebtoken
+1-npm install express cors morgan bcrypt jsonwebtoken dotenv multer
 2-npm install --save pg pg-hstore
 3-npm i -D nodemon
 4- then do -->  npm start 
