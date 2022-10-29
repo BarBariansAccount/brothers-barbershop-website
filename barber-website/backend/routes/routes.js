@@ -57,7 +57,7 @@ router.post('/createUser_customers',User.createUser);//FOR CUSTOMERS
 /*
 Takes --> {Telephone, Password} As json 
 returns --> 
-    res.status(200).json(Results.rows); -->{userid, userrole, email, firstname, lastname} As json;
+     res.status(200).json({Token: accessToken,UserRole: Results.rows[0].userrole}); As json;
     ||res.status(400).send(`There is no user with ${Telephone}.`);
     || res.status(400).send('Password is incorrect'); 
 
