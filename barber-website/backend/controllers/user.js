@@ -71,7 +71,7 @@ const validateLogin = async (req, res) => {
                     data: Results.rows[0].userid
                   }, process.env.ACCESS_TOKEN_SECRET);
 
-                res.status(200).json({Token: accessToken});
+                res.status(200).json({Token: accessToken,UserRole: Results.rows[0].userrole});
             }
         }
     } catch (error) {
