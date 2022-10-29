@@ -17,7 +17,7 @@ function authenticateToken(req,res,next){
         if (err){
            return res.status(403).send("Please Login again.");
         }
-       
+
         next()
     })
 }
@@ -57,7 +57,7 @@ router.post('/createUser_customers',User.createUser);//FOR CUSTOMERS
 /*
 Takes --> {Telephone, Password} As json 
 returns --> 
-    res.status(200).json(Results.rows); -->{userid, userrole, email, firstname, lastname} As json;
+     res.status(200).json({Token: accessToken,UserRole: Results.rows[0].userrole}); As json;
     ||res.status(400).send(`There is no user with ${Telephone}.`);
     || res.status(400).send('Password is incorrect'); 
 
@@ -72,7 +72,11 @@ returns --> res.send(User not exists.);
             || res.status(400).send(error)
 */
 
-router.post('/updateUser',authenticateToken, User.updateUser);
+
+router.post('/updateUser' ,authenticateToken, User.updateUser);
+
+
+
 
 
 /*
