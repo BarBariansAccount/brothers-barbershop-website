@@ -35,23 +35,46 @@
           {{ item.title }}
         </v-btn>
       </v-toolbar-items>
-      <v-btn to="/profile" icon
-        ><v-icon>{{ icons.mdiAccount }}</v-icon></v-btn
-      >
+      <v-menu :offset-y="true" width="150px" left >
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn v-bind="attrs" v-on="on" icon
+            ><v-icon>{{ icons.mdiAccount }}</v-icon></v-btn
+          >
+        </template>
+        <v-list>
+          <v-list-item v-if="!user">
+            <SignIn />
+          </v-list-item>
+          <v-list-item v-if="user">
+              {{user.firstname + ' ' + user.lastname }}
+          </v-list-item>
+          <v-divider v-if="user"></v-divider>
+          <v-list-item v-if="user" to="/profile">
+           user profile
+          </v-list-item>
+          <v-list-item v-if="user" @click="logout">
+            Log Out
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </v-toolbar>
   </div>
 </template>
 
 <script>
 import { mdiAccount } from "@mdi/js";
+import SignIn from "./SignIn.vue";
 export default {
   name: "Navbar-component",
+  components: { SignIn },
   data() {
     return {
       appTitle: "Brothers' Barbershop",
       userRole: "",
       sidebar: false,
       group: null,
+      profileItemsDialog: false,
+      profileItems: [{ title: "Sign Out" }, { title: "Profile" }],
       menuItems: [
         { title: "Home", path: "/" },
         { title: "Products" },
@@ -87,10 +110,26 @@ export default {
         this.menuItems.push({ title: "Admin", path: "/admin" });
       }
     },
+    // profileItemsPopup(title) {
+    //   console.log(this.profileItemsDialog);
+    //   if (title == "Sign In") {
+    //     this.profileItemsDialog = true;
+    //     console.log(this.profileItemsDialog);
+    //   }
+    // },
+    logout(){
+      this.$store.commit('setUser',null)
+      this.$router.push('/')
+    }
   },
+  computed:{
+    user(){
+      return this.$store.state.user
+    }
+  }
 };
 </script>
-<style>
+<style scoped>
 .app-title {
   font-family: "Inter";
   font-style: normal;
@@ -101,5 +140,8 @@ export default {
   width: 25px;
   height: 45px;
   margin-right: 3px;
+}
+.v-menu__content{
+  width:150px;
 }
 </style>
