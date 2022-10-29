@@ -17,7 +17,8 @@ function authenticateToken(req,res,next){
         if (err){
            return res.status(403).send("Please Login again.");
         }
-
+        req.Logged_userId=Logged_userId;
+        
         next()
     })
 }
@@ -35,7 +36,6 @@ router.get("/", (req, res) => {
   });
 });
 
-
 /* 
 To get all the users in users table Mainly for testing.
 */
@@ -51,7 +51,7 @@ returns --> res.status(200).send(`New user: ${FirstName} sucessfully created.`)
 */
 
 router.post('/createUser',authenticateToken, User.createUser); //FOR ADMINS TO CREATE BARBERS ACCOUNTS
-router.post('/createUser_customers',User.createUser);//FOR CUSTOMERS
+router.post('/createUser_customers',User.createUser_customers);//FOR CUSTOMERS
 
 
 /*
@@ -72,12 +72,7 @@ returns --> res.send(User not exists.);
             || res.status(400).send(error)
 */
 
-
 router.post('/updateUser' ,authenticateToken, User.updateUser);
-
-
-
-
 
 /*
 Takes --> {UserID} As json 
@@ -88,7 +83,6 @@ returns --> res.status(200).send(`User has been sucessfully deleted with User ID
 
 router.post('/deleteUser',authenticateToken, User.deleteUser);
 
-
 /*
 Takes --> {UserID} As json 
 returns -->  res.status(400).send(`There is no user with this user ID: ${UserID}.`);
@@ -96,8 +90,6 @@ returns -->  res.status(400).send(`There is no user with this user ID: ${UserID}
              || res.status(400).send(error)
 */
 router.get('/getUser',authenticateToken, User.getUser);
-
-
 
 /*
 Takes --> {UserID, OldPassword,NewPassword} As json 
