@@ -59,16 +59,24 @@
 </template>
 
 <script>
+import BarbershopStatusService from "@/services/barbershopStatus";
 export default {
   name: "HomePage",
   data: () => ({
-    status: "Busy",
+    status: "",
     nextAvailability: "3:00pm",
   }),
   methods: {
     bookNow() {
       this.$router.push("/appointment");
     },
+    async getStatus() {
+      const response = await BarbershopStatusService.getStatus();
+      this.status = response.data;
+    },
+  },
+  mounted() {
+    this.getStatus();
   },
 };
 </script>
