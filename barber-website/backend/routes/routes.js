@@ -16,7 +16,7 @@ function authenticateToken(req,res,next){
         if (err){
            return res.status(403).send("Please Login again.");
         }
-        req.userId=Logged_userId
+       
         next()
     })
 }
