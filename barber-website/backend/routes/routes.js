@@ -17,7 +17,7 @@ function authenticateToken(req,res,next){
         if (err){
            return res.status(403).send("Please Login again.");
         }
-        
+
         next()
     })
 }
@@ -72,7 +72,10 @@ returns --> res.send(User not exists.);
             || res.status(400).send(error)
 */
 
+
 router.post('/updateUser' ,authenticateToken, User.updateUser);
+
+
 
 
 
