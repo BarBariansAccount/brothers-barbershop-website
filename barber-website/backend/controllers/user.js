@@ -22,7 +22,7 @@ const getusers = async (req, res) => {
         res.status(400).send(err)
     }
 }
-//Barbers
+//Barbers || Admin
 const createUser = async (req, res) => {
     const {
         UserRole,
@@ -61,7 +61,6 @@ const createUser = async (req, res) => {
 
 const createUser_customers = async (req, res) => {
     const {
-        UserRole,
         Email,
         FirstName,
         LastName,
@@ -69,14 +68,15 @@ const createUser_customers = async (req, res) => {
         Password
     } = req.body;
    
+    let UserRole='Customer';
+   
     const hash = bcrypt.hashSync(Password, 12);
 
     //checking if email already exists
     try {        
         let result = await pool.query(UserModel.checkUserExists_telephone, [Telephone])
-        if (!(UserRole == "Customer" || UserRole == "Admin" || UserRole == "Barber")) {
-            res.status(400).send('User Role can only be "Customer" OR "Admin" OR "Barber"');
-        } else if (result.rows.length) {
+        
+        if (result.rows.length) {
             res.status(400).send('User already exists. Enter different phone number.');
         } else {
             //adding a new user
@@ -88,7 +88,7 @@ const createUser_customers = async (req, res) => {
                 data: Results.rows[0].userid
               }, process.env.ACCESS_TOKEN_SECRET);
 
-            res.status(200).json({Token: accessToken ,UserRole: Results.rows[0]});
+            res.status(200).json({Token: accessToken ,User: Results.rows[0]});
         }
     } catch (error) {
         res.status(400).send(error)
@@ -138,12 +138,7 @@ const updateUser = async (req, res) => {
     const logged_userId= req.Logged_userId.data;
     try {
         
-        let results = await pool.query(UserModel.checkUserExists, [logged_userId]);
-        if (results.rows.length == 0) {
-            return res.status(400).send(`User not exists.`);
-        }
-    //const hash = bcrypt.hashSync(Password, 12);
-        results = await pool.query(UserModel.updateUser, [Email, FirstName, LastName, logged_userId]);
+        let update = await pool.query(UserModel.updateUser, [Email, FirstName, LastName, logged_userId]);
        
         let getuser= await pool.query(UserModel.checkUserExists, [logged_userId]);
 
@@ -185,12 +180,8 @@ const getUser = async (req, res) => {
     try {
         
         let results = await pool.query(UserModel.checkUserExists, [logged_userId])
-
-        if (results.rows.length == 0) {
-            return res.status(400).send(`There is no user with this user ID: ${logged_userId}.`);
-        } else {
+        
             res.status(200).send(results.rows)
-        }
 
     } catch (error) {
         res.status(400).send(error)
@@ -204,23 +195,18 @@ const updatePassword= async(req,res)=>{
     const logged_userId= req.Logged_userId.data;
 
     try {
-        let results = await pool.query(UserModel.checkUserExists, [logged_userId])
 
-        if (results.rows.length == 0) {
-            return res.status(400).send(`There is no user with this user ID: ${logged_userId}.`);
-        } else {
-
-            let getpassword= await pool.query(UserModel.getpassword, [logged_userId]);
-            if (!bcrypt.compareSync(OldPassword, getpassword.rows[0].password)) {
-                res.status(400).send('Old Password is incorrect.');
-            }
-            
-            else{
-                const hash = bcrypt.hashSync(NewPassword, 12);
-                results = await pool.query(UserModel.updatePassword, [logged_userId,hash]);
-                res.status(200).send("Password is changed sucessfully.");
-            }
+        let getpassword= await pool.query(UserModel.getpassword, [logged_userId]);
+        if (!bcrypt.compareSync(OldPassword, getpassword.rows[0].password)) {
+            res.status(400).send('Old Password is incorrect.');
         }
+            
+        else{
+            const hash = bcrypt.hashSync(NewPassword, 12);
+            let results = await pool.query(UserModel.updatePassword, [logged_userId,hash]);
+            res.status(200).send("Password is changed sucessfully.");
+        }
+        
     } catch (error) {
         res.status(400).send(error)
     }
