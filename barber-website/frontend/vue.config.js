@@ -3,6 +3,9 @@ module.exports = defineConfig({
   transpileDependencies: [
     'vuetify'
   ],
+  devServer: {
+    allowedHosts: 'all',
+  },
   // plugins: [
   //   { src: '~/plugins/vuex-persist', ssr: false }
   // ]
