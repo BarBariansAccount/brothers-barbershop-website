@@ -1,0 +1,19 @@
+{
+  "name": "brothers-barbershop-website",
+  "version": "1.0.0",
+  "description": "Capstone project for SOEN 490",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BarBariansAccount/brothers-barbershop-website.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BarBariansAccount/brothers-barbershop-website/issues"
+  },
+  "homepage": "https://github.com/BarBariansAccount/brothers-barbershop-website#readme"
+}
