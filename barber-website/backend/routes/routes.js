@@ -18,8 +18,8 @@ function authenticateToken(req, res, next) {
         if (err) {
             return res.status(403).send("Please Login again.");
         }
-        req.Logged_userId=Logged_userId;
-        
+        req.Logged_userId = Logged_userId;
+
         next()
     })
 }
@@ -60,7 +60,7 @@ returns --> res.status(403).send("Malacious user. Only admin can create accounts
 */
 
 
-router.post('/createUser',authenticateToken, User.createUser); //FOR ADMINS TO CREATE [BARBERS || ADMIN] ACCOUNTS
+router.post('/createUser', authenticateToken, User.createUser); //FOR ADMINS TO CREATE [BARBERS || ADMIN] ACCOUNTS
 
 /*
 Assumptions--> user role will always be 'Customer' inside the controller so no need to pass along
@@ -70,7 +70,7 @@ returns --> res.status(200).json({Token: accessToken ,User: Results.rows[0]}); {
         || res.status(400).send('User already exists. Enter different phone number.');
         ||res.status(400).send(error)
 */
-router.post('/createUser_customers',User.createUser_customers);//FOR CUSTOMERS
+router.post('/createUser_customers', User.createUser_customers);//FOR CUSTOMERS
 
 
 
@@ -94,7 +94,7 @@ returns --> || res.status(200).send(getuser.rows)--> {userid, userrole, email, f
 */
 
 
-router.post('/updateUser' ,authenticateToken, User.updateUser);
+router.post('/updateUser', authenticateToken, User.updateUser);
 
 
 /*
@@ -141,7 +141,7 @@ returns --> res.status(200).send("Busy");
 
 */
 
-router.get('/getStatus',BusyStatus.getStatus);
+router.get('/getStatus', BusyStatus.getStatus);
 
 
 
@@ -165,10 +165,40 @@ FAQ
 
 /* To get all the FAQ in FAQ  table .*/
 
-router.get('/getFAQ', authenticateToken, FAQ.getFAQ);
+router.get('/getFAQ', FAQ.getFAQ);
 
+/*
+Takes --> {question, answer} As json &&   
+Takes authentication token in headers in the format {'authorization': Bearer token} --> admin login token as admins can only update FAQs.
+
+returns --> return res.status(403).send("Malacious user. Only admin can add FAQs.");
+            ||res.status(200).send(`The FAQ  has been sucessfully updated.`) 
+            || res.status(400).send(`The FAQ ID does not exist.`);
+            ||res.status(400).send(error)
+*/
 
 router.post('/addFAQ', authenticateToken, FAQ.addFAQ);
+
+/*
+Takes --> {faqid, question, answer} As json &&  
+Takes authentication token in headers in the format {'authorization': Bearer token} --> admin login token as admins can only update FAQs.
+
+returns --> return res.status(403).send("Malacious user. Only admin can update FAQs.");
+            ||res.status(200).send(`The FAQ  has been sucessfully updated.`) 
+            || res.status(400).send(`The FAQ ID does not exist.`);
+            ||res.status(400).send(error)
+*/
 router.post('/updateFAQ', authenticateToken, FAQ.updateFAQ);
+
+/*
+Takes --> {faqid} As json &&  
+Takes authentication token in headers in the format {'authorization': Bearer token} --> admin login token as admins can only delete FAQs.
+
+returns --> return res.status(403).send("Malacious user. Only admin can delete FAQs.");
+            ||res.status(200).send(`The FAQ  has been sucessfully deleted.`) 
+            || res.status(400).send(`The FAQ ID does not exist.`);
+            ||res.status(400).send(error)
+*/
 router.post('/deleteFAQ', authenticateToken, FAQ.deleteFAQ);
+
 module.exports = router;
