@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # Clean up old docker containers and images
-docker rm -f $(docker ps -aq)
+docker rm -f barbershop:backend
+docker rm -f barbershop:frontend
 
 # Setup network
 docker network create barber-network
@@ -15,4 +16,4 @@ docker run --name barbershopdb -v "$PWD/init-db.sh":/docker-entrypoint-initdb.d/
 
 # Remove the -p argument from the backend when deploying, it is only for testing
 docker run -p 5001:5001 --net barber-network -d barbershop:backend 
-docker run -p 8080:8080 --net barber-network -d barbershop:frontend 
+docker run -p 9001:9001 --net barber-network -d barbershop:frontend 
