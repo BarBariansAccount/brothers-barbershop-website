@@ -6,13 +6,14 @@ const {
     updatePassword,
     deleteUser,
     getUser,
-    createUser_customers
+    createUser_customers,
+    getusers
 } = require("../controllers/user")
 const { assert } = require('chai')
 const { mockRequest, mockResponse, sleep } = require('./commonTestingMethods')
 
 
-describe("UserController related Test", function () {
+describe("UserController related Tests", function () {
     const userData = {
         UserRole: 'Customer',
         Email: 'unitTesing@gmail.com',
@@ -21,17 +22,28 @@ describe("UserController related Test", function () {
         Telephone: 5555555555,
         Password: 'testPassword'
     }
+    const userData2 = {
+        UserRole: 'Customer',
+        Email: 'unitTesing2@gmail.com',
+        FirstName: 'UnitSecond',
+        LastName: 'UnitSecond',
+        Telephone: 5555555554,
+        Password: 'testPassword'
+    }
     const updateData = {
         Email: 'unitTesing@gmail.com',
         FirstName: 'UnitFirst1',
         LastName: 'UnitLast'
     }
-    it("test user related test", async function () {
+    let req = { body: userData };
+    let res = mockResponse();
+    let userId;
+
+    it("test create user", async function () {
 
 
 
-        let req = { body: userData };
-        let res = mockResponse();
+
 
         await createUser_customers(req, res);
         assert.equal(res.status.calledWith(200), true);
@@ -39,13 +51,17 @@ describe("UserController related Test", function () {
 
 
 
-        let token = res.json.getCall(0).args[0].Token;
-        let userId = res.json.getCall(0).args[0].User.userid
+        //let token = res.json.getCall(0).args[0].Token;
+        userId = res.json.getCall(0).args[0].User.userid;
         req.Logged_userId = { data: userId };
 
 
 
 
+
+    })
+
+    it("test update user", async function () {
         res = mockResponse();
         req = mockRequest(updateData);
         req.Logged_userId = { data: userId };
@@ -55,9 +71,13 @@ describe("UserController related Test", function () {
         res = mockResponse();
         await getUser(req, res);
 
-        //assert.equal(res.send.getCall(0).args[0].firstname, updateData.FirstName);
+        assert.equal(res.send.getCall(0).args[0][0].firstname, updateData.FirstName);
 
 
+
+    })
+
+    it("test update password and delete without permission", async function () {
         const updatePasswordData = {
             body: {
                 OldPassword: userData.Password,
@@ -72,7 +92,6 @@ describe("UserController related Test", function () {
             },
             Logged_userId: { data: userId }
         }
-        console.log(updatePasswordData, modifiedPasswordData)
         res = mockResponse();
         await updatePassword(updatePasswordData, res);
         assert.equal(res.status.calledWith(200), true);
@@ -87,7 +106,62 @@ describe("UserController related Test", function () {
         // normal user should not able to delete account
         assert.equal(res.status.calledWith(403), true);
 
-        // a test admin account should be already in the database with: phone 1111111111
-        // password: modifiedPass
+
     })
+    // a test admin account should be already in the database with: 
+    // phone 1111111111
+    // password: modifiedPass
+
+    let adminId;
+    let userId2;
+    const adminData = {
+        body: {
+            Telephone: 1111111111,
+            Password: "modifiedPass"
+        }
+    }
+
+    it('test create user by admin and get users', async function () {
+        res = mockResponse();
+        await validateLogin(adminData, res);
+        adminId = res.json.getCall(0).args[0].User.userid;
+        req = mockRequest(userData2);
+        req.Logged_userId = { data: adminId };
+        await createUser(req, res);
+        assert.equal(res.status.calledWith(200), true);
+
+        res = mockResponse();
+        await getusers(req, res);
+        assert.equal(res.status.calledWith(200), true);
+        assert.equal(res.json.getCall(0).args[0].length, 3);
+
+    })
+
+    it('test delete user', async function () {
+        res = mockResponse();
+        await validateLogin(mockRequest(userData2), res);
+        assert.equal(res.status.calledWith(200), true);
+        userId2 = res.json.getCall(0).args[0].User.userid;
+
+        req = { body: { UserID: userId } };
+        req.Logged_userId = { data: adminId };
+        await deleteUser(req, res);
+        assert.equal(res.status.calledWith(200), true);
+
+        req.body.UserID = userId2;
+        res = mockResponse();
+        await deleteUser(req, res);
+        assert.equal(res.status.calledWith(200), true);
+
+        // verify delete result
+        req = mockRequest(userData2);
+        req.Logged_userId = { data: adminId };
+        res = mockResponse();
+        await getusers(req, res);
+        assert.equal(res.status.calledWith(200), true);
+        assert.equal(res.json.getCall(0).args[0].length, 1);
+
+
+    })
+
 })
