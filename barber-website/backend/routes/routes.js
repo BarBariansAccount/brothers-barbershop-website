@@ -3,19 +3,20 @@ const express = require("express");
 const router = express.Router();
 const User = require("../controllers/user.js");
 const BusyStatus = require("../controllers/BusyStatus.js");
+const FAQ = require("../controllers/FAQ.js")
 
 const JWT = require("jsonwebtoken");
 
 
-function authenticateToken(req,res,next){
-    const authHeader=req.headers['authorization'];
-    const token= authHeader && authHeader.split(' ')[1]
-    if (token== null) {
+function authenticateToken(req, res, next) {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1]
+    if (token == null) {
         return res.status(401).send('Send Token Please!')
     }
-    JWT.verify(token,process.env.ACCESS_TOKEN_SECRET, (err,Logged_userId)=>{
-        if (err){
-           return res.status(403).send("Please Login again.");
+    JWT.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, Logged_userId) => {
+        if (err) {
+            return res.status(403).send("Please Login again.");
         }
         req.Logged_userId=Logged_userId;
         
@@ -23,17 +24,17 @@ function authenticateToken(req,res,next){
     })
 }
 
-router.get('/',(req,res) =>{
-        res.send({
-            message: "hello"
-        })
+router.get('/', (req, res) => {
+    res.send({
+        message: "hello"
     })
+})
 
 
 router.get("/", (req, res) => {
-  res.send({
-    message: "hello",
-  });
+    res.send({
+        message: "hello",
+    });
 });
 
 /* 
@@ -44,7 +45,7 @@ returns -->res.status(403).send("Malacious user. Only admin can see this infomat
 To get all the users in users table Mainly for testing.
 */
 
-router.get('/users',authenticateToken,User.getusers);
+router.get('/users', authenticateToken, User.getusers);
 
 
 /*
@@ -58,6 +59,7 @@ returns --> res.status(403).send("Malacious user. Only admin can create accounts
          || res.status(400).send(error)
 */
 
+
 router.post('/createUser',authenticateToken, User.createUser); //FOR ADMINS TO CREATE [BARBERS || ADMIN] ACCOUNTS
 
 /*
@@ -69,6 +71,7 @@ returns --> res.status(200).json({Token: accessToken ,User: Results.rows[0]}); {
         ||res.status(400).send(error)
 */
 router.post('/createUser_customers',User.createUser_customers);//FOR CUSTOMERS
+
 
 
 /*
@@ -90,7 +93,9 @@ returns --> || res.status(200).send(getuser.rows)--> {userid, userrole, email, f
             || res.status(400).send(error)
 */
 
+
 router.post('/updateUser' ,authenticateToken, User.updateUser);
+
 
 /*
 Takes --> {UserID} As json &&  
@@ -102,14 +107,14 @@ returns --> return res.status(403).send("Malacious user. Only admin can delete a
             ||res.status(400).send(error)
 */
 
-router.post('/deleteUser',authenticateToken, User.deleteUser);
+router.post('/deleteUser', authenticateToken, User.deleteUser);
 
 /*
 Takes --> Takes authentication token in headers in the format {'authorization': Bearer token} --> user login token
 returns -->   res.status(200).json(results.rows) -->{userid, userrole, email, firstname, lastname} As json;
              || res.status(400).send(error)
 */
-router.get('/getUser',authenticateToken, User.getUser);
+router.get('/getUser', authenticateToken, User.getUser);
 
 /*
 Takes --> {OldPassword,NewPassword} As json && 
@@ -120,7 +125,7 @@ returns -->   res.status(400).send('Old Password is incorrect.');
              || res.status(400).send(error);
 */
 
-router.post('/updatePassword',authenticateToken,User.updatePassword);
+router.post('/updatePassword', authenticateToken, User.updatePassword);
 
 /*
 *****
@@ -139,6 +144,7 @@ returns --> res.status(200).send("Busy");
 router.get('/getStatus',BusyStatus.getStatus);
 
 
+
 /*
 takes --> {"Status": "Busy"}
         ||{"Status": "Not Busy"}
@@ -151,5 +157,18 @@ takes --> {"Status": "Busy"}
 */
 router.get('/updateStatus', BusyStatus.updateStatus);
 
+/*
+*****
+FAQ
+*****
+*/
 
+/* To get all the FAQ in FAQ  table .*/
+
+router.get('/getFAQ', authenticateToken, FAQ.getFAQ);
+
+
+router.post('/addFAQ', authenticateToken, FAQ.addFAQ);
+router.post('/updateFAQ', authenticateToken, FAQ.updateFAQ);
+router.post('/deleteFAQ', authenticateToken, FAQ.deleteFAQ);
 module.exports = router;
