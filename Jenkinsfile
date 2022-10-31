@@ -6,7 +6,9 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh './setup.sh'
+                dir('barber-website/backend'){
+                    sh 'npm install'
+                }
             }
         }
         stage('Test') {
