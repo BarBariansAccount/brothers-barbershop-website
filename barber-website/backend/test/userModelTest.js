@@ -41,23 +41,12 @@ describe("UserController related Tests", function () {
 
     it("test create user", async function () {
 
-
-
-
-
         await createUser_customers(req, res);
         assert.equal(res.status.calledWith(200), true);
-
-
-
 
         //let token = res.json.getCall(0).args[0].Token;
         userId = res.json.getCall(0).args[0].User.userid;
         req.Logged_userId = { data: userId };
-
-
-
-
 
     })
 
