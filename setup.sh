@@ -3,6 +3,7 @@
 # Clean up old docker containers and images
 docker rm -f barbershop:backend
 docker rm -f barbershop:frontend
+docker rm -f postgres
 
 # Setup network
 docker network create barber-network
