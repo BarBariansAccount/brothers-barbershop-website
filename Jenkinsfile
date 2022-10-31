@@ -6,9 +6,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                dir('/'){
-                    sh 'setup.sh'
-                }
+                sh './setup.sh'
             }
         }
         stage('Test') {
