@@ -14,5 +14,5 @@ CREATE TABLE users(
      PRIMARY KEY (UserID),
      UNIQUE (Email,Telephone)
 );
-INSERT INTO USERS (UserRole, Email, firstname,LastName, Telephone, Password) VALUES('admin','abdulqadir199853@gmail.com','Abdul Qadir','Ali','5148137498','Admin123@');
+INSERT INTO USERS (UserRole, Email, firstname,LastName, Telephone, Password) VALUES('admin','abdulqadir199853@gmail.com','Abdul Qadir','Ali','1111111111','$2b$12$5eTD7nTPFAH4Y3LC3wThvuLz7fHTMygKnxIsLEIafBx0ACxtVer6C');
 EOSQL
