@@ -7,14 +7,14 @@ pipeline {
         stage('Build') {
             steps {
                 dir('barber-website/backend'){
-                    bat 'npm install'
+                    sh 'npm install'
                 }
             }
         }
         stage('Test') {
             steps {
                 dir('barber-website/backend'){
-                    bat 'npm test'
+                    sh 'npm test'
                 }
             }
         }
