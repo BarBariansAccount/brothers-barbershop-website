@@ -2,7 +2,8 @@ let busy = false;
 let notBusy= false;
 let empty =true;
 
-const getStatus = (req,res)=>{
+const getStatus =  (req,res)=>{
+    
     if(busy){
         res.status(200).send("Busy");
     }
@@ -14,30 +15,42 @@ const getStatus = (req,res)=>{
     }
 }
 
-const updateStatus = (req,res) =>{
+const updateStatus = async (req,res) =>{
     let Status = req.body.Status;
+   
+    //let logge_userId= req.body.Logged_userId.data;
 
-    if(Status == "Busy"){
-        busy=true;
-        notBusy=false;
-        empty=false;
-        res.status(200).send("Status is set to: Busy");
+    try {
+        // let loggedUserRole= await pool.query(UserModel.checkUserExists,[logge_userId]);
+        // if(!(loggedUserRole.rows[0].userrole=="Admin")){
+        //     return res.status(403).send("Malacious user. Only admin can change status.");
+        // }
+        if(Status == "Busy"){
+            busy=true;
+            notBusy=false;
+            empty=false;
+            return res.status(200).send("Status is set to: Busy");
+        }
+        else if(Status == "Not Busy"){
+            notBusy=true;
+            busy=false;
+            empty=false;
+            return res.status(200).send("Status is set to: Not Busy");
+        }
+        else if (Status == "Empty"){
+            empty=true;
+            busy=false;
+            notBusy=false;
+            return res.status(200).send("Status is set to: Empty");
+        }
+        else{
+            return res.status(400).send("Send a valid response");
+        }
+    } catch (err) {
+        res.status(400).send(err)
     }
-    else if(Status == "Not Busy"){
-        notBusy=true;
-        busy=false;
-        empty=false;
-        res.status(200).send("Status is set to: Not Busy");
-    }
-    else if (Status == "Empty"){
-        empty=true;
-        busy=false;
-        notBusy=false;
-        res.status(200).send("Status is set to: Empty");
-    }
-    else{
-        res.status(400).send("Send a valid response");
-    }
+
+    
 }
 
 module.exports={
