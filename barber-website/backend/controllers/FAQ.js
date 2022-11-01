@@ -23,7 +23,12 @@ const getFAQ = async (req, res) => {
 
 const updateFAQ = async (req, res) => {
     const { faqid, question, answer } = req.body;
+    const logged_userId = req.Logged_userId.data;
     try {
+        let loggedUserRole = await pool.query(UserModel.checkUserExists, [logged_userId]);
+        if (!(loggedUserRole.rows[0].userrole == "Admin")) {
+            return res.status(403).send("Malacious user. Only admin can update FAQ's.");
+        }
         let results = await pool.query(faqModel.checkFAQExists, [faqid]);//error
         if (results.rows.length == 0) {
             return res.status(400).send(`The FAQ ID does not exist.`);
@@ -37,7 +42,12 @@ const updateFAQ = async (req, res) => {
 
 const deleteFAQ = async (req, res) => {
     const { faqid } = req.body;
+    const logged_userId = req.Logged_userId.data;
     try {
+        let loggedUserRole = await pool.query(UserModel.checkUserExists, [logged_userId]);
+        if (!(loggedUserRole.rows[0].userrole == "Admin")) {
+            return res.status(403).send("Malacious user. Only admin can delete FAQ's.");
+        }
         let results = await pool.query(faqModel.checkFAQExists, [faqid])//error
         if (results.rows.length == 0) {
             return res.status(400).send(`The FAQ ID does not exist.`);
@@ -52,13 +62,19 @@ const deleteFAQ = async (req, res) => {
 }
 const addFAQ = async (req, res) => {
     const { question, answer } = req.body;
+    const logged_userId = req.Logged_userId.data;
     try {
+        let loggedUserRole = await pool.query(UserModel.checkUserExists, [logged_userId]);
+        if (!(loggedUserRole.rows[0].userrole == "Admin")) {
+            return res.status(403).send("Malacious user. Only admin can add FAQ's.");
+        }
         let results = await pool.query(faqModel.addFAQ, [question, answer])
         res.status(200).send(`The FAQ  has been sucessfully added.`)
     } catch (error) {
         res.status(400).send(error)
     }
 }
+
 
 module.exports = {
     getFAQ,
