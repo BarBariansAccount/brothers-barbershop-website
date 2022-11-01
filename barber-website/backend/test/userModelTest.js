@@ -13,31 +13,52 @@ const { assert } = require('chai')
 const { mockRequest, mockResponse, sleep } = require('./commonTestingMethods')
 
 
+const userData = {
+    UserRole: 'Customer',
+    Email: 'unitTesing@gmail.com',
+    FirstName: 'UnitFirst',
+    LastName: 'UnitLast',
+    Telephone: 5555555555,
+    Password: 'testPassword'
+}
+const userData2 = {
+    UserRole: 'Customer',
+    Email: 'unitTesing2@gmail.com',
+    FirstName: 'UnitSecond',
+    LastName: 'UnitSecond',
+    Telephone: 5555555554,
+    Password: 'testPassword'
+}
+const updateData = {
+    Email: 'unitTesing@gmail.com',
+    FirstName: 'UnitFirst1',
+    LastName: 'UnitLast'
+}
+
+let userId2;
+const adminData = {
+    body: {
+        Telephone: 1111111111,
+        Password: "modifiedPass"
+    }
+}
+let req = { body: userData };
+let res = mockResponse();
+let userId;
+let adminId;
+
+const checkAndGetAdminId = async function () {
+    res = mockResponse();
+    await validateLogin(adminData, res);
+    adminId = res.json.getCall(0).args[0].User.userid;
+
+
+    return adminId;
+
+}
+
 describe("UserController related Tests", function () {
-    const userData = {
-        UserRole: 'Customer',
-        Email: 'unitTesing@gmail.com',
-        FirstName: 'UnitFirst',
-        LastName: 'UnitLast',
-        Telephone: 5555555555,
-        Password: 'testPassword'
-    }
-    const userData2 = {
-        UserRole: 'Customer',
-        Email: 'unitTesing2@gmail.com',
-        FirstName: 'UnitSecond',
-        LastName: 'UnitSecond',
-        Telephone: 5555555554,
-        Password: 'testPassword'
-    }
-    const updateData = {
-        Email: 'unitTesing@gmail.com',
-        FirstName: 'UnitFirst1',
-        LastName: 'UnitLast'
-    }
-    let req = { body: userData };
-    let res = mockResponse();
-    let userId;
+
 
     it("test create user", async function () {
 
@@ -101,23 +122,18 @@ describe("UserController related Tests", function () {
     // phone 1111111111
     // password: modifiedPass
 
-    let adminId;
-    let userId2;
-    const adminData = {
-        body: {
-            Telephone: 1111111111,
-            Password: "modifiedPass"
-        }
-    }
+
+
 
     it('test create user by admin and get users', async function () {
-        res = mockResponse();
-        await validateLogin(adminData, res);
-        adminId = res.json.getCall(0).args[0].User.userid;
+        adminId = await checkAndGetAdminId();
+
+
         req = mockRequest(userData2);
         req.Logged_userId = { data: adminId };
         await createUser(req, res);
         assert.equal(res.status.calledWith(200), true);
+
 
         res = mockResponse();
         await getusers(req, res);
@@ -154,3 +170,7 @@ describe("UserController related Tests", function () {
     })
 
 })
+
+module.exports = {
+    checkAndGetAdminId
+}

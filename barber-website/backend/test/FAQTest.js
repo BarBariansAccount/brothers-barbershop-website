@@ -8,6 +8,15 @@ const {
     addFAQ
 } = require("../controllers/FAQ")
 
+const {
+    validateLogin
+} = require("../controllers/user");
+
+const {
+    checkAndGetAdminId
+} = require("./userModelTest");
+
+
 describe("FAQ related tests", function () {
     const testFAQ = mockRequest({
         question: "testQuestion",
@@ -17,13 +26,26 @@ describe("FAQ related tests", function () {
         question: "testQuestionModified",
         answer: "testAnswer"
     })
+    // const adminData = {
+    //     body: {
+    //         Telephone: 1111111111,
+    //         Password: "modifiedPass"
+    //     }
+    // }
 
     let req, res;
     let faqid;
+    let adminId;
+
+    it("get admin id first", async function () {
+        adminId = await checkAndGetAdminId();
+    })
 
     it("test create FAQ", async function () {
         req = testFAQ;
+        req.Logged_userId = { data: adminId };
         res = mockResponse();
+
         await addFAQ(req, res);
         assert.equal(res.status.calledWith(200), true);
     })
@@ -42,8 +64,8 @@ describe("FAQ related tests", function () {
     it("test updateFAQ", async function () {
         res = mockResponse();
         req = modifiedFAQ;
+        req.Logged_userId = { data: adminId };
         req.body.faqid = faqid;
-        console.log(req)
         await updateFAQ(req, res);
         assert.equal(res.status.calledWith(200), true);
 
