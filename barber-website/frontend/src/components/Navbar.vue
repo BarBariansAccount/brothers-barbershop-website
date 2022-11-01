@@ -49,7 +49,7 @@
               {{user.firstname + ' ' + user.lastname }}
           </v-list-item>
           <v-divider v-if="user"></v-divider>
-          <v-list-item v-if="user" to="/profile">
+          <v-list-item to="/profile">
            user profile
           </v-list-item>
           <v-list-item v-if="user" @click="logout">
@@ -119,6 +119,7 @@ export default {
     // },
     logout(){
       this.$store.commit('setUser',null)
+      this.$store.commit('setToken',null)
       this.$router.push('/')
     }
   },

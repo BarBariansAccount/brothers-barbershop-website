@@ -20,7 +20,7 @@
           <v-col cols="12" md="6">
             <ValidationProvider
               name="firstname"
-              rules="required"
+              rules="required|alpha"
               v-slot="{ errors }"
             >
               <v-text-field
@@ -37,7 +37,7 @@
           <v-col cols="12" md="6">
             <ValidationProvider
               name="lastname"
-              rules="required"
+              rules="required|alpha"
               v-slot="{ errors }"
             >
               <v-text-field
@@ -68,7 +68,7 @@
             </ValidationProvider>
           </v-col>
           <!-- telephone -->
-          <v-col cols="6">
+          <v-col cols="12">
             <ValidationProvider
               name="telephone"
               rules="required|digits:10"
@@ -133,7 +133,25 @@
               </v-text-field>
             </ValidationProvider>
           </v-col>
-
+          <!-- password -->
+          <v-col cols="6">
+            <ValidationProvider
+              name="password"
+              rules="required"
+              v-slot="{ errors }"
+            >
+              <v-text-field
+                outlined
+                dense
+                label="password"
+                v-model="password"
+                :error-messages="errors[0]"
+                @click:append="show4 = !show4"
+                :append-icon="show4 ? 'mdi-eye' : 'mdi-eye-off'"
+                :type="show4 ? 'text' : 'password'"
+              ></v-text-field>
+            </ValidationProvider>
+          </v-col>
           <!-- action -->
           <v-col cols="12" class="text-center">
             <v-btn type="reset" color="primary" @click="get">Cancel</v-btn>
@@ -197,7 +215,7 @@ export default {
         LastName: this.lastname,
         Email: this.email,
         Telephone: this.telephone,
-    
+        Password: this.password,
       };
       try {
         await UserService.update(data);
@@ -209,7 +227,7 @@ export default {
     },
     async get() {
       try {
-        const res = await UserService.getUser(this.$store.state.user.userid);
+        const res = await UserService.getUser(this.$store.state.user.telephone);
         this.$store.commit("setUser", res.data[0]);
 
         const user = res.data[0];
@@ -218,7 +236,7 @@ export default {
         this.lastname = user.lastname;
         this.email = user.email;
         this.telephone = user.telephone;
-     
+        this.password = user.password;
         this.userrole = user.userrole;
 
         console.log("res", res);

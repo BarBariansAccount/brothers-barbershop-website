@@ -22,9 +22,10 @@ export default [
       { path: "changepassword", component: ChangePassword },
     ]
   },
-  {path: "/barbersManagement", component: BarbersManagementPage},
+  { path: "/barbersManagement", component: BarbersManagementPage },
   { path: "/admin", component: AdminPage },
   { path: "/gallery", component: GalleryPage },
   { path: "/appointment", component: AppointmentPage },
 
 ];
+

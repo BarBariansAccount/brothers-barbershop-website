@@ -89,9 +89,10 @@ export default {
           Password: this.form.password,
         });
 
-        console.log("data", data.data[0]);
+        console.log("data 44", data.data);
 
-        this.$store.commit("setUser", data.data[0]);
+        this.$store.commit("setToken", data.data.Token);
+        this.$store.commit("setUser", data.data.User);
       } catch (error) {
         this.errorNumberOrPassword = "Wrong phone Number or Password ";
         console.log(error.message);

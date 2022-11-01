@@ -1,14 +1,11 @@
 import api from "./http";
 
 export default new (class UserService {
-  getUser = (UserID) => {
-    return api.post("/getUser", { UserID });
+  getUser = (Telephone) => {
+    return api.post("/getUser", { Telephone },{headers:{'authenticartion':'Beaer srgsdgdfgdsfgd'}});
   };
   update = (data) => {
-    return api.post("/updateUser", data);
-  };
-  changePassword = (data) => {
-    return api.post("/updatePassword", data);
+    return api.post("/updateUser", data,{headers:{'authenticartion':'token'}});
   };
   login = (data) => {
     return api.post("/Login", data);
