@@ -49,7 +49,7 @@
               {{user.firstname + ' ' + user.lastname }}
           </v-list-item>
           <v-divider v-if="user"></v-divider>
-          <v-list-item to="/profile">
+          <v-list-item v-if="user" to="/profile">
            user profile
           </v-list-item>
           <v-list-item v-if="user" @click="logout">
