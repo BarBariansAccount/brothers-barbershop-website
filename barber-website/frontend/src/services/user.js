@@ -1,11 +1,11 @@
 import api from "./http";
 
 export default new (class UserService {
-  getUser = (Telephone) => {
-    return api.post("/getUser", { Telephone },{headers:{'authenticartion':'Beaer srgsdgdfgdsfgd'}});
+  getUser = () => {
+    return api.get("/getUser");
   };
   update = (data) => {
-    return api.post("/updateUser", data,{headers:{'authenticartion':'token'}});
+    return api.post("/updateUser", data);
   };
   login = (data) => {
     return api.post("/Login", data);
