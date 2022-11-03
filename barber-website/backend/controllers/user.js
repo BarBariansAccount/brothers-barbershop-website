@@ -32,6 +32,7 @@ const createUser = async (req, res) => {
         Telephone,
         Password
     } = req.body;
+    
     const logged_userId= req.Logged_userId.data;
 
     const hash = bcrypt.hashSync(Password, 12);
