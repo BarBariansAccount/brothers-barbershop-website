@@ -1,0 +1,16 @@
+# syntax=docker/dockerfile:1
+FROM alpine:3.12
+
+RUN sed -i -e 's/http:/https:/' /etc/apk/repositories
+RUN apk update
+RUN apk add npm
+
+RUN mkdir /backend
+COPY barber-website/backend/ backend/
+WORKDIR backend/
+
+RUN npm install
+
+ENV PORT=5001
+EXPOSE 5001/tcp
+CMD npm start
