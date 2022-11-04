@@ -2,6 +2,7 @@
 FROM alpine:3.12
 
 RUN echo 'nameserver 8.8.8.8' >> /etc/resolv.conf
+RUN sed -i -e 's/http:/https:/' /etc/apk/repositories
 RUN apk update
 RUN apk add npm
 
