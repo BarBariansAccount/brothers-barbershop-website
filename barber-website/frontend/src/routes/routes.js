@@ -15,6 +15,9 @@ import OrdersList from "../pages/panel/profile/OrdersList.vue";
 import Appointment from "../pages/panel/profile/AppointmentsList.vue"
 import Availabilities from "../pages/panel/profile/AvailabilitiesList.vue"
 import ChangePassword from "../pages/panel/profile/ChangePassword"
+import DeleteAccount from "../pages/panel/profile/DeleteAccount"
+// import 
+
 export default [
   // pages under default layout
   {
@@ -33,6 +36,7 @@ export default [
 
       { path: "profile/common", component: CommonPage },
       { path: "profile/change-password", component: ChangePassword },
+      { path: "profile/delete-account", component: DeleteAccount },
 
       { path: "orders", component: OrdersList },
       { path: "appointments", component: Appointment },

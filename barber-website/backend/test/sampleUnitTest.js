@@ -1,7 +1,7 @@
 var chai = require('chai');
 //Testing
-describe('Sample Unit Test',()=>{
-    it('Show the testing framework is working',()=>{
-        chai.assert(true,true);
+describe('Sample Unit Test', () => {
+    it('Show the testing framework is working', () => {
+        chai.assert.equal(true, true);
     })
 })

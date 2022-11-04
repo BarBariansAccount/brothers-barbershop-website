@@ -80,7 +80,7 @@ export default {
     validatePhoneNumber() {
       const validationRegex = /^\d{10}$/;
       if (this.form.phoneNumber.match(validationRegex)) {
-        return true;
+        return false;
       } else {
         return true;
       }
