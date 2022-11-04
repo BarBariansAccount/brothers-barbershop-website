@@ -35,9 +35,10 @@ export default {
   data() {
     return {
       items: [
-        { title: 'Orders', count: '*Shampoo 300ml x1', icon: 'mdi-basket' },
-        { title: 'Avaibilities', count:'*Monday 2 to 4 pm 2022-10-01', icon: 'mdi-calendar' },
-        { title: 'Last Password Change', count: '* 2022-10-02 10:20:00 pm', icon: 'mdi-key' },
+        { title: 'Orders', count:'*Shampoo 300ml  x1', icon: 'mdi-basket' },
+        { title: 'Avaibilities', count: '*Monday 2022-11-15 12:00 -16:00', icon: 'mdi-calendar' },
+        { title: 'last password update', count: '*2022-10-02 14:25:00 ', icon: 'mdi-key' },
+
       ]
     }
   }
