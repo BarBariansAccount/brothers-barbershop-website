@@ -6,8 +6,14 @@ const BusyStatus = require("../controllers/BusyStatus.js");
 const FAQ = require("../controllers/FAQ.js")
 
 const JWT = require("jsonwebtoken");
+const multer = require('multer');
+const path= require('path')
 
 
+
+/*
+JWT authentication
+*/
 function authenticateToken(req, res, next) {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1]
@@ -24,20 +30,8 @@ function authenticateToken(req, res, next) {
     })
 }
 
-router.get('/', (req, res) => {
-    res.send({
-        message: "hello"
-    })
-})
 
-
-router.get("/", (req, res) => {
-    res.send({
-        message: "hello",
-    });
-});
-
-/* 
+/*
 Takes --> authentication token in headers in the format {'authorization': Bearer token} --> admin login token as admins can only see all acccounts.
 
 returns -->res.status(403).send("Malacious user. Only admin can see this infomation.");
@@ -77,7 +71,7 @@ router.post('/createUser_customers', User.createUser_customers);//FOR CUSTOMERS
 /*
 Takes --> {Telephone, Password} As json 
 returns --> 
-     res.status(200).json({Token: accessToken,User: Results.rows[0]})--> {Token, User: {userid, userrole, email, firstname, lastname}} As json;
+     res.status(200).json({Token: accessToken,User: Results.rows[0]})--> {Token, User: {userid, userrole, email, firstname, lastname, picturelink}} As json;
     ||res.status(400).send(`There is no user with ${Telephone}.`);
     || res.status(400).send('Password is incorrect'); 
 
@@ -89,7 +83,7 @@ router.post("/Login", User.validateLogin);
 Takes --> {Email, FirstName, LastName} As json && 
         Takes authentication token in headers in the format {'authorization': Bearer token} --> user login token
 
-returns --> || res.status(200).send(getuser.rows)--> {userid, userrole, email, firstname, lastname} As json;
+returns --> || res.status(200).send(getuser.rows)--> {userid, userrole, email, firstname, lastname, picturelink} As json;
             || res.status(400).send(error)
 */
 
@@ -127,6 +121,64 @@ returns -->   res.status(400).send('Old Password is incorrect.');
 
 router.post('/updatePassword', authenticateToken, User.updatePassword);
 
+
+/*
+*****
+User Pictures
+*****
+*/
+
+const storage = multer.diskStorage({
+    destination: function(req, file,next){
+        file.path=path.join(__dirname, "../uploads")
+        
+        next(null, file.path)
+    },
+    filename: function(req,file,next){
+        const date= new Date().toISOString().replace(/:/g, '-')
+        const filename=date+file.originalname;
+
+        next(null, filename) 
+    }
+});
+
+const filefilter= (req,res,cb)=>{
+    if(res.mimetype==='image/jpeg'||res.mimetype==='image/jpg'||res.mimetype==='image/png'){
+        cb(null,true);
+    }
+    else{
+        req.error = "Error: file should be of type jpg, jpeg or png.";
+        cb(null,true);
+    }
+
+}
+
+const upload = multer({
+    storage : storage, 
+    limits: {
+        filesize: 1024*1024*5
+    },
+    fileFilter: filefilter
+    })
+
+/*
+Takes --> Takes authentication token in headers in the format {'authorization': Bearer token} --> user login token
+        && {UserImage: Image file}
+returns -->   res.status(200).send(picturepath);
+             || res.status(400).send(error) --> Common error --> Error: file should be of type jpg, jpeg or png.
+*/
+
+router.post('/updatePicture',authenticateToken,upload.single('UserImage'),User.updatePicture)
+
+/*
+Takes --> Takes authentication token in headers in the format {'authorization': Bearer token} --> user login token
+        
+returns -->   res.status(200).send("Picture has been removed.");
+             || res.status(400).send(error)
+*/
+
+router.post('/deletePicture',authenticateToken,upload.single('UserImage'),User.deletePicture)
+
 /*
 *****
 Busy Status
@@ -144,7 +196,6 @@ returns --> res.status(200).send("Busy");
 router.get('/getStatus', BusyStatus.getStatus);
 
 
-
 /*
 takes --> {"Status": "Busy"}
         ||{"Status": "Not Busy"}
@@ -155,6 +206,7 @@ takes --> {"Status": "Busy"}
             ||res.status(200).send("Status is set to: Empty");
     ||res.status(403).send("Malacious user. Only admin can change status.");--> if status is changed by any other account catagory other then admin
 */
+
 router.get('/updateStatus',authenticateToken, BusyStatus.updateStatus);
 
 /*
