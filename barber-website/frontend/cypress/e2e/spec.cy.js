@@ -42,7 +42,7 @@ describe('Test Links', () => {
 
     cy.get('.v-toolbar__content > [role="button"]').click();
     cy.get('.row > .v-btn').click();
-    cy.get('.mt-3').type(TestAdminInfo.Telephone);
+    cy.get('#input-93').type(TestAdminInfo.Telephone);
     cy.get('.v-text-field__slot>[type="password"]').type(TestAdminInfo.Password);
     cy.get('.mt-8').click();
 
