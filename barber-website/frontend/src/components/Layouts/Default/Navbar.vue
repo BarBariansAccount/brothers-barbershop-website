@@ -8,7 +8,7 @@
       </v-list-item-group>
     </v-navigation-drawer>
 
-    <v-toolbar app>
+    <v-toolbar >
            <v-icon @click="$emit('toggle')" v-if="toggle">
         mdi-dots-vertical
       </v-icon>
@@ -24,7 +24,7 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-xs-only">
-        <v-btn flat text v-for="item in menuItems" :key="item.title" :to="item.path">
+        <v-btn  text v-for="item in menuItems" :key="item.title" :to="item.path">
           {{ item.title }}
         </v-btn>
       </v-toolbar-items>
@@ -43,7 +43,7 @@
           </v-list-item>
           <v-divider v-if="user"></v-divider>
           <v-list-item v-if="user" to="/panel">
-            user panel
+            User Profile
           </v-list-item>
           <v-list-item v-if="user" @click="logout">
             Log Out

@@ -13,10 +13,8 @@
                     </div>
                 </div>
                 <div class="text-center">
-
-                    {{ firstname + " " + lastname }}
-
-                </div>
+                    <h1>{{ firstname + " " + lastname }}</h1>
+               </div>
             </div>
             <!-- list -->
             <v-list>
@@ -71,9 +69,9 @@ export default {
                 action: 'mdi-account',
                 active: true,
                 items: [
-                    { title: 'common', to: '/panel/profile/common' },
-                    { title: 'change password', to: '/panel/profile/change-password' },
-
+                    { title: 'Edit Profile', to: '/panel/profile/edit-profile' },
+                    { title: 'Change Password', to: '/panel/profile/change-password' },
+                    { title: 'Unsubscribe', to: '/panel/profile/unsubrcibe' },
                 ],
                 title: 'Profile',
             }
