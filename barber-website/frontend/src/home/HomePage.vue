@@ -66,13 +66,13 @@
     </v-row>
     <v-row class="haircut-types">
       <v-col
-        cols="12"
+        cols="6"
         lg="3"
         class="d-flex flex-column justify-center align-center"
       >
         <v-card
           class="text-center d-flex flex-column align-center justify-center rounded-xl"
-          height="80%"
+          height="85%"
           width="80%"
           color="#F7F7F7"
           to="/appointment"
@@ -82,13 +82,13 @@
         </v-card>
       </v-col>
       <v-col
-        cols="12"
+        cols="6"
         lg="3"
         class="d-flex flex-column justify-center align-center"
       >
         <v-card
           class="text-center d-flex flex-column align-center justify-center rounded-xl"
-          height="80%"
+          height="85%"
           width="80%"
           color="#F7F7F7"
           to="/appointment"
@@ -98,13 +98,13 @@
         </v-card>
       </v-col>
       <v-col
-        cols="12"
+        cols="6"
         lg="3"
         class="d-flex flex-column justify-center align-center"
       >
         <v-card
           class="text-center d-flex flex-column align-center justify-center rounded-xl"
-          height="80%"
+          height="85%"
           width="80%"
           color="#F7F7F7"
           to="/appointment"
@@ -114,13 +114,13 @@
         </v-card>
       </v-col>
       <v-col
-        cols="12"
+        cols="6"
         lg="3"
         class="d-flex flex-column justify-center align-center"
       >
         <v-card
           class="text-center d-flex flex-column align-center justify-center rounded-xl"
-          height="80%"
+          height="85%"
           width="80%"
           color="#F7F7F7"
           to="/appointment"
@@ -137,11 +137,11 @@
         class="d-flex flex-column justify-center align-center"
       >
         <p class="mb-5 font-weight-bold text-h3">Haircuts Pricing</p>
-        <p class="font-weight-bold text-h6">
+        <p class="font-weight-bold text-h6 text-center">
           Haircut (5$ off on Tuesdays, Wednesdays and Thursdays) | $35.00 - 45
           mins
         </p>
-        <p class="font-weight-bold text-h6">
+        <p class="font-weight-bold text-h6 text-center">
           Haircut + Beard (5$ off on Tuesdays, Wednesdays and Thursdays) |
           $40.00 - 1 hour
         </p>
@@ -231,10 +231,10 @@ export default {
   margin-bottom: 20%;
   background: url("../assets/bshop-5.jpg") no-repeat;
   background-size: cover;
-  height: 900px;
+  height: 950px;
 }
 .haircut-types {
-  height: 300px;
+  height: 500px;
 }
 .haircut-types-image {
   height: 100px;
