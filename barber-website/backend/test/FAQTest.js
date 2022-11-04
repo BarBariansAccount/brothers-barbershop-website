@@ -8,9 +8,7 @@ const {
     addFAQ
 } = require("../controllers/FAQ")
 
-const {
-    validateLogin
-} = require("../controllers/user");
+
 
 const {
     checkAndGetAdminId
