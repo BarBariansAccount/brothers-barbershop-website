@@ -43,7 +43,7 @@
           </v-list-item>
           <v-divider v-if="user"></v-divider>
           <v-list-item v-if="user" to="/panel">
-            user panel
+            User Profile
           </v-list-item>
           <v-list-item v-if="user" @click="logout">
             Log Out

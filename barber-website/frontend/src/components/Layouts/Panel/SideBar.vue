@@ -14,7 +14,7 @@
                 </div>
                 <div class="text-center">
 
-                    {{ firstname + " " + lastname }}
+                    <h1>{{ firstname + " " + lastname }}</h1>
 
                 </div>
             </div>
@@ -71,9 +71,9 @@ export default {
                 action: 'mdi-account',
                 active: true,
                 items: [
-                    { title: 'common', to: '/panel/profile/common' },
-                    { title: 'change password', to: '/panel/profile/change-password' },
-                    { title: 'Delete Account', to: '/panel/profile/delete-account' },
+                    { title: 'Edit Profile', to: '/panel/profile/edit-profile' },
+                    { title: 'Change Password', to: '/panel/profile/change-password' },
+                    { title: 'Unsubscribe', to: '/panel/profile/unsubrcibe' },
 
                 ],
                 title: 'Profile',
