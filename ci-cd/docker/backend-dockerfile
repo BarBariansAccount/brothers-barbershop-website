@@ -1,7 +1,6 @@
 # syntax=docker/dockerfile:1
 FROM alpine:3.14
 
-RUN echo -e "http://nl.alpinelinux.org/alpine/v3.5/main\nhttp://nl.alpinelinux.org/alpine/v3.5/community" > /etc/apk/repositories
 RUN apk update
 RUN apk add npm
 
