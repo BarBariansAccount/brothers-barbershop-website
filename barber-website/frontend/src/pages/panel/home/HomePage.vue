@@ -38,6 +38,7 @@ export default {
         { title: 'Orders', count:'*Shampoo 300ml  x1', icon: 'mdi-basket' },
         { title: 'Avaibilities', count: '*Monday 2022-11-15 12:00 -16:00', icon: 'mdi-calendar' },
         { title: 'last password update', count: '*2022-10-02 14:25:00 ', icon: 'mdi-key' },
+
       ]
     }
   }

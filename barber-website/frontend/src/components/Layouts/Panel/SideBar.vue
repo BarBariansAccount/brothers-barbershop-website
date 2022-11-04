@@ -13,10 +13,8 @@
                     </div>
                 </div>
                 <div class="text-center">
-
                     <h1>{{ firstname + " " + lastname }}</h1>
-
-                </div>
+               </div>
             </div>
             <!-- list -->
             <v-list>
@@ -74,7 +72,6 @@ export default {
                     { title: 'Edit Profile', to: '/panel/profile/edit-profile' },
                     { title: 'Change Password', to: '/panel/profile/change-password' },
                     { title: 'Unsubscribe', to: '/panel/profile/unsubrcibe' },
-
                 ],
                 title: 'Profile',
             }
