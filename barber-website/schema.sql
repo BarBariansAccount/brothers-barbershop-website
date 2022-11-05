@@ -10,13 +10,13 @@ CREATE TABLE users(
 	PRIMARY KEY (UserID),
 	UNIQUE (Telephone)
 )
+ALTER TABLE users
+ADD picturelink varchar(255);
 /*INSERT INTO USERS (UserRole, Email, firstname,LastName, Telephone, Password) VALUES('Admin','abdulqadir199853@gmail.com','Abdul Qadir','Ali','5148137498','Admin123@');*/
-
 CREATE TABLE faq(
 	faqid SERIAL,
 	question varchar(65534) NOT NULL,
 	answer varchar(65534) NOT NULL,
 	PRIMARY KEY (faqid)
 )
- 
 /*INSERT INTO FAQ (question, answer) VALUES('This is a sample of question','This is a sample of answer');*/
