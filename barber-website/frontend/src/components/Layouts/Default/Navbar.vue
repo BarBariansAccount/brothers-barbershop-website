@@ -2,14 +2,18 @@
   <div>
     <v-navigation-drawer v-model="sidebar" app disable-resize-watcher>
       <v-list-item-group v-model="group">
-        <v-list-item v-for="item in menuItems" :key="item.title" :to="item.path">
+        <v-list-item
+          v-for="item in menuItems"
+          :key="item.title"
+          :to="item.path"
+        >
           <v-list-item-title>{{ item.title }}</v-list-item-title>
         </v-list-item>
       </v-list-item-group>
     </v-navigation-drawer>
 
-    <v-toolbar >
-           <v-icon @click="$emit('toggle')" v-if="toggle">
+    <v-toolbar>
+      <v-icon @click="$emit('toggle')" v-if="toggle">
         mdi-dots-vertical
       </v-icon>
       <span class="hidden-sm-and-up">
@@ -24,7 +28,7 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-xs-only">
-        <v-btn  text v-for="item in menuItems" :key="item.title" :to="item.path">
+        <v-btn text v-for="item in menuItems" :key="item.title" :to="item.path">
           {{ item.title }}
         </v-btn>
       </v-toolbar-items>
@@ -39,15 +43,11 @@
             <SignIn />
           </v-list-item>
           <v-list-item v-if="user">
-            {{user.firstname + ' ' + user.lastname }}
+            {{ user.firstname + " " + user.lastname }}
           </v-list-item>
           <v-divider v-if="user"></v-divider>
-          <v-list-item v-if="user" to="/panel">
-            User Profile
-          </v-list-item>
-          <v-list-item v-if="user" @click="logout">
-            Log Out
-          </v-list-item>
+          <v-list-item v-if="user" to="/panel"> User Profile </v-list-item>
+          <v-list-item v-if="user" @click="logout"> Log Out </v-list-item>
         </v-list>
       </v-menu>
     </v-toolbar>
@@ -85,7 +85,7 @@ export default {
       },
     };
   },
-  props:['toggle'] ,
+  props: ["toggle"],
   mounted() {
     window.addEventListener("resize", this.onWindowResize);
     this.onUserRoleMenu();
@@ -100,6 +100,7 @@ export default {
       }
     },
     onUserRoleMenu() {
+      this.userRole = this.$store.state.user.userrole;
       if (this.userRole == "Admin") {
         this.menuItems.push({ title: "Admin", path: "/admin" });
       }
@@ -112,15 +113,16 @@ export default {
     //   }
     // },
     logout() {
-      this.$store.dispatch('logout')
-      this.$router.push('/')
-    }
+      this.$store.dispatch("logout");
+      location.reload();
+      this.$router.push("/");
+    },
   },
   computed: {
     user() {
-      return this.$store.state.user
-    }
-  }
+      return this.$store.state.user;
+    },
+  },
 };
 </script>
 <style scoped>
