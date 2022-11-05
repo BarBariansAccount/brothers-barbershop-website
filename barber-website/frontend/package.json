@@ -6,8 +6,8 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "test":"npx cypress run",
-    "test:window":"npx cypress open"
+    "test": "npx cypress run",
+    "test:window": "npx cypress open"
   },
   "dependencies": {
     "@mdi/js": "^7.0.96",
