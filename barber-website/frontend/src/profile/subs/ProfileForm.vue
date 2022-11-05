@@ -86,39 +86,6 @@
               ></v-text-field>
             </ValidationProvider>
           </v-col>
-          <!-- address -->
-          <!-- <v-col cols="12">
-            <ValidationProvider name="address" v-slot="{ errors }">
-              <v-text-field outlined dense label="address" v-model="address" :error-messages="errors[0]">
-              </v-text-field>
-            </ValidationProvider>
-          </v-col> -->
-          <!-- city -->
-          <!-- <v-col cols="12" md="6">
-            <ValidationProvider name="city" v-slot="{ errors }">
-              <v-text-field outlined dense label="city" v-model="city" :error-messages="errors[0]"></v-text-field>
-            </ValidationProvider>
-          </v-col> -->
-          <!-- zip -->
-          <!-- <v-col cols="12" md="6">
-            <ValidationProvider name="zip" rules="numeric" v-slot="{ errors }">
-              <v-text-field outlined dense label="zip" v-model="zip" :error-messages="errors[0]"></v-text-field>
-            </ValidationProvider>
-          </v-col> -->
-          <!-- birthday -->
-          <!-- <v-col cols="12" md="6">
-            <ValidationProvider name="birth" v-slot="{ errors }">
-              <v-menu v-model="datepicker" :close-on-content-click="false" :nudge-right="40"
-                transition="scale-transition" offset-y min-width="auto">
-                <template v-slot:activator="{ on, attrs }">
-                  <v-text-field outlined dense :error-messages="errors[0]" v-model="birth" label="Birth Day"
-                    append-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
-                </template>
-                <v-date-picker v-model="birth" @input="datepicker = false"></v-date-picker>
-              </v-menu>
-            </ValidationProvider>
-          </v-col> -->
-          <!-- userrole -->
           <v-col cols="12" md="6">
             <ValidationProvider name="userrole" v-slot="{ errors }">
               <v-text-field
