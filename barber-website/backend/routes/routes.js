@@ -155,7 +155,7 @@ takes --> {"Status": "Busy"}
             ||res.status(200).send("Status is set to: Empty");
     ||res.status(403).send("Malacious user. Only admin can change status.");--> if status is changed by any other account catagory other then admin
 */
-router.get('/updateStatus',authenticateToken, BusyStatus.updateStatus);
+router.post('/updateStatus',authenticateToken, BusyStatus.updateStatus);
 
 /*
 *****

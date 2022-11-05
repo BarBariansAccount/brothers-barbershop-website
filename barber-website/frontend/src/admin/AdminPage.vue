@@ -280,11 +280,11 @@ export default {
       this.menuItemSelected = menuItem;
     },
     onSelect(status) {
-      console.log(status);
-      //this.updateStatus(status);
+      this.updateStatus(status);
     },
     async updateStatus(status) {
       await BarbershopStatusService.updateStatus({ Status: status });
+      console.log(status);
     },
   },
 };
