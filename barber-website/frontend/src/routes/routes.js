@@ -34,9 +34,9 @@ export default [
     path: "/panel", component: PanelLayout, children: [
       { path: "", component: PanelHome },
 
-      { path: "profile/common", component: CommonPage },
+      { path: "profile/edit_profile", component: CommonPage },
       { path: "profile/change-password", component: ChangePassword },
-      { path: "profile/delete-account", component: DeleteAccount },
+      { path: "profile/unsubscribe", component: DeleteAccount },
 
       { path: "orders", component: OrdersList },
       { path: "appointments", component: Appointment },

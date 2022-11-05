@@ -69,9 +69,9 @@ export default {
                 action: 'mdi-account',
                 active: true,
                 items: [
-                    { title: 'Edit Profile', to: '/panel/profile/edit-profile' },
+                    { title: 'Edit Profile', to: '/panel/profile/edit_profile' },
                     { title: 'Change Password', to: '/panel/profile/change-password' },
-                    { title: 'Unsubscribe', to: '/panel/profile/unsubrcibe' },
+                    { title: 'Unsubscribe', to: '/panel/profile/unsubscribe' },
                 ],
                 title: 'Profile',
             }
