@@ -1,7 +1,6 @@
 <template>
   <div>
-    <h1>home page</h1>
-    <p>some statistics</p>
+    <h1>Profile</h1>
     <v-container>
       <v-row>
         <v-col cols="12" md="4" v-for="item , i in items" :key="i">
@@ -36,9 +35,10 @@ export default {
   data() {
     return {
       items: [
-        { title: 'Orders', count: 50, icon: 'mdi-basket' },
-        { title: 'Avaibilities', count: 62, icon: 'mdi-calendar' },
-        { title: 'last password update', count: '2022-10-2', icon: 'mdi-key' },
+        { title: 'Orders', count:'*Shampoo 300ml  x1', icon: 'mdi-basket' },
+        { title: 'Avaibilities', count: '*Monday 2022-11-15 12:00 -16:00', icon: 'mdi-calendar' },
+        { title: 'last password update', count: '*2022-10-02 14:25:00 ', icon: 'mdi-key' },
+
       ]
     }
   }

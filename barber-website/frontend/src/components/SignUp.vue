@@ -12,45 +12,85 @@
         </v-card-title>
         <v-row justify="center">
           <v-col cols="8">
-            <v-text-field label="First Name" placeholder="First Name" v-model="form.firstname" :autocomplete="false"
-              solo>
+            <v-text-field
+              label="First Name"
+              placeholder="First Name"
+              v-model="form.firstname"
+              :autocomplete="false"
+              solo
+            >
             </v-text-field>
           </v-col>
         </v-row>
         <v-row justify="center">
           <v-col cols="8">
-            <v-text-field label="Last Name" placeholder="Last Name" v-model="form.lastname" :autocomplete="false" solo>
+            <v-text-field
+              label="Last Name"
+              placeholder="Last Name"
+              v-model="form.lastname"
+              :autocomplete="false"
+              solo
+            >
             </v-text-field>
           </v-col>
         </v-row>
         <v-row justify="center">
           <v-col cols="8">
-            <v-text-field label="Phone Number" placeholder="Phone Number" v-model="form.phoneNumber" type="phone"
-              :autocomplete="false" :error-messages="errorPhoneNumber" solo>
+            <v-text-field
+              label="Phone Number"
+              placeholder="Phone Number"
+              v-model="form.phoneNumber"
+              type="phone"
+              :autocomplete="false"
+              :error-messages="errorPhoneNumber"
+              solo
+            >
             </v-text-field>
           </v-col>
         </v-row>
         <v-row justify="center">
           <v-col cols="8">
-            <v-text-field label="Email" placeholder="Email" v-model="form.email" type="email" :autocomplete="false"
-              solo></v-text-field>
+            <v-text-field
+              label="Email"
+              placeholder="Email"
+              v-model="form.email"
+              type="email"
+              :autocomplete="false"
+              solo
+            ></v-text-field>
           </v-col>
         </v-row>
         <v-row justify="center">
           <v-col cols="8">
-            <v-text-field label="Password" placeholder="Password" v-model="form.password"
-              :error-messages="passwordErrorMessage" type="password" solo></v-text-field>
+            <v-text-field
+              label="Password"
+              placeholder="Password"
+              v-model="form.password"
+              :error-messages="passwordErrorMessage"
+              type="password"
+              solo
+            ></v-text-field>
           </v-col>
         </v-row>
         <v-row justify="center">
           <v-col cols="8">
-            <v-text-field label="Confirm Password" placeholder="Confirm Password" v-model="form.confirmPassword"
-              type="password" :error-messages="errorEmptyFields" solo>
+            <v-text-field
+              label="Confirm Password"
+              placeholder="Confirm Password"
+              v-model="form.confirmPassword"
+              type="password"
+              :error-messages="errorEmptyFields"
+              solo
+            >
             </v-text-field>
           </v-col>
         </v-row>
         <v-row justify="center">
-          <v-btn class="white--text" color="#5f6bba" @click="signUp(form), $emit('BarberCreated')">
+          <v-btn
+            class="white--text"
+            color="#5f6bba"
+            @click="signUp(form), $emit('BarberCreated')"
+          >
             <slot>Sign Up </slot>
           </v-btn>
         </v-row>
@@ -82,7 +122,7 @@ export default {
       if (this.form.phoneNumber.match(validationRegex)) {
         return true;
       } else {
-        return true;
+        return false;
       }
     },
 
@@ -153,6 +193,4 @@ export default {
 };
 </script>
 
-<style>
-
-</style>
+<style></style>

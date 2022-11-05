@@ -7,6 +7,9 @@ export default new (class UserService {
   update = (data) => {
     return api.post("/updateUser", data);
   };
+  deleteAcc = () => {
+    return api.post("/deleteUser");
+  };
   updatePassword = (data) => {
     return api.post("/updatePassword", data);
   };
