@@ -6,21 +6,21 @@
         lg="12"
         class="d-flex flex-column justify-center align-center"
       >
-        <p class="mb-3 text-h2">Reviews</p>
+        <p class="mb-3 text-h2">FAQs</p>
       </v-col>
     </v-row>
     <v-row class="review-sec">
       <v-col v-for="n in 3" :key="n" cols="12" md="4">
-        <ReviewCard />
+        <FaqCard />
       </v-col>
     </v-row>
   </v-container>
 </template>
 <script>
-import ReviewCard from "./ReviewCard.vue";
+import FaqCard from "./FaqCard.vue";
 export default {
   components: {
-    ReviewCard,
+    FaqCard,
   },
 };
 </script>

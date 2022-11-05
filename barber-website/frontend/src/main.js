@@ -3,7 +3,7 @@ import App from "./App.vue";
 import vuetify from "./plugins/vuetify";
 import VueRouter from "vue-router";
 import Routes from "./routes/routes.js";
-import store from './stores/index'
+import store from "./stores/index";
 // import auth from './middleware/auth'
 
 Vue.use(VueRouter);
@@ -16,19 +16,17 @@ const router = new VueRouter({
 
 // middleware
 router.beforeEach((to, _, next) => {
-
   // get token
-  const token = router.app.$store.state.token
-  const role = router.app.$store.state.user?.role
+  const token = router.app.$store.state.token;
+  const role = router.app.$store.state.user?.role;
 
   let publicPages = [];
 
-
   // public routes based on role
-  if (role == 'Admin') publicPages = ['/', '']
-  if (role == 'Barber') publicPages = ['/']
-  if (role == 'Customer') publicPages = ['/']
-  else publicPages = ['/', '/gallery','/appointment','/products']
+  if (role == "Admin") publicPages = ["/admin", ""];
+  if (role == "Barber") publicPages = ["/"];
+  if (role == "Customer") publicPages = ["/"];
+  else publicPages = ["/", "/gallery", "/appointment", "/products"];
 
   // needed auth routes
   const authRequired = !publicPages.includes(to.path);
@@ -36,11 +34,11 @@ router.beforeEach((to, _, next) => {
   // trying to access a restricted page + no token
   // redirect to home page
   if (authRequired && !!token == false) {
-    next('/');
+    next("/");
   }
 
-  next()
-})
+  next();
+});
 
 new Vue({
   store,
