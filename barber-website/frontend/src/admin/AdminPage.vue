@@ -133,7 +133,7 @@ import {
   mdiCalendar,
   mdiAccountGroupOutline,
 } from "@mdi/js";
-import BarbershopStatusService from "@/services/barbershopStatus";
+import BarbershopStatusService from "@/services/admin";
 import { Bar } from "vue-chartjs";
 import {
   Chart as ChartJS,
@@ -280,11 +280,11 @@ export default {
       this.menuItemSelected = menuItem;
     },
     onSelect(status) {
-      console.log(status);
-      //this.updateStatus(status);
+      this.updateStatus(status);
     },
     async updateStatus(status) {
       await BarbershopStatusService.updateStatus({ Status: status });
+      console.log(status);
     },
   },
 };

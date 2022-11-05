@@ -19,4 +19,7 @@ export default new (class UserService {
   signUp = (data) => {
     return api.post("/createUser", data);
   };
+  getStatus = () => {
+    return api.get("/getStatus");
+  };
 })();

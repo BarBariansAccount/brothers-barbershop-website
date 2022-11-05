@@ -184,7 +184,7 @@
 </template>
 
 <script>
-import BarbershopStatusService from "@/services/barbershopStatus";
+import BarbershopStatusService from "@/services/user";
 import ReviewSection from "@/components/Pages/Home/Review/ReviewSec.vue";
 import FaqSection from "@/components/Pages/Home/Faq/FaqSec.vue";
 export default {
