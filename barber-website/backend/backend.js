@@ -11,6 +11,8 @@ app.use(morgan('combine'))
 // use cors
 app.use(cors());
 
+app.use('/uploads',express.static('uploads'))
+
 // parse application/json
 app.use(bodyParser.json())
 
