@@ -88,9 +88,10 @@ export default {
           Telephone: this.form.phoneNumber,
           Password: this.form.password,
         });
+        location.reload();
 
         console.log("data 44", data.data);
-       // save token and user id in the store , for any request we need  to attach its token  
+        // save token and user id in the store , for any request we need  to attach its token
         this.$store.commit("setToken", data.data.Token);
         this.$store.commit("setUser", data.data.User);
       } catch (error) {
