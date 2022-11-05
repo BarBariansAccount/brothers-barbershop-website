@@ -10,10 +10,12 @@
   "dependencies": {
     "@mdi/js": "^7.0.96",
     "axios": "^1.1.2",
+    "chart.js": "^3.9.1",
     "core-js": "^3.8.3",
     "sweetalert2": "^11.6.0",
     "vee-validate": "^3.4.14",
     "vue": "^2.6.14",
+    "vue-chartjs": "^4.1.2",
     "vue-router": "^3.6.5",
     "vuetify": "^2.6.0",
     "vuex": "^3.6.2",
