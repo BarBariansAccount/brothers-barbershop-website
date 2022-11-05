@@ -1,10 +1,10 @@
-const getUsers = "SELECT users.userid, users.userrole, users.email, users.firstname, users.lastname, users.telephone FROM users";
+const getUsers = "SELECT users.userid, users.userrole, users.email, users.firstname, users.lastname, users.telephone, users.picturelink FROM users";
 
 const addUser = "INSERT INTO users (UserRole, Email, FirstName, LastName, Telephone, Password) VALUES ($1, $2, $3, $4, $5, $6)";
 
-const checkUserExists = "SELECT users.userid, users.userrole, users.email, users.firstname, users.lastname FROM users WHERE users.userid=$1";
+const checkUserExists = "SELECT users.userid, users.userrole, users.email, users.firstname, users.lastname, users.picturelink FROM users WHERE users.userid=$1";
 
-const checkUserExists_telephone = "SELECT users.userid, users.userrole, users.email, users.firstname, users.lastname FROM users WHERE users.telephone=$1";
+const checkUserExists_telephone = "SELECT users.userid, users.userrole, users.email, users.firstname, users.lastname, users.picturelink FROM users WHERE users.telephone=$1";
 
 const getPassword = "SELECT u.password FROM users u WHERE u.Telephone=$1";
 
@@ -18,6 +18,9 @@ const getpassword = "SELECT users.password FROM users WHERE users.userid=$1";
 
 const updatePassword = "UPDATE users SET password = $2 WHERE userid = $1";
 
+const updatePicture= "UPDATE users SET picturelink=$2 WHERE userid = $1";
+
+const deletePicture = "UPDATE users SET picturelink=null WHERE userid = $1";
 
 module.exports = {
     getUsers,
@@ -29,5 +32,7 @@ module.exports = {
     checkUserExists_telephone,
     getpassword_telephone,
     getpassword,
-    updatePassword
+    updatePassword,
+    updatePicture,
+    deletePicture
 }

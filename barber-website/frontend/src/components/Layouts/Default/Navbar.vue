@@ -20,7 +20,7 @@
         <v-app-bar-nav-icon @click.stop="sidebar = !sidebar">
         </v-app-bar-nav-icon>
       </span>
-      <img src="@/assets/barbershop-logo.png" class="logo-img" />
+      <img src="@/assets/barbershop-logo.gif" class="logo-img" />
       <v-toolbar-title>
         <router-link to="/" tag="span" style="cursor: pointer">
           <span class="app-title">{{ appTitle }}</span>

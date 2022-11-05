@@ -4,7 +4,6 @@ const UserModel = require("../models/UserModel.js")
 const bcrypt = require("bcrypt")
 const JWT = require("jsonwebtoken");
 
-
 const getusers = async (req, res) => {
     const logged_userId= req.Logged_userId.data;
     
@@ -32,7 +31,6 @@ const createUser = async (req, res) => {
         Telephone,
         Password
     } = req.body;
-    
     const logged_userId= req.Logged_userId.data;
 
     const hash = bcrypt.hashSync(Password, 12);
@@ -213,6 +211,42 @@ const updatePassword= async(req,res)=>{
     }
 }
 
+
+const updatePicture= async(req,res)=>{
+    const logged_userId= req.Logged_userId.data;
+
+    if(req.error!=null){
+        res.status(400).send(req.error)
+    }
+
+    try{
+        const picturepath = "http://localhost:5001/uploads/"+ req.file.filename;
+
+        await pool.query(UserModel.updatePicture, [logged_userId,picturepath])
+
+        res.status(200).send(picturepath);
+
+    } catch (error){
+        res.status(400).send(error)
+    }    
+
+}
+
+const deletePicture = async(req,res)=>{
+    const logged_userId= req.Logged_userId.data;
+
+    try{
+       
+        await pool.query(UserModel.deletePicture, [logged_userId])
+
+        res.status(200).send("Picture has been removed.");
+
+    } catch (error){
+        res.status(400).send(error)
+    }    
+
+}
+
 module.exports = {
     getusers,
     createUser,
@@ -221,5 +255,7 @@ module.exports = {
     deleteUser,
     getUser,
     updatePassword,
-    createUser_customers
+    createUser_customers,
+    updatePicture,
+    deletePicture
 };
