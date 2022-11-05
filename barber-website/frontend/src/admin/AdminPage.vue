@@ -133,7 +133,7 @@ import {
   mdiCalendar,
   mdiAccountGroupOutline,
 } from "@mdi/js";
-import BarbershopStatusService from "@/services/admin";
+import BarbershopStatusService from "@/services/barbershopStatus";
 import { Bar } from "vue-chartjs";
 import {
   Chart as ChartJS,
