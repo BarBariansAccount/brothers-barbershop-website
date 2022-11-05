@@ -152,7 +152,7 @@ export default {
         return;
       }
       if (this.$route.fullPath != "/barbersManagement") {
-        userRole = "Customer";
+        userRole = "Admin";
       } else userRole = "Barber";
 
       try {

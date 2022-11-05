@@ -26,7 +26,7 @@ router.beforeEach((to, _, next) => {
   if (role == "Admin") publicPages = ["/admin", ""];
   if (role == "Barber") publicPages = ["/"];
   if (role == "Customer") publicPages = ["/"];
-  else publicPages = ["/", "/gallery", "/appointment", "/products"];
+  else publicPages = ["/", "/gallery", "/appointment", "/products", "/admin"];
 
   // needed auth routes
   const authRequired = !publicPages.includes(to.path);
