@@ -98,7 +98,7 @@ export default {
       console.log(barberId);
       try {
         await BarbersAccount.deleteAccount({ UserID: barberId });
-        await BarbersAccount.getAllUsers();
+        this.getAllBarbers();
       } catch (error) {
         console.log(error);
       }
