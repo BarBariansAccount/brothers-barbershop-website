@@ -191,8 +191,9 @@ export default {
         this.signUpDialog = false;
         this.$emit("BarberCreated", true);
         return (this.signUpValue = !this.signUpValue);
-      } catch {
+      } catch (error){
         console.log("In error occured while creating the user account");
+        console.log(error)
       }
     },
   },
