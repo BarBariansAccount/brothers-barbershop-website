@@ -1,34 +1,7 @@
 <template>
   <div>
     <v-container>
-      <v-toolbar color="rgba(0,0,0,0)" flat class="mt-n1">
-        <v-spacer></v-spacer>
-
-        <v-item-group mandatory class="mt-n4">
-          <v-row justify="center">
-            <v-col v-for="status in statusItems" :key="status.title">
-              <v-item v-slot="{ active, toggle }">
-                <v-btn
-                  :color="active ? 'green' : '#999999'"
-                  rounded
-                  dark
-                  class="rounded-xl"
-                  elevation="20"
-                  @click="toggle"
-                  @click.stop="onSelect(status.title)"
-                >
-                  <!--TODO: add selectStatus(status.title) -->
-                  {{ status.title }}
-                </v-btn>
-              </v-item>
-            </v-col>
-          </v-row>
-        </v-item-group>
-      </v-toolbar>
-      <v-toolbar color="rgba(0,0,0,0)" flat class="mt-n5">
-        <v-toolbar-title>Overview</v-toolbar-title>
-      </v-toolbar>
-
+      <BusyToolBar />
       <v-item-group mandatory class="mt-n4">
         <v-row justify="center">
           <v-col cols="12" md="2" v-for="items in menuItems" :key="items.title">
@@ -92,6 +65,7 @@
 </template>
 
 <script>
+import BusyToolBar from "@/components/BusyToolbar.vue";
 import AdminTable from "@/components/AdminTable.vue";
 import Graph from "@/components/AdminGraph.vue";
 import BarbersManagementPageVue from "./BarbersManagementPage.vue";
@@ -103,20 +77,13 @@ import {
   mdiCalendar,
   mdiAccountGroupOutline,
 } from "@mdi/js";
-import BarbershopStatusService from "@/services/barbershopStatus";
 
 export default {
   name: "AdminPage",
-  components: { BarbersManagementPageVue, Graph, AdminTable },
+  components: { BarbersManagementPageVue, Graph, AdminTable, BusyToolBar },
 
   data() {
     return {
-      statusItems: [
-        { title: "Empty" },
-        { title: "Busy" },
-        { title: "Not Busy" },
-      ],
-
       menuItems: [
         {
           title: "OVERVIEW",
@@ -139,13 +106,6 @@ export default {
     onCardMenuSelect(menuItem) {
       console.log(menuItem);
       this.menuItemSelected = menuItem;
-    },
-    onSelect(status) {
-      this.updateStatus(status);
-    },
-    async updateStatus(status) {
-      await BarbershopStatusService.updateStatus({ Status: status });
-      console.log(status);
     },
   },
 };
