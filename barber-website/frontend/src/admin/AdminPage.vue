@@ -100,23 +100,7 @@
           </v-card>
         </v-col>
         <v-col md="6">
-          <v-card class="mb-4 rounded-xl">
-            <v-row>
-              <v-col>
-                <v-card-title
-                  class="black--text"
-                  style="flex-direction: row; padding: auto"
-                >
-                  <p class="text-center">Traffic</p>
-                </v-card-title>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="12">
-                <Bar :chart-data="chartData" :chart-options="chartOptions" />
-              </v-col>
-            </v-row>
-          </v-card>
+          <Graph />
         </v-col>
       </v-row>
     </v-container>
@@ -124,6 +108,7 @@
 </template>
 
 <script>
+import Graph from "@/components/Graph.vue";
 import BarbersManagementPageVue from "./BarbersManagementPage.vue";
 import {
   mdiFinance,
@@ -134,57 +119,11 @@ import {
   mdiAccountGroupOutline,
 } from "@mdi/js";
 import BarbershopStatusService from "@/services/barbershopStatus";
-import { Bar } from "vue-chartjs";
-import {
-  Chart as ChartJS,
-  Title,
-  Tooltip,
-  Legend,
-  BarElement,
-  CategoryScale,
-  LinearScale,
-} from "chart.js";
-ChartJS.register(
-  Title,
-  Tooltip,
-  Legend,
-  BarElement,
-  CategoryScale,
-  LinearScale
-);
+
 export default {
-  name: "BarChart",
-  components: { Bar, BarbersManagementPageVue },
-  props: {
-    chartId: {
-      type: String,
-      default: "bar-chart",
-    },
-    datasetIdKey: {
-      type: String,
-      default: "label",
-    },
-    width: {
-      type: Number,
-      default: 150,
-    },
-    height: {
-      type: Number,
-      default: 350,
-    },
-    cssClasses: {
-      default: "",
-      type: String,
-    },
-    styles: {
-      type: Object,
-      default: () => {},
-    },
-    plugins: {
-      type: Object,
-      default: () => {},
-    },
-  },
+  name: "AdminPage",
+  components: { BarbersManagementPageVue, Graph },
+
   data() {
     return {
       headers: [
@@ -237,19 +176,7 @@ export default {
           category: "Not Active",
         },
       ],
-      chartData: {
-        labels: ["January", "February", "March"],
-        datasets: [{ data: [40, 20, 12] }],
-      },
-      chartOptions: {
-        responsive: true,
-        backgroundColor: "rgba(153, 153, 153, 0.6)",
-        borderWidth: 1,
-        scales: {
-          x: { display: false },
-        },
-        borderRadius: 30,
-      },
+
       statusItems: [
         { title: "Empty" },
         { title: "Busy" },
