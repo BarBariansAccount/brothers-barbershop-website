@@ -4,11 +4,14 @@ export default new (class UserService {
   getUser = () => {
     return api.get("/getUser");
   };
+  getAllUsers = () => {
+    return api.get("/users");
+  };
   update = (data) => {
     return api.post("/updateUser", data);
   };
-  deleteAcc = () => {
-    return api.post("/deleteUser");
+  deleteAccount = (data) => {
+    return api.post("/deleteUser",data);
   };
   updatePassword = (data) => {
     return api.post("/updatePassword", data);
@@ -17,6 +20,9 @@ export default new (class UserService {
     return api.post("/Login", data);
   };
   signUp = (data) => {
+    return api.post("/createUser_customers", data);
+  };
+  createBarberAccount = (data) => {
     return api.post("/createUser", data);
   };
 })();

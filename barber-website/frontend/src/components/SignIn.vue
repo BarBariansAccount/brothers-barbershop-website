@@ -4,7 +4,7 @@
       <template v-slot:activator="{ on, attrs }">
         <v-btn text v-bind="attrs" v-on="on"> Sign In </v-btn>
       </template>
-      <v-card height="450px" width="500px" color="#DBDDEF">
+      <v-card height="450px" width="500px" color="#F9F9F9">
         <v-card-title class="text-h4 justify-center"> Sign In </v-card-title>
         <v-row justify="center">
           <v-col cols="8">
@@ -32,7 +32,7 @@
           </v-col>
         </v-row>
         <v-row justify="center">
-          <v-btn class="mt-8 white--text" @click="signIn()" color="#5f6bba">
+          <v-btn class="mt-8" @click="signIn()" color="black" outlined>
             Sign In
           </v-btn>
         </v-row>
