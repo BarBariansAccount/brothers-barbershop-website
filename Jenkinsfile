@@ -6,7 +6,8 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh './setup.sh'
+                def backendImage = docker.build("barbershop:backend", "-f backend-dockerfile ./ci-cd/docker")
+                def frontendImage = docker.build("barbershop:frontend", "-f frontend-dockerfile ./ci-cd/docker")
             }
         }
         stage('Test') {
