@@ -30,13 +30,13 @@ export default {
   data: () => ({
     Available: [
       {
-        date: '2022-09-14', day: 'Monday', from:'12 pm',to:'4 pm'
+        date: "2022-09-14", day: "Monday", from:"12 pm",to:"4 pm"
       },
       {
-        date: '2022-09-20', day: 'Tuseday', from:'12 pm',to:'4 pm'
+        date: "2022-09-20", day: "Tuseday", from:"12 pm",to:"4 pm"
       },
       {
-        date: '2022-09-22', day: 'Friday', from:'12 pm',to:'4 pm'
+        date: "2022-09-22", day: "Friday", from:"12 pm",to:"4 pm"
       }
      
     ],

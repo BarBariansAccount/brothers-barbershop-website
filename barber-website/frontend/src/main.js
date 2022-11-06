@@ -4,7 +4,7 @@ import vuetify from "./plugins/vuetify";
 import VueRouter from "vue-router";
 import Routes from "./routes/routes.js";
 import store from "./stores/index";
-// import auth from './middleware/auth'
+// import auth from "./middleware/auth"
 
 Vue.use(VueRouter);
 Vue.config.productionTip = false;

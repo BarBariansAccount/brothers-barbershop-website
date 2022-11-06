@@ -26,10 +26,10 @@ export default {
 
     items: [
       {
-        date: '2022-09-12 12:00', service: 'haircut by kevin'
+        date: "2022-09-12 12:00", service: "haircut by kevin"
       },
       {
-        date: '2022-09-12 12:00', service: 'haircut by kevin'
+        date: "2022-09-12 12:00", service: "haircut by kevin"
       }
     ]
 
