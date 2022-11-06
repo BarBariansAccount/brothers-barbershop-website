@@ -73,12 +73,7 @@ describe('Test UserStories', () => {
   }
   const logOut = async () => {
     cy.wait(WAIT_TIME)
-    // cy.contains('log out').should('exist')
-    //   .then((existence) => {
-    //     if (existence) {
-    //       cy.get('.v-toolbar__content > [role="button"]').click();
-    //     }
-    //   })
+
     cy.get('.v-toolbar__content > [role="button"]').click();
 
 
@@ -106,6 +101,7 @@ describe('Test UserStories', () => {
 
     completeSignupData(TestUserInfo);
     cy.get(':nth-child(8)>button').contains('sign up', { matchCase: false }).click();
+    cy.wait(WAIT_TIME);
     cy.wait(WAIT_TIME);
     cy.visit('/');
     cy.wait(WAIT_TIME);
@@ -154,6 +150,7 @@ describe('Test UserStories', () => {
 
 
 
+
   it('UC37, Login to admin account and log out', () => {
 
     loginAccount(TestAdminInfo);
@@ -180,8 +177,29 @@ describe('Test UserStories', () => {
     completeSignupData(TestBarberInfo);
     cy.get(':nth-child(8)>button').contains('Add Account').click();
 
+    cy.get('body').click(0, 0);
+
+    cy.get('.v-responsive__content > .v-sheet > .v-toolbar__content > .v-btn > .v-btn__content > .v-icon').click()
+
+    clickButtonWith('Delete User');
+
+    cy.visit('/');
+    logOut();
 
   })
+
+
+  //temp removed it for now since backend part for this is not there yet
+
+  // it('Test delete customer account', () => {
+  //   loginAccount(TestUserInfo);
+  //   cy.wait(WAIT_TIME);
+  //   clickIcon();
+  //   cy.get('.v-list-item').contains("User Profile").click();
+  //   cy.get('[href="/panel/profile/unsubscribe"]').click();
+  //   clickButtonWith('delete account');
+  //   clickButtonWith('yes, delete it');
+  // })
 
 
 
