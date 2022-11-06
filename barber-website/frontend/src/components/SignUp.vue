@@ -100,7 +100,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import UserRegister from "@/services/user";
 export default {
   data: () => ({
     form: {
@@ -127,7 +127,6 @@ export default {
     },
 
     async signUp(form) {
-      var userRole = "";
       console.log(`Signup pressed`);
       if (
         this.form.firstname == "" ||
@@ -145,32 +144,43 @@ export default {
         console.log(this.errorPhoneNumber);
         return;
       }
-
       if (this.form.confirmPassword != this.form.password) {
         this.passwordErrorMessage = "The password doesn't match";
         console.log(this.passwordErrorMessage);
         return;
       }
-      if (this.$route.fullPath != "/barbersManagement") {
-        userRole = "Customer";
-      } else userRole = "Barber";
-
       try {
-        await axios.post(`http://localhost:5001/createUser_customers`, {
-          UserRole: userRole,
-          Email: form.email,
-          LastName: form.lastname,
-          FirstName: form.firstname,
-          Telephone: form.phoneNumber,
-          Password: form.password,
-        });
+        if (this.$store.state.user == null) {
+          console.log("creating a customer account");
+          await UserRegister.createCustomerAccount({
+            UserRole: "Customer",
+            Email: form.email,
+            LastName: form.lastname,
+            FirstName: form.firstname,
+            Telephone: form.phoneNumber,
+            Password: form.password,
+          });
+          const loginResponse = await UserRegister.login({
+            Telephone: form.phoneNumber,
+            Password: form.password,
+          });
+          this.$store.commit("setToken", loginResponse.data.Token);
+          this.$store.commit("setUser", loginResponse.data.User);
+        } else if (
+          this.$store.state.user &&
+          this.$store.state.user.userrole == "Admin"
+        ) {
+          console.log("creating a Barber account");
+          await UserRegister.CreateBarberOrAdmin({
+            UserRole: "Barber",
+            Email: form.email,
+            LastName: form.lastname,
+            FirstName: form.firstname,
+            Telephone: form.phoneNumber,
+            Password: form.password,
+          });
+        }
 
-        const loginResponse = await axios.post(`http://localhost:5001/Login`, {
-          Telephone: form.phoneNumber,
-          Password: form.password,
-        });
-        this.$store.commit("setToken", loginResponse.data.Token);
-        this.$store.commit("setUser", loginResponse.data.User);
         console.log("User account was successfully created");
 
         /* TODO:
