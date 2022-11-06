@@ -50,7 +50,7 @@
     </v-container>
     <v-container v-else>
       <v-toolbar color="rgba(0,0,0,0)" flat class="mt-n5">
-        <v-toolbar-title>Quick view</v-toolbar-title>
+        <v-toolbar-title>View</v-toolbar-title>
       </v-toolbar>
       <v-row>
         <v-col md="6">
