@@ -28,10 +28,10 @@ export default {
   data: () => ({
     orders: [
       {
-        date: '2022-09-12 12:00', name: 'shampoo', count: 3
+        date: "2022-09-12 12:00", name: "shampoo", count: 3
       },
       {
-        date: '2022-09-12 12:00', name: 'Conditioner', count: 1
+        date: "2022-09-12 12:00", name: "Conditioner", count: 1
       }
     ],
 

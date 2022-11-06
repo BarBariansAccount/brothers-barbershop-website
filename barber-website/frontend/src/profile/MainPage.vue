@@ -27,19 +27,19 @@ export default {
   data: () => ({
     items: [
       {
-        title: 'Profile', to: '/profile'
+        title: "Profile", to: "/profile"
       },
       {
-        title: 'Appontments', to: '/profile/appointments'
+        title: "Appontments", to: "/profile/appointments"
       },
       {
-        title: 'Orders', to: '/profile/orders'
+        title: "Orders", to: "/profile/orders"
       },
       {
-        title: 'Availabilities', to: '/profile/availabilities'
+        title: "Availabilities", to: "/profile/availabilities"
       },
       {
-        title: 'Change Password', to: '/profile/changepassword'
+        title: "Change Password", to: "/profile/changepassword"
       },
     ]
   }),

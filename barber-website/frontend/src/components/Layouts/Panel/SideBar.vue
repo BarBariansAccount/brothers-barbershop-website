@@ -32,7 +32,7 @@
                             </v-list-item-content>
                         </v-list-item>
                     </v-list-group>
-                    <v-list-item v-else :key="'x' + item.title" exact :to="item.to">
+                    <v-list-item v-else :key="x + item.title" exact :to="item.to">
                         <v-list-item-icon>
                             <v-icon v-text="item.action"></v-icon>
                         </v-list-item-icon>
@@ -83,35 +83,35 @@
     </aside>
 </template>
 <script>
-import userService from '@/services/user'
+import userService from "@/services/user"
 import Swal from "sweetalert2";
 export default {
     data: () => ({
         items: [
             {
-                action: 'mdi-home',
-                title: 'Home',
-                to: '/panel'
+                action: "mdi-home",
+                title: "Home",
+                to: "/panel"
             },
             {
-                action: 'mdi-basket',
-                title: 'Orders',
-                to: '/panel/orders'
+                action: "mdi-basket",
+                title: "Orders",
+                to: "/panel/orders"
             },
             {
-                action: 'mdi-calendar',
-                title: 'Availabilities',
-                to: '/panel/availabilities'
+                action: "mdi-calendar",
+                title: "Availabilities",
+                to: "/panel/availabilities"
             },
             {
-                action: 'mdi-account',
+                action: "mdi-account",
                 active: true,
                 items: [
-                { title: 'Edit Profile', to: '/panel/profile/edit_profile' },
-                    { title: 'Change Password', to: '/panel/profile/change-password' },
-                    { title: 'Unsubscribe', to: '/panel/profile/unsubscribe' },
+                { title: "Edit Profile", to: "/panel/profile/edit_profile" },
+                    { title: "Change Password", to: "/panel/profile/change-password" },
+                    { title: "Unsubscribe", to: "/panel/profile/unsubscribe" },
                 ],
-                title: 'Profile',
+                title: "Profile",
             }
         ],
         file: null,
@@ -131,7 +131,7 @@ export default {
     methods: {
         async uploadPic() {
             const fd = new FormData()
-            fd.append('UserImage', this.file)
+            fd.append("UserImage", this.file)
             try {
                 await userService.updatePic(fd)
                 this.get()
@@ -140,13 +140,13 @@ export default {
         },
         async deletePic() {
             Swal.fire({
-                title: 'Are you sure?',
+                title: "Are you sure?",
                 text: "You won't be able to revert this!",
-                icon: 'warning',
+                icon: "warning",
                 showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
             }).then(async (result) => {
                 if (result.isConfirmed) {
 
