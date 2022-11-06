@@ -1,5 +1,4 @@
 <template>
-  <div class="backgroud-c">
     <v-container>
       <v-toolbar color="rgba(0,0,0,0)" flat class="mt-n1">
         <v-spacer></v-spacer>
@@ -152,9 +151,4 @@ export default {
 </script>
 
 <style>
-.backgroud-c {
-  /* background-color: #999999; */
-
-  background-size: cover;
-}
 </style>
