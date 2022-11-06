@@ -5,14 +5,14 @@
     <form @submit.prevent="handleSubmit(onSubmit)" class="px-4">
       <v-row>
         <v-col cols="12" md="6">
-          <ValidationProvider name="firstname" rules="required|alpha" v-slot="{ errors }">
+          <ValidationProvider name="firstname" rules="required|alpha_spaces" v-slot="{ errors }">
             <v-text-field outlined dense label="first name" v-model="firstname" append-icon="mdi-account"
               :error-messages="errors[0]">
             </v-text-field>
           </ValidationProvider>
         </v-col>
         <v-col cols="12" md="6">
-          <ValidationProvider name="lastname" rules="required|alpha" v-slot="{ errors }">
+          <ValidationProvider name="lastname" rules="required|alpha_spaces" v-slot="{ errors }">
             <v-text-field outlined dense label="last name" v-model="lastname" append-icon="mdi-account"
               :error-messages="errors[0]">
             </v-text-field>
@@ -46,7 +46,7 @@
 
 <script>
 import { ValidationProvider, ValidationObserver, extend } from "vee-validate";
-import { required, email, alpha, digits } from "vee-validate/dist/rules";
+import { required, email, alpha_spaces, digits } from "vee-validate/dist/rules";
 import UserService from "@/services/user";
 import Swal from "sweetalert2";
 extend("required", {
@@ -57,8 +57,8 @@ extend("email", {
   ...email,
   message: "Enter valid email",
 });
-extend("alpha", {
-  ...alpha,
+extend("alpha_spaces", {
+  ...alpha_spaces,
   message: "just alpha is accepted",
 });
 extend("digits", {
@@ -121,16 +121,6 @@ export default {
   },
   mounted() {
     this.get();
-    // const user = Object.assign({}, this.$store.state.user)
-    // if (user) {
-
-    //   this.firstname = user.firstname
-    //   this.lastname = user.lastname
-    //   this.email = user.email
-    //   this.telephone = user.telephone
-    //   this.password = user.password
-    //   this.userrole = user.userrole
-    // }
   },
 };
 </script>

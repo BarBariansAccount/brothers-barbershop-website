@@ -35,7 +35,10 @@
       <v-menu :offset-y="true" width="150px" left>
         <template v-slot:activator="{ on, attrs }">
           <v-btn v-bind="attrs" v-on="on" icon>
-            <v-icon>{{ icons.mdiAccount }}</v-icon>
+            <v-avatar v-if="picturelink" size="40">
+                            <img :src="picturelink">
+                        </v-avatar>
+              <v-icon v-else size="40"> mdi-account-circle-outline </v-icon>          
           </v-btn>
         </template>
         <v-list>
@@ -122,6 +125,9 @@ export default {
     user() {
       return this.$store.state.user;
     },
+    picturelink() {
+            return this.$store.state.user?.picturelink
+        },
   },
 };
 </script>

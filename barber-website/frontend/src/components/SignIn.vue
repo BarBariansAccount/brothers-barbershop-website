@@ -38,7 +38,7 @@
         </v-row>
         <v-row justify="center">
           <p class="mt-6">
-            Don't have an account?
+            Don"t have an account?
             <SignUp />
           </p>
         </v-row>
@@ -78,7 +78,7 @@ export default {
         return;
       }
       // if (!this.validatePhoneNumber()) {
-      //   console.log("I'm in here");
+      //   console.log("I"m in here");
       //   this.invalidPhoneNumber = "Invalid Phone number";
       //   return;
       // }
