@@ -2,8 +2,8 @@
   <v-row justify="center">
     <v-dialog :v-model="signUpDialog" width="500px" height="750px">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn text v-bind="attrs" v-on="on" depressed>
-          <slot>Sign UP </slot>
+        <v-btn class="mt-2" text v-bind="attrs" v-on="on" depressed>
+          <slot>Sign Up</slot>
         </v-btn>
       </template>
       <v-card height="750px" width="500px" color="#DBDDEF">
@@ -165,17 +165,13 @@ export default {
           Password: form.password,
         });
 
-        if (this.$route.fullPath != "/barbersManagement") {
-          const loginResponse = await axios.post(
-            `http://localhost:5001/Login`,
-            {
-              Telephone: form.phoneNumber,
-              Password: form.password,
-            }
-          );
-          this.$store.commit("setUser", loginResponse.data[0]);
-          console.log("User account was successfully created");
-        }
+        const loginResponse = await axios.post(`http://localhost:5001/Login`, {
+          Telephone: form.phoneNumber,
+          Password: form.password,
+        });
+        this.$store.commit("setToken", loginResponse.data.Token);
+        this.$store.commit("setUser", loginResponse.data.User);
+        console.log("User account was successfully created");
 
         /* TODO:
           - Surrround the emit with an if statement
