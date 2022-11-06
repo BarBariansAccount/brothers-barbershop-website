@@ -19,10 +19,10 @@ export default new (class UserService {
   login = (data) => {
     return api.post("/Login", data);
   };
-  signUp = (data) => {
-    return api.post("/createUser_customers", data);
-  };
-  createBarberAccount = (data) => {
+  CreateBarberOrAdmin = (data) => {
     return api.post("/createUser", data);
+  };
+  createCustomerAccount = (data) => {
+    return api.post("/createUser_customers", data);
   };
 })();
