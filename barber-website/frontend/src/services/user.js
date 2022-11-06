@@ -11,7 +11,7 @@ export default new (class UserService {
     return api.post("/updateUser", data);
   };
   deleteAccount = (data) => {
-    return api.post("/deleteUser",data);
+    return api.post("/deleteUser", data);
   };
   updatePassword = (data) => {
     return api.post("/updatePassword", data);
@@ -25,4 +25,13 @@ export default new (class UserService {
   createCustomerAccount = (data) => {
     return api.post("/createUser_customers", data);
   };
+  updatePic = (data) => {
+    return api.post("/updatePicture", data);
+  };
+  deletePic = () => {
+    return api.post("/deletePicture");
+  };
 })();
+
+
+
