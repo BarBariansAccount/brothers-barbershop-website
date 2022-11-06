@@ -66,17 +66,25 @@ describe('Test UserStories', () => {
     completeField(7, data.Password);
   }
 
-  const logOut = () => {
-    cy.wait(WAIT_TIME)
 
-    cy.get('.v-toolbar__content > [role="button"]').click();
-
-
-    cy.get('.v-list-item').contains("Log Out").click();
-  }
 
   const clickButtonWith = (text) => {
     cy.contains(text, { matchCase: false }).click();
+  }
+  const logOut = async () => {
+    cy.wait(WAIT_TIME)
+    // cy.contains('log out').should('exist')
+    //   .then((existence) => {
+    //     if (existence) {
+    //       cy.get('.v-toolbar__content > [role="button"]').click();
+    //     }
+    //   })
+    cy.get('.v-toolbar__content > [role="button"]').click();
+
+
+
+    // clickButtonWith('log out');
+    cy.get('.v-list-item').contains("Log Out").click();
   }
 
   it('UC-20, 39, 71 Check Main Page Link and general info', () => {
@@ -98,7 +106,11 @@ describe('Test UserStories', () => {
 
     completeSignupData(TestUserInfo);
     cy.get(':nth-child(8)>button').contains('sign up', { matchCase: false }).click();
+    cy.wait(WAIT_TIME);
     cy.visit('/');
+    cy.wait(WAIT_TIME);
+
+    logOut();
 
   })
 
@@ -124,6 +136,7 @@ describe('Test UserStories', () => {
     TestUserInfo.Password = MODIFIED_PASS;
     clickButtonWith('save');
 
+    cy.wait(WAIT_TIME);
 
     cy.visit('/');
     logOut();
