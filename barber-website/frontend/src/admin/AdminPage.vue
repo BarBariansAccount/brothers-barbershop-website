@@ -73,7 +73,7 @@
       </v-item-group>
     </v-container>
     <v-container v-if="menuItemSelected == 'BARBERS'">
-      <BarbersManagementPageVue></BarbersManagementPageVue>
+      <BarbersManagementPageVue />
     </v-container>
     <v-container v-else>
       <v-toolbar color="rgba(0,0,0,0)" flat class="mt-n5">
