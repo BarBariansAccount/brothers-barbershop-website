@@ -6,7 +6,7 @@
           <slot>Sign Up</slot>
         </v-btn>
       </template>
-      <v-card height="750px" width="500px" color="#DBDDEF">
+      <v-card height="750px" width="500px" color="#F9F9F9">
         <v-card-title class="text-h4 justify-center">
           <slot>Sign Up </slot>
         </v-card-title>
@@ -87,8 +87,8 @@
         </v-row>
         <v-row justify="center">
           <v-btn
-            class="white--text"
-            color="#5f6bba"
+            color="black"
+            outlined
             @click="signUp(form), $emit('BarberCreated')"
           >
             <slot>Sign Up </slot>
