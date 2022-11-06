@@ -1,4 +1,5 @@
 <template>
+  <div>
     <v-container>
       <v-toolbar color="rgba(0,0,0,0)" flat class="mt-n1">
         <v-spacer></v-spacer>
@@ -150,5 +151,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>
