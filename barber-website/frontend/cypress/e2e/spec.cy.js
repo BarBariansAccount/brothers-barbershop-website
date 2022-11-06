@@ -8,7 +8,8 @@ describe('test cypress is working ', () => {
 // link is set in config file which is 'localhost:8081' for now;
 
 describe('Test UserStories', () => {
-
+  const WAIT_TIME = 1000;
+  const MODIFIED_PASS = 'modifiedPass';
   //a testing admin account should already in the database before starting
   const TestAdminInfo = {
     Telephone: 1111111111,
@@ -31,10 +32,13 @@ describe('Test UserStories', () => {
     FirstName: 'CustomerFirst',
     LastName: 'CustomerLast'
   }
+  const clickIcon = () => {
+    cy.get('.v-toolbar__content > [role="button"]').click();
+  }
 
   // a function to click login
   const clickSignIn = () => {
-    cy.get('.v-toolbar__content > [role="button"]').click();
+    clickIcon();
     cy.get('.row > .v-btn').click();
   }
   // a function for login
@@ -61,13 +65,18 @@ describe('Test UserStories', () => {
     completeField(6, data.Password);
     completeField(7, data.Password);
   }
+
   const logOut = () => {
-    cy.wait(1000)
+    cy.wait(WAIT_TIME)
 
     cy.get('.v-toolbar__content > [role="button"]').click();
 
 
     cy.get('.v-list-item').contains("Log Out").click();
+  }
+
+  const clickButtonWith = (text) => {
+    cy.contains(text, { matchCase: false }).click();
   }
 
   it('UC-20, 39, 71 Check Main Page Link and general info', () => {
@@ -96,6 +105,34 @@ describe('Test UserStories', () => {
   it('UC-31 test customer login', () => {
     loginAccount(TestUserInfo);
     logOut();
+  })
+
+  it('UC-35 test change password', () => {
+    cy.visit('/');
+    loginAccount(TestUserInfo);
+    cy.wait(WAIT_TIME);
+    clickIcon();
+    cy.get('.v-list-item').contains("User Profile").click();
+    cy.get('[href="/panel/profile/change-password"]').click();
+
+    cy.get(':nth-child(1) > .v-input > .v-input__control > .v-input__slot')
+      .type(TestUserInfo.Password);
+
+    cy.get(':nth-child(2) > .v-input > .v-input__control > .v-input__slot')
+      .type(MODIFIED_PASS);
+
+    TestUserInfo.Password = MODIFIED_PASS;
+    clickButtonWith('save');
+
+
+    cy.visit('/');
+    logOut();
+
+    loginAccount(TestUserInfo);
+    logOut();
+
+
+
   })
 
 
