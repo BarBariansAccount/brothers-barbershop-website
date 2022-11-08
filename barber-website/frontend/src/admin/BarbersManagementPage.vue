@@ -71,7 +71,7 @@ export default {
   data() {
     return {
       items: [
-        { title: "User Profile", optionID: 0 },
+        { title: "User ", optionID: 0 },
         { title: "Delete User", optionID: 1 },
       ],
       offset: true,
