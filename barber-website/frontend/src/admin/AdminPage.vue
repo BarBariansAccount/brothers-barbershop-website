@@ -1,5 +1,4 @@
 <template>
-  <!-- testing github integration with jira extra comment -->
   <div>
     <v-container>
       <BusyToolBar />
