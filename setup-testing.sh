@@ -1,7 +1,9 @@
 #!/bin/bash
 
 # Clean up old docker containers and networks
-docker rm -f $(docker ps -aq)
+docker rm -f backend
+docker rm -f frontend
+docker rm -f database
 docker network rm barber-network
 
 # Setup network
