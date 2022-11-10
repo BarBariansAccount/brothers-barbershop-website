@@ -6,17 +6,13 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                dir('ci-cd/docker'){
-                    sh './clean-up.sh'
-                    sh './build-test.sh'
-                }
+                sh './ci-cd/docker/clean-up.sh'
+                sh './ci-cd/docker/build-test.sh'
             }
         }
         stage('Test') {
             steps {
-                dir('ci-cd/docker'){
-                    sh './test.sh'
-                }
+                sh './ci-cd/docker/test.sh'
             }
         }
         
