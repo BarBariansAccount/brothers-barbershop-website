@@ -3,16 +3,19 @@
         <div class="menu-wrap">
             <!-- profile -->
             <div class=" ">
-                <div class="icon text-center pt-4" @click="dialog = true">
+                <div class="icon text-center pt-4">
                     <v-avatar v-if="picturelink" size="120">
                         <img :src="picturelink">
                     </v-avatar>
                     <v-icon v-else size="140"> mdi-account-circle-outline </v-icon>
+                    <v-btn x-small color="primary" fab class="edit-icon " @click="dialog = true">
+                        <v-icon>
+                            mdi-pencil
+                        </v-icon>
+                    </v-btn>
                 </div>
                 <div class="text-center">
-
                     {{ firstname + " " + lastname }}
-
                 </div>
             </div>
             <!-- list -->
@@ -32,7 +35,7 @@
                             </v-list-item-content>
                         </v-list-item>
                     </v-list-group>
-                    <v-list-item v-else :key="x + item.title" exact :to="item.to">
+                    <v-list-item v-else :key="'x' + item.title" exact :to="item.to">
                         <v-list-item-icon>
                             <v-icon v-text="item.action"></v-icon>
                         </v-list-item-icon>
@@ -72,8 +75,8 @@
                         </v-icon>
                         Cancel
                     </v-btn>
-                    <v-file-input size="sm" v-show="false" v-model="file" ref="image" truncate-length="15"
-                        @change="uploadPic">
+                    <v-file-input accept="image/png, image/jpeg, image/bmp" size="sm" v-show="false" v-model="file"
+                        ref="image" truncate-length="15" @change="uploadPic">
                     </v-file-input>
 
                 </v-card>
@@ -87,35 +90,10 @@ import userService from "@/services/user"
 import Swal from "sweetalert2";
 export default {
     data: () => ({
-        items: [
-            {
-                action: "mdi-home",
-                title: "Home",
-                to: "/panel"
-            },
-            {
-                action: "mdi-basket",
-                title: "Orders",
-                to: "/panel/orders"
-            },
-            {
-                action: "mdi-calendar",
-                title: "Availabilities",
-                to: "/panel/availabilities"
-            },
-            {
-                action: "mdi-account",
-                active: true,
-                items: [
-                { title: "Edit Profile", to: "/panel/profile/edit_profile" },
-                    { title: "Change Password", to: "/panel/profile/change-password" },
-                    { title: "Unsubscribe", to: "/panel/profile/unsubscribe" },
-                ],
-                title: "Profile",
-            }
-        ],
+
         file: null,
-        dialog: false
+        dialog: false,
+
     }),
     computed: {
         firstname() {
@@ -127,16 +105,85 @@ export default {
         picturelink() {
             return this.$store.state.user?.picturelink
         },
+        items() {
+            const { userrole } = this.$store.state.user
+            if (userrole == 'Customer') {
+                return [
+                    {
+                        action: "mdi-home",
+                        title: "Home",
+                        to: "/panel"
+                    },
+                    {
+                        action: "mdi-basket",
+                        title: "Orders",
+                        to: "/panel/orders"
+                    },
+                    {
+                        action: "mdi-account",
+                        active: true,
+                        items: [
+                            { title: "Edit Profile", to: "/panel/profile/edit_profile" },
+                            { title: "Change Password", to: "/panel/profile/change-password" },
+                            { title: "Unsubscribe", to: "/panel/profile/unsubscribe" },
+                        ],
+                        title: "Profile",
+                    }
+                ]
+            } else if (userrole == 'Barber') {
+                return [
+                    {
+                        action: "mdi-account",
+                        active: true,
+                        items: [
+                            { title: "Edit Profile", to: "/panel/profile/edit_profile" },
+                            { title: "Change Password", to: "/panel/profile/change-password" },
+                            { title: "Unsubscribe", to: "/panel/profile/unsubscribe" },
+                        ],
+                        title: "Profile",
+                    },
+                    // {
+                    //     action: "mdi-home",
+                    //     title: "Home",
+                    //     to: "/panel"
+                    // },
+                    {
+                        action: "mdi-basket",
+                        title: "Orders",
+                        to: "/panel/orders"
+                    },
+                    {
+                        action: "mdi-calendar",
+                        title: "Appointments",
+                        to: "/panel/appointments"
+                    },
+                    {
+                        action: "mdi-calendar",
+                        title: "Availabilities",
+                        to: "/panel/availabilities"
+                    }
+
+                ]
+            }
+            return []
+        }
     },
     methods: {
         async uploadPic() {
+            if (this.file.size > 200000) {
+                return Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Sorry ! File Size cant be more than 200KB',
+                })
+            }
             const fd = new FormData()
             fd.append("UserImage", this.file)
             try {
                 await userService.updatePic(fd)
                 this.get()
             } catch (err) { console.log(err) }
-            this.file = null
+            // this.file = null
         },
         async deletePic() {
             Swal.fire({
@@ -170,14 +217,6 @@ export default {
             this.$refs.image.$refs.input.click()
         }
     },
-    watch: {
-        file(newVal) {
-            if (newVal) {
-                this.uploadPic()
-            }
-        }
-    }
-
 }
 </script>
 <style scoped>
@@ -207,19 +246,20 @@ aside {
 
 }
 
-.edit-icon {
+.icon {
     position: relative;
-    top: -110px;
-    right: -45px;
-    background-color: white;
-    border-radius: 100px;
+    cursor: pointer;
 }
 
-.edit-icon2 {
-    position: relative;
-    top: -84px;
-    right: -33px;
-    background-color: white;
-    border-radius: 100px;
+.icon:hover .edit-icon {
+    visibility: visible;
+
+}
+
+.edit-icon {
+    position: absolute;
+    bottom: 30px;
+    right: 67px;
+    visibility: hidden;
 }
 </style>

@@ -6,6 +6,7 @@
                 <SideBar v-show="show" />
                 <router-view class="router-view"></router-view>
             </div>
+            <Footer />
         </main>
     </v-app>
 </template>
@@ -14,11 +15,13 @@
 // import TopNav from '@/components/Layouts/Panel/TopNav.vue'
 import Navbar from "@/components/Layouts/Default/Navbar.vue";
 import SideBar from '@/components/Layouts/Panel/SideBar.vue'
+import Footer from "@/components/Layouts/Default/Footer.vue";
 export default {
     name: "panelLayout",
     components: {
         Navbar,
-        SideBar
+        SideBar,
+        Footer
     },
     data() {
         return {
