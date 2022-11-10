@@ -1,0 +1,2 @@
+- take care of setup scripts in repos root
+- remove hardcoded password for database in docker build scripts
