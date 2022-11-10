@@ -6,15 +6,16 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                dir('barber-website/backend'){
-                    bat 'npm install'
+                dir('ci-cd/docker'){
+                    sh './cleanup.sh'
+                    sh './build-test.sh'
                 }
             }
         }
         stage('Test') {
             steps {
-                dir('barber-website/backend'){
-                    bat 'npm test'
+                dir('ci-cd/docker'){
+                    sh './test.sh'
                 }
             }
         }
