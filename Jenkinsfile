@@ -7,7 +7,7 @@ pipeline {
         stage('Build') {
             steps {
                 dir('ci-cd/docker'){
-                    sh './cleanup.sh'
+                    sh './clean-up.sh'
                     sh './build-test.sh'
                 }
             }
