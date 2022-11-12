@@ -8,6 +8,9 @@
     <v-container v-if="menuItemSelected == 'BARBERS'">
       <BarbersManagementPageVue />
     </v-container>
+    <v-container v-if="menuItemSelected == 'Info'">
+      <FaqAdminCardEdit />
+    </v-container>
     <v-container v-else>
       <v-toolbar color="rgba(0,0,0,0)" flat class="mt-n5">
         <v-toolbar-title>View</v-toolbar-title>
@@ -26,6 +29,7 @@
 
 <script>
 import AdminMenuCards from "@/components/AdminMenuCards.vue";
+import FaqAdminCardEdit from "@/components/FaqAdminCardEdit.vue";
 import BusyToolBar from "@/components/BusyToolbar.vue";
 import AdminTable from "@/components/AdminTable.vue";
 import Graph from "@/components/AdminGraph.vue";
@@ -39,10 +43,26 @@ export default {
     AdminTable,
     BusyToolBar,
     AdminMenuCards,
+    FaqAdminCardEdit,
   },
 
   data() {
     return {
+      menuItems: [
+        {
+          title: "OVERVIEW",
+          icons: mdiInformationOutline,
+        },
+        {
+          title: "BARBERS",
+
+          icons: mdiAccountGroupOutline,
+        },
+        { title: "Info", icons: mdiAccountTie },
+        { title: "APPOINTMENT", icons: mdiCalendar },
+        { title: "GALLERY", icons: mdiImage },
+        { title: "STATS", icons: mdiFinance },
+      ],
       menuItemSelected: "",
     };
   },
