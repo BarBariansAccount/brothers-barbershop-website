@@ -22,7 +22,7 @@ export default {
   data: () => ({
     loading: false,
     selection: 1,
-    faqList : [],
+    faqList: [],
   }),
 
   methods: {
@@ -31,13 +31,10 @@ export default {
       setTimeout(() => (this.loading = false), 2000);
     },
 
-    async getFAQlist(){
-      try{
-
-      }
-    }
-
-  }
-
+    async getFAQlist() {
+      try {
+      } catch {}
+    },
+  },
 };
 </script>
