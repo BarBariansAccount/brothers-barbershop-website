@@ -83,7 +83,7 @@ export default {
         const { userrole } = data.data.User
         console.log(userrole)
         if (userrole == 'Admin') {
-          this.$router.push('/admin')
+          this.$router.push('/panel/admin')
         } else {
           this.$router.push('/panel')
 

@@ -120,6 +120,11 @@ export default {
                         to: "/panel/orders"
                     },
                     {
+                        action: "mdi-calendar",
+                        title: "Availabilities",
+                        to: "/panel/availabilities"
+                    },
+                    {
                         action: "mdi-account",
                         active: true,
                         items: [
@@ -132,21 +137,12 @@ export default {
                 ]
             } else if (userrole == 'Barber') {
                 return [
+
                     {
-                        action: "mdi-account",
-                        active: true,
-                        items: [
-                            { title: "Edit Profile", to: "/panel/profile/edit_profile" },
-                            { title: "Change Password", to: "/panel/profile/change-password" },
-                            { title: "Unsubscribe", to: "/panel/profile/unsubscribe" },
-                        ],
-                        title: "Profile",
+                        action: "mdi-home",
+                        title: "Home",
+                        to: "/panel"
                     },
-                    // {
-                    //     action: "mdi-home",
-                    //     title: "Home",
-                    //     to: "/panel"
-                    // },
                     {
                         action: "mdi-basket",
                         title: "Orders",
@@ -161,6 +157,51 @@ export default {
                         action: "mdi-calendar",
                         title: "Availabilities",
                         to: "/panel/availabilities"
+                    },
+                    {
+                        action: "mdi-account",
+                        active: true,
+                        items: [
+                            { title: "Edit Profile", to: "/panel/profile/edit_profile" },
+                            { title: "Change Password", to: "/panel/profile/change-password" },
+                            { title: "Unsubscribe", to: "/panel/profile/unsubscribe" },
+                        ],
+                        title: "Profile",
+                    },
+
+                ]
+            } else if (userrole == 'Admin') {
+                return [
+
+                    {
+                        action: "mdi-home",
+                        title: "Home",
+                        to: "/panel/admin"
+                    },
+                    // {
+                    //     action: "mdi-basket",
+                    //     title: "Orders",
+                    //     to: "/panel/orders"
+                    // },
+                    // {
+                    //     action: "mdi-calendar",
+                    //     title: "Appointments",
+                    //     to: "/panel/appointments"
+                    // },
+                    // {
+                    //     action: "mdi-calendar",
+                    //     title: "Availabilities",
+                    //     to: "/panel/availabilities"
+                    // },
+                    {
+                        action: "mdi-account",
+                        active: true,
+                        items: [
+                            { title: "Edit Profile", to: "/panel/profile/edit_profile" },
+                            { title: "Change Password", to: "/panel/profile/change-password" },
+                            { title: "Unsubscribe", to: "/panel/profile/unsubscribe" },
+                        ],
+                        title: "Profile",
                     }
 
                 ]

@@ -24,7 +24,7 @@ export default [
     path: "/", component: DefaultLayout, children: [
       { path: "", component: HomePage },
       { path: "/barbersManagement", component: BarbersManagementPage },
-      { path: "/admin", component: AdminPage },
+
       { path: "/gallery", component: GalleryPage },
       { path: "/appointment", component: AppointmentPage },
     ]
@@ -33,7 +33,7 @@ export default [
   {
     path: "/panel", component: PanelLayout, children: [
       { path: "", component: PanelHome },
-
+      { path: "admin", component: AdminPage },
       { path: "profile/edit_profile", component: CommonPage },
       { path: "profile/change-password", component: ChangePassword },
       { path: "profile/unsubscribe", component: DeleteAccount },

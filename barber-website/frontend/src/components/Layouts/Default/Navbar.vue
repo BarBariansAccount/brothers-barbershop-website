@@ -101,7 +101,7 @@ export default {
     onUserRoleMenu() {
       this.userRole = this.$store.state.user?.userrole;
       if (this.userRole == "Admin") {
-        this.menuItems.push({ title: "Admin", path: "/admin" });
+        this.menuItems.push({ title: "Admin", path: "/panel/admin" });
       }
     },
     // profileItemsPopup(title) {
