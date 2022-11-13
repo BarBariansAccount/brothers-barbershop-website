@@ -8,16 +8,19 @@
         <slot></slot>
       </p>
 
-      <div contentEditable="True" class="text-center mt-6 text-h6">
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ab autem
-        assumenda quis excepturi veniam laudantium temporibus, est optio
-        voluptatem tenetur necessitatibus molestias dolores corporis fuga dicta
-        distinctio expedita explicabo obcaecati!
+      <div
+        contentEditable="True"
+        class="text-center mt-6 text-h6"
+        @click="getFAQ()"
+      >
+        {{}}
       </div>
     </v-card-text>
   </v-card>
 </template>
 <script>
+import SavedFAQs from "@/services/user";
+
 export default {
   data: () => ({
     loading: false,
@@ -31,9 +34,17 @@ export default {
       setTimeout(() => (this.loading = false), 2000);
     },
 
-    async getFAQlist() {
+    async getFAQ() {
       try {
-      } catch {}
+        console.log("Getting the list of FAQs");
+        const response = await SavedFAQs.getAllFaqs();
+        console.log("retrieved the FAQs");
+        var faqData = response.data[0];
+        this.faqList.push(response.data[0]);
+        console.log(faqData.answer);
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 };
