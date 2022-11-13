@@ -18,7 +18,7 @@
                     <v-list-item-content>
                       <div class="mb-4">
                         <v-icon x-large :color="active ? 'white' : '#999999'">{{
-                          items.icons
+                          items.icon
                         }}</v-icon>
                       </div>
                       <v-list-item-subtitle
@@ -58,19 +58,12 @@ export default {
   data() {
     return {
       menuItems: [
-        {
-          title: "OVERVIEW",
-          icons: mdiInformationOutline,
-        },
-        {
-          title: "BARBERS",
-
-          icons: mdiAccountGroupOutline,
-        },
-        { title: "CLIENTS", icons: mdiAccountTie },
-        { title: "APPOINTMENT", icons: mdiCalendar },
-        { title: "GALLERY", icons: mdiImage },
-        { title: "STATS", icons: mdiFinance },
+        { title: "OVERVIEW", icon: mdiInformationOutline },
+        { title: "BARBERS", icon: mdiAccountGroupOutline },
+        { title: "CLIENTS", icon: mdiAccountTie },
+        { title: "APPOINTMENT", icon: mdiCalendar },
+        { title: "GALLERY", icon: mdiImage },
+        { title: "STATS", icon: mdiFinance },
       ],
       menuItemSelected: "",
     };
