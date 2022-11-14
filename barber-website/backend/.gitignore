@@ -1,9 +1,10 @@
+
 .DS_Store
 node_modules
+/uploads/
 /dist
 config/
 
-uploads/
 
 
 # local env files
