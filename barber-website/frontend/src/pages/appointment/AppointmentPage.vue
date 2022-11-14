@@ -104,42 +104,42 @@ export default {
     return {
       services: [
         {
-          title: 'Haircut', price: '35$', time: '45min', discount: '5%', off_days: ['Tuesday', 'wednesday', 'thursday']
+          title: "Haircut", price: "35$", time: "45min", discount: "5%", off_days: ["Tuesday", "wednesday", "thursday"]
         },
         {
-          title: 'Haircut', price: '35$', time: '45min', discount: '5%', off_days: ['Tuesday', 'wednesday', 'thursday']
+          title: "Haircut", price: "35$", time: "45min", discount: "5%", off_days: ["Tuesday", "wednesday", "thursday"]
         },
         {
-          title: 'Haircut', price: '35$', time: '45min', discount: '5%', off_days: ['Tuesday', 'wednesday', 'thursday']
+          title: "Haircut", price: "35$", time: "45min", discount: "5%", off_days: ["Tuesday", "wednesday", "thursday"]
         },
         {
-          title: 'Haircut', price: '35$', time: '45min', discount: '5%', off_days: ['Tuesday', 'wednesday', 'thursday']
+          title: "Haircut", price: "35$", time: "45min", discount: "5%", off_days: ["Tuesday", "wednesday", "thursday"]
         },
         {
-          title: 'Haircut', price: '35$', time: '45min', discount: '5%', off_days: ['Tuesday', 'wednesday', 'thursday']
+          title: "Haircut", price: "35$", time: "45min", discount: "5%", off_days: ["Tuesday", "wednesday", "thursday"]
         },
       ],
       staffs: [
         {
-          id: 1, name: "ali", img: 'av.png'
+          id: 1, name: "ali", img: "av.png"
         },
         {
-          id: 1, name: "ali", img: 'av.png'
+          id: 1, name: "ali", img: "av.png"
         },
         {
-          id: 1, name: "ali", img: 'av.png'
+          id: 1, name: "ali", img: "av.png"
         },
       ],
       picker: null,
       avaiables: [
         {
-          time: 'Morning', av: ['10:00', '12:00']
+          time: "Morning", av: ["10:00", "12:00"]
         },
         {
-          time: 'Afternoon', av: ['11:00', '12:00']
+          time: "Afternoon", av: ["11:00", "12:00"]
         },
         {
-          time: 'Evening', av: ['10:00', '12:00']
+          time: "Evening", av: ["10:00", "12:00"]
         },
       ],
       selectedTime: null
