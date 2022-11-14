@@ -178,21 +178,6 @@ export default {
                         title: "Home",
                         to: "/panel/admin"
                     },
-                    // {
-                    //     action: "mdi-basket",
-                    //     title: "Orders",
-                    //     to: "/panel/orders"
-                    // },
-                    // {
-                    //     action: "mdi-calendar",
-                    //     title: "Appointments",
-                    //     to: "/panel/appointments"
-                    // },
-                    // {
-                    //     action: "mdi-calendar",
-                    //     title: "Availabilities",
-                    //     to: "/panel/availabilities"
-                    // },
                     {
                         action: "mdi-account",
                         active: true,
@@ -224,7 +209,6 @@ export default {
                 await userService.updatePic(fd)
                 this.get()
             } catch (err) { console.log(err) }
-            // this.file = null
         },
         async deletePic() {
             Swal.fire({
@@ -274,7 +258,6 @@ aside {
         position: absolute;
         left: -30px;
         top: 30px;
-        /* background-color: rgba(0, 0, 0, 0.1); */
         z-index: 100;
     }
 }

@@ -65,11 +65,12 @@ export default {
         this.errorNumberOrPassword = "Please fill up the fields";
         return;
       }
-      // if (!this.validatePhoneNumber()) {
-      //   console.log("I'm in here");
-      //   this.invalidPhoneNumber = "Invalid Phone number";
-      //   return;
-      // }
+      //This type of valication is not standard , you can use Vee-Validate(V.3) fot it
+      if (!this.validatePhoneNumber()) {
+        console.log("I'm in here");
+        this.invalidPhoneNumber = "Invalid Phone number";
+        return;
+      }
       try {
         console.log(this.form.password);
         const data = await axios.post(`http://localhost:5001/Login`, {
