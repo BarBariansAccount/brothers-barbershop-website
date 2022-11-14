@@ -202,7 +202,7 @@ const updatePassword= async(req,res)=>{
             
         else{
             const hash = bcrypt.hashSync(NewPassword, 12);
-            let results = await pool.query(UserModel.updatePassword, [logged_userId,hash]);
+            await pool.query(UserModel.updatePassword, [logged_userId,hash]);
             res.status(200).send("Password is changed sucessfully.");
         }
         
@@ -220,6 +220,7 @@ const updatePicture= async(req,res)=>{
     }
 
     try{
+        //hardcoded
         const picturepath = "http://localhost:5001/uploads/"+ req.file.filename;
 
         await pool.query(UserModel.updatePicture, [logged_userId,picturepath])
