@@ -10,9 +10,6 @@ steps:
 - name: initial-clean-up
   commands:
   - ci-cd/docker/full-clean-up.sh
-  when:
-    branch:
-    - main
 
 - name: test
   commands:
@@ -27,6 +24,3 @@ steps:
   commands:
   - ci-cd/docker/build.sh
   - ci-cd/docker/deploy.sh
-  when:
-    branch:
-    - main
