@@ -7,17 +7,19 @@ platform:
   arch: amd64
 
 steps:
-- name: clean-up
+- name: initial-clean-up
   commands:
   - ci-cd/docker/clean-up.sh
 
-steps:
 - name: test
   commands:
   - ci-cd/docker/build-test.sh
   - ci-cd/docker/test.sh
 
-steps:
+- name: testing-clean-up
+  commands:
+  - ci-cd/docker/clean-up.sh
+
 - name: deploy
   commands:
   - ci-cd/docker/build.sh
