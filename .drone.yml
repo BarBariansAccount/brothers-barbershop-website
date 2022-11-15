@@ -9,7 +9,10 @@ platform:
 steps:
 - name: initial-clean-up
   commands:
-  - ci-cd/docker/clean-up.sh
+  - ci-cd/docker/full-clean-up.sh
+  when:
+    branch:
+    - main
 
 - name: test
   commands:
@@ -18,9 +21,12 @@ steps:
 
 - name: testing-clean-up
   commands:
-  - ci-cd/docker/clean-up.sh
+  - ci-cd/docker/testing-clean-up.sh
 
 - name: deploy
   commands:
   - ci-cd/docker/build.sh
   - ci-cd/docker/deploy.sh
+  when:
+    branch:
+    - main
