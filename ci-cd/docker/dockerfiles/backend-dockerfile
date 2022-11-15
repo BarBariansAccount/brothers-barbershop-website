@@ -22,7 +22,7 @@ EXPOSE 5001/tcp
 
 # For testing
 FROM base as test
-CMD npm test
+RUN npm test
 
 # For production
 FROM base as production
