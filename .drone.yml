@@ -14,8 +14,8 @@ steps:
 - name: build-test
   commands:
   - docker network create barber-network-test
-  - docker build -t barbershop:backend-test -f "ci-cd/docker/dockerfiles/backend-testing-dockerfile" .
-  # docker build -t barbershop:frontend-test -f "ci-cd/docker/dockerfiles/frontend-testing-dockerfile" .
+  - docker build -t barbershop:backend-test --target test -f "ci-cd/docker/dockerfiles/backend-dockerfile" .
+  # docker build -t barbershop:frontend-test --target test -f "ci-cd/docker/dockerfiles/frontend-dockerfile" .
 
 - name: test
   environment:
@@ -34,8 +34,8 @@ steps:
 - name: build
   commands:
   - docker network create barber-network
-  - docker build -t barbershop:backend -f "ci-cd/docker/dockerfiles/backend-dockerfile" .
-  - docker build -t barbershop:frontend -f "ci-cd/docker/dockerfiles/frontend-dockerfile" .
+  - docker build -t barbershop:backend --target production -f "ci-cd/docker/dockerfiles/backend-dockerfile" .
+  - docker build -t barbershop:frontend --target production -f "ci-cd/docker/dockerfiles/frontend-dockerfile" .
 
 - name: deploy
   environment:

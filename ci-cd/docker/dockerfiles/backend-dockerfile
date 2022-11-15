@@ -1,14 +1,29 @@
-# syntax=docker/dockerfile:1
-FROM alpine:3.14
+# Syntax=docker/dockerfile:1
+FROM node:18 as base
 
-RUN apk update && apk add npm
+# Create app directory
+WORKDIR /usr/src/app
 
-RUN mkdir /backend
-COPY barber-website/backend/ backend/
-WORKDIR backend/
+# Install app dependencies
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
+# where available (npm@5+)
+COPY barber-website/backend/package*.json ./
 
+# If you are building your code for production
+# RUN npm ci --only=production
 RUN npm install
 
+# Bundle app source
+COPY barber-website/backend/ .
+
+# Export ports
 ENV PORT=5001
 EXPOSE 5001/tcp
-CMD npm start
+
+# For testing
+FROM base as test
+CMD npm test
+
+# For production
+FROM base as production
+CMD [ "node", "server.js" ]
