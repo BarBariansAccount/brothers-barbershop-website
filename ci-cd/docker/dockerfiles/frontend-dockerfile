@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM alpine:3.14
+FROM alpine:3.14 as base
 
 RUN apk update && apk add npm
 
@@ -11,4 +11,6 @@ RUN npm install
 
 ENV PORT=8080
 EXPOSE 8080/tcp
+
+FROM base as production
 CMD npm run serve
