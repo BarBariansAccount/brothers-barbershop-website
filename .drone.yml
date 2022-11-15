@@ -1,10 +1,13 @@
 kind: pipeline
-type: docker
+type: exec
 name: default
 
+platform:
+  os: linux
+  arch: amd64
+
 steps:
-- name: test
-  image: alpine
+- name: clean-up
   commands:
-  - echo hello
-  - echo world
+  - pwd
+  - ci-cd/docker/clean-up.sh
