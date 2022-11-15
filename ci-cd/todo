@@ -1,2 +1,2 @@
 - take care of setup scripts in repos root
-- remove hardcoded password for database in docker build scripts
+- remove sensitive data in drone reset script
