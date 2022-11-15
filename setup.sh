@@ -1,18 +1,18 @@
 #!/bin/bash
 
-# Clean up old docker containers and images
-docker rm -f $(docker ps -aq)
+# Clean up leftover containers and networks
+./ci-cd/docker/full-clean-up.sh
 
-# Setup network
+# Create network
 docker network create barber-network
 
 # Build containers
-docker build -f backend-dockerfile -t barbershop:backend ci-cd/docker
-docker build -f frontend-dockerfile -t barbershop:frontend ci-cd/docker
+docker build -t barbershop:backend --target production -f "ci-cd/docker/dockerfiles/backend-dockerfile" .
+docker build -t barbershop:frontend --target production -f "ci-cd/docker/dockerfiles/frontend-dockerfile" .
+
+# Run database
+docker run --name database -v "$PWD/ci-cd/init-db.sh":/docker-entrypoint-initdb.d/init-db.sh -e POSTGRES_PASSWORD=$1 -e POSTGRES_DB=barbershop --net barber-network -d postgres
 
 # Run containers
-docker run --name barbershopdb -v "$PWD/ci-cd/init-db.sh":/docker-entrypoint-initdb.d/init-db.sh -e POSTGRES_PASSWORD=November199853@ -e POSTGRES_DB=barbershop --net barber-network -d postgres
-
-# Remove the -p argument from the backend when deploying, it is only for testing
-docker run -p 5001:5001 --net barber-network -d barbershop:backend 
-docker run -p 8080:8080 --net barber-network -d barbershop:frontend 
+docker run -p 5001:5001 --net barber-network --name backend -d barbershop:backend 
+docker run -p 9001:8080 --net barber-network --name frontend -d barbershop:frontend
