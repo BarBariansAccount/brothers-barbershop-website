@@ -29,8 +29,8 @@ steps:
   - docker network create barber-network-test
   - docker run --name database -v "$PWD/ci-cd/init-db.sh":/docker-entrypoint-initdb.d/init-db.sh -e POSTGRES_PASSWORD=$PASSWORD -e POSTGRES_DB=barbershop -p 5432:5432 --net barber-network-test -d postgres
   - sleep 5
-  - docker build --name backend-test --network barber-network-test -t barbershop:backend-test --target test -f "ci-cd/docker/dockerfiles/backend-dockerfile" .
-  # docker build --name frontend-test --network barber-network-test -t barbershop:frontend-test --target test -f "ci-cd/docker/dockerfiles/frontend-dockerfile" .
+  - docker build --network barber-network-test -t barbershop:backend-test --target test -f "ci-cd/docker/dockerfiles/backend-dockerfile" .
+  # docker build --network barber-network-test -t barbershop:frontend-test --target test -f "ci-cd/docker/dockerfiles/frontend-dockerfile" .
 
 - name: testing-clean-up
   commands:
