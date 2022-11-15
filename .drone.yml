@@ -16,3 +16,9 @@ steps:
   commands:
   - ci-cd/docker/build-test.sh
   - ci-cd/docker/test.sh
+
+steps:
+- name: deploy
+  commands:
+  - ci-cd/docker/build.sh
+  - ci-cd/docker/deploy.sh
