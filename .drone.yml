@@ -9,5 +9,10 @@ platform:
 steps:
 - name: clean-up
   commands:
-  - pwd
   - ci-cd/docker/clean-up.sh
+
+steps:
+- name: test
+  commands:
+  - ci-cd/docker/build-test.sh
+  - ci-cd/docker/test.sh
