@@ -21,7 +21,7 @@ steps:
     -e SONAR_HOST_URL="http://localhost:9001/" \
     -e SONAR_SCANNER_OPTS="-Dsonar.projectKey=Brothers-Barbershop" \
     -e SONAR_LOGIN="$SONAR_TOKEN" \
-    -v "./:/usr/src" \
+    -v "$PWD:/usr/src" \
     --network=host \
     sonarsource/sonar-scanner-cli
 
