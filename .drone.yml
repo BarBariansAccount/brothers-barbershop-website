@@ -17,6 +17,9 @@ steps:
       from_secret: sonar_token
   commands:
   - docker run --rm -e SONAR_HOST_URL="http://localhost:9001/" -e SONAR_SCANNER_OPTS="-Dsonar.projectKey=Brothers-Barbershop" -e SONAR_LOGIN="$SONAR_TOKEN" -v "$PWD:/usr/src" --network=host sonarsource/sonar-scanner-cli
+  when:
+    branch:
+    - main
 
 - name: test
   environment:
