@@ -6,7 +6,7 @@ import PanelLayout from '@/layouts/panel.vue'
 import HomePage from "../home/HomePage.vue";
 import AdminPage from "../admin/AdminPage.vue";
 import GalleryPage from "../gallery/GalleryPage.vue";
-import AppointmentPage from "../appointment/AppointmentPage.vue";
+import AppointmentPage from "../pages/appointment/AppointmentPage.vue";
 import BarbersManagementPage from "../admin/BarbersManagementPage.vue";
 // panell components
 import PanelHome from '@/pages/panel/home/HomePage.vue'
