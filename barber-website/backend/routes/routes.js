@@ -130,9 +130,8 @@ User Pictures
 
 const storage = multer.diskStorage({
     destination: function(req, file,next){
-        file.path=path.join(__dirname, "../uploads")
-        
-        next(null, file.path)
+      
+        next(null, './uploads')
     },
     filename: function(req,file,next){
         const date= new Date().toISOString().replace(/:/g, '-')

@@ -246,7 +246,7 @@ const deletePicture = async(req,res)=>{
         picturePath =  picturePath.substring(30,picturePath.length)
 
         picturePath ="./uploads/" + picturePath
-        
+
         fs.unlinkSync(picturePath)
 
         await pool.query(UserModel.deletePicture, [logged_userId])

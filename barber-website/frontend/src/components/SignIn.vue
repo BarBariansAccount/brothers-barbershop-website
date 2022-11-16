@@ -8,27 +8,15 @@
         <v-card-title class="text-h4 justify-center"> Sign In </v-card-title>
         <v-row justify="center">
           <v-col cols="8">
-            <v-text-field
-              class="mt-3"
-              label="Phone Number"
-              placeholder="Phone Number"
-              v-model="form.phoneNumber"
-              :error-messages="invalidPhoneNumber"
-              solo
-            >
+            <v-text-field class="mt-3" label="Phone Number" placeholder="Phone Number" v-model="form.phoneNumber"
+              :error-messages="invalidPhoneNumber" solo>
             </v-text-field>
           </v-col>
         </v-row>
         <v-row justify="center">
           <v-col cols="8">
-            <v-text-field
-              label="Password"
-              placeholder="Password"
-              type="password"
-              :error-messages="errorNumberOrPassword"
-              v-model="form.password"
-              solo
-            ></v-text-field>
+            <v-text-field label="Password" placeholder="Password" type="password"
+              :error-messages="errorNumberOrPassword" v-model="form.password" solo></v-text-field>
           </v-col>
         </v-row>
         <v-row justify="center">
@@ -77,23 +65,30 @@ export default {
         this.errorNumberOrPassword = "Please fill up the fields";
         return;
       }
-      // if (!this.validatePhoneNumber()) {
-      //   console.log("I"m in here");
-      //   this.invalidPhoneNumber = "Invalid Phone number";
-      //   return;
-      // }
+      //This type of valication is not standard , you can use Vee-Validate(V.3) fot it
+      if (!this.validatePhoneNumber()) {
+        console.log("I'm in here");
+        this.invalidPhoneNumber = "Invalid Phone number";
+        return;
+      }
       try {
         console.log(this.form.password);
         const data = await axios.post(`http://localhost:5001/Login`, {
           Telephone: this.form.phoneNumber,
           Password: this.form.password,
         });
-        location.reload();
 
-        console.log("data 44", data.data);
         // save token and user id in the store , for any request we need  to attach its token
         this.$store.commit("setToken", data.data.Token);
         this.$store.commit("setUser", data.data.User);
+        const { userrole } = data.data.User
+        console.log(userrole)
+        if (userrole == 'Admin') {
+          this.$router.push('/panel/admin')
+        } else {
+          this.$router.push('/panel')
+
+        }
       } catch (error) {
         this.errorNumberOrPassword = "Wrong phone Number or Password ";
         console.log(error.message);
@@ -103,4 +98,6 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+
+</style>

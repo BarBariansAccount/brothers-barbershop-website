@@ -20,13 +20,13 @@ router.beforeEach((to, _, next) => {
   const token = router.app.$store.state.token;
   const role = router.app.$store.state.user?.role;
 
-  let publicPages = [];
+  let publicPages = ["/", "/gallery", "/appointment", "/products"];
 
   // public routes based on role
   if (role == "Admin") publicPages = ["/admin", ""];
-  if (role == "Barber") publicPages = ["/"];
-  if (role == "Customer") publicPages = ["/"];
-  else publicPages = ["/", "/gallery", "/appointment", "/products"];
+  if (role == "Barber") publicPages.push('/panel', '/panel/availabilities', '/panel/profile/edit_profile', '/panel/profile/change-password', '/panel/profile/unsubscribe')
+  if (role == "Customer") publicPages.push('/panel', '/panel/orders', '/panel/profile/edit_profile', '/panel/profile/change-password', '/panel/profile/unsubscribe')
+
 
   // needed auth routes
   const authRequired = !publicPages.includes(to.path);
@@ -34,6 +34,7 @@ router.beforeEach((to, _, next) => {
   // trying to access a restricted page + no token
   // redirect to home page
   if (authRequired && !!token == false) {
+    console.log(to)
     next("/");
   }
 

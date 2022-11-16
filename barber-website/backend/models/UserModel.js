@@ -22,6 +22,8 @@ const updatePicture= "UPDATE users SET picturelink=$2 WHERE userid = $1";
 
 const deletePicture = "UPDATE users SET picturelink=null WHERE userid = $1";
 
+const getPicture = "SELECT users.picturelink FROM users WHERE users.userid=$1";
+
 module.exports = {
     getUsers,
     addUser,
@@ -34,5 +36,6 @@ module.exports = {
     getpassword,
     updatePassword,
     updatePicture,
-    deletePicture
+    deletePicture,
+    getPicture,
 }
