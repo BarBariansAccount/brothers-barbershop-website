@@ -7,9 +7,22 @@ platform:
   arch: amd64
 
 clone:
-  retries: 3
+  disable: true
+  when:
+    branch:
+    - main
 
 steps:
+- name: custom-clone
+  commands:
+  - git init
+  - git remote add origin https://github.com/BarBariansAccount/brothers-barbershop-website.git
+  - git fetch
+  - git checkout main
+  when:
+    branch:
+    - main
+
 - name: full-clean-up
   commands:
   - ci-cd/docker/full-clean-up.sh
