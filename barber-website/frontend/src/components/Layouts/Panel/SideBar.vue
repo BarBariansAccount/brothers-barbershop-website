@@ -119,11 +119,7 @@ export default {
                         title: "Orders",
                         to: "/panel/orders"
                     },
-                    {
-                        action: "mdi-calendar",
-                        title: "Availabilities",
-                        to: "/panel/availabilities"
-                    },
+                   
                     {
                         action: "mdi-account",
                         active: true,
@@ -141,13 +137,9 @@ export default {
                     {
                         action: "mdi-home",
                         title: "Home",
-                        to: "/panel"
+                        to: "/panel/barber"
                     },
-                    {
-                        action: "mdi-basket",
-                        title: "Orders",
-                        to: "/panel/orders"
-                    },
+           
                     {
                         action: "mdi-calendar",
                         title: "Appointments",
@@ -184,8 +176,7 @@ export default {
                         items: [
                             { title: "Edit Profile", to: "/panel/profile/edit_profile" },
                             { title: "Change Password", to: "/panel/profile/change-password" },
-                            { title: "Unsubscribe", to: "/panel/profile/unsubscribe" },
-                        ],
+                                              ],
                         title: "Profile",
                     }
 

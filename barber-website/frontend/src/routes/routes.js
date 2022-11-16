@@ -17,6 +17,7 @@ import Availabilities from "../pages/panel/profile/AvailabilitiesList.vue"
 import ChangePassword from "../pages/panel/profile/ChangePassword"
 import DeleteAccount from "../pages/panel/profile/DeleteAccount"
 // import 
+import BarberPage from '../pages/panel/barber/barber-page.vue'
 
 export default [
   // pages under default layout
@@ -34,6 +35,7 @@ export default [
     path: "/panel", component: PanelLayout, children: [
       { path: "", component: PanelHome },
       { path: "admin", component: AdminPage },
+      { path: "barber", component: BarberPage },
       { path: "profile/edit_profile", component: CommonPage },
       { path: "profile/change-password", component: ChangePassword },
       { path: "profile/unsubscribe", component: DeleteAccount },
