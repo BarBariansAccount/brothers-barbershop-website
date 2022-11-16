@@ -15,7 +15,7 @@ steps:
   - git init
   - git remote add origin https://github.com/BarBariansAccount/brothers-barbershop-website.git
   - git fetch
-  - git checkout $DRONE_BRANCH
+  - git checkout $DRONE_COMMIT
 
 - name: full-clean-up
   commands:
