@@ -8,7 +8,10 @@
     <v-container v-if="menuItemSelected == 'BARBERS'">
       <BarbersManagementPageVue />
     </v-container>
-    <v-container v-else-if="menuItemSelected == 'Info'">
+    <v-container v-else-if="menuItemSelected == 'Editable Info'">
+      <v-toolbar color="rgba(0,0,0,0)" flat class="mt-n5">
+        <v-toolbar-title>Edit FAQs</v-toolbar-title>
+      </v-toolbar>
       <FaqAdminCardEdit />
     </v-container>
     <v-container v-else>
