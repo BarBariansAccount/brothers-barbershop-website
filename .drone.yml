@@ -41,6 +41,9 @@ steps:
   - docker network create barber-network
   - docker build -t barbershop:backend --target production -f "ci-cd/docker/dockerfiles/backend-dockerfile" .
   - docker build -t barbershop:frontend --target production -f "ci-cd/docker/dockerfiles/frontend-dockerfile" .
+  when:
+    branch:
+    - main
 
 - name: deploy
   environment:
@@ -51,3 +54,6 @@ steps:
   - sleep 5
   - docker run -p 5001:5001 --net barber-network --name backend -d barbershop:backend 
   - docker run -p 7070:8080 --net barber-network --name frontend -d barbershop:frontend
+  when:
+    branch:
+    - main
