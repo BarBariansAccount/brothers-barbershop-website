@@ -8,7 +8,7 @@
     <v-container v-if="menuItemSelected == 'BARBERS'">
       <BarbersManagementPageVue />
     </v-container>
-    <v-container v-if="menuItemSelected == 'Info'">
+    <v-container v-else-if="menuItemSelected == 'Info'">
       <FaqAdminCardEdit />
     </v-container>
     <v-container v-else>
@@ -48,21 +48,6 @@ export default {
 
   data() {
     return {
-      menuItems: [
-        {
-          title: "OVERVIEW",
-          icons: mdiInformationOutline,
-        },
-        {
-          title: "BARBERS",
-
-          icons: mdiAccountGroupOutline,
-        },
-        { title: "Info", icons: mdiAccountTie },
-        { title: "APPOINTMENT", icons: mdiCalendar },
-        { title: "GALLERY", icons: mdiImage },
-        { title: "STATS", icons: mdiFinance },
-      ],
       menuItemSelected: "",
     };
   },
