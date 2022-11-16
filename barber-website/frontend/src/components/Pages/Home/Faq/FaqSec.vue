@@ -10,7 +10,7 @@
       </v-col>
     </v-row>
     <v-row class="review-sec">
-      <FaqCard />
+      <FaqCard :isContentEditableByTheUser="true" />
     </v-row>
   </v-container>
 </template>

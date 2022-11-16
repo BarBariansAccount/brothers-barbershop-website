@@ -9,11 +9,19 @@
           height="300"
         >
           <v-card-text class="text-center">
-            <p class="my-2 text-center font-weight-bold text-h5">
+            <p
+              @input="(event) => (question = event.target.value)"
+              class="my-2 text-center font-weight-bold text-h5"
+              :contentEditable="isContentEditableByTheUser"
+            >
               {{ faq.question }}
             </p>
 
-            <div contentEditable="True" class="text-center mt-6 text-h6">
+            <div
+              @input="(event) => (answer = event.target.value)"
+              :contentEditable="isContentEditableByTheUser"
+              class="text-center mt-6 text-h6"
+            >
               {{ faq.answer }}
             </div>
           </v-card-text>
@@ -26,12 +34,27 @@
 import SavedFAQs from "@/services/user";
 
 export default {
+  props: { isContentEditableByTheUser: Boolean },
   data: () => ({
     loading: false,
     selection: 1,
-    faqsDict: {},
     faqList: [],
+    question: "",
+    answer: "",
   }),
+  watch: {
+    // whenever question changes, this function will run
+    question(newQuestion, oldQuestion) {
+      if (newQuestion != oldQuestion) {
+        console.log("Question is different");
+      }
+    },
+    answer(newAnswer, oldAnswer) {
+      if (newAnswer != oldAnswer) {
+        console.log("Answer is  different");
+      }
+    },
+  },
 
   methods: {
     reserve() {
