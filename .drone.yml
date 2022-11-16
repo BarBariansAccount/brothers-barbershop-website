@@ -6,7 +6,17 @@ platform:
   os: linux
   arch: amd64
 
+clone:
+  disable: true
+
 steps:
+- name: custom-clone
+  commands:
+  - git init
+  - git remote add origin https://github.com/BarBariansAccount/brothers-barbershop-website.git
+  - git fetch
+  - git checkout $DRONE_SOURCE_BRANCH
+
 - name: full-clean-up
   commands:
   - ci-cd/docker/full-clean-up.sh
