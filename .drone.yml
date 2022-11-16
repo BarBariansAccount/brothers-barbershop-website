@@ -6,6 +6,9 @@ platform:
   os: linux
   arch: amd64
 
+clone:
+  retries: 3
+
 steps:
 - name: full-clean-up
   commands:
