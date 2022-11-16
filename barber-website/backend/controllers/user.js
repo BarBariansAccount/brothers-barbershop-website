@@ -3,6 +3,7 @@ const pool = require('../config/database.js')
 const UserModel = require("../models/UserModel.js")
 const bcrypt = require("bcrypt")
 const JWT = require("jsonwebtoken");
+const fs = require("fs");
 
 const getusers = async (req, res) => {
     const logged_userId= req.Logged_userId.data;
@@ -202,7 +203,7 @@ const updatePassword= async(req,res)=>{
             
         else{
             const hash = bcrypt.hashSync(NewPassword, 12);
-            let results = await pool.query(UserModel.updatePassword, [logged_userId,hash]);
+            await pool.query(UserModel.updatePassword, [logged_userId,hash]);
             res.status(200).send("Password is changed sucessfully.");
         }
         
@@ -220,6 +221,7 @@ const updatePicture= async(req,res)=>{
     }
 
     try{
+        //hardcoded
         const picturepath = "http://localhost:5001/uploads/"+ req.file.filename;
 
         await pool.query(UserModel.updatePicture, [logged_userId,picturepath])
@@ -234,14 +236,26 @@ const updatePicture= async(req,res)=>{
 
 const deletePicture = async(req,res)=>{
     const logged_userId= req.Logged_userId.data;
+    
 
     try{
-       
+        let picturePath=  await pool.query(UserModel.getPicture, [logged_userId])
+        
+        picturePath =picturePath.rows[0].picturelink
+    
+        picturePath =  picturePath.substring(30,picturePath.length)
+
+        picturePath ="./uploads/" + picturePath
+        console.log(picturePath)
+
+        fs.unlinkSync(picturePath)
+
         await pool.query(UserModel.deletePicture, [logged_userId])
 
         res.status(200).send("Picture has been removed.");
 
     } catch (error){
+        console.log(error)
         res.status(400).send(error)
     }    
 
