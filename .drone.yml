@@ -21,15 +21,8 @@ steps:
   - git checkout $DRONE_SOURCE_BRANCH
 
 - name: full-clean-up
-  failure: ignore
   commands:
-  - docker rm -f backend
-  - docker rm -f frontend
-  - docker rm -f database
-  - docker rm -f backend-test
-  - docker rm -f frontend-test
-  - docker network rm barber-network
-  - docker network rm barber-network-test
+  - ci-cd/docker/full-clean-up.sh
 
 - name: metric-scan
   environment:
@@ -53,13 +46,8 @@ steps:
   # docker build --network barber-network-test -t barbershop:frontend-test --target test -f "ci-cd/docker/frontend-dockerfile" .
 
 - name: testing-clean-up
-  failure: ignore
   commands:
-  - docker rm $(docker ps --filter status=exited -q)
-  - docker rm -f database
-  - docker rm -f backend-test
-  - docker rm -f frontend-test
-  - docker network rm barber-network-test
+  - ci-cd/docker/testing-clean-up.sh
 
 - name: build
   commands:
