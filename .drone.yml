@@ -22,7 +22,13 @@ steps:
 
 - name: full-clean-up
   commands:
-  - ci-cd/docker/full-clean-up.sh
+  - docker rm -f backend
+  - docker rm -f frontend
+  - docker rm -f database
+  - docker rm -f backend-test
+  - docker rm -f frontend-test
+  - docker network rm barber-network
+  - docker network rm barber-network-test
 
 - name: metric-scan
   environment:
@@ -42,18 +48,22 @@ steps:
   - docker network create barber-network-test
   - docker run --name database -v "$PWD/ci-cd/init-db.sh":/docker-entrypoint-initdb.d/init-db.sh -e POSTGRES_PASSWORD=$PASSWORD -e POSTGRES_DB=barbershop -p 5432:5432 --net barber-network-test -d postgres
   - sleep 5
-  - docker build --network barber-network-test -t barbershop:backend-test --target test -f "ci-cd/docker/dockerfiles/backend-dockerfile" .
-  # docker build --network barber-network-test -t barbershop:frontend-test --target test -f "ci-cd/docker/dockerfiles/frontend-dockerfile" .
+  - docker build --network barber-network-test -t barbershop:backend-test --target test -f "ci-cd/docker/backend-dockerfile" .
+  # docker build --network barber-network-test -t barbershop:frontend-test --target test -f "ci-cd/docker/frontend-dockerfile" .
 
 - name: testing-clean-up
   commands:
-  - ci-cd/docker/testing-clean-up.sh
+  - docker rm $(docker ps --filter status=exited -q)
+  - docker rm -f database
+  - docker rm -f backend-test
+  - docker rm -f frontend-test
+  - docker network rm barber-network-test
 
 - name: build
   commands:
   - docker network create barber-network
-  - docker build -t barbershop:backend --target production -f "ci-cd/docker/dockerfiles/backend-dockerfile" .
-  - docker build -t barbershop:frontend --target production -f "ci-cd/docker/dockerfiles/frontend-dockerfile" .
+  - docker build -t barbershop:backend --target production -f "ci-cd/docker/backend-dockerfile" .
+  - docker build -t barbershop:frontend --target production -f "ci-cd/docker/frontend-dockerfile" .
   when:
     branch:
     - main
