@@ -2,7 +2,8 @@
 node_modules
 /uploads/
 /dist
-/config/
+/config/database.js
+/uploads/
 
 
 

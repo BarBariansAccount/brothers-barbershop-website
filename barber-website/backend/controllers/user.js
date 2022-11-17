@@ -246,7 +246,6 @@ const deletePicture = async(req,res)=>{
         picturePath =  picturePath.substring(30,picturePath.length)
 
         picturePath ="./uploads/" + picturePath
-        console.log(picturePath)
 
         fs.unlinkSync(picturePath)
 
