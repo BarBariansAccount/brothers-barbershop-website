@@ -1,11 +1,5 @@
 <template>
   <div>
-    <!-- <v-row>
-      <v-col cols="12" class="mt-4 text-right">
-        Barbershop Current Status: <strong>{{ status }}</strong> <br />
-        Next Availability: <strong>{{ nextAvailability }}</strong>
-      </v-col>
-    </v-row> -->
     <SlideshowSection :status="status" :nextAvailability="nextAvailability" />
     <v-row class="mb-8 mt-8" justify="center">
       <v-col cols="12" lg="6" justify="center">
