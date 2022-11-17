@@ -21,6 +21,7 @@ steps:
   - git checkout $DRONE_SOURCE_BRANCH
 
 - name: full-clean-up
+  failure: ignore
   commands:
   - docker rm -f backend
   - docker rm -f frontend
@@ -52,6 +53,7 @@ steps:
   # docker build --network barber-network-test -t barbershop:frontend-test --target test -f "ci-cd/docker/frontend-dockerfile" .
 
 - name: testing-clean-up
+  failure: ignore
   commands:
   - docker rm $(docker ps --filter status=exited -q)
   - docker rm -f database
