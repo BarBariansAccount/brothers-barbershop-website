@@ -26,4 +26,4 @@ RUN npm test
 
 # For production
 FROM base as production
-CMD [ "node", "server.js" ]
+CMD npm start
