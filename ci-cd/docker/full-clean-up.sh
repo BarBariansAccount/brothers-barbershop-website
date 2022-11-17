@@ -1,5 +1,6 @@
 #!/bin/bash
 
+echo "It's okay if this fails, it is only clean up commands"
 docker rm -f backend
 docker rm -f frontend
 docker rm -f database
