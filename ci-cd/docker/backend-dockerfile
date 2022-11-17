@@ -1,0 +1,29 @@
+# Syntax=docker/dockerfile:1
+FROM node:18 as base
+
+# Create app directory
+WORKDIR /usr/src/app
+
+# Install app dependencies
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
+# where available (npm@5+)
+COPY barber-website/backend/package*.json ./
+
+# If you are building your code for production
+# RUN npm ci --only=production
+RUN npm install
+
+# Bundle app source
+COPY barber-website/backend/ .
+
+# Export ports
+ENV PORT=5001
+EXPOSE 5001/tcp
+
+# For testing
+FROM base as test
+RUN npm test
+
+# For production
+FROM base as production
+CMD npm start

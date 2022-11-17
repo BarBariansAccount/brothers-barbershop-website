@@ -1,0 +1,2 @@
+- take care of setup scripts in repos root
+- remove sensitive data in drone reset script
