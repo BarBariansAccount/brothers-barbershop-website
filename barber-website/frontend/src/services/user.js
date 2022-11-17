@@ -34,6 +34,10 @@ export default new (class UserService {
   getAllFaqs = () => {
     return api.get("/getFAQ");
   };
+  createFaq= (data) => {
+    return api.post("/addFAQ",data);
+  };
+
 
 })();
 
