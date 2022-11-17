@@ -1,6 +1,6 @@
 <template>
   <div>
-    <FaqCard :isContentEditableByTheUser="true" />
+    <FaqCard :isAdminEditableComponent="true" />
   </div>
 </template>
 <script>

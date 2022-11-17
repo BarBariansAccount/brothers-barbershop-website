@@ -1,71 +1,51 @@
 <template>
   <v-container>
-    <v-row>
-      <v-col cols="12" md="4" class="" v-for="faq in faqList" :key="faq.faqid">
-        <v-card
-          class="mx-auto rounded-xl"
-          color="#F7F7F7"
-          max-height="500px"
-          height="300"
+    <v-row justify="center" style="width: 100%">
+      <v-col>
+        <v-expansion-panels popout>
+          <v-expansion-panel v-for="faq in faqList" :key="faq.faqid">
+            <v-expansion-panel-header>
+              <div>
+                <span>{{ faq.question }}</span>
+              </div></v-expansion-panel-header
+            >
+            <v-expansion-panel-content>
+              <span>{{ faq.answer }}</span>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+        </v-expansion-panels>
+      </v-col>
+    </v-row>
+    <v-row
+      v-if="
+        this.$store.state.user?.userrole == 'Admin' && isAdminEditableComponent
+      "
+    >
+      <v-col cols="12">
+        <v-btn color="black" class="mb-6 mt-2" @click="addFAQ()" outlined
+          >ADD</v-btn
         >
-          <v-card-text class="text-center">
-            <p
-              @input="(event) => (question = event.target.value)"
-              class="my-2 text-center font-weight-bold text-h5"
-              :contentEditable="isContentEditableByTheUser"
-            >
-              {{ faq.question }}
-            </p>
-
-            <div
-              @input="(event) => (answer = event.target.value)"
-              :contentEditable="isContentEditableByTheUser"
-              class="text-center mt-6 text-h6"
-            >
-              {{ faq.answer }}
-            </div>
-          </v-card-text>
-        </v-card>
       </v-col>
     </v-row>
   </v-container>
 </template>
-<script>
-import SavedFAQs from "@/services/user";
 
+<script>
+import faqServices from "@/services/user";
+import Swal from "sweetalert2/src/sweetalert2.js";
 export default {
-  props: { isContentEditableByTheUser: Boolean },
-  data: () => ({
-    loading: false,
-    selection: 1,
-    faqList: [],
-    question: "",
-    answer: "",
-  }),
-  watch: {
-    // whenever question changes, this function will run
-    question(newQuestion, oldQuestion) {
-      if (newQuestion != oldQuestion) {
-        console.log("Question is different");
-      }
-    },
-    answer(newAnswer, oldAnswer) {
-      if (newAnswer != oldAnswer) {
-        console.log("Answer is  different");
-      }
-    },
+  props: {
+    isAdminEditableComponent: Boolean,
   },
+  data: () => ({
+    faqList: [],
+  }),
 
   methods: {
-    reserve() {
-      this.loading = true;
-      setTimeout(() => (this.loading = false), 2000);
-    },
-
     async getFAQ() {
       try {
         console.log("Getting the list of FAQs");
-        const response = await SavedFAQs.getAllFaqs();
+        const response = await faqServices.getAllFaqs();
         console.log("retrieved the FAQs");
         this.getTheFAQsValues(response.data);
         console.log(this.faqList);
@@ -74,8 +54,41 @@ export default {
       }
     },
     getTheFAQsValues(faqData) {
+      this.faqList = [];
       for (var i = 0; i < faqData.length; i++) {
         this.faqList.push(faqData[i]);
+      }
+    },
+    async addFAQ() {
+      const { value: formValues } = await Swal.fire({
+        title: "New FAQ",
+        html:
+          '<input placeholder="Question" id="swal-input1" class="swal2-input" style="width: 18em">' +
+          '<textarea placeholder="Answer" id="swal-input2" class="swal2-input" style="width: 18em">',
+        focusConfirm: false,
+        preConfirm: () => {
+          return [
+            document.getElementById("swal-input1").value,
+            document.getElementById("swal-input2").value,
+          ];
+        },
+      });
+
+      if (formValues) {
+        this.createFAQ(formValues[0], formValues[1]);
+        Swal.fire(JSON.stringify(formValues));
+      }
+    },
+
+    async createFAQ(question, answer) {
+      try {
+        faqServices.createFaq({
+          question: question,
+          answer: answer,
+        });
+        this.getFAQ();
+      } catch (e) {
+        console.log(e);
       }
     },
   },
