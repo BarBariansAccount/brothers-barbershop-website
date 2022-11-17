@@ -23,8 +23,8 @@ router.beforeEach((to, _, next) => {
   let publicPages = ["/", "/gallery", "/appointment", "/products"];
 
   // public routes based on role
-  if (role == "Admin") publicPages = ["/admin", ""];
-  if (role == "Barber") publicPages.push('/panel', '/panel/availabilities', '/panel/profile/edit_profile', '/panel/profile/change-password', '/panel/profile/unsubscribe')
+  if (role == "Admin") publicPages.push(["/panel/admin", ""]);
+  if (role == "Barber") publicPages.push('/panel/barber', '/panel/availabilities', '/panel/profile/edit_profile', '/panel/profile/change-password', '/panel/profile/unsubscribe')
   if (role == "Customer") publicPages.push('/panel', '/panel/orders', '/panel/profile/edit_profile', '/panel/profile/change-password', '/panel/profile/unsubscribe')
 
 

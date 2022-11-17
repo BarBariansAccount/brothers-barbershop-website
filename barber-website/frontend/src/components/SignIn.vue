@@ -65,7 +65,7 @@ export default {
         this.errorNumberOrPassword = "Please fill up the fields";
         return;
       }
-      //This type of valication is not standard , you can use Vee-Validate(V.3) fot it
+      // This type of valication is not standard , you can use Vee-Validate(V.3) fot it
       if (!this.validatePhoneNumber()) {
         console.log("I'm in here");
         this.invalidPhoneNumber = "Invalid Phone number";
@@ -85,9 +85,10 @@ export default {
         console.log(userrole)
         if (userrole == 'Admin') {
           this.$router.push('/panel/admin')
+        } else if (userrole == 'Barber') {
+          this.$router.push('/panel/barber')
         } else {
           this.$router.push('/panel')
-
         }
       } catch (error) {
         this.errorNumberOrPassword = "Wrong phone Number or Password ";
