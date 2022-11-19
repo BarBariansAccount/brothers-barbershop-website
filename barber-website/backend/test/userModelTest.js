@@ -1,5 +1,4 @@
 const {
-
     createUser,
     validateLogin,
     updateUser,
@@ -61,13 +60,11 @@ const checkAndGetAdminId = async function () {
     await validateLogin(adminData, res);
     adminId = res.json.getCall(0).args[0].User.userid;
 
-
     return adminId;
 
 }
 
 describe("UserController related Tests", function () {
-
 
     it("test create user", async function () {
 
@@ -93,8 +90,6 @@ describe("UserController related Tests", function () {
 
         assert.equal(res.send.getCall(0).args[0][0].firstname, updateData.FirstName);
 
-
-
     })
 
     it("test update password and delete without permission", async function () {
@@ -117,11 +112,9 @@ describe("UserController related Tests", function () {
         assert.equal(res.status.calledWith(200), true);
         //validated by the validateLogin bellow
 
-
         res = mockResponse();
         await validateLogin(modifiedPasswordData, res);
         assert.equal(res.status.calledWith(200), true);
-
 
         res = mockResponse();
         await deleteUser(req, res);
@@ -140,13 +133,11 @@ describe("UserController related Tests", function () {
     it('test create user by admin and get users', async function () {
         adminId = await checkAndGetAdminId();
 
-
         req = mockRequest(userData2);
         req.Logged_userId = { data: adminId };
         await createUser(req, res);
         assert.equal(res.status.calledWith(200), true);
         // data checked by get users bellow
-
 
         res = mockResponse();
         await getusers(req, res);
@@ -159,7 +150,6 @@ describe("UserController related Tests", function () {
         await validateLogin(req, res);
         assert.equal(res.status.calledWith(200), true);
         userId2 = res.json.getCall(0).args[0].User.userid;
-
 
     })
 
@@ -184,15 +174,9 @@ describe("UserController related Tests", function () {
         await deletePicture(req, res);
         assert.equal(res.status.calledWith(200), true);
 
-
-
-
-
     })
 
     it('test delete user', async function () {
-
-
         res = mockResponse();
         req = { body: { UserID: userId } };
         req.Logged_userId = { data: adminId };
@@ -211,7 +195,6 @@ describe("UserController related Tests", function () {
         await getusers(req, res);
         assert.equal(res.status.calledWith(200), true);
         assert.equal(res.json.getCall(0).args[0].length, 1);
-
 
     })
 
