@@ -58,7 +58,6 @@ export default {
           ];
         },
       });
-      console.log("calling reate faq");
       this.createFAQ(formValues[0], formValues[1]);
       if (formValues) {
         Swal.fire(JSON.stringify(formValues));
