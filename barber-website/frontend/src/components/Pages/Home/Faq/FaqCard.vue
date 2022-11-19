@@ -26,7 +26,6 @@ export default {
   data: () => ({
     faqList: [],
   }),
-
   methods: {
     async getFAQ() {
       try {
@@ -65,7 +64,6 @@ export default {
         Swal.fire(JSON.stringify(formValues));
       }
     },
-
     async createFAQ(question, answer) {
       console.log("Creating the new FAQ");
       try {

@@ -23,7 +23,6 @@ export default {
   data: () => ({
     addButtonTriggered: false,
   }),
-
   methods: {
     async addButton() {
       await this.$refs.add.addnewFAQ();
