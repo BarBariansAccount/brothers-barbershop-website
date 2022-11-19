@@ -16,17 +16,6 @@
         </v-expansion-panels>
       </v-col>
     </v-row>
-    <v-row
-      v-if="
-        this.$store.state.user?.userrole == 'Admin' && isAdminEditableComponent
-      "
-    >
-      <v-col cols="12">
-        <v-btn color="black" class="mb-6 mt-2" @click="addFAQ()" outlined
-          >ADD</v-btn
-        >
-      </v-col>
-    </v-row>
   </v-container>
 </template>
 
@@ -34,9 +23,6 @@
 import faqServices from "@/services/user";
 import Swal from "sweetalert2/src/sweetalert2.js";
 export default {
-  props: {
-    isAdminEditableComponent: Boolean,
-  },
   data: () => ({
     faqList: [],
   }),
@@ -59,7 +45,7 @@ export default {
         this.faqList.push(faqData[i]);
       }
     },
-    async addFAQ() {
+    async addnewFAQ() {
       const { value: formValues } = await Swal.fire({
         title: "New FAQ",
         html:
@@ -73,23 +59,25 @@ export default {
           ];
         },
       });
-
+      console.log("calling reate faq");
+      this.createFAQ(formValues[0], formValues[1]);
       if (formValues) {
-        this.createFAQ(formValues[0], formValues[1]);
         Swal.fire(JSON.stringify(formValues));
       }
     },
 
     async createFAQ(question, answer) {
+      console.log("Creating the new FAQ");
       try {
-        faqServices.createFaq({
+        await faqServices.createFaq({
           question: question,
           answer: answer,
         });
-        this.getFAQ();
       } catch (e) {
         console.log(e);
       }
+      this.getFAQ();
+      console.log("New FAQ created");
     },
   },
   created() {
