@@ -13,6 +13,7 @@ const {
 } = require("../controllers/user")
 const { assert } = require('chai')
 const { mockRequest, mockResponse, sleep } = require('./commonTestingMethods')
+const fs = require("fs")
 
 
 const userData = {
@@ -163,8 +164,10 @@ describe("UserController related Tests", function () {
     })
 
     it('test picture related feature', async function () {
-
+        //mock image upload by create an empty test image
         const picturePath = "http://localhost:5001/uploads/" + pictureRequest.file.filename;
+        const filePath = "./uploads/" + pictureRequest.file.filename;
+        fs.closeSync(fs.openSync(filePath, 'w'))
 
         req = pictureRequest;
         req.Logged_userId = { data: userId2 };
@@ -179,8 +182,8 @@ describe("UserController related Tests", function () {
 
         res = mockResponse();
         await deletePicture(req, res);
-        // will have error since  picture is actually not there
-        assert.equal(res.status.calledWith(400), true);
+        assert.equal(res.status.calledWith(200), true);
+
 
 
 
