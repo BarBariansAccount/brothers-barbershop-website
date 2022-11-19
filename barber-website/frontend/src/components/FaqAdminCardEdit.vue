@@ -7,7 +7,9 @@
             <v-toolbar-title>Edit FAQs</v-toolbar-title>
           </v-col>
           <v-col class="text-end">
-            <v-icon @click="addButton()">$custom</v-icon>
+            <v-icon @click="addButton()" size="35">{{
+              addIcon.mdiPlaylistPlus
+            }}</v-icon>
           </v-col>
         </v-row>
       </v-toolbar>
@@ -16,12 +18,14 @@
   </div>
 </template>
 <script>
+import { mdiPlaylistPlus } from "@mdi/js";
 import FaqCard from "./Pages/Home/Faq/FaqCard.vue";
 
 export default {
   components: { FaqCard },
   data: () => ({
     addButtonTriggered: false,
+    addIcon: { mdiPlaylistPlus },
   }),
   methods: {
     async addButton() {
