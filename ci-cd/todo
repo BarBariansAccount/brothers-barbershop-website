@@ -1,2 +1,2 @@
-- take care of setup scripts in repos root
 - remove sensitive data in drone reset script
+- remove hardcoded password from backend/config/database.js
