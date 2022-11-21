@@ -35,7 +35,8 @@ steps:
   # docker build --network barber-network-dev -t barbershop:frontend-test --target test -f "ci-cd/docker/frontend-dockerfile" .
   when:
     branch:
-    - main
+      exclude:
+      - main
 
 - name: test-and-scan
   environment:
@@ -46,6 +47,9 @@ steps:
   - sleep 5
   - docker build --network barber-network-dev -t barbershop:backend-test --target test-scan -f "ci-cd/docker/backend-dockerfile" .
   # docker build --network barber-network-dev -t barbershop:frontend-test --target test-scan -f "ci-cd/docker/frontend-dockerfile" .
+  when:
+    branch:
+    - main
 
 - name: testing-clean-up
   commands:
