@@ -24,16 +24,6 @@ steps:
   commands:
   - ci-cd/docker/full-clean-up.sh
 
-- name: metric-scan
-  environment:
-    SONAR_TOKEN:
-      from_secret: sonar_token
-  commands:
-  - docker run --rm -e SONAR_HOST_URL="http://localhost:9001/" -e SONAR_SCANNER_OPTS="-Dsonar.projectKey=Brothers-Barbershop" -e SONAR_LOGIN="$SONAR_TOKEN" -v "$PWD:/usr/src" --network=host sonarsource/sonar-scanner-cli
-  when:
-    branch:
-    - main
-
 - name: test
   environment:
     PASSWORD:
@@ -44,6 +34,13 @@ steps:
   - sleep 5
   - docker build --network barber-network-test -t barbershop:backend-test --target test -f "ci-cd/docker/backend-dockerfile" .
   # docker build --network barber-network-test -t barbershop:frontend-test --target test -f "ci-cd/docker/frontend-dockerfile" .
+
+- name: metric-scan
+  environment:
+    SONAR_TOKEN:
+      from_secret: sonar_token
+  commands:
+  - docker run --rm -e SONAR_HOST_URL="http://localhost:9002/" -e SONAR_SCANNER_OPTS="-Dsonar.projectKey=Brothers-Barbershop" -e SONAR_LOGIN="sqp_348155db2795b689d8a01f799f195feea0856db9" -v "$PWD:/usr/src" --network=host sonarsource/sonar-scanner-cli
 
 - name: testing-clean-up
   commands:
