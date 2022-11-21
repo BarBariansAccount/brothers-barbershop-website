@@ -29,18 +29,11 @@ steps:
     PASSWORD:
       from_secret: database_password
   commands:
-  - docker network create barber-network-test
-  - docker run --name database -v "$PWD/ci-cd/init-db.sh":/docker-entrypoint-initdb.d/init-db.sh -e POSTGRES_PASSWORD=$PASSWORD -e POSTGRES_DB=barbershop -p 5432:5432 --net barber-network-test -d postgres
+  - docker network create barber-network-dev
+  - docker run --name database -v "$PWD/ci-cd/init-db.sh":/docker-entrypoint-initdb.d/init-db.sh -e POSTGRES_PASSWORD=$PASSWORD -e POSTGRES_DB=barbershop -p 5432:5432 --net barber-network-dev -d postgres
   - sleep 5
-  - docker build --network barber-network-test -t barbershop:backend-test --target test -f "ci-cd/docker/backend-dockerfile" .
-  # docker build --network barber-network-test -t barbershop:frontend-test --target test -f "ci-cd/docker/frontend-dockerfile" .
-
-- name: metric-scan
-  environment:
-    SONAR_TOKEN:
-      from_secret: sonar_token
-  commands:
-  - docker run --rm -e SONAR_HOST_URL="http://localhost:9002/" -e SONAR_SCANNER_OPTS="-Dsonar.projectKey=Brothers-Barbershop -Dsonar.javascript.lcov.reportPaths=/usr/src/barber-website/backend/coverage/lcov.info" -e SONAR_LOGIN="sqp_348155db2795b689d8a01f799f195feea0856db9" -v "$PWD:/usr/src" --network=host sonarsource/sonar-scanner-cli
+  - docker build --network barber-network-dev -t barbershop:backend-test --target test -f "ci-cd/docker/backend-dockerfile" .
+  # docker build --network barber-network-dev -t barbershop:frontend-test --target test -f "ci-cd/docker/frontend-dockerfile" .
 
 - name: testing-clean-up
   commands:

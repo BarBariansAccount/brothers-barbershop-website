@@ -23,6 +23,8 @@ EXPOSE 5001/tcp
 # For testing
 FROM base as test
 RUN npm run test-unit
+RUN ls coverage
+RUN npm run sonar-scanner
 
 # For production
 FROM base as production
