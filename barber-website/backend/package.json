@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon backend.js",
     "test": "mocha --timeout 10000",
-    "test-unit": "npx c8 -r html --all --src './backend/controllers' mocha",
+    "test-unit": "npx c8 -r lcov --all --src './backend/controllers' mocha",
     "test-integration": "mocha './test/integrationTest/*'"
   },
   "author": "",
