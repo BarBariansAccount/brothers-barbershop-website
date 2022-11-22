@@ -46,11 +46,11 @@
 <script>
 import {
   mdiFinance,
-  mdiAccountTie,
   mdiImage,
   mdiInformationOutline,
   mdiCalendar,
   mdiAccountGroupOutline,
+  mdiAccountEdit,
 } from "@mdi/js";
 
 export default {
@@ -60,7 +60,7 @@ export default {
       menuItems: [
         { title: "OVERVIEW", icon: mdiInformationOutline },
         { title: "BARBERS", icon: mdiAccountGroupOutline },
-        { title: "CLIENTS", icon: mdiAccountTie },
+        { title: "Editable Info", icon: mdiAccountEdit },
         { title: "APPOINTMENT", icon: mdiCalendar },
         { title: "GALLERY", icon: mdiImage },
         { title: "STATS", icon: mdiFinance },
@@ -76,5 +76,3 @@ export default {
   },
 };
 </script>
-
-<style></style>

@@ -10,9 +10,7 @@
       </v-col>
     </v-row>
     <v-row class="review-sec">
-      <v-col v-for="n in 3" :key="n" cols="12" md="4">
-        <FaqCard />
-      </v-col>
+      <FaqCard :isContentEditableByTheUser="false" />
     </v-row>
   </v-container>
 </template>
@@ -24,8 +22,4 @@ export default {
   },
 };
 </script>
-<style>
-.review-sec {
-  margin-bottom: 100px;
-}
-</style>
+<style></style>
