@@ -24,7 +24,7 @@ EXPOSE 8080/tcp
 FROM base as test
 RUN apt-get update
 RUN apt-get install -y xvfb libgtk2.0-0 libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libgbm-dev
-RUN npm run test
+CMD npm run serve
 
 # For testing and scanning
 FROM base as test-scan
