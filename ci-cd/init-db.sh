@@ -24,5 +24,4 @@ CREATE TABLE faq(
 );
 
 INSERT INTO USERS (UserRole, Email, firstname,LastName, Telephone, Password) VALUES('Admin','abdulqadir199853@gmail.com','Abdul Qadir','Ali','1111111111','\$2b\$12\$5eTD7nTPFAH4Y3LC3wThvuLz7fHTMygKnxIsLEIafBx0ACxtVer6C');
---INSERT INTO FAQ (question, answer) VALUES('This is a sample of question','This is a sample of answer');
 EOSQL
