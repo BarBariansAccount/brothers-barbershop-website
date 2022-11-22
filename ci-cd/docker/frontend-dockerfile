@@ -23,7 +23,7 @@ EXPOSE 8080/tcp
 # For testing
 FROM base as test
 RUN apt-get update
-RUN apt-get install xvfb
+RUN apt-get install -y xvfb
 RUN npm run test
 
 # For testing and scanning
