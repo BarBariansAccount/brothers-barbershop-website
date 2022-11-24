@@ -83,8 +83,8 @@ describe("FAQ related tests", function () {
 
         res = mockResponse();
         await getFAQ(req, res);
-        assert.equal(res.status.calledWith(200), true);
-        const FAQs = res.json.getCall(0).args[0];
-        assert.equal(FAQs.length, 0);
+        assert.equal(res.status.calledWith(400), true);
+        assert.equal(res.send.calledWith(`There are no FAQ to be shown.`), true)
+
     })
 })
