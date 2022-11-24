@@ -6,7 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "test": "npx cypress run",
+    "test": "npx cypress run --browser chromium",
     "test:window": "npx cypress open",
     "sonar-scanner": "sonar-scanner"
   },
