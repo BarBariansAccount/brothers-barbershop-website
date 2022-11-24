@@ -11,11 +11,12 @@ const getFAQ = async (req, res) => {
     try {
         let results = await pool.query(faqModel.getFAQ)
         if (results.rows.length == 0) {
-            res.status(400).send(`There are no FAQ to be shown.`);
+            return res.status(400).send(`There are no FAQ to be shown.`);
         }
         res.status(200).json(results.rows);
     }
     catch (err) {
+        console.log(err)
         res.status(400).send(err)
     }
 }

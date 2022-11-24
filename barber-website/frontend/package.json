@@ -19,6 +19,7 @@
     "vee-validate": "^3.4.14",
     "vue": "^2.6.14",
     "vue-chartjs": "^4.1.2",
+    "vue-contenteditable": "^1.0.2",
     "vue-router": "^3.6.5",
     "vuetify": "^2.6.0",
     "vuex": "^3.6.2",

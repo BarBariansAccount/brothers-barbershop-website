@@ -48,7 +48,7 @@ describe('Test UserStories', () => {
     clickSignIn();
     cy.get(':nth-child(2) > .col > .v-input > .v-input__control > .v-input__slot').type(account.Telephone);
     cy.get('.v-text-field__slot>[type="password"]').type(account.Password);
-    cy.get('.mt-8').click();
+    cy.get('.mt-8').last().click();
   }
 
   // a function to fill the form 
@@ -89,7 +89,7 @@ describe('Test UserStories', () => {
     cy.get('.barbershop-description').should('exist');
     cy.get('.description-paragraph').invoke('text')
       .then(text => expect(text.length).to.be.at.least(10));
-    cy.get('.mt-4').contains('Current Status').should('exist');
+    cy.contains('Current Status').should('exist');
   })
 
 
@@ -171,7 +171,6 @@ describe('Test UserStories', () => {
   it('UC 27, 36 Create Barber account', () => {
 
     loginAccount(TestAdminInfo);
-    cy.get('[href="/admin"] > .v-btn__content').click();
     cy.get(':nth-child(2) > .d-flex > .row > .col-sm-12').click();
     cy.get('button>span').contains("Add Account").click();
     completeSignupData(TestBarberInfo);
