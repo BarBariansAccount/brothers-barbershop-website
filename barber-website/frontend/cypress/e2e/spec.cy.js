@@ -191,7 +191,7 @@ describe('Test UserStories', () => {
   })
 
 
-  it('UC-29,30 save and edit barber info', () => {
+  it('UC-29,30 save and edit barber info, UC-73 barber-login/out', () => {
     loginAccount(TestBarberInfo);
     //cy.contains("edit profile").click();
     cy.get('[href="/panel/profile/edit_profile"]').click();
