@@ -32,6 +32,11 @@ describe('Test UserStories', () => {
     FirstName: 'CustomerFirst',
     LastName: 'CustomerLast'
   }
+  const ModifiedBarberInfo = {
+    Email: 'e2ebarberModified@gmail.com',
+    FirstName: 'BarberFirstM',
+    LastName: 'BarberLastM'
+  }
   const clickIcon = () => {
     cy.get('.v-toolbar__content > [role="button"]').click();
   }
@@ -48,7 +53,7 @@ describe('Test UserStories', () => {
     clickSignIn();
     cy.get(':nth-child(2) > .col > .v-input > .v-input__control > .v-input__slot').type(account.Telephone);
     cy.get('.v-text-field__slot>[type="password"]').type(account.Password);
-    cy.get('.mt-8').click();
+    cy.get('.mt-8').last().click();
   }
 
   // a function to fill the form 
@@ -56,6 +61,11 @@ describe('Test UserStories', () => {
     cy.get(`:nth-child(${nth}) > .col > .v-input > .v-input__control > .v-input__slot`)
       .last()
       .type(input);
+  }
+  const completeUserInfo = (nth, input) => {
+    cy.get(`:nth-child(${nth}) > :nth-child(1) > .v-input > .v-input__control > .v-input__slot`)
+      .last()
+      .type("{backspace}".repeat(50) + input)
   }
   const completeSignupData = (data) => {
     completeField(2, data.FirstName);
@@ -89,7 +99,7 @@ describe('Test UserStories', () => {
     cy.get('.barbershop-description').should('exist');
     cy.get('.description-paragraph').invoke('text')
       .then(text => expect(text.length).to.be.at.least(10));
-    cy.get('.mt-4').contains('Current Status').should('exist');
+    cy.contains('Current Status').should('exist');
   })
 
 
@@ -146,11 +156,6 @@ describe('Test UserStories', () => {
 
 
 
-
-
-
-
-
   it('UC37, Login to admin account and log out', () => {
 
     loginAccount(TestAdminInfo);
@@ -168,10 +173,9 @@ describe('Test UserStories', () => {
   // })
 
 
-  it('UC 27, 36 Create Barber account', () => {
+  it('UC 27, 36 Create Barber account, UC 120 barber-management', () => {
 
     loginAccount(TestAdminInfo);
-    cy.get('[href="/admin"] > .v-btn__content').click();
     cy.get(':nth-child(2) > .d-flex > .row > .col-sm-12').click();
     cy.get('button>span').contains("Add Account").click();
     completeSignupData(TestBarberInfo);
@@ -179,6 +183,38 @@ describe('Test UserStories', () => {
 
     cy.get('body').click(0, 0);
 
+
+
+    cy.visit('/');
+    logOut();
+
+  })
+
+
+  it('UC-29,30 save and edit barber info, UC-73 barber-login/out', () => {
+    loginAccount(TestBarberInfo);
+    //cy.contains("edit profile").click();
+    cy.get('[href="/panel/profile/edit_profile"]').click();
+
+    completeUserInfo(1, ModifiedBarberInfo.FirstName)
+    completeUserInfo(2, ModifiedBarberInfo.LastName)
+    completeUserInfo(3, ModifiedBarberInfo.Email)
+    clickButtonWith('save')
+
+    //click ok
+    cy.get('.swal2-confirm').last().click()
+    //check modified result
+    cy.get('.menu-wrap > :nth-child(1) > :nth-child(2)')
+      .contains(`${ModifiedBarberInfo.FirstName} ${ModifiedBarberInfo.LastName}`)
+
+    logOut();
+  })
+
+
+  it('UC-28 delete barber-account', () => {
+    loginAccount(TestAdminInfo);
+    cy.get(':nth-child(2) > .d-flex > .row > .col-sm-12').click();
+    //click 3 dot for delete menu
     cy.get('.v-responsive__content > .v-sheet > .v-toolbar__content > .v-btn > .v-btn__content > .v-icon').click()
 
     clickButtonWith('Delete User');
@@ -187,6 +223,8 @@ describe('Test UserStories', () => {
     logOut();
 
   })
+
+
 
 
   //temp removed it for now since backend part for this is not there yet
