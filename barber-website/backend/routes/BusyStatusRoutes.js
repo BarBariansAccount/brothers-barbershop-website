@@ -1,6 +1,6 @@
 require('dotenv').config();
 const express = require("express");
-const BSRouter = express.Router();
+const BusyStatusrouter = express.Router();
 const BusyStatus = require("../controllers/BusyStatus.js");
 const JWT = require("jsonwebtoken");
 const path = require('path')
@@ -24,6 +24,7 @@ function authenticateToken(req, res, next) {
     })
 }
 /*
+
 *****
 Busy Status
 *****
@@ -37,7 +38,7 @@ returns --> res.status(200).send("Busy");
 
 */
 
-BSRouter.get('/getStatus', BusyStatus.getStatus);
+BusyStatusrouter.get('/getStatus', BusyStatus.getStatus);
 
 
 /*
@@ -51,6 +52,6 @@ takes --> {"Status": "Busy"}
     ||res.status(403).send("Malacious user. Only admin can change status.");--> if status is changed by any other account catagory other then admin
 */
 
-BSRouter.put('/updateStatus', authenticateToken, BusyStatus.updateStatus);
+BusyStatusrouter.put('/updateStatus', authenticateToken, BusyStatus.updateStatus);
 
-module.exports = BSRouter;
+module.exports = BusyStatusrouter;
