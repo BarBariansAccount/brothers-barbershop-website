@@ -175,6 +175,7 @@
     <FaqSection />
     <!-- review -->
     <ReviewSection />
+    <InstaSection></InstaSection>
   </div>
 </template>
 
@@ -183,12 +184,14 @@ import BarbershopStatusService from "@/services/barbershopStatus";
 import ReviewSection from "@/components/Pages/Home/Review/ReviewSec.vue";
 import FaqSection from "@/components/Pages/Home/Faq/FaqSec.vue";
 import SlideshowSection from "@/components/Pages/Home/Slideshow/SlideshowSec.vue";
+import InstaSection from "@/components/Pages/Home/Instagram/InstagramSec.vue";
 export default {
   name: "HomePage",
   components: {
     ReviewSection,
     FaqSection,
     SlideshowSection,
+    InstaSection,
   },
   data: () => ({
     status: "",
