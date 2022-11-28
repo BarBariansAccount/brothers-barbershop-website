@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- Slideshow section -->
     <SlideshowSection :status="status" :nextAvailability="nextAvailability" />
     <v-row class="mb-8 mt-8" justify="center">
       <v-col cols="12" lg="6" justify="center">
@@ -171,9 +172,9 @@
         </v-card>
       </v-col>
     </v-row>
-    <!-- faq -->
+    <!-- Faq section -->
     <FaqSection />
-    <!-- review -->
+    <!-- Review section -->
     <ReviewSection />
     <InstaSection></InstaSection>
   </div>
