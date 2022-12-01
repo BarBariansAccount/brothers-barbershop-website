@@ -79,11 +79,7 @@ const Verification= async (req, res) => {
         res.status(400)
    
     }
-
-
-
 }
-
 
 module.exports={
     SendEmail,
