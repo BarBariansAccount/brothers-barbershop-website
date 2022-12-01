@@ -20,3 +20,9 @@ CREATE TABLE faq(
 	PRIMARY KEY (faqid)
 )
 /*INSERT INTO FAQ (question, answer) VALUES('This is a sample of question','This is a sample of answer');*/
+CREATE TABLE ResetPassword(
+	Telephone varchar(45) NOT NULL,
+	ResetCode varchar(45) NOT NULL,
+	Expiretime timestamp NOT NULL,
+	PRIMARY KEY (Telephone)
+)

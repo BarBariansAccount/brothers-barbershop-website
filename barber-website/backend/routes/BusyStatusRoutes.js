@@ -3,7 +3,6 @@ const express = require("express");
 const BusyStatusrouter = express.Router();
 const BusyStatus = require("../controllers/BusyStatus.js");
 const JWT = require("jsonwebtoken");
-const path = require('path')
 
 /*
 JWT authentication
