@@ -1,12 +1,8 @@
 <template>
   <div>
-    <v-row>
-      <v-col cols="12" class="mt-4 text-right">
-        Barbershop Current Status: <strong>{{ status }}</strong> <br />
-        Next Availability: <strong>{{ nextAvailability }}</strong>
-      </v-col>
-    </v-row>
-    <v-row class="map-desc-row" justify="center">
+    <!-- Slideshow section -->
+    <SlideshowSection :status="status" :nextAvailability="nextAvailability" />
+    <v-row class="mb-8 mt-8" justify="center">
       <v-col cols="12" lg="6" justify="center">
         <v-card
           class="text-center d-flex flex-column align-center justify-center"
@@ -33,7 +29,7 @@
           flat
         >
           <div class="barbershop-description">
-            <h2 class="mt-2">COME GET A HAIRCUT</h2>
+            <h2 class="mt-2">ABOUT BROTHERS' BARBERSHOP</h2>
             <br />
             <p class="description-paragraph">
               Lorem ipsum dolor sit amet, consectetur adipisicing elit.
@@ -176,10 +172,11 @@
         </v-card>
       </v-col>
     </v-row>
-    <!-- faq -->
+    <!-- Faq section -->
     <FaqSection />
-    <!-- review -->
+    <!-- Review section -->
     <ReviewSection />
+    <InstaSection></InstaSection>
   </div>
 </template>
 
@@ -187,11 +184,15 @@
 import BarbershopStatusService from "@/services/barbershopStatus";
 import ReviewSection from "@/components/Pages/Home/Review/ReviewSec.vue";
 import FaqSection from "@/components/Pages/Home/Faq/FaqSec.vue";
+import SlideshowSection from "@/components/Pages/Home/Slideshow/SlideshowSec.vue";
+import InstaSection from "@/components/Pages/Home/Instagram/InstagramSec.vue";
 export default {
   name: "HomePage",
   components: {
     ReviewSection,
     FaqSection,
+    SlideshowSection,
+    InstaSection,
   },
   data: () => ({
     status: "",

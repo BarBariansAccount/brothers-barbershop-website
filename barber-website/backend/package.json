@@ -5,9 +5,10 @@
   "main": "backend.js",
   "scripts": {
     "start": "nodemon backend.js",
-    "test": "mocha",
-    "test-unit": "npx c8 -r html --all --src './backend/controllers' mocha",
-    "test-integration": "mocha './test/integrationTest/*'"
+    "test": "mocha --timeout 10000",
+    "test-unit": "npx c8 -r lcov --all --src './backend/controllers' mocha",
+    "test-integration": "mocha './test/integrationTest/*'",
+    "sonar-scanner": "sonar-scanner"
   },
   "author": "",
   "license": "MIT",
@@ -32,6 +33,7 @@
     "mocha": "^10.0.0",
     "nodemon": "^2.0.20",
     "nyc": "^15.1.0",
-    "sinon": "^14.0.0"
+    "sinon": "^14.0.0",
+    "sonarqube-scanner": "^2.8.2"
   }
 }

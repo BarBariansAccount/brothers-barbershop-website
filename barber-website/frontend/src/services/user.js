@@ -31,6 +31,15 @@ export default new (class UserService {
   deletePic = () => {
     return api.post("/deletePicture");
   };
+  getAllFaqs = () => {
+    return api.get("/getFAQ");
+  };
+  createFaq= (data) => {
+    return api.post("/addFAQ",data);
+  };
+  deleteFaq= (data) => {
+    return api.post("/deleteFAQ",data);
+  };
 })();
 
 

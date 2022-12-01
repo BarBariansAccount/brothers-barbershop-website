@@ -79,9 +79,9 @@ export default {
     };
   },
   methods: {
-    selectedAction(optionID, barberPhone) {
+    selectedAction(optionID, barberID) {
       if (optionID == 1) {
-        this.deleteBarber(barberPhone);
+        this.deleteBarber(barberID);
       }
     },
     async getAllBarbers() {
