@@ -1,8 +1,7 @@
 //Backend Entry point
 const express = require("express")
 const morgan = require("morgan")
-const RouterUser = require('./routes/routes.js')
-const RouterResetPassword = require('./routes/ResetPasswordRoutes.js')
+const Router = require('./routes/routes.js')
 const bodyParser = require('body-parser')
 const cors = require("cors")
 
@@ -12,14 +11,12 @@ app.use(morgan('combine'))
 // use cors
 app.use(cors());
 
-app.use('/uploads',express.static('uploads'))
+app.use('/uploads', express.static('uploads'))
 
 // parse application/json
 app.use(bodyParser.json())
 
 //routes
-app.use(RouterUser)
-
-app.use('/ResetPassword', RouterResetPassword)
+app.use(Router)
 
 app.listen(process.env.PORT || 5001)

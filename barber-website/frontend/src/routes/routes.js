@@ -6,7 +6,7 @@ import PanelLayout from '@/layouts/panel.vue'
 import HomePage from "../home/HomePage.vue";
 import AdminPage from "../admin/AdminPage.vue";
 import GalleryPage from "../gallery/GalleryPage.vue";
-import AppointmentPage from "../appointment/AppointmentPage.vue";
+import AppointmentPage from "../pages/appointment/AppointmentPage.vue";
 import BarbersManagementPage from "../admin/BarbersManagementPage.vue";
 // panell components
 import PanelHome from '@/pages/panel/home/HomePage.vue'
@@ -17,6 +17,7 @@ import Availabilities from "../pages/panel/profile/AvailabilitiesList.vue"
 import ChangePassword from "../pages/panel/profile/ChangePassword"
 import DeleteAccount from "../pages/panel/profile/DeleteAccount"
 // import 
+import BarberPage from '../pages/panel/barber/barber-page.vue'
 
 export default [
   // pages under default layout
@@ -34,6 +35,7 @@ export default [
     path: "/panel", component: PanelLayout, children: [
       { path: "", component: PanelHome },
       { path: "admin", component: AdminPage },
+      { path: "barber", component: BarberPage },
       { path: "profile/edit_profile", component: CommonPage },
       { path: "profile/change-password", component: ChangePassword },
       { path: "profile/unsubscribe", component: DeleteAccount },

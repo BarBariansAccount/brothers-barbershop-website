@@ -1,0 +1,78 @@
+kind: pipeline
+type: exec
+name: default
+
+platform:
+  os: linux
+  arch: amd64
+
+clone:
+  disable: true
+
+concurrency:
+  limit: 1
+
+steps:
+- name: custom-clone
+  commands:
+  - git init
+  - git remote add origin https://github.com/BarBariansAccount/brothers-barbershop-website.git
+  - git fetch
+  - git checkout $DRONE_SOURCE_BRANCH
+
+- name: full-clean-up
+  commands:
+  - ci-cd/docker/full-clean-up.sh
+
+- name: test
+  environment:
+    PASSWORD:
+      from_secret: database_password
+  commands:
+  - docker run --name database -v "$PWD/ci-cd/init-db.sh":/docker-entrypoint-initdb.d/init-db.sh -e POSTGRES_PASSWORD=$PASSWORD -e POSTGRES_DB=barbershop -p 5432:5432 --net barber-network-dev -d postgres
+  - sleep 5
+  - docker build --network barber-network-dev -t barbershop:backend-test --target test -f "ci-cd/docker/backend-dockerfile" .
+  # docker build --network barber-network-dev -t barbershop:frontend-test --target test -f "ci-cd/docker/frontend-dockerfile" .
+  when:
+    branch:
+      exclude:
+      - main
+
+- name: test-and-scan
+  environment:
+    PASSWORD:
+      from_secret: database_password
+  commands:
+  - docker run --name database -v "$PWD/ci-cd/init-db.sh":/docker-entrypoint-initdb.d/init-db.sh -e POSTGRES_PASSWORD=$PASSWORD -e POSTGRES_DB=barbershop -p 5432:5432 --net barber-network-dev -d postgres
+  - sleep 5
+  - docker build --network barber-network-dev -t barbershop:backend-test --target test-scan -f "ci-cd/docker/backend-dockerfile" .
+  # docker build --network barber-network-dev -t barbershop:frontend-test --target test-scan -f "ci-cd/docker/frontend-dockerfile" .
+  when:
+    branch:
+    - main
+
+- name: testing-clean-up
+  commands:
+  - ci-cd/docker/testing-clean-up.sh
+
+- name: build
+  commands:
+  - docker network create barber-network
+  - docker build -t barbershop:backend --target production -f "ci-cd/docker/backend-dockerfile" .
+  - docker build -t barbershop:frontend --target production -f "ci-cd/docker/frontend-dockerfile" .
+  when:
+    branch:
+    - main
+
+- name: deploy
+  environment:
+    PASSWORD:
+      from_secret: database_password
+  commands:
+  - docker run --name database -v "$PWD/ci-cd/init-db.sh":/docker-entrypoint-initdb.d/init-db.sh -e POSTGRES_PASSWORD=$PASSWORD -e POSTGRES_DB=barbershop -p 5432:5432 --net barber-network -d postgres
+  - sleep 5
+  - docker run -p 5001:5001 --net barber-network --name backend -d barbershop:backend 
+  - docker run -p 7070:8080 --net barber-network --name frontend -d barbershop:frontend
+  when:
+    branch:
+    - main
