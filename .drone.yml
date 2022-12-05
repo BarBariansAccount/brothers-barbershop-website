@@ -39,7 +39,7 @@ steps:
   - cd $PWD/barber-website/frontend
   - pwd
   - ls -la
-  - docker run -d --net barber-network-dev --name cypress -v $PWD:/e2e -w /e2e -e DEBUG=cypress:* --entrypoint cypress cypress/included:10.11.0 run --config-file cypress.config.js
+  - docker run -d --net barber-network-dev --name cypress -v $(pwd):/e2e -w /e2e -e DEBUG=cypress:* --entrypoint cypress cypress/included:10.11.0 run --config-file cypress.config.js
   - cd ../..
   when:
     branch:
