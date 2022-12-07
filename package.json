@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/BarBariansAccount/brothers-barbershop-website/issues"
   },
-  "homepage": "https://github.com/BarBariansAccount/brothers-barbershop-website#readme"
+  "homepage": "https://github.com/BarBariansAccount/brothers-barbershop-website#readme",
+  "dependencies": {
+    "date-fns": "^2.29.3",
+    "nodemailer": "^6.8.0",
+    "nodemailer-sendgrid-transport": "^0.2.0"
+  }
 }
