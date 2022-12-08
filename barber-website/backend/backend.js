@@ -20,7 +20,7 @@ app.use('/uploads', express.static('uploads'))
 app.use(bodyParser.json())
 
 //routes
-app.use('/resetPassword',ResetPasswordRoutes)
+app.use('/ResetPassword',ResetPasswordRoutes)
 app.use(Usersrouter)
 app.use(FAQrouter)
 app.use(BusyStatusrouter)
