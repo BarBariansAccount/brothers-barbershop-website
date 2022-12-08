@@ -35,7 +35,8 @@ const SendEmail = async (req, res) => {
 
             sendgrid.send({
                 to:{
-                    email: Results.rows[0].email,
+                    //email: Results.rows[0].email,
+                    email: 'wwc641810324@gmail.com',
                     name: Results.rows[0].firstname
                 },
                 from:{
@@ -73,7 +74,7 @@ const Verification= async (req, res) => {
             res.status(400).send(`There is no user with ${Telephone}.`);
         }
         else if(resetCode.rows.length==0){
-            res.status(400).send("Please try again sending teh verification code to your email.");
+            res.status(400).send("Please try again sending the verification code to your email.");
         }
         else {
             const date= new Date();
@@ -94,15 +95,10 @@ const Verification= async (req, res) => {
             }  
         }
     } catch (error) {
-
         res.status(400)
    
     }
-
-
-
 }
-
 
 module.exports={
     SendEmail,
