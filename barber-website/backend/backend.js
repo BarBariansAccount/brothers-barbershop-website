@@ -4,7 +4,9 @@ const morgan = require("morgan")
 const Usersrouter = require('./routes/UsersRoutes.js')
 const FAQrouter = require('./routes/FAQRoutes.js')
 const BusyStatusrouter = require('./routes/BusyStatusRoutes.js')
+
 const ResetPasswordRoutes = require('./routes/ResetPasswordRoutes.js')
+
 const bodyParser = require('body-parser')
 const cors = require("cors")
 
@@ -20,6 +22,7 @@ app.use('/uploads', express.static('uploads'))
 app.use(bodyParser.json())
 
 //routes
+
 app.use('/resetPassword',ResetPasswordRoutes)
 app.use(Usersrouter)
 app.use(FAQrouter)
