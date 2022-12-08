@@ -35,8 +35,7 @@ const SendEmail = async (req, res) => {
 
             sendgrid.send({
                 to:{
-                    //email: Results.rows[0].email,
-                    email: 'wwc641810324@gmail.com',
+                    email: Results.rows[0].email,
                     name: Results.rows[0].firstname
                 },
                 from:{
