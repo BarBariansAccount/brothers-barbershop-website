@@ -56,7 +56,7 @@ steps:
 
 - name: testing-clean-up
   commands:
-  - ci-cd/docker/testing-clean-up.sh
+  # ci-cd/docker/testing-clean-up.sh
 
 - name: build
   commands:
