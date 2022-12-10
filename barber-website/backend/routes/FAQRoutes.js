@@ -3,7 +3,7 @@ const express = require("express");
 const FAQrouter = express.Router();
 const FAQ = require("../controllers/FAQ.js");
 const JWT = require("jsonwebtoken");
-const path = require('path')
+
 /*
 JWT authentication
 */

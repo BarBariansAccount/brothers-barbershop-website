@@ -4,8 +4,8 @@ const UserModel = require("../models/UserModel.js")
 const ResetPasswordModel = require("../models/ResetPasswordModel.js")
 const datefns = require('date-fns');
 const JWT = require("jsonwebtoken");
-
-
+const sendgrid = require("@sendgrid/mail");
+ 
 const SendEmail = async (req, res) => {
     const {
         Telephone
@@ -30,7 +30,26 @@ const SendEmail = async (req, res) => {
             
             await pool.query(ResetPasswordModel.addResetPassword,[Telephone,random,tomorrow]);
             
-            res.status(200).send(`verification code is ${random}.`)
+            //sending email
+            sendgrid.setApiKey(process.env.SG_API_KEY)
+
+            sendgrid.send({
+                to:{
+                    email: Results.rows[0].email,
+                    name: Results.rows[0].firstname
+                },
+                from:{
+                    email: process.env.Barbershop_Email,
+                    name: 'Brothers Barber Shop Queen Marry'
+                },
+                templateId: 'd-db3b5c5d9ab44156a0f193c2e43a8bc1',
+                dynamicTemplateData:{
+                    code: random
+                },
+
+            }).then(()=>
+            res.status(200).send(`Verification code is sent to the email.`))
+
         }
     } catch (error) {
            
@@ -54,7 +73,7 @@ const Verification= async (req, res) => {
             res.status(400).send(`There is no user with ${Telephone}.`);
         }
         else if(resetCode.rows.length==0){
-            res.status(400).send("Please try again sending teh verification code to your email.");
+            res.status(400).send("Please try again sending the verification code to your email.");
         }
         else {
             const date= new Date();
@@ -75,15 +94,10 @@ const Verification= async (req, res) => {
             }  
         }
     } catch (error) {
-
         res.status(400)
    
     }
-
-
-
 }
-
 
 module.exports={
     SendEmail,
