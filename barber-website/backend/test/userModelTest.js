@@ -34,7 +34,7 @@ const userData2 = {
 const updateData = {
     Email: 'unitTesing@gmail.com',
     FirstName: 'UnitFirst1',
-    LastName: 'UnitLast'
+    LastName: 'UnitLast1'
 }
 const pictureRequest = {
 
@@ -70,7 +70,9 @@ describe("UserController related Tests", function () {
 
         await createUser_customers(req, res);
         assert.equal(res.status.calledWith(200), true);
-        //id info will be verified in the next method
+        //detailed info verified here
+        assert.equal(res.json.getCall(0).args[0].User.firstname, userData.FirstName);
+
 
         userId = res.json.getCall(0).args[0].User.userid;
         req.Logged_userId = { data: userId };
@@ -115,6 +117,8 @@ describe("UserController related Tests", function () {
         res = mockResponse();
         await validateLogin(modifiedPasswordData, res);
         assert.equal(res.status.calledWith(200), true);
+        //verifying here
+        assert.equal(res.json.getCall(0).args[0].User.firstname, updateData.FirstName);
 
         res = mockResponse();
         await deleteUser(req, res);
@@ -143,12 +147,23 @@ describe("UserController related Tests", function () {
         await getusers(req, res);
         assert.equal(res.status.calledWith(200), true);
         assert.equal(res.json.getCall(0).args[0].length, 3);
+        const allUsers = {};
+        //reorganize because the order might not follow the order in the database
+        res.json.getCall(0).args[0].forEach((user) => {
+            allUsers[user.firstname] = user;
+        })
+        // more check here
+        assert.equal(allUsers[updateData.FirstName].lastname, updateData.LastName);
+        assert.equal(allUsers[userData2.FirstName].lastname, userData2.LastName);
 
         //verify login and get userid for barber
         res = mockResponse();
         req = mockRequest(userData2);
         await validateLogin(req, res);
         assert.equal(res.status.calledWith(200), true);
+        //detailed info verified here
+        assert.equal(res.json.getCall(0).args[0].User.firstname, userData2.FirstName);
+
         userId2 = res.json.getCall(0).args[0].User.userid;
 
     })
@@ -167,12 +182,14 @@ describe("UserController related Tests", function () {
         //data will be verify by get user bellow
         res = mockResponse();
         await getUser(req, res);
-        console.log()
         assert.equal(res.send.getCall(0).args[0][0].picturelink, picturePath)
 
         res = mockResponse();
         await deletePicture(req, res);
         assert.equal(res.status.calledWith(200), true);
+        // verify by get user bellow:
+        await getUser(req, res);
+        assert.equal(res.send.getCall(0).args[0][0].picturelink, null)
 
     })
 
@@ -195,6 +212,7 @@ describe("UserController related Tests", function () {
         await getusers(req, res);
         assert.equal(res.status.calledWith(200), true);
         assert.equal(res.json.getCall(0).args[0].length, 1);
+        assert.equal(res.json.getCall(0).args[0][0].userrole, 'Admin');
 
     })
 
