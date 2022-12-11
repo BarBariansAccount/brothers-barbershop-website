@@ -54,9 +54,9 @@ steps:
     branch:
     - main
 
-- name: testing-clean-up
-  commands:
-  # ci-cd/docker/testing-clean-up.sh
+#- name: testing-clean-up
+#  commands:
+#  - ci-cd/docker/testing-clean-up.sh
 
 - name: build
   commands:
