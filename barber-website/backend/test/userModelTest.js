@@ -50,8 +50,8 @@ const adminData = {
         Password: "modifiedPass"
     }
 }
-let req = { body: userData };
-let res = mockResponse();
+let req;
+let res;
 let userId;
 let adminId;
 
@@ -59,7 +59,7 @@ const checkAndGetAdminId = async function () {
     res = mockResponse();
     await validateLogin(adminData, res);
     adminId = res.json.getCall(0).args[0].User.userid;
-
+    assert.equal(res.json.getCall(0).args[0].User.userrole, 'Admin');
     return adminId;
 
 }
@@ -67,7 +67,8 @@ const checkAndGetAdminId = async function () {
 describe("UserController related Tests", function () {
 
     it("test create user", async function () {
-
+        req = mockRequest(userData);
+        res = mockResponse();
         await createUser_customers(req, res);
         assert.equal(res.status.calledWith(200), true);
         //detailed info verified here
@@ -76,6 +77,35 @@ describe("UserController related Tests", function () {
 
         userId = res.json.getCall(0).args[0].User.userid;
         req.Logged_userId = { data: userId };
+
+    })
+    it("test create duplicate user error", async function () {
+        res = mockResponse();
+        req = mockRequest(userData);
+
+        await createUser_customers(req, res);
+        assert.equal(res.status.calledWith(400), true);
+        assert.equal(res.send.calledWith('User already exists. Enter different phone number.'), true);
+        assert.equal(res.status.calledWith(200), false);
+
+    })
+
+
+    it("test getUsers error case", async function () {
+        res = mockResponse();
+        req = mockRequest(userData);
+        req.Logged_userId = { data: userId };
+        await getusers(req, res);
+
+        assert.equal(res.status.calledWith(403), true);
+        assert.equal(res.status.calledWith(200), false);
+
+    })
+
+
+    it("test validateLogin error", async function () {
+
+
 
     })
 
@@ -124,6 +154,7 @@ describe("UserController related Tests", function () {
         await deleteUser(req, res);
         // normal user should not able to delete account
         assert.equal(res.status.calledWith(403), true);
+        assert.equal(res.status.calledWith(200), false);
 
 
     })
@@ -132,11 +163,39 @@ describe("UserController related Tests", function () {
     // password: modifiedPass
 
 
+    it('test create user by admin error cases', async function () {
+        adminId = await checkAndGetAdminId();
+        // test create barber with customer account 
+        res = mockResponse();
+        req = mockRequest(userData2);
+        req.Logged_userId = { data: userId };
+        await createUser(req, res);
+        assert.equal(res.status.calledWith(403), true);
+        assert.equal(res.status.calledWith(200), false);
 
+        // test with a wrong user role
+        res = mockResponse();
+        req.Logged_userId = { data: adminId };
+        req.body.UserRole = "randomError";
+        await createUser(req, res);
+        assert.equal(res.status.calledWith(400), true);
+        assert.equal(res.send.calledWith('User Role can only be "Customer" OR "Admin" OR "Barber"'), true);
+        assert.equal(res.status.calledWith(200), false);
+
+        // test with duplicate phone number
+        res = mockResponse();
+        req = mockRequest(userData2);
+        req.Logged_userId = { data: adminId };
+        req.body.Telephone = userData.Telephone;
+        await createUser(req, res);
+        assert.equal(res.status.calledWith(400), true);
+        assert.equal(res.send.calledWith('User already exists. Enter different phone number.'), true);
+        assert.equal(res.status.calledWith(200), false);
+    })
 
     it('test create user by admin and get users', async function () {
-        adminId = await checkAndGetAdminId();
 
+        res = mockResponse();
         req = mockRequest(userData2);
         req.Logged_userId = { data: adminId };
         await createUser(req, res);

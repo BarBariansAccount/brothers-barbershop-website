@@ -1,7 +1,7 @@
 const sinon = require('sinon')
 
 const mockRequest = function (body) {
-    return { body }
+    return { body: { ...body } }
 }
 
 const mockResponse = function () {
