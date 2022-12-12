@@ -168,7 +168,7 @@ describe("UserController related Tests", function () {
         await validateLogin(modifiedPasswordData, res);
         assert.equal(res.status.calledWith(400), true);
         assert.equal(res.send.calledWith('Password is incorrect.'), true);
-
+        assert.equal(res.status.calledWith(200), false);
     })
 
     it("test update password and delete without permission", async function () {
@@ -278,7 +278,7 @@ describe("UserController related Tests", function () {
         //mock image upload by create an empty test image
         const picturePath = "http://localhost:5001/uploads/" + pictureRequest.file.filename;
         const filePath = "./uploads/" + pictureRequest.file.filename;
-        fs.closeSync(fs.openSync(filePath, 'w'))
+        fs.closeSync(fs.openSync(filePath, 'w'));
 
         req = pictureRequest;
         req.Logged_userId = { data: userId2 };
