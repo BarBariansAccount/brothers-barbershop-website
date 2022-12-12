@@ -1,0 +1,8 @@
+# syntax=docker/dockerfile:1
+FROM cypress/included:10.11.0
+
+RUN mkdir /e2e
+COPY barber-website/frontend/ e2e/
+WORKDIR e2e/
+
+CMD npx cypress run
