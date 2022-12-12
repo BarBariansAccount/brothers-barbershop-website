@@ -1,7 +1,8 @@
 kind: pipeline
 type: exec
 name: default
-workspace: /home/e_tripet/drone-workspace
+workspace: 
+  path: /home/e_tripet/drone-workspace
 
 platform:
   os: linux
