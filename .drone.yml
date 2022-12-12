@@ -1,6 +1,7 @@
 kind: pipeline
 type: exec
 name: default
+workspace: /home/e_tripet/drone-workspace
 
 platform:
   os: linux
@@ -15,6 +16,7 @@ concurrency:
 steps:
 - name: custom-clone
   commands:
+  - rm -rf *
   - git init
   - git remote add origin https://github.com/BarBariansAccount/brothers-barbershop-website.git
   - git fetch
