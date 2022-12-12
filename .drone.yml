@@ -6,9 +6,6 @@ platform:
   os: linux
   arch: amd64
 
-workspace: 
-  path: /tmp/drone-workspace
-
 clone:
   disable: true
 
@@ -18,7 +15,6 @@ concurrency:
 steps:
 - name: custom-clone
   commands:
-  - rm -rf *
   - git init
   - git remote add origin https://github.com/BarBariansAccount/brothers-barbershop-website.git
   - git fetch
@@ -40,6 +36,7 @@ steps:
   - docker build -t barbershop:frontend-test --target production -f "ci-cd/docker/frontend-dockerfile" .
   - docker run -d --name frontend --network barber-network-dev -p 7070:8080 barbershop:frontend-test
   - docker run -d --name cypress --net barber-network-dev -v $PWD/barber-website/frontend:/e2e -w /e2e --entrypoint cypress cypress/included:10.11.0 run --config-file cypress.config.js
+  - until [ "`docker inspect -f {{.State.Exited}} cypress`"=="true" ]; do sleep 1; done;
   when:
     branch:
       exclude:
