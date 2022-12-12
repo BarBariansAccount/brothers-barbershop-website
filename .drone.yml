@@ -1,12 +1,13 @@
 kind: pipeline
 type: exec
 name: default
-workspace: 
-  path: /tmp/drone-workspace
 
 platform:
   os: linux
   arch: amd64
+
+workspace: 
+  path: /tmp/drone-workspace
 
 clone:
   disable: true
