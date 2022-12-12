@@ -2,7 +2,7 @@ kind: pipeline
 type: exec
 name: default
 workspace: 
-  path: /home/e_tripet/drone-workspace
+  path: /tmp/drone-workspace
 
 platform:
   os: linux
@@ -39,7 +39,6 @@ steps:
   - docker build -t barbershop:frontend-test --target production -f "ci-cd/docker/frontend-dockerfile" .
   - docker run -d --name frontend --network barber-network-dev -p 7070:8080 barbershop:frontend-test
   - docker run -d --name cypress --net barber-network-dev -v $PWD/barber-website/frontend:/e2e -w /e2e --entrypoint cypress cypress/included:10.11.0 run --config-file cypress.config.js
-  - sleep 15
   when:
     branch:
       exclude:
