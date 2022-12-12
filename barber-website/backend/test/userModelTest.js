@@ -43,6 +43,8 @@ const pictureRequest = {
     }
 }
 
+const notAvailableNumber = 1234567890;
+
 let userId2;
 const adminData = {
     body: {
@@ -104,9 +106,25 @@ describe("UserController related Tests", function () {
 
 
     it("test validateLogin error", async function () {
+        // verify unexciting phone error
+        res = mockResponse();
+        req = mockRequest(userData);
+        req.body.Telephone = notAvailableNumber;
+        await validateLogin(req, res);
+        assert.equal(res.status.calledWith(400), true);
+        assert.equal(res.send.calledWith(`There is no user with ${notAvailableNumber}.`), true);
+        assert.equal(res.send.getCall(0).args[0].firstname, null);
+        assert.equal(res.status.calledWith(200), false);
 
-
-
+        // verify with wrong password
+        res = mockResponse();
+        req = mockRequest(userData);
+        req.body.Password = "randomError";
+        await validateLogin(req, res);
+        assert.equal(res.status.calledWith(400), true);
+        assert.equal(res.send.calledWith('Password is incorrect.'), true);
+        assert.equal(res.send.getCall(0).args[0].firstname, null);
+        assert.equal(res.status.calledWith(200), false);
     })
 
     it("test update user", async function () {
@@ -121,6 +139,35 @@ describe("UserController related Tests", function () {
         await getUser(req, res);
 
         assert.equal(res.send.getCall(0).args[0][0].firstname, updateData.FirstName);
+
+    })
+
+    it("test update password with wrong password", async function () {
+        const updatePasswordData = {
+            body: {
+                OldPassword: "wrongPass",
+                NewPassword: 'modifiedPass'
+            },
+            Logged_userId: { data: userId }
+        }
+        const modifiedPasswordData = {
+            body: {
+                Telephone: userData.Telephone,
+                Password: updatePasswordData.body.NewPassword
+            },
+            Logged_userId: { data: userId }
+        }
+        res = mockResponse();
+        await updatePassword(updatePasswordData, res);
+        assert.equal(res.status.calledWith(400), true);
+        assert.equal(res.send.calledWith('Old Password is incorrect.'), true);
+        assert.equal(res.status.calledWith(200), false);
+
+        //double check with valid login bellow
+        res = mockResponse();
+        await validateLogin(modifiedPasswordData, res);
+        assert.equal(res.status.calledWith(400), true);
+        assert.equal(res.send.calledWith('Password is incorrect.'), true);
 
     })
 
@@ -273,6 +320,16 @@ describe("UserController related Tests", function () {
         assert.equal(res.json.getCall(0).args[0].length, 1);
         assert.equal(res.json.getCall(0).args[0][0].userrole, 'Admin');
 
+    })
+    it('test delete user error', async function () {
+        // try to delete an account that not there(already deleted)
+        res = mockResponse();
+        req = { body: { UserID: userId } };
+        req.Logged_userId = { data: adminId };
+        await deleteUser(req, res);
+        assert.equal(res.status.calledWith(400), true);
+        assert.equal(res.send.calledWith(`There is no user with this user ID: ${userId}.`), true);
+        assert.equal(res.status.calledWith(200), false);
     })
 
 })
