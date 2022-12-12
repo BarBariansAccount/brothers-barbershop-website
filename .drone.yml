@@ -35,7 +35,8 @@ steps:
   - docker run -d --name backend --network barber-network-dev -p 5001:5001 barbershop:backend-test
   - docker build -t barbershop:frontend-test --target production -f "ci-cd/docker/frontend-dockerfile" .
   - docker run -d --name frontend --network barber-network-dev -p 7070:8080 barbershop:frontend-test
-  - docker run -d --net barber-network-dev --name cypress -v $PWD/barber-website/frontend:/e2e -w /e2e --entrypoint cypress cypress/included:10.11.0 run --config-file cypress.config.js
+  - docker run -d --name cypress --net barber-network-dev -v $PWD/barber-website/frontend:/e2e -w /e2e --entrypoint cypress cypress/included:10.11.0 run --config-file cypress.config.js
+  - sleep 15
   when:
     branch:
       exclude:
