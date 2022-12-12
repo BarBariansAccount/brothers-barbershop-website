@@ -5,4 +5,4 @@ RUN mkdir /e2e
 COPY barber-website/frontend/ e2e/
 WORKDIR e2e/
 
-CMD npx cypress run
+CMD cypress run
