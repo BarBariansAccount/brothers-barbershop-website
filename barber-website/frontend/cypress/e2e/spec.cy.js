@@ -14,7 +14,7 @@ describe('Test UserStories', () => {
   const TestAdminInfo = {
     Telephone: 1111111111,
 //previous pass: modifiedPass
-    Password: "Admin123@"
+    Password: "test"
   }
 
   // a barber account don't have to be in the database in advance
