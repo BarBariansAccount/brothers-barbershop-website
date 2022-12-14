@@ -13,8 +13,7 @@ describe('Test UserStories', () => {
   //a testing admin account should already in the database before starting
   const TestAdminInfo = {
     Telephone: 1111111111,
-//previous pass: modifiedPass
-    Password: "test"
+    Password: "modifiedPass"
   }
 
   // a barber account don't have to be in the database in advance
