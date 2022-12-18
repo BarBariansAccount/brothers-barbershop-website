@@ -22,8 +22,9 @@ app.use('/uploads', express.static('uploads'))
 app.use(bodyParser.json())
 
 //routes
+app.use('/User', Usersrouter)
+app.use('/FAQ', FAQrouter)
+app.use('/BusyStatus', BusyStatusrouter)
 app.use('/resetPassword',ResetPasswordRoutes)
-app.use(Usersrouter)
-app.use(FAQrouter)
-app.use(BusyStatusrouter)
+
 app.listen(process.env.PORT || 5001)
