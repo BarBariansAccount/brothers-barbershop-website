@@ -20,9 +20,52 @@ CREATE TABLE faq(
 	PRIMARY KEY (faqid)
 )
 /*INSERT INTO FAQ (question, answer) VALUES('This is a sample of question','This is a sample of answer');*/
+/*Password reset request table*/
 CREATE TABLE ResetPassword(
 	Telephone varchar(45) NOT NULL,
 	ResetCode varchar(45) NOT NULL,
 	Expiretime timestamp NOT NULL,
 	PRIMARY KEY (Telephone)
 )
+/*schedule table*/
+CREATE TYPE hour AS ENUM (
+	'10',
+	'11',
+	'12',
+	'13',
+	'14',
+	'15',
+	'16',
+	'17',
+	'18',
+	'19',
+	'20'
+);
+CREATE TYPE service AS ENUM (
+	'Haircut',
+	'Haircut + Beard',
+	'Line up',
+	'Beard only',
+	'Line up + Beard'
+);
+CREATE TABLE barber_schedule(
+	appointment_id SERIAL,
+	UserID integer REFERENCES users (userid),
+	barber_name varchar(225) NOT NULL,
+	Available_Date Date NOT NULL,
+	hour hour NOT NULL,
+	Booked Boolean DEFAULT FALSE,
+	Customer_First_name varchar(225),
+	Customer_Last_name varchar(225),
+	Customer_email varchar(225),
+	Customer_telephone varchar(225),
+	service service,
+	Customer_appointment_notes varchar(225),
+	PRIMARY KEY (appointment_id),
+	CONSTRAINT fk_users FOREIGN KEY(userid) REFERENCES users(userid)
+);
+/*
+ Date format is yyyy-mm-dd
+ default value for booked is False
+ */
+/*INSERT INTO barber_schedule (UserID, barber_name,Available_Date,hour) VALUES(37,'test','2022-11-22','11');*/
