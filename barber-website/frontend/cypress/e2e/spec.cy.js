@@ -1,10 +1,3 @@
-cy.on('uncaught:exception', (err, runnable) => {
-  expect(err.message).to.include('Network Error')
-  // return false to prevent the error from
-  // failing this test
-  return false
-})
-
 describe('test cypress is working ', () => {
   it('test true equal true', () => {
     expect(true).to.equal(true);
