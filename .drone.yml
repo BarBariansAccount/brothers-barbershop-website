@@ -37,7 +37,8 @@ steps:
   - docker run -d --name frontend --network barber-network-dev -p 7070:8008 barbershop:frontend-test
   - sleep 5
   - docker build -t barbershop:cypress -f "ci-cd/docker/cypress-dockerfile" .
-  - docker run -d --name cypress --network barber-network-dev barbershop:cypress
+  # docker run -d --name cypress --network barber-network-dev barbershop:cypress
+  - docker run -it --name cypress --network barber-network-dev -v $PWD/barber-website/frontend/:/e2e -w /e2e cypress/included:10.11.0
   when:
     branch:
       exclude:
