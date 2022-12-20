@@ -34,7 +34,7 @@ steps:
   - docker build -t barbershop:backend-test --target test -f "ci-cd/docker/backend-dockerfile" .
   - docker run -d --name backend --network barber-network-dev -p 5001:5001 barbershop:backend-test
   - docker build -t barbershop:frontend-test --target production -f "ci-cd/docker/frontend-dockerfile" .
-  - docker run -d --name frontend --network barber-network-dev barbershop:frontend-test
+  - docker run -d --name frontend --network barber-network-dev -p 7070:8008 barbershop:frontend-test
   - sleep 5
   - docker build -t barbershop:cypress -f "ci-cd/docker/cypress-dockerfile" .
   - docker run -d --name cypress --network barber-network-dev barbershop:cypress
