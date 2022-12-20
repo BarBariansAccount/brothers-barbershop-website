@@ -1,11 +1,5 @@
 cy.on('uncaught:exception', (err, runnable) => {
   expect(err.message).to.include('Network Error')
-
-  // using mocha's async done callback to finish
-  // this test so we prove that an uncaught exception
-  // was thrown
-  done()
-
   // return false to prevent the error from
   // failing this test
   return false
