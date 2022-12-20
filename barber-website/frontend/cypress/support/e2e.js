@@ -25,11 +25,7 @@ Cypress.on('uncaught:exception', (err, runnable, promise) => {
     }
     // we still want to ensure there are no other unexpected
     // errors, so we let them fail the test
-})
-
-Cypress.on('uncaught:exception', (err, runnable) => {
-  // returning false here prevents Cypress from failing the test
-  return false
+    return false
 })
   
 // Alternatively you can use CommonJS syntax:
