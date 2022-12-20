@@ -6,6 +6,7 @@ const FAQrouter = require('./routes/FAQRoutes.js')
 const BusyStatusrouter = require('./routes/BusyStatusRoutes.js')
 
 const ResetPasswordRoutes = require('./routes/ResetPasswordRoutes.js')
+const BarberScheduleRoutes = require('./routes/BarberScheduleRoutes.js')
 
 const bodyParser = require('body-parser')
 const cors = require("cors")
@@ -25,6 +26,8 @@ app.use(bodyParser.json())
 app.use('/User', Usersrouter)
 app.use('/FAQ', FAQrouter)
 app.use('/BusyStatus', BusyStatusrouter)
-app.use('/resetPassword',ResetPasswordRoutes)
+app.use('/resetPassword', ResetPasswordRoutes)
+app.use('/BarberSchedule', BarberScheduleRoutes)
+
 
 app.listen(process.env.PORT || 5001)

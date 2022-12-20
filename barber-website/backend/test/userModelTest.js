@@ -277,7 +277,11 @@ describe("UserController related Tests", function () {
     it('test picture related feature', async function () {
         //mock image upload by create an empty test image
         const picturePath = "http://localhost:5001/uploads/" + pictureRequest.file.filename;
-        const filePath = "./uploads/" + pictureRequest.file.filename;
+        const dirPath = "./uploads/";
+        const filePath = dirPath + pictureRequest.file.filename;
+        if (!fs.existsSync(dirPath)) {
+            fs.mkdirSync(dirPath);
+        }
         fs.closeSync(fs.openSync(filePath, 'w'));
 
         req = pictureRequest;
