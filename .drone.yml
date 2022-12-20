@@ -31,7 +31,8 @@ steps:
   commands:
   - docker run --name database -v "$PWD/ci-cd/init-db.sh":/docker-entrypoint-initdb.d/init-db.sh -e POSTGRES_PASSWORD=$PASSWORD -e POSTGRES_DB=barbershop -p 5432:5432 --net barber-network-dev -d postgres
   - sleep 5
-  - docker build --network barber-network-dev -t barbershop:backend-test --target test -f "ci-cd/docker/backend-dockerfile" .
+  - docker build -t barbershop:backend-test --target test -f "ci-cd/docker/backend-dockerfile" .
+  - docker run -d --rm --name backend --network barber-network-dev -p 5001:5001 barbershop:backend-test
   # docker build --network barber-network-dev -t barbershop:frontend-test --target test -f "ci-cd/docker/frontend-dockerfile" .
   when:
     branch:
