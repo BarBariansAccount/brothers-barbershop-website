@@ -22,7 +22,7 @@ EXPOSE 5001/tcp
 
 # For testing
 FROM base as test
-RUN npm run test-unit
+CMD npm run test-unit
 
 # For testing and scanning
 FROM base as test-scan
