@@ -1,19 +1,10 @@
 import api from "./http";
 
 export default new (class BarberShopStatus {
-  deleteAcc = () => {
-    return api.post("/deleteUser");
-  };
   updateStatus = (payload) => {
-    return api.post("/updateStatus", payload);
+    return api.post("/BusyStatus/updateStatus", payload);
   };
-   getStatus = () => {
-    return api.get("/getStatus");
+  getStatus = () => {
+    return api.get("/BusyStatus/getStatus");
   };
-
-  createBarberAccount = (payload) => {
-    return  api.post("/createUser",payload)
-  }
-
-
 })();
