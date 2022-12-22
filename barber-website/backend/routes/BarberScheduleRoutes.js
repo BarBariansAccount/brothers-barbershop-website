@@ -23,6 +23,7 @@ function authenticateToken(req, res, next) {
     })
 }
 
+
 /*
 Takes --> date and hours of the barber (hours as an array of boolean length 11 like [true,true,true,true,false,false,false,true,false,false,false] )as JSON) --> {
     {
@@ -43,4 +44,22 @@ route: http://localhost:5001/BarberSchedule/updateSchedule
 */
 
 router.put('/updateSchedule', authenticateToken, BarberSchedule.addAvaliblilty)
+
+/*
+Takes --> it takes the date selected by the barber {
+    "Date":""
+} And the jwt token
+
+returns --> res.status(200).send(getAvailablity.rows) --> It will return the array of JSON for the availablities of the selected date and berber can see all the attributes 
+            || res.send("There is no Availablity recorded for this date. Kindly, record the availablity on update availablity page.")
+            || res.status(400).send(error)
+
+Notes: the return availabilities are order by hour
+
+route: http://localhost:5001/BarberSchedule/getBarberSchedule_barberView
+
+*/
+router.get('/getBarberSchedule_barberView',authenticateToken,BarberSchedule.getBarberAvailablity_barberView)
+
+
 module.exports = router;

@@ -30,9 +30,27 @@ const addAvaliblilty = async (req, res) => {
     } catch (error) {
         res.status(400).send(error)
     }
+}
 
+const getBarberAvailablity_barberView=async (req,res)=>{
+    const {
+        Date
+    } = req.body;
+    const logged_userId = req.Logged_userId.data;
+    try {
+        let getAvailablity  = await pool.query(BarberScheduleModel.getBarberAvailablity_barberView,[logged_userId,Date])
+        if(getAvailablity.rows.length!=0){
+            res.status(200).send(getAvailablity.rows)
+        }
+        else{
+            res.send("There is no Availablity recorded for this date. Kindly, record the availablity on update availablity page.")
+        }
+    }catch (error) {
+        res.status(400).send(error)
+    }
 
 }
 module.exports = {
-    addAvaliblilty
+    addAvaliblilty,
+    getBarberAvailablity_barberView
 }
