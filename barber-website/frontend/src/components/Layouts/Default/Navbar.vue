@@ -2,7 +2,11 @@
   <div>
     <v-navigation-drawer v-model="sidebar" app disable-resize-watcher>
       <v-list-item-group v-model="group">
-        <v-list-item v-for="item in menuItems" :key="item.title" :to="item.path">
+        <v-list-item
+          v-for="item in menuItems"
+          :key="item.title"
+          :to="item.path"
+        >
           <v-list-item-title>{{ item.title }}</v-list-item-title>
         </v-list-item>
       </v-list-item-group>
@@ -32,7 +36,7 @@
         <template v-slot:activator="{ on, attrs }">
           <v-btn v-bind="attrs" v-on="on" icon>
             <v-avatar v-if="picturelink" size="40">
-              <img :src="picturelink">
+              <img :src="picturelink" />
             </v-avatar>
             <v-icon v-else size="40"> mdi-account-circle-outline </v-icon>
           </v-btn>
@@ -113,6 +117,7 @@ export default {
     // },
     logout() {
       this.$store.dispatch("logout");
+      location.reload();
       this.$router.push("/");
     },
   },
@@ -121,7 +126,7 @@ export default {
       return this.$store.state.user;
     },
     picturelink() {
-      return this.$store.state.user?.picturelink
+      return this.$store.state.user?.picturelink;
     },
   },
 };

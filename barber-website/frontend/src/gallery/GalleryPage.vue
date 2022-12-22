@@ -1,13 +1,14 @@
 <template>
-  <h1>Gallery page</h1>
+  <InstaSection />
 </template>
 
 <script>
+import InstaSection from "@/components/Pages/Home/Instagram/InstagramSec.vue";
 export default {
-
-}
+  components: {
+    InstaSection,
+  },
+};
 </script>
 
-<style>
-
-</style>
+<style></style>
