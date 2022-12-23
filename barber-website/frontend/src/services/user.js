@@ -29,7 +29,7 @@ export default new (class UserService {
     return api.put("/User/updatePicture", data);
   };
   deletePic = () => {
-    return api.post("/User/deletePicture");
+    return api.delete("/User/deletePicture");
   };
   getAllFaqs = () => {
     return api.get("/FAQ/getFAQ");
