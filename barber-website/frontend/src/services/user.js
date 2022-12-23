@@ -11,7 +11,7 @@ export default new (class UserService {
     return api.put("/User/updateUser", data);
   };
   deleteAccount = (data) => {
-    return api.post("/User/deleteUser", data);
+    return api.delete("/User/deleteUser", data);
   };
   updatePassword = (data) => {
     return api.put("/User/updatePassword", data);
@@ -38,6 +38,6 @@ export default new (class UserService {
     return api.post("/FAQ/addFAQ", data);
   };
   deleteFaq = (data) => {
-    return api.post("/FAQ/deleteFAQ", data);
+    return api.delete("/FAQ/deleteFAQ", data);
   };
 })();
