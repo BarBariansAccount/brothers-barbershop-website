@@ -46,6 +46,7 @@ describe("FAQ related tests", function () {
 
         await addFAQ(req, res);
         assert.equal(res.status.calledWith(200), true);
+        //more detailed verifying included in the getFAQ
     })
 
     it("test getFAQ", async function () {

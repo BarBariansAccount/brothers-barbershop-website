@@ -1,9 +1,10 @@
 .DS_Store
 node_modules
+config/
 /uploads/
 /dist
-/config/database.js
-/uploads/
+
+
 
 
 
