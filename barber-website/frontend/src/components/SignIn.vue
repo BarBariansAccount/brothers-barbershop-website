@@ -73,7 +73,7 @@ export default {
       }
       try {
         console.log(this.form.password);
-        const data = await axios.post(`http://localhost:5001/Login`, {
+        const data = await axios.post(`http://localhost:5001/User/Login`, {
           Telephone: this.form.phoneNumber,
           Password: this.form.password,
         });

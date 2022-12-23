@@ -59,7 +59,7 @@ Notes: the return availabilities are order by hour
 route: http://localhost:5001/BarberSchedule/getBarberSchedule_barberView
 
 */
-router.get('/getBarberSchedule_barberView',authenticateToken,BarberSchedule.getBarberAvailablity_barberView)
+router.post('/getBarberSchedule_barberView',authenticateToken,BarberSchedule.getBarberAvailablity_barberView)
 
 /*
 Takes --> the array of appointment ID (size of the array doesnt matters) {
