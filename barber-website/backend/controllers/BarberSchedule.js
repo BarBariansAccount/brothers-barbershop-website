@@ -50,7 +50,28 @@ const getBarberAvailablity_barberView=async (req,res)=>{
     }
 
 }
+
+const deleteBarberSchedule= async (req,res)=>{
+    const {
+        aptIdsTodelete
+    } = req.body;
+    try {
+        for (let i = 0; i < aptIdsTodelete.length; i++) {
+
+            if (aptIdsTodelete[i]!=null) {
+                await pool.query(BarberScheduleModel.deleteAvailablity, [aptIdsTodelete[i]])
+            }
+        }
+        res.status(200).send("Hours Deleted.")
+
+    } catch (error) {
+        res.status(400).send(error)
+    }
+
+}
+
 module.exports = {
     addAvaliblilty,
-    getBarberAvailablity_barberView
+    getBarberAvailablity_barberView,
+    deleteBarberSchedule
 }
