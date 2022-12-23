@@ -8,13 +8,13 @@ export default new (class UserService {
     return api.get("/User/users");
   };
   update = (data) => {
-    return api.post("/User/updateUser", data);
+    return api.put("/User/updateUser", data);
   };
   deleteAccount = (data) => {
     return api.post("/User/deleteUser", data);
   };
   updatePassword = (data) => {
-    return api.post("/User/updatePassword", data);
+    return api.put("/User/updatePassword", data);
   };
   login = (data) => {
     return api.post("/User/Login", data);
@@ -26,7 +26,7 @@ export default new (class UserService {
     return api.post("/User/createUser_customers", data);
   };
   updatePic = (data) => {
-    return api.post("/User/updatePicture", data);
+    return api.put("/User/updatePicture", data);
   };
   deletePic = () => {
     return api.post("/User/deletePicture");
