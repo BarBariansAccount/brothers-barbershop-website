@@ -61,5 +61,20 @@ route: http://localhost:5001/BarberSchedule/getBarberSchedule_barberView
 */
 router.get('/getBarberSchedule_barberView',authenticateToken,BarberSchedule.getBarberAvailablity_barberView)
 
+/*
+Takes --> the array of appointment ID (size of the array doesnt matters) {
+    "aptIdsTodelete": [2,3,4,5,8......]
+} And the jwt token
+
+returns -->  res.status(200).send("Hours Deleted.")
+            || res.status(400).send(error)
+
+Notes: just the appointment IDs are needed to delete the availablity
+
+route: http://localhost:5001/BarberSchedule/deleteBarberSchedule
+
+*/
+router.delete('/deleteBarberSchedule',authenticateToken,BarberSchedule.deleteBarberSchedule);
+
 
 module.exports = router;
