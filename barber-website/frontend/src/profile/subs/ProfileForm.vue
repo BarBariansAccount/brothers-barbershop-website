@@ -193,6 +193,7 @@ export default {
         const res = await UserService.getUser(this.$store.state.user.telephone);
         this.$store.commit("setUser", res.data[0]);
 
+        console.log("In profile page", res.data[0]);
         const user = res.data[0];
 
         this.firstname = user.firstname;
