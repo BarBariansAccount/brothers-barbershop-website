@@ -2,42 +2,45 @@ import api from "./http";
 
 export default new (class UserService {
   getUser = () => {
-    return api.get("/User/getUser");
+    return api.get("/getUser");
   };
   getAllUsers = () => {
-    return api.get("/User/users");
+    return api.get("/users");
   };
   update = (data) => {
-    return api.put("/User/updateUser", data);
+    return api.post("/updateUser", data);
   };
   deleteAccount = (data) => {
-    return api.delete("/User/deleteUser", data);
+    return api.post("/deleteUser", data);
   };
   updatePassword = (data) => {
-    return api.put("/User/updatePassword", data);
+    return api.post("/updatePassword", data);
   };
   login = (data) => {
-    return api.post("/User/Login", data);
+    return api.post("/Login", data);
   };
   CreateBarberOrAdmin = (data) => {
-    return api.post("/User/createUser", data);
+    return api.post("/createUser", data);
   };
   createCustomerAccount = (data) => {
-    return api.post("/User/createUser_customers", data);
+    return api.post("/createUser_customers", data);
   };
   updatePic = (data) => {
-    return api.put("/User/updatePicture", data);
+    return api.post("/updatePicture", data);
   };
   deletePic = () => {
-    return api.delete("/User/deletePicture");
+    return api.post("/deletePicture");
   };
   getAllFaqs = () => {
-    return api.get("/FAQ/getFAQ");
+    return api.get("/getFAQ");
   };
-  createFaq = (data) => {
-    return api.post("/FAQ/addFAQ", data);
+  createFaq= (data) => {
+    return api.post("/addFAQ",data);
   };
-  deleteFaq = (data) => {
-    return api.delete("/FAQ/deleteFAQ", data);
+  deleteFaq= (data) => {
+    return api.post("/deleteFAQ",data);
   };
 })();
+
+
+
