@@ -176,6 +176,7 @@
     <FaqSection />
     <!-- Review section -->
     <ReviewSection />
+    <!--Istagram section-->
     <InstaSection></InstaSection>
   </div>
 </template>

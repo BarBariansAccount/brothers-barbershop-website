@@ -104,13 +104,6 @@ export default {
         this.menuItems.push({ title: "Admin", path: "/panel/admin" });
       }
     },
-    // profileItemsPopup(title) {
-    //   console.log(this.profileItemsDialog);
-    //   if (title == "Sign In") {
-    //     this.profileItemsDialog = true;
-    //     console.log(this.profileItemsDialog);
-    //   }
-    // },
     logout() {
       this.$store.dispatch("logout");
       this.$router.push("/");
