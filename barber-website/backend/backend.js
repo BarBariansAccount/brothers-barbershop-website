@@ -4,6 +4,7 @@ const morgan = require("morgan")
 const Usersrouter = require('./routes/UsersRoutes.js')
 const FAQrouter = require('./routes/FAQRoutes.js')
 const BusyStatusrouter = require('./routes/BusyStatusRoutes.js')
+const AppointmentRoutes = require('./routes/AppointmentRoutes.js')
 
 const ResetPasswordRoutes = require('./routes/ResetPasswordRoutes.js')
 const BarberScheduleRoutes = require('./routes/BarberScheduleRoutes.js')
@@ -28,6 +29,7 @@ app.use('/FAQ', FAQrouter)
 app.use('/BusyStatus', BusyStatusrouter)
 app.use('/resetPassword', ResetPasswordRoutes)
 app.use('/BarberSchedule', BarberScheduleRoutes)
+app.use('/Appointment', AppointmentRoutes)
 
 
 app.listen(process.env.PORT || 5001)

@@ -69,7 +69,7 @@ Takes --> the array of appointment ID (size of the array doesnt matters) {
 returns -->  res.status(200).send("Hours Deleted.")
             || res.status(400).send(error)
 
-Notes: just the appointment IDs are needed to delete the availablity
+Notes: just the appointment IDs are needed to delete the availability
 
 route: http://localhost:5001/BarberSchedule/deleteBarberSchedule
 
