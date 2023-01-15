@@ -22,7 +22,21 @@ const BarberAvailablityDates= async (req,res) =>{
 
 }
 
+const getBarberAvailablity_Hours= async (req,res)=>{
+    const {
+        BarberID,
+        Available_Date
+    } = req.body;
+
+    try{
+        let availableHours= await pool.query(AppointmentModel.getBarberAvailablity_Hours,[BarberID,Available_Date])
+        res.status(200).json(availableHours.rows)
+    }catch (error) {
+        res.status(400).send(error)
+    }
+}
+
 module.exports={
     BarberAvailablityDates,
-
+    getBarberAvailablity_Hours
 }
