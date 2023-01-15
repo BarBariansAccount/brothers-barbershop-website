@@ -30,7 +30,7 @@ Takes --> Barbers Id and Available date as json
 returns --> res.status(200).send(availableHours.rows)
         || res.status(400).send(error)
 
-Notes and assumptions: This route will provide a list of available hours when a specific date and barber is selected.
+Notes and assumptions: This route will provide a list of available hours & corresponding appointment ID's when a specific date and barber is selected.
 route: http://localhost:5001/Appointment/getBarberAvailablity_Hours
 
 */
