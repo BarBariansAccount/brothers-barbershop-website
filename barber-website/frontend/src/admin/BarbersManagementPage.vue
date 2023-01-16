@@ -95,7 +95,7 @@ export default {
       }
     },
     async deleteBarber(barberId) {
-      console.log(barberId);
+      console.log("barberid", barberId);
       try {
         await BarbersAccount.deleteAccount({ UserID: barberId });
         this.getAllBarbers();

@@ -1,30 +1,29 @@
-require('dotenv').config();
+require("dotenv").config();
 const express = require("express");
 const Usersrouter = express.Router();
 const User = require("../controllers/user.js");
 const JWT = require("jsonwebtoken");
-const multer = require('multer');
-const path = require('path')
+const multer = require("multer");
+const path = require("path");
 
 /*
 JWT authentication
 */
 function authenticateToken(req, res, next) {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1]
-    if (token == null) {
-        return res.status(401).send('Send Token Please!')
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+  if (token == null) {
+    return res.status(401).send("Send Token Please!");
+  }
+  JWT.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, Logged_userId) => {
+    if (err) {
+      return res.status(403).send("Please Login again.");
     }
-    JWT.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, Logged_userId) => {
-        if (err) {
-            return res.status(403).send("Please Login again.");
-        }
-        req.Logged_userId = Logged_userId;
+    req.Logged_userId = Logged_userId;
 
-        next()
-    })
+    next();
+  });
 }
-
 
 /*
 Takes --> authentication token in headers in the format {'authorization': Bearer token} --> admin login token as admins can only see all acccounts.
@@ -34,8 +33,7 @@ returns -->res.status(403).send("Malacious user. Only admin can see this infomat
 To get all the users in users table Mainly for testing.
 */
 
-Usersrouter.get('/users', authenticateToken, User.getusers);
-
+Usersrouter.get("/users", authenticateToken, User.getusers);
 
 /*
 
@@ -48,8 +46,7 @@ returns --> res.status(403).send("Malacious user. Only admin can create accounts
          || res.status(400).send(error)
 */
 
-
-Usersrouter.post('/createUser', authenticateToken, User.createUser); //FOR ADMINS TO CREATE [BARBERS || ADMIN] ACCOUNTS
+Usersrouter.post("/createUser", authenticateToken, User.createUser); //FOR ADMINS TO CREATE [BARBERS || ADMIN] ACCOUNTS
 
 /*
 Assumptions--> user role will always be 'Customer' inside the controller so no need to pass along
@@ -59,9 +56,7 @@ returns --> res.status(200).json({Token: accessToken ,User: Results.rows[0]}); {
         || res.status(400).send('User already exists. Enter different phone number.');
         ||res.status(400).send(error)
 */
-Usersrouter.post('/createUser_customers', User.createUser_customers);//FOR CUSTOMERS
-
-
+Usersrouter.post("/createUser_customers", User.createUser_customers); //FOR CUSTOMERS
 
 /*
 Takes --> {Telephone, Password} As json 
@@ -82,9 +77,7 @@ returns --> || res.status(200).send(getuser.rows)--> {userid, userrole, email, f
             || res.status(400).send(error)
 */
 
-
-Usersrouter.put('/updateUser', authenticateToken, User.updateUser);
-
+Usersrouter.put("/updateUser", authenticateToken, User.updateUser);
 
 /*
 Takes --> {UserID} As json &&  
@@ -96,14 +89,14 @@ returns --> return res.status(403).send("Malacious user. Only admin can delete a
             ||res.status(400).send(error)
 */
 
-Usersrouter.delete('/deleteUser', authenticateToken, User.deleteUser);
+Usersrouter.put("/deleteUser", authenticateToken, User.deleteUser);
 
 /*
 Takes --> Takes authentication token in headers in the format {'authorization': Bearer token} --> user login token
 returns -->   res.status(200).json(results.rows) -->{userid, userrole, email, firstname, lastname} As json;
              || res.status(400).send(error)
 */
-Usersrouter.get('/getUser', authenticateToken, User.getUser);
+Usersrouter.get("/getUser", authenticateToken, User.getUser);
 
 /*
 Takes --> {OldPassword,NewPassword} As json && 
@@ -114,8 +107,7 @@ returns -->   res.status(400).send('Old Password is incorrect.');
              || res.status(400).send(error);
 */
 
-Usersrouter.put('/updatePassword', authenticateToken, User.updatePassword);
-
+Usersrouter.put("/updatePassword", authenticateToken, User.updatePassword);
 
 /*
 *****
@@ -124,36 +116,37 @@ User Pictures
 */
 
 const storage = multer.diskStorage({
-    destination: function (req, file, next) {
+  destination: function (req, file, next) {
+    next(null, "./uploads");
+  },
+  filename: function (req, file, next) {
+    const date = new Date().toISOString().replace(/:/g, "-");
+    const filename = date + file.originalname;
 
-        next(null, './uploads')
-    },
-    filename: function (req, file, next) {
-        const date = new Date().toISOString().replace(/:/g, '-')
-        const filename = date + file.originalname;
-
-        next(null, filename)
-    }
+    next(null, filename);
+  },
 });
 
 const filefilter = (req, res, cb) => {
-    if (res.mimetype === 'image/jpeg' || res.mimetype === 'image/jpg' || res.mimetype === 'image/png') {
-        cb(null, true);
-    }
-    else {
-        req.error = "Error: file should be of type jpg, jpeg or png.";
-        cb(null, true);
-    }
-
-}
+  if (
+    res.mimetype === "image/jpeg" ||
+    res.mimetype === "image/jpg" ||
+    res.mimetype === "image/png"
+  ) {
+    cb(null, true);
+  } else {
+    req.error = "Error: file should be of type jpg, jpeg or png.";
+    cb(null, true);
+  }
+};
 
 const upload = multer({
-    storage: storage,
-    limits: {
-        filesize: 1024 * 1024 * 5
-    },
-    fileFilter: filefilter
-})
+  storage: storage,
+  limits: {
+    filesize: 1024 * 1024 * 5,
+  },
+  fileFilter: filefilter,
+});
 
 /*
 Takes --> Takes authentication token in headers in the format {'authorization': Bearer token} --> user login token
@@ -162,7 +155,12 @@ returns -->   res.status(200).send(picturepath);
              || res.status(400).send(error) --> Common error --> Error: file should be of type jpg, jpeg or png.
 */
 
-Usersrouter.put('/updatePicture', authenticateToken, upload.single('UserImage'), User.updatePicture)
+Usersrouter.put(
+  "/updatePicture",
+  authenticateToken,
+  upload.single("UserImage"),
+  User.updatePicture
+);
 
 /*
 Takes --> Takes authentication token in headers in the format {'authorization': Bearer token} --> user login token
@@ -171,6 +169,11 @@ returns -->   res.status(200).send("Picture has been removed.");
              || res.status(400).send(error)
 */
 
-Usersrouter.delete('/deletePicture', authenticateToken, upload.single('UserImage'), User.deletePicture)
+Usersrouter.delete(
+  "/deletePicture",
+  authenticateToken,
+  upload.single("UserImage"),
+  User.deletePicture
+);
 
 module.exports = Usersrouter;
