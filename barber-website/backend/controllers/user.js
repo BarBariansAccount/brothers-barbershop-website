@@ -175,7 +175,6 @@ const updateUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   const { UserID } = req.body;
-  console.log(UserID);
   const logged_userId = req.Logged_userId.data;
   try {
     let loggedUserRole = await pool.query(UserModel.checkUserExists, [
@@ -187,10 +186,14 @@ const deleteUser = async (req, res) => {
         .send("Malacious user. Only admin can delete accounts.");
     }
     let results = await pool.query(UserModel.checkUserExists, [UserID]);
+
+    if (results.rows.length == 0) {
+      return res
+        .status(400)
+        .send(`There is no user with this user ID: ${UserID}.`);
+    }
+
     await pool.query(UserModel.deleteUser, [UserID]);
-    // if (results.rows.length == 0) {
-    //     return res.status(400).send(`There is no user with this user ID: ${UserID}.`);
-    // }
 
     res
       .status(200)
