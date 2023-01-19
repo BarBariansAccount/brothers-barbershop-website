@@ -162,4 +162,22 @@ route: http://localhost:5001/Appointment/updateAppointment
 
 router.put('/updateAppointment', Appointment.updateAppointment)
 
+/*
+Takes -->  as json following info
+{
+        "appointment_id":50,
+
+}
+
+returns --> res.render(process.env.Frontend_URL) --> to the home page
+        || res.status(400).send(error)
+
+Notes and assumptions: After the cancellation. The user will be redirected to the home page. And after the cancellation, the booked column will be false again in the database.
+
+route: http://localhost:5001/Appointment/cancelAppointment
+
+*/
+
+router.put('/cancelAppointment', Appointment.cancelAppointment)
+
 module.exports = router;
