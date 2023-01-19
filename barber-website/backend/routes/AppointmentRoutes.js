@@ -4,7 +4,24 @@ const router = express.Router();
 const Appointment = require("../controllers/Appointment.js");
 const JWT = require("jsonwebtoken");
 
+/*
+Takes --> Nothing
 
+Returs --> returns --> res.status(200).json(AllBarbers.rows)
+        || res.status(400).send(error)
+
+It wil return in this format--> 
+
+{
+        "userid": 31,
+        "firstname": "te2st",
+        "lastname": "",
+        "picturelink": null
+}
+
+*/
+
+router.get('/getAllBarbers', Appointment.getAllBarbers)
 
 /*
 Takes --> Barbers Id as json
@@ -62,11 +79,15 @@ Takes -->  as json following info
 returns --> res.redirect(process.env.Frontend_URL+"appointment?appointment_id="+appointment_id))
         || res.status(400).send(error)
 
-Notes and assumptions: This route will send the email to the customers provided email (Check the spam folder as well).
-                        That email contains the link that will show all the appointment related information. 
-                        Through that link they will also be able to cancel or update existing appointments.
+Notes and assumptions: This route will send the email to the customer's provided email (Check the spam folder as well). 
+
+                        That email contains the link that will show all the appointment-related information.             
+
+                        They will also be able to cancel or update existing appointments through that link.          
+
                         Right now I am routing to the frontend appointment page. please change it accordingly. 
-                        In the link which redirects the user, I have attached the jwt token, which encodes the appointment ID.
+
+I                       n the link redirecting the user, I have attached the jwt token, which encodes the appointment ID.
 
 route: http://localhost:5001/Appointment/addAppointment
 
@@ -79,7 +100,6 @@ router.get('/AppointmentDetails/:token', async (req,res)=>{
         try{
                 let appointment_id = JWT.verify(req.params.token,process.env.ACCESS_TOKEN_SECRET)
                 appointment_id=appointment_id.data;
-                console.log(appointment_id)
 
                 //change accordingly 
                 res.redirect(process.env.Frontend_URL+"appointment?appointment_id="+appointment_id)
@@ -88,5 +108,58 @@ router.get('/AppointmentDetails/:token', async (req,res)=>{
                 res.status(400).send(error)
         }
 })
+
+/*
+Takes --> appointment_id as json
+{
+    "appointment_id": 50
+}
+
+returns --> res.status(200).json(appointmentDetails.rows)
+        || res.status(400).send(error)
+
+Notes and assumptions: This route will provide All the following appointment details,
+
+
+{
+        "barber_name": "Admin",
+        "available_date": "2023-01-17T05:00:00.000Z",
+        "hour": "20",
+        "customer_first_name": "ALi",
+        "customer_last_name": "Ali",
+        "customer_email": "abdulqadir199853@gmail.com",
+        "customer_telephone": "0000",
+        "service": "Haircut",
+        "customer_appointment_notes": "sa"
+    }
+
+route: http://localhost:5001/Appointment/customerAppointmentDetails
+
+*/
+
+router.get('/customerAppointmentDetails', Appointment.customerAppointmentDetails)
+
+/*
+Takes -->  as json following info
+{
+        "appointment_id":50,
+        "Customer_First_name":"ALi",
+        "Customer_Last_name":"Ali",
+        "Customer_email":"...@gmail.com",
+        "Customer_telephone":"0000",
+        "service":"Haircut",
+        "Customer_appointment_notes":"sa"
+}
+
+returns --> res.redirect(process.env.Frontend_URL+"appointment?appointment_id="+appointment_id))
+        || res.status(400).send(error)
+
+Notes and assumptions: Same as add appointment
+
+route: http://localhost:5001/Appointment/updateAppointment
+
+*/
+
+router.put('/updateAppointment', Appointment.updateAppointment)
 
 module.exports = router;
