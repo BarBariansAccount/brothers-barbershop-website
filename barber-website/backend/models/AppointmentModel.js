@@ -9,10 +9,13 @@ const getAllBarbers="SELECT UserID, FirstName, LastName, picturelink FROM users 
 
 const customerAppointmentDetails = "SELECT  barber_name, Available_Date, hour, Customer_First_name, Customer_Last_name, Customer_email, Customer_telephone, service, Customer_appointment_notes FROM barber_schedule WHERE appointment_id =$1"
 
+const cancelAppointment="UPDATE barber_schedule SET booked=False, Customer_First_name = '', Customer_Last_name = '', Customer_email = '', Customer_telephone='', Customer_appointment_notes='' WHERE appointment_id = $1"
+
 module.exports={
     getBarberAvailablityDates,
     getBarberAvailablity_Hours,
     addAppointment,
     getAllBarbers,
-    customerAppointmentDetails
+    customerAppointmentDetails,
+    cancelAppointment
 }

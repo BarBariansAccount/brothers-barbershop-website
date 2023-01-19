@@ -157,11 +157,30 @@ const updateAppointment = async (req,res) =>{
     }
 }
 
+const cancelAppointment= async (req,res) =>{
+    const {
+        appointment_id
+    } = req.body;
+
+    try{
+        await pool.query (AppointmentModel.cancelAppointment,[appointment_id])
+
+        res.render(process.env.Frontend_URL)
+
+
+    }catch (error) {
+
+        console.log(error)
+        res.status(400).send(error)
+    }
+}
+
 module.exports={
     BarberAvailablityDates,
     getBarberAvailablity_Hours,
     addAppointment,
     getAllBarbers,
     customerAppointmentDetails,
-    updateAppointment
+    updateAppointment,
+    cancelAppointment
 }
