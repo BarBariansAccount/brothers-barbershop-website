@@ -77,6 +77,79 @@ const addAppointment = async (req,res)=>{
             },
 
         }).then(()=>
+        //change accordingly
+        res.redirect(process.env.Frontend_URL+"appointment?appointment_id="+appointment_id))
+        
+    }catch (error) {
+        res.status(400).send(error)
+    }
+}
+const getAllBarbers = async (req,res)=>{
+    try{
+        let AllBarbers= await pool.query(AppointmentModel.getAllBarbers)
+
+        res.status(200).json(AllBarbers.rows)
+    }catch (error) {
+        res.status(400).send(error)
+    }
+
+}
+
+const customerAppointmentDetails= async (req,res) =>{
+    const {
+        appointment_id
+    } = req.body;
+
+    try{
+        let appointmentDetails = await pool.query (AppointmentModel.customerAppointmentDetails, [appointment_id])
+        res.status(200).json(appointmentDetails.rows)
+    }catch (error) {
+        res.status(400).send(error)
+    }
+}
+
+const updateAppointment = async (req,res) =>{
+    const {
+        appointment_id,
+        Customer_First_name,
+        Customer_Last_name,
+        Customer_email,
+        Customer_telephone,
+        service,
+        Customer_appointment_notes
+    } = req.body;
+    
+    try{
+        await pool.query(AppointmentModel.addAppointment,[appointment_id,Customer_First_name, Customer_Last_name, Customer_email, Customer_telephone, service, Customer_appointment_notes])
+        const accessToken =await JWT.sign(
+            {
+              
+              data: appointment_id,
+            },
+            process.env.ACCESS_TOKEN_SECRET
+          );
+        const URL = process.env.Backend_URL + "Appointment/AppointmentDetails/"+accessToken;
+        
+        //sending email
+       await sendgrid.setApiKey(process.env.SG_API_KEY)
+
+        sendgrid.send({
+            to:{
+                email: Customer_email,
+                name: Customer_First_name
+            },
+            from:{
+                email: process.env.Barbershop_Email,
+                name: 'Brothers Barber Shop Queen Marry'
+            },
+            templateId: 'd-c60813a5b72e451bad371d9a475e618d',
+            dynamicTemplateData:{
+                link: URL,
+                name: Customer_First_name
+            },
+
+        }).then(()=>
+        //change accordingly
         res.redirect(process.env.Frontend_URL+"appointment?appointment_id="+appointment_id))
         
     }catch (error) {
@@ -87,6 +160,8 @@ const addAppointment = async (req,res)=>{
 module.exports={
     BarberAvailablityDates,
     getBarberAvailablity_Hours,
-    addAppointment
-    
+    addAppointment,
+    getAllBarbers,
+    customerAppointmentDetails,
+    updateAppointment
 }
