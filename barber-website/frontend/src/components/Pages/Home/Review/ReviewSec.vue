@@ -36,7 +36,7 @@ export default {
   methods: {
     addReview() {
       window.open(
-        "https://www.google.com/search?gs_ssp=eJwNxU0KgCAQBlDaBl0h3LTOT8SYjtAtHNMi6G8qsNvX27yyaqcWWDjBkBNd9I3ONgQCdREYHcDc6-wMJaZkgw4e8DzULPs9R7kUe-H_eT_U-cS4qdXL-wEvDhsS&q=brothers+barbershop+queen+mary&oq=broth&aqs=chrome.1.69i57j46i39i175i199j0i67i433j0i67j0i131i433i512j69i61l3.6392j0j7&sourceid=chrome&ie=UTF-8#lrd=0x4cc9197e11d611bb:0x629fb9f4c0ca11ab,3,,,,"
+        "https://search.google.com/local/writereview?placeid=ChIJuxHWEX4ZyUwRqxHKwPS5n2I"
       );
     },
   },
