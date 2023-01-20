@@ -78,7 +78,7 @@ const addAppointment = async (req,res)=>{
 
         }).then(()=>
         //change accordingly
-        res.redirect(process.env.Frontend_URL+"appointment?appointment_id="+appointment_id))
+        res.redirect(process.env.Frontend_URL+"appointment?token="+accessToken))
         
     }catch (error) {
         res.status(400).send(error)
@@ -97,10 +97,13 @@ const getAllBarbers = async (req,res)=>{
 
 const customerAppointmentDetails= async (req,res) =>{
     const {
-        appointment_id
+        accessToken
     } = req.body;
 
     try{
+        let appointment_id = JWT.verify(accessToken,process.env.ACCESS_TOKEN_SECRET)
+        appointment_id=appointment_id.data;
+
         let appointmentDetails = await pool.query (AppointmentModel.customerAppointmentDetails, [appointment_id])
         res.status(200).json(appointmentDetails.rows)
     }catch (error) {
@@ -110,7 +113,7 @@ const customerAppointmentDetails= async (req,res) =>{
 
 const updateAppointment = async (req,res) =>{
     const {
-        appointment_id,
+        accessToken,
         Customer_First_name,
         Customer_Last_name,
         Customer_email,
@@ -120,15 +123,18 @@ const updateAppointment = async (req,res) =>{
     } = req.body;
     
     try{
+        let appointment_id = JWT.verify(accessToken,process.env.ACCESS_TOKEN_SECRET)
+        appointment_id=appointment_id.data;
+
         await pool.query(AppointmentModel.addAppointment,[appointment_id,Customer_First_name, Customer_Last_name, Customer_email, Customer_telephone, service, Customer_appointment_notes])
-        const accessToken =await JWT.sign(
+        accessToken2 =await JWT.sign(
             {
               
               data: appointment_id,
             },
             process.env.ACCESS_TOKEN_SECRET
           );
-        const URL = process.env.Backend_URL + "Appointment/AppointmentDetails/"+accessToken;
+        const URL = process.env.Backend_URL + "Appointment/AppointmentDetails/"+accessToken2;
         
         //sending email
        await sendgrid.setApiKey(process.env.SG_API_KEY)
@@ -150,22 +156,26 @@ const updateAppointment = async (req,res) =>{
 
         }).then(()=>
         //change accordingly
-        res.redirect(process.env.Frontend_URL+"appointment?appointment_id="+appointment_id))
+        res.redirect(process.env.Frontend_URL+"appointment?token="+accessToken))
         
     }catch (error) {
+        console.log(error)
         res.status(400).send(error)
     }
 }
 
 const cancelAppointment= async (req,res) =>{
     const {
-        appointment_id
+        accessToken
     } = req.body;
 
     try{
+        let appointment_id = JWT.verify(accessToken,process.env.ACCESS_TOKEN_SECRET)
+        appointment_id=appointment_id.data;
+
         await pool.query (AppointmentModel.cancelAppointment,[appointment_id])
 
-        res.render(process.env.Frontend_URL)
+        res.redirect(process.env.Frontend_URL)
 
 
     }catch (error) {

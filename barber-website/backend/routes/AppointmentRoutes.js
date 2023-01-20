@@ -98,11 +98,12 @@ router.put('/addAppointment',Appointment.addAppointment)
 //When the customer clicks the link in the email they will get routed to this page//
 router.get('/AppointmentDetails/:token', async (req,res)=>{
         try{
+                let token = req.params.token
                 let appointment_id = JWT.verify(req.params.token,process.env.ACCESS_TOKEN_SECRET)
                 appointment_id=appointment_id.data;
 
                 //change accordingly 
-                res.redirect(process.env.Frontend_URL+"appointment?appointment_id="+appointment_id)
+                res.redirect(process.env.Frontend_URL+"appointment?token="+token )
         }catch (error) {
                 console.log(error)
                 res.status(400).send(error)
