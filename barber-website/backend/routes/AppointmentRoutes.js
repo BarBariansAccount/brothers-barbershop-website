@@ -37,8 +37,8 @@ Notes and assumptions: This route will provide a list of available dates which i
 route: http://localhost:5001/Appointment/getBarberAvailablityDates
 
 */
-
-router.get('/getBarberAvailablityDates',Appointment.BarberAvailablityDates)
+// ME changed
+router.post('/getBarberAvailablityDates', Appointment.BarberAvailablityDates)
 
 /*
 Takes --> Barbers Id and Available date as json
@@ -61,8 +61,8 @@ THIS METHOD WILL RETURN HOURS AND APPOINTMENT_id
 route: http://localhost:5001/Appointment/getBarberAvailablity_Hours
 
 */
-
-router.get('/getBarberAvailablity_Hours',Appointment.getBarberAvailablity_Hours)
+// ME changed
+router.post('/getBarberAvailablity_Hours', Appointment.getBarberAvailablity_Hours)
 
 /*
 Takes -->  as json following info
@@ -93,22 +93,12 @@ route: http://localhost:5001/Appointment/addAppointment
 
 */
 
-router.put('/addAppointment',Appointment.addAppointment)
+router.put('/addAppointment', Appointment.addAppointment)
 
 //When the customer clicks the link in the email they will get routed to this page//
-router.get('/AppointmentDetails/:token', async (req,res)=>{
-        try{
-                let token = req.params.token
-                let appointment_id = JWT.verify(req.params.token,process.env.ACCESS_TOKEN_SECRET)
-                appointment_id=appointment_id.data;
 
-                //change accordingly 
-                res.redirect(process.env.Frontend_URL+"appointment?token="+token )
-        }catch (error) {
-                console.log(error)
-                res.status(400).send(error)
-        }
-})
+// ME changed
+router.get('/AppointmentDetails/:token', Appointment.customerAppointmentDetails)
 
 /*
 Takes --> appointment_id as json
