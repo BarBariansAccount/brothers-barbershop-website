@@ -1,3 +1,4 @@
+
 describe('test cypress is working ', () => {
   it('test true equal true', () => {
     expect(true).to.equal(true);
@@ -122,6 +123,30 @@ describe('Test UserStories', () => {
 
   it('UC-31 test customer login', () => {
     loginAccount(TestUserInfo);
+    logOut();
+  })
+
+  it('UC-130 test upload image and delete', () => {
+    loginAccount(TestUserInfo);
+    cy.get('.icon > .edit-icon').click({ force: true });
+
+    //check avatar not there before uploading
+    cy.get('.v-avatar>img').should("not.exist");
+
+    //test upload image
+    cy.get('.mt-3').click();
+    cy.get('input[accept*="image/png"]').selectFile('./cypress/fixtures/testIcon.png', { force: true });
+
+    //check avatar should be there
+    cy.get('.v-avatar>img').should("not.exist");
+
+    //delete image
+    clickButtonWith("delete current photo");
+    clickButtonWith("yes, delete it");
+
+    cy.get('.v-avatar>img').should("not.exist");
+
+    cy.visit('/');
     logOut();
   })
 
