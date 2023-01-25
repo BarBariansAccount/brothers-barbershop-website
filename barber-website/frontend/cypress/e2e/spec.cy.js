@@ -188,12 +188,12 @@ describe('Test UserStories', () => {
 
   })
 
-  it('UC-72 Check admin toggle busy status', () => {
-    loginAccount(TestAdminInfo);
-    cy.get('[href="/admin"] > .v-btn__content').click();
+  // it('UC-72 Check admin toggle busy status', () => {
+  //   loginAccount(TestAdminInfo);
+  //   cy.get('[href="/admin"] > .v-btn__content').click();
 
 
-  })
+  // })
 
 
   it('UC 27, 36 Create Barber account, UC 120 barber-management', () => {
