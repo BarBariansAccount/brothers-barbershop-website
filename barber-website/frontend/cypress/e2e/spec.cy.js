@@ -6,7 +6,6 @@ describe('test cypress is working ', () => {
 
 })
 
-// link is set in config file which is 'localhost:8081' for now;
 
 describe('Test UserStories', () => {
   const WAIT_TIME = 1000;
@@ -89,7 +88,6 @@ describe('Test UserStories', () => {
 
 
 
-    // clickButtonWith('log out');
     cy.get('.v-list-item').contains("Log Out").click();
   }
 
@@ -190,12 +188,12 @@ describe('Test UserStories', () => {
 
   })
 
-  // it('UC-72 Check admin toggle busy status',()=>{
-  //   loginAccount(TestAdminInfo);
-  //   cy.get('[href="/admin"] > .v-btn__content').click();
+  it('UC-72 Check admin toggle busy status', () => {
+    loginAccount(TestAdminInfo);
+    cy.get('[href="/admin"] > .v-btn__content').click();
 
 
-  // })
+  })
 
 
   it('UC 27, 36 Create Barber account, UC 120 barber-management', () => {
@@ -218,7 +216,6 @@ describe('Test UserStories', () => {
 
   it('UC-29,30 save and edit barber info, UC-73 barber-login/out', () => {
     loginAccount(TestBarberInfo);
-    //cy.contains("edit profile").click();
     cy.get('[href="/panel/profile/edit_profile"]').click();
 
     completeUserInfo(1, ModifiedBarberInfo.FirstName)
