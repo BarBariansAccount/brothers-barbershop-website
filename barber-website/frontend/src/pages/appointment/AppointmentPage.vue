@@ -1,150 +1,316 @@
 <template>
   <v-container>
-    <h1>Set an Appointment</h1>
-    <!-- step 1 -->
-    <h2 class="mt-4">1. Select Service</h2>
-    <v-item-group multiple>
-      <v-container>
+    <ValidationObserver v-slot="{ handleSubmit }">
+      <form @submit.prevent="handleSubmit(onSubmit)" class="px-4">
+        <h1>Set an Appointment</h1>
+        <!-- step 1 -->
+        <h2 class="mt-4">1. Select Service</h2>
+        <v-chip-group v-model="form.service" column mandatory>
+          <v-chip v-for="t in services" :key="t" :value="t" filter mandatory active-class="primary--text">
+            {{ t }}
+          </v-chip>
+        </v-chip-group>
+        <!-- step 2 , barber -->
+        <h2 class="mt-4">2. Select Staff Member</h2>
+        <v-chip-group v-model="selectedBarber" column>
+          <v-chip v-for="b in barbers" :key="b.userid" x-large :value="b.userid" filter class="ma-2" color="indigo"
+            text-color="white">
+            <v-avatar left>
+              <v-img alt="Avatar" :src="b.picturelink ? b.picturelink : '/avatar.svg'" />
+            </v-avatar>
+            {{ b.firstname + ' ' + b.lastname }}
+
+          </v-chip>
+        </v-chip-group>
+        <!-- step 3 Dates -->
+        <h2 class="mt-4 mb-2">3. Select prefered Date and Time
+          <v-progress-circular v-if="loadingDate" indeterminate color="primary"></v-progress-circular>
+        </h2>
         <v-row>
-          <v-col v-for="s, i in services" :key="i" cols="6" md="2">
-            <v-item v-slot="{ active, toggle }">
-              <v-card :color="active ? 'gray' : 'white'" @click="toggle">
-                <v-card-title>
-                  <div>
-                    {{ s.title }}
-                  </div>
-                  <div class="subtitle-2">
-                    {{ s.price }} - {{ s.time }}
-                  </div>
-
-                </v-card-title>
-                <v-card-text>
-                  <div class="overline">
-                    {{ s.discount }} off on :
-                  </div>
-                  <div v-for="d, j in s.off_days" :key="j">
-                    - {{ d }}
-                  </div>
-
-                </v-card-text>
-              </v-card>
-            </v-item>
+          <v-col cols="12" md="6">
+            <v-date-picker landscape v-model="picker" full-width :allowed-dates="allowedDates"
+              @click:date="getAvailHours" />
+          </v-col>
+          <v-col cols="12" md="6">
+            <div class="font-weight-bold">
+              Available on {{ picker }} :
+            </div>
+            <div class="text-muted">
+              Time zone
+            </div>
+            <v-progress-circular v-if="loadingHours" indeterminate color="primary"></v-progress-circular>
+            <ValidationProvider name="appointment" rules="required" v-slot="{ errors }">
+              <v-chip-group class=" mt-4" v-model="form.appointment_id" column key="b" mandatory>
+                <v-chip v-for="t in availHours" :key="t.appointment_id" :value="t.appointment_id" filter outlined>
+                  {{ t.hour }}
+                </v-chip>
+              </v-chip-group>
+              <span class="error--text">
+                {{ errors[0] }}
+              </span>
+            </ValidationProvider>
           </v-col>
         </v-row>
-      </v-container>
-    </v-item-group>
-    <!-- step 2 -->
-    <h2 class="mt-4">2. Select Staff Member</h2>
-    <v-item-group>
-      <v-container>
+        <!-- step 3 Form-->
+        <h2 class="mt-4 mb-2">4. You are nearly done ,Enter your details below</h2>
         <v-row>
-          <v-col class="mr-4" v-for="s, i in staffs" :key="i" cols="6" md="2">
-            <v-item v-slot="{ active, toggle }">
-              <v-avatar :size="200" :class="active ? 'avatar-active' : ''" @click="toggle">
-                <img :src="s.img" alt="">
-              </v-avatar>
-            </v-item>
+          <v-col cols="6">
+            <ValidationProvider name="mobile" rules="required" v-slot="{ errors }">
+              <v-text-field label="mobile phone" v-model.number="form.Customer_telephone" dense
+                :error-messages="errors[0]"></v-text-field>
+            </ValidationProvider>
+          </v-col>
+          <v-col cols="6">
+            <ValidationProvider name="email" rules="required|email" v-slot="{ errors }">
+              <v-text-field label="Email" dense v-model="form.Customer_email"
+                :error-messages="errors[0]"></v-text-field>
+            </ValidationProvider>
+          </v-col>
+          <v-col cols="6">
+            <ValidationProvider name="First" rules="required|alpha_spaces" v-slot="{ errors }">
+              <v-text-field label="First Name" dense v-model="form.Customer_First_name"
+                :error-messages="errors[0]"></v-text-field>
+            </ValidationProvider>
+
+          </v-col>
+          <v-col cols="6">
+            <ValidationProvider name="last" rules="required|alpha_spaces" v-slot="{ errors }">
+              <v-text-field label="Last Name" dense v-model="form.Customer_Last_name"
+                :error-messages="errors[0]"></v-text-field>
+            </ValidationProvider>
+
+          </v-col>
+          <v-col cols="12">
+            <v-textarea label="Note" dense v-model="form.Customer_appointment_notes" />
+          </v-col>
+          <v-col cols="12">
+            <v-btn class="mr-4" color="secondary" type="submit">{{ editMode?'Update': 'Add' }}
+              book</v-btn>
+            <v-btn color="secondary" to="/">Back to home</v-btn>
           </v-col>
         </v-row>
-      </v-container>
-    </v-item-group>
-    <!-- step 3 -->
-    <h2 class="mt-4 mb-2">3. Select prefered Date and Time</h2>
-    <v-row>
-      <v-col cols="12" md="6">
-        <v-date-picker v-model="picker"  full-width></v-date-picker>
-      </v-col>
-      <v-col cols="12" md="6">
-        <div class="font-weight-bold">
-          Available on {{ picker }} :
-        </div>
-        <div class="text-muted">
-          Time zone
-        </div>
-        <div v-for="a, i in avaiables" :key="i" class="subtitle-2 mt-4">
-
-          {{ a.time }}
-          <v-chip-group v-model="selectedTime" column>
-            <v-chip v-for="t in a.av" :key="t" filter outlined>
-              {{ t }}
-            </v-chip>
-          </v-chip-group>
-        </div>
-      </v-col>
-    </v-row>
-    <!-- step 3 -->
-    <h2 class="mt-4 mb-2">4. You are nearly done ,Enter your details below</h2>
-    <v-row>
-      <v-col cols="6">
-        <v-text-field label="mobile phone" dense></v-text-field>
-      </v-col>
-      <v-col cols="6">
-        <v-text-field label="Email" dense></v-text-field>
-      </v-col>
-      <v-col cols="6">
-        <v-text-field label="First Name" dense></v-text-field>
-      </v-col>
-      <v-col cols="6">
-        <v-text-field label="Last Name" dense></v-text-field>
-      </v-col>
-      <v-col cols="12">
-        <v-textarea label="Note" dense />
-      </v-col>
-      <v-col cols="12">
-        <v-btn class="mr-4" color="secondary">Book Appointment</v-btn>
-        <v-btn color="secondary">Back to home</v-btn>
-      </v-col>
-    </v-row>
+      </form>
+    </ValidationObserver>
   </v-container>
 </template>
 
 <script>
+import appointmentService from '@/services/appointment'
+import { ValidationProvider, ValidationObserver, extend } from "vee-validate";
+import { required, email, alpha_spaces, digits } from "vee-validate/dist/rules";
+import Swal from "sweetalert2";
+extend("required", {
+  ...required,
+  message: "This field is required",
+});
+extend("email", {
+  ...email,
+  message: "Enter valid email",
+});
+extend("alpha_spaces", {
+  ...alpha_spaces,
+  message: "just alpha is accepted",
+});
+extend("digits", {
+  ...digits,
+  message: "telephone number must be 10 digits",
+});
 export default {
+  components: {
+    ValidationProvider,
+    ValidationObserver,
+  },
   data() {
     return {
-      services: [
-        {
-          title: "Haircut", price: "35$", time: "45min", discount: "5%", off_days: ["Tuesday", "wednesday", "thursday"]
-        },
-        {
-          title: "Haircut", price: "35$", time: "45min", discount: "5%", off_days: ["Tuesday", "wednesday", "thursday"]
-        },
-        {
-          title: "Haircut", price: "35$", time: "45min", discount: "5%", off_days: ["Tuesday", "wednesday", "thursday"]
-        },
-        {
-          title: "Haircut", price: "35$", time: "45min", discount: "5%", off_days: ["Tuesday", "wednesday", "thursday"]
-        },
-        {
-          title: "Haircut", price: "35$", time: "45min", discount: "5%", off_days: ["Tuesday", "wednesday", "thursday"]
-        },
+      services: ['Haircut',
+        'Haircut + Beard',
+        'Line up',
+        'Beard only',
+        'Line up + Beard'],
+      barbers: [
       ],
-      staffs: [
-        {
-          id: 1, name: "ali", img: "av.png"
-        },
-        {
-          id: 1, name: "ali", img: "av.png"
-        },
-        {
-          id: 1, name: "ali", img: "av.png"
-        },
-      ],
+      selectedBarber: -1,
+      availDates: [],
+      loadingDate: false,
       picker: null,
-      avaiables: [
-        {
-          time: "Morning", av: ["10:00", "12:00"]
-        },
-        {
-          time: "Afternoon", av: ["11:00", "12:00"]
-        },
-        {
-          time: "Evening", av: ["10:00", "12:00"]
-        },
-      ],
-      selectedTime: null
+      availHours: [],
+      loadingHours: false,
+      loading: false,
+      form: {
+        appointment_id: null,
+        Customer_First_name: null,
+        Customer_Last_name: null,
+        Customer_email: null,
+        Customer_telephone: null,
+        Customer_appointment_notes: null,
+        service: null
+      },
+      editMode: false
     }
-  }
+  },
+  methods: {
+    // maybe need edit
+    async getDetail() {
+      const token = this.$route.query.token
+      if (!token) return
+      this.loading = true;
+      try {
+        const res = await appointmentService.appointmentDetail(token);
+        console.log('res', res.data[0].customer_first_name);
+        this.form.Customer_First_name = res.data[0].customer_first_name;
+        this.form.Customer_Last_name = res.data[0].customer_last_name;
+        this.form.Customer_email = res.data[0].customer_email;
+        this.form.Customer_telephone = res.data[0].customer_telephone;
+        this.form.Customer_appointment_notes = res.data[0].customer_appointment_notes;
+        this.form.service = res.data[0].service;
+      } catch (error) {
+        console.log(error);
+        Swal.fire({
+          icon: "error",
+          title: "get apointment detail",
+          text: error?.response?.data,
+        });
+      }
+      this.loading = false;
+    },
+    async getBarbers() {
+      this.barbers = [];
+      this.loading = true;
+      try {
+        const res = await appointmentService.getBarbers();
+        this.barbers = res.data;
+      } catch (error) {
+        console.log(error);
+        Swal.fire({
+          icon: "error",
+          title: "get barber list",
+          text: error?.response?.data,
+        });
+      }
+      this.loading = false;
+    },
+    async getAvailDates(BarberID) {
+      this.availDates = [];
+      this.loadingDate = true;
+      try {
+        const res = await appointmentService.getBarberAvailDates(BarberID);
+        this.availDates = res.data;
+        this.availDates.forEach(item => item.available_date = item.available_date.split('T')[0])
+      } catch (error) {
+        console.log(error);
+        Swal.fire({
+          icon: "error",
+          title: "get Avail dates",
+          text: error?.response?.data,
+        });
+      }
+      this.loadingDate = false;
+    },
+    async getAvailHours(date) {
+      if (!this.selectedBarber) {
+        return Swal.fire({
+          icon: "error",
+          title: "no barbor ",
+          text: 'select barber first',
+        });
+      }
+      this.availHours = [];
+      this.loadingHours = true;
+      try {
+        const res = await appointmentService.getBarberAvailHours(this.selectedBarber, date);
+        this.availHours = res.data;
+
+      } catch (error) {
+        console.log(error);
+        Swal.fire({
+          icon: "error",
+          title: "get Avail Hours",
+          text: error?.response?.data,
+        });
+      }
+      this.loadingHours = false;
+    },
+    async book() {
+
+      this.loading = true;
+      try {
+        const res = await appointmentService.addAppointment(this.form);
+        console.log(res);
+        Swal.fire({
+          icon: "success",
+          title: 'Success',
+          text: "appointment booked successfully !",
+        });
+        this.$router.push(`/appointment/${res.data.accessToken}`)
+
+      } catch (error) {
+        console.log(error);
+        Swal.fire({
+          icon: "error",
+          title: "error ",
+          text: error?.response?.data,
+        });
+      }
+      this.loading = false;
+    },
+
+    async update() {
+      const token = this.$route.query.token
+      if (!token) return
+      this.loading = true;
+      this.form.accessToken = token
+      try {
+        const res = await appointmentService.updateAppointment(this.form);
+        this.$router.push(`/appointment/${res.data.accessToken}`)
+        Swal.fire({
+          icon: "success",
+          title: 'Success',
+          text: "appointment updated successfully !",
+        });
+
+      } catch (error) {
+        console.log(error);
+        Swal.fire({
+          icon: "error",
+          title: "error ",
+          text: error?.response?.data,
+        });
+      }
+      this.loading = false;
+    },
+    allowedDates(val) {
+      if (this.availDates.length == 0) return false
+      const index = this.availDates.findIndex(item => item.available_date == val)
+      if (index > -1) return true
+      return false
+    },
+    onSubmit() {
+      if (this.editMode) {
+        this.update()
+      } else {
+        this.book()
+      }
+    }
+  },
+  mounted() {
+    const token = this.$route.query.token
+    if (token) this.editMode = true
+    this.getBarbers()
+    this.getDetail()
+  },
+  watch: {
+    selectedBarber(newVal) {
+      console.log('newval', newVal);
+      if (newVal) {
+        this.getAvailDates(newVal)
+      }
+    }
+  },
+  // computed:{
+  //   editmode(){
+  //     return this
+  //   }
+  // }
 }
 </script>
 
@@ -159,7 +325,11 @@ export default {
 }
 
 .avatar-active {
-  border: 3px solid yellow;
+  border: 3px solid green;
 
+}
+:deep .v-chip .v-avatar{
+  width: 55px !important;
+  height: 55px !important;
 }
 </style>
