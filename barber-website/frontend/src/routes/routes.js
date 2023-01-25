@@ -7,6 +7,7 @@ import HomePage from "../home/HomePage.vue";
 import AdminPage from "../admin/AdminPage.vue";
 import GalleryPage from "../gallery/GalleryPage.vue";
 import AppointmentPage from "../pages/appointment/AppointmentPage.vue";
+import AppointmentDetail from "../pages/appointment/AppointmentDetail.vue";
 import BarbersManagementPage from "../admin/BarbersManagementPage.vue";
 // panell components
 import PanelHome from '@/pages/panel/home/HomePage.vue'
@@ -22,12 +23,14 @@ import BarberPage from '../pages/panel/barber/barber-page.vue'
 export default [
   // pages under default layout
   {
+    name: 'HomeRoute',
     path: "/", component: DefaultLayout, children: [
-      { path: "", component: HomePage },
-      { path: "/barbersManagement", component: BarbersManagementPage },
+      { name: 'Home', path: "", component: HomePage },
+      { name: 'BarbersManagement', path: "/barbersManagement", component: BarbersManagementPage },
 
-      { path: "/gallery", component: GalleryPage },
-      { path: "/appointment", component: AppointmentPage },
+      { name: 'Gallery', path: "/gallery", component: GalleryPage },
+      { name: 'Appointment', path: "/appointment", component: AppointmentPage },
+      { name: 'AppointmentDetail', path: "/appointment/:token", component: AppointmentDetail },
     ]
   },
   // pages under panel layout
