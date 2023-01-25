@@ -188,12 +188,28 @@ describe('Test UserStories', () => {
 
   })
 
-  // it('UC-72 Check admin toggle busy status', () => {
-  //   loginAccount(TestAdminInfo);
-  //   cy.get('[href="/admin"] > .v-btn__content').click();
+  it('UC-72 Check admin toggle busy status', () => {
+    cy.visit('/');
+    cy.contains('empty', { matchCase: false }).should('exist');
+    cy.contains('busy', { matchCase: false }).should('not.exist');
+    loginAccount(TestAdminInfo);
+
+    // change default empty to busy
+    cy.get('.v-toolbar__content > .mt-n4 > .row > :nth-child(2) > .rounded-xl').click();
+    cy.get('.app-title').click();
+    cy.contains('busy', { matchCase: false }).should('exist');
+    cy.contains('empty', { matchCase: false }).should('not.exist');
+
+    cy.get('[href="/panel/admin"]').last().click();
+
+    //clean up
+    cy.get('.v-toolbar__content > .mt-n4 > .row > :nth-child(1) > .rounded-xl').click();
+    logOut();
 
 
-  // })
+  })
+
+  //add more admin related testing in case of needing it
 
 
   it('UC 27, 36 Create Barber account, UC 120 barber-management', () => {
@@ -231,6 +247,9 @@ describe('Test UserStories', () => {
 
     logOut();
   })
+
+
+  // add more barber tests here in case of needing it
 
 
   it('UC-28 delete barber-account', () => {
