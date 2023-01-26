@@ -3,21 +3,21 @@
     <h1>Profile</h1>
     <v-container>
       <v-row>
-        <v-col cols="12" md="4" v-for="item , i in items" :key="i">
+        <v-col cols="12" md="4" v-for="(item, i) in items" :key="i">
           <div class="card ">
             <div>
-              <span>{{item.title}}</span>
-              <p>{{item.count}}</p>
+              <span>{{ item.title }}</span>
+              <p>{{ item.count }}</p>
 
             </div>
             <div>
               <v-icon>
-                {{item.icon}}
+                {{ item.icon }}
               </v-icon>
             </div>
           </div>
         </v-col>
-        <v-col cols="12" >
+        <v-col cols="12">
           <div class="content">
 
             <h1>content</h1>
@@ -35,7 +35,7 @@ export default {
   data() {
     return {
       items: [
-        { title: 'Orders', count:'*Shampoo 300ml  x1', icon: 'mdi-basket' },
+        { title: 'Orders', count: '*Shampoo 300ml  x1', icon: 'mdi-basket' },
         { title: 'Avaibilities', count: '*Monday 2022-11-15 12:00 -16:00', icon: 'mdi-calendar' },
         { title: 'last password update', count: '*2022-10-02 14:25:00 ', icon: 'mdi-key' },
 

@@ -12,7 +12,7 @@
           <div class="sheet-body text-center" v-if="detail">
 
 
-            <div class="item" v-for="item, i in detail" :key="i">
+            <div class="item" v-for="(item, i) in detail" :key="i">
               {{ item.k }} :<b> {{ item.v }}</b>
             </div>
 
