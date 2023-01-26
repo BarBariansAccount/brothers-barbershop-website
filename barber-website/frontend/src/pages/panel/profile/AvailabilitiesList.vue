@@ -5,53 +5,23 @@
     <h3 class="d-flex justify-space-between align-center">
       Available
       <div>
-        <v-btn @click="showModal = true" text color="success"
-          ><v-icon left>mdi-plus</v-icon>Add</v-btn
-        >
-        <v-btn @click="del" text color="error"
-          ><v-icon left>mdi-close</v-icon>Delete</v-btn
-        >
+        <v-btn @click="showModal = true" text color="success"><v-icon left>mdi-plus</v-icon>Add</v-btn>
+        <v-btn @click="del" text color="error"><v-icon left>mdi-close</v-icon>Delete</v-btn>
       </div>
     </h3>
     <!-- date picker -->
-    <v-menu
-      ref="picker"
-      v-model="picker"
-      :close-on-content-click="false"
-      transition="scale-transition"
-      offset-y
-      max-width="290px"
-      min-width="auto"
-    >
+    <v-menu ref="picker" v-model="picker" :close-on-content-click="false" transition="scale-transition" offset-y
+      max-width="290px" min-width="auto">
       <template v-slot:activator="{ on, attrs }">
-        <v-text-field
-          v-model="date"
-          label="Date"
-          prepend-icon="mdi-calendar"
-          v-bind="attrs"
-          v-on="on"
-          style="width: 200px"
-        ></v-text-field>
+        <v-text-field v-model="date" label="Date" prepend-icon="mdi-calendar" v-bind="attrs" v-on="on"
+          style="width: 200px"></v-text-field>
       </template>
-      <v-date-picker
-        v-model="date"
-        no-title
-        @input="picker = false"
-      ></v-date-picker>
+      <v-date-picker v-model="date" no-title @input="picker = false"></v-date-picker>
     </v-menu>
     <!-- list -->
-    <v-data-table
-      show-select
-      v-model="selected"
-      :single-expand="false"
-      item-key="appointment_id"
-      show-expand
-      :expanded.sync="expanded"
-      :headers="headers"
-      :items="availables"
-    >
+    <v-data-table show-select v-model="selected" :single-expand="false" item-key="appointment_id" show-expand
+      :expanded.sync="expanded" :headers="headers" :items="availables">
       <!-- expand -->
-
       <template v-slot:expanded-item="{ item }">
         <td :colspan="5">
           <b> Customer </b>
@@ -66,11 +36,12 @@
         </td>
       </template>
 
-      <!-- <template v-slot:item.booked="{ item }">
+      <!-- booked -->
+      <template v-slot:item.booked="{ item }">
         <v-chip small :color="item.booked ? 'green' : 'red'" dark>
           {{ item.booked ? 'Yes' : 'No' }}
         </v-chip>
-      </template> -->
+      </template>
     </v-data-table>
 
   </v-card>
@@ -157,7 +128,7 @@ export default {
           this.loading = false;
         }
       });
-    },
+    }
   },
   watch: {
     // get availability on date change

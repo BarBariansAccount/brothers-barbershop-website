@@ -10,11 +10,7 @@
                   <v-col cols="11">
                     <span>{{ faq.question }}</span>
                   </v-col>
-                  <v-col
-                    v-if="userRole == 'Admin' && path == '/panel/admin'"
-                    cols="1"
-                    class="px-3"
-                  >
+                  <v-col cols="1" class="px-3">
                     <v-icon
                       v-ripple="false"
                       @click.stop="onDeleteFaq(faq.faqid)"
@@ -24,13 +20,9 @@
                       }}</v-icon
                     >
 
-                    <v-icon
-                      v-ripple="false"
-                      @click.stop="editFAQS(faq.faqid)"
-                      >{{
-                        adminModificationIconList[0].mdiPencilOutline
-                      }}</v-icon
-                    >
+                    <v-icon v-ripple="false" @click.stop="">{{
+                      adminModificationIconList[0].mdiPencilOutline
+                    }}</v-icon>
 
                     <v-icon v-ripple="false" @click.stop="">
                       {{
@@ -59,15 +51,12 @@ import {
 } from "@mdi/js";
 import faqServices from "@/services/user";
 import Swal from "sweetalert2/src/sweetalert2.js";
-
 export default {
   data: () => ({
     faqList: [],
     adminModificationIconList: [
       { mdiPencilOutline, mdiTrashCanOutline, mdiDragHorizontal },
     ],
-    userRole: "",
-    path: "",
   }),
   methods: {
     async getFAQ() {
@@ -126,7 +115,7 @@ export default {
         title: "New FAQ",
         html:
           '<input placeholder="Question" id="swal-input1" class="swal2-input" style="width: 18em">' +
-          '<textarea placeholder="Answer"  id="swal-input2" class="swal2-input" style="width: 18em" value="ghi">',
+          '<textarea placeholder="Answer" id="swal-input2" class="swal2-input" style="width: 18em">',
         focusConfirm: false,
         preConfirm: () => {
           return [
@@ -153,60 +142,8 @@ export default {
       this.getFAQ();
       console.log("New FAQ created");
     },
-    getUserRole() {
-      this.path = this.$route.fullPath;
-      if (this.$store.state.user) {
-        this.userRole = this.$store.state.user.userrole;
-      }
-    },
-    async editFAQS(faqID) {
-      console.log(faqID);
-      var editQuestion = "";
-      var editAnswer = "";
-      for (var i = 0; i < this.faqList.length; i++) {
-        if (this.faqList[i].faqid == faqID) {
-          editQuestion = this.faqList[i].question;
-          editAnswer = this.faqList[i].answer;
-          break;
-        }
-        console.log(editQuestion, editAnswer);
-      }
-
-      const { value: formValues } = await Swal.fire({
-        title: "Edit FAQ",
-        html:
-          `<input value=${editQuestion} placeholder="Question" id="swal-input1" class="swal2-input" style="width: 18em">` +
-          `<input value=${editAnswer} placeholder="Answer"  id="swal-input2" class="swal2-input" style="width: 18em" value="ghi">`,
-        focusConfirm: false,
-        preConfirm: () => {
-          return [
-            document.getElementById("swal-input1").value,
-            document.getElementById("swal-input2").value,
-          ];
-        },
-      });
-      if (
-        (formValues[0] != editQuestion || formValues[1] != editAnswer) &&
-        formValues[0] != "" &&
-        formValues[1] != ""
-      ) {
-        try {
-          await faqServices.updateFAQ({
-            faqid: faqID,
-            question: formValues[0],
-            answer: formValues[1],
-          });
-        } catch (e) {
-          console.log("Error message", e);
-        }
-      } else return;
-      if (formValues) {
-        Swal.fire(JSON.stringify(formValues));
-      }
-    },
   },
   created() {
-    this.getUserRole();
     this.getFAQ();
   },
 };
