@@ -1,3 +1,4 @@
+
 describe('test cypress is working ', () => {
   it('test true equal true', () => {
     expect(true).to.equal(true);
@@ -5,7 +6,6 @@ describe('test cypress is working ', () => {
 
 })
 
-// link is set in config file which is 'localhost:8081' for now;
 
 describe('Test UserStories', () => {
   const WAIT_TIME = 1000;
@@ -88,7 +88,6 @@ describe('Test UserStories', () => {
 
 
 
-    // clickButtonWith('log out');
     cy.get('.v-list-item').contains("Log Out").click();
   }
 
@@ -122,6 +121,30 @@ describe('Test UserStories', () => {
 
   it('UC-31 test customer login', () => {
     loginAccount(TestUserInfo);
+    logOut();
+  })
+
+  it('UC-130 test upload image and delete', () => {
+    loginAccount(TestUserInfo);
+    cy.get('.icon > .edit-icon').click({ force: true });
+
+    //check avatar not there before uploading
+    cy.get('.v-avatar>img').should("not.exist");
+
+    //test upload image
+    cy.get('.mt-3').click();
+    cy.get('input[accept*="image/png"]').selectFile('./cypress/fixtures/testIcon.png', { force: true });
+
+    //check avatar should be there
+    cy.get('.v-avatar>img').should("not.exist");
+
+    //delete image
+    clickButtonWith("delete current photo");
+    clickButtonWith("yes, delete it");
+
+    cy.get('.v-avatar>img').should("not.exist");
+
+    cy.visit('/');
     logOut();
   })
 
@@ -165,12 +188,28 @@ describe('Test UserStories', () => {
 
   })
 
-  // it('UC-72 Check admin toggle busy status',()=>{
-  //   loginAccount(TestAdminInfo);
-  //   cy.get('[href="/admin"] > .v-btn__content').click();
+  it('UC-72 Check admin toggle busy status', () => {
+    cy.visit('/');
+    cy.contains('empty', { matchCase: false }).should('exist');
+    cy.contains('busy', { matchCase: false }).should('not.exist');
+    loginAccount(TestAdminInfo);
+
+    // change default empty to busy
+    cy.get('.v-toolbar__content > .mt-n4 > .row > :nth-child(2) > .rounded-xl').click();
+    cy.get('.app-title').click();
+    cy.contains('busy', { matchCase: false }).should('exist');
+    cy.contains('empty', { matchCase: false }).should('not.exist');
+
+    cy.get('[href="/panel/admin"]').last().click();
+
+    //clean up
+    cy.get('.v-toolbar__content > .mt-n4 > .row > :nth-child(1) > .rounded-xl').click();
+    logOut();
 
 
-  // })
+  })
+
+  //add more admin related testing in case of needing it
 
 
   it('UC 27, 36 Create Barber account, UC 120 barber-management', () => {
@@ -193,7 +232,6 @@ describe('Test UserStories', () => {
 
   it('UC-29,30 save and edit barber info, UC-73 barber-login/out', () => {
     loginAccount(TestBarberInfo);
-    //cy.contains("edit profile").click();
     cy.get('[href="/panel/profile/edit_profile"]').click();
 
     completeUserInfo(1, ModifiedBarberInfo.FirstName)
@@ -209,6 +247,9 @@ describe('Test UserStories', () => {
 
     logOut();
   })
+
+
+  // add more barber tests here in case of needing it
 
 
   it('UC-28 delete barber-account', () => {
