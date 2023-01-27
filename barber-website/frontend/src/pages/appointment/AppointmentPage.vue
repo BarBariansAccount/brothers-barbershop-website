@@ -42,7 +42,7 @@
             <ValidationProvider name="appointment" rules="required" v-slot="{ errors }">
               <v-chip-group class=" mt-4" v-model="form.appointment_id" column key="b" mandatory>
                 <v-chip v-for="t in availHours" :key="t.appointment_id" :value="t.appointment_id" filter outlined>
-                  {{ t.hour }}
+                  {{ addAmPm(t.hour) }}
                 </v-chip>
               </v-chip-group>
               <span class="error--text">
@@ -290,6 +290,11 @@ export default {
       } else {
         this.book()
       }
+    },
+    addAmPm(hour) {
+      if (hour < 12) return hour + ':00 AM'
+      else if (hour == 12) return hour + ':00 PM'
+      else return (hour - 12) + ':00 PM'
     }
   },
   mounted() {
@@ -306,11 +311,6 @@ export default {
       }
     }
   },
-  // computed:{
-  //   editmode(){
-  //     return this
-  //   }
-  // }
 }
 </script>
 
