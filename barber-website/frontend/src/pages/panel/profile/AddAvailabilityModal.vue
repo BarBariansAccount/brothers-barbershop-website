@@ -16,14 +16,14 @@
                 <v-select :multiple="true" :items="hours" label="Hours" v-model="selected">
                     <template v-slot:item="{ item, $attrs }">
                         <span v-on="$attrs">
-                            {{ item }}-{{ item + 1 }}
+                            {{ addAmPm(item) }}
 
                         </span>
                     </template>
                     <template v-slot:selection="{ item, $attrs }">
-                        <span v-on="$attrs">
-                            [ {{ item }}-{{ item + 1 }}]
-                        </span>
+                        <v-chip small color="primary" v-on="$attrs" dark>
+                            {{ addAmPm(item) }}
+                        </v-chip>
                     </template>
                 </v-select>
                 <!-- add -->
@@ -84,6 +84,12 @@ export default {
                 })
             }
         }
+        ,
+        addAmPm(hour) {
+            if (hour < 12) return hour + ':00 AM'
+            else if (hour == 12) return hour + ':00 PM'
+            else return (hour - 12) + ':00 PM'
+        },
     }
 }
 </script>

@@ -1,55 +1,26 @@
 <template>
   <v-card :loading="loading">
-    <AddAvailabilityModalVue v-model="showModal" />
+    <AddAvailabilityModalVue v-model="showModal" @input="get()" />
     <!-- title -->
     <h3 class="d-flex justify-space-between align-center">
       Available
       <div>
-        <v-btn @click="showModal = true" text color="success"
-          ><v-icon left>mdi-plus</v-icon>Add</v-btn
-        >
-        <v-btn @click="del" text color="error"
-          ><v-icon left>mdi-close</v-icon>Delete</v-btn
-        >
+        <v-btn @click="showModal = true" text color="success"><v-icon left>mdi-plus</v-icon>Add</v-btn>
+        <v-btn @click="del" text color="error"><v-icon left>mdi-close</v-icon>Delete</v-btn>
       </div>
     </h3>
     <!-- date picker -->
-    <v-menu
-      ref="picker"
-      v-model="picker"
-      :close-on-content-click="false"
-      transition="scale-transition"
-      offset-y
-      max-width="290px"
-      min-width="auto"
-    >
+    <v-menu ref="picker" v-model="picker" :close-on-content-click="false" transition="scale-transition" offset-y
+      max-width="290px" min-width="auto">
       <template v-slot:activator="{ on, attrs }">
-        <v-text-field
-          v-model="date"
-          label="Date"
-          prepend-icon="mdi-calendar"
-          v-bind="attrs"
-          v-on="on"
-          style="width: 200px"
-        ></v-text-field>
+        <v-text-field v-model="date" label="Date" prepend-icon="mdi-calendar" v-bind="attrs" v-on="on"
+          style="width: 200px"></v-text-field>
       </template>
-      <v-date-picker
-        v-model="date"
-        no-title
-        @input="picker = false"
-      ></v-date-picker>
+      <v-date-picker v-model="date" no-title @input="picker = false"></v-date-picker>
     </v-menu>
     <!-- list -->
-    <v-data-table
-      show-select
-      v-model="selected"
-      :single-expand="false"
-      item-key="appointment_id"
-      show-expand
-      :expanded.sync="expanded"
-      :headers="headers"
-      :items="availables"
-    >
+    <v-data-table show-select v-model="selected" :single-expand="false" item-key="appointment_id" show-expand
+      :expanded.sync="expanded" :headers="headers" :items="availables">
       <!-- expand -->
 
       <template v-slot:expanded-item="{ item }">
@@ -65,19 +36,26 @@
           </div>
         </td>
       </template>
-
-      <!-- <template v-slot:item.booked="{ item }">
+      <!-- date -->
+      <template v-slot:item.available_date="{ item }">
+        {{ formatDate(item.available_date) }}
+      </template>
+      <!-- hour -->
+      <template v-slot:item.hour="{ item }">
+        {{ addAmPm(item.hour) }}
+      </template>
+      <!-- booked -->
+      <template v-slot:item.booked="{ item }">
         <v-chip small :color="item.booked ? 'green' : 'red'" dark>
           {{ item.booked ? 'Yes' : 'No' }}
         </v-chip>
-      </template> -->
+      </template>
     </v-data-table>
 
   </v-card>
 </template>
 
 <script>
-// eslint-disable no-use-before-define
 import AddAvailabilityModalVue from "./AddAvailabilityModal.vue";
 import barbershopStatus from "@/services/barbershopStatus";
 import Swal from "sweetalert2";
@@ -158,6 +136,20 @@ export default {
         }
       });
     },
+    addAmPm(hour) {
+      if (hour < 12) return hour + ':00 AM'
+      else if (hour == 12) return hour + ':00 PM'
+      else return (hour - 12) + ':00 PM'
+    },
+    formatDate(date) {
+      const d = new Date(date)
+      return d.toLocaleDateString('en-CA', {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
+    }
   },
   watch: {
     // get availability on date change
