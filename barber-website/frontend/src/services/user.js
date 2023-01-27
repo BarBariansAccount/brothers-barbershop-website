@@ -41,4 +41,7 @@ export default new (class UserService {
   deleteFaq = (data) => {
     return api.delete("/FAQ/deleteFAQ", data);
   };
+  updateFAQ = (data) => {
+    return api.put("/FAQ/updateFAQ", data)
+  }
 })();

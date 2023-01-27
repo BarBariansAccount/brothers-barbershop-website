@@ -42,7 +42,7 @@
             <ValidationProvider name="appointment" rules="required" v-slot="{ errors }">
               <v-chip-group class=" mt-4" v-model="form.appointment_id" column key="b" mandatory>
                 <v-chip v-for="t in availHours" :key="t.appointment_id" :value="t.appointment_id" filter outlined>
-                  {{ t.hour}}
+                  {{ t.hour }}
                 </v-chip>
               </v-chip-group>
               <span class="error--text">
