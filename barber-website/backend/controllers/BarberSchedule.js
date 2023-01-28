@@ -18,9 +18,7 @@ const addAvaliblilty = async (req, res) => {
             if (hoursPerday[i]) {
                 let checkAvailablityExists = await pool.query(BarberScheduleModel.checkAvailablityExists, [barber_name, Available_Date, i + 10])
                 
-                if (checkAvailablityExists.rows.length != 0) {
-                    
-                } else {
+                if (checkAvailablityExists.rows.length == 0) {
                     await pool.query(BarberScheduleModel.addAvailablity, [logged_userId, barber_name, Available_Date, i + 10])
                 }
             }
@@ -56,10 +54,9 @@ const deleteBarberSchedule= async (req,res)=>{
         aptIdsTodelete
     } = req.body;
     try {
-        for (let i = 0; i < aptIdsTodelete.length; i++) {
-
-            if (aptIdsTodelete[i]!=null) {
-                await pool.query(BarberScheduleModel.deleteAvailablity, [aptIdsTodelete[i]])
+        for (let aptId of aptIdsTodelete) {
+            if (aptId != null) {
+                await pool.query(BarberScheduleModel.deleteAvailablity, [aptId])
             }
         }
         res.status(200).send("Hours Deleted.")
