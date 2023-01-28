@@ -8,10 +8,10 @@ const BarberAvailablityDates = async (req, res) => {
     const {
         BarberID,
     } = req.body;
-    var today = new Date();
-    var dd = today.getDate().toString();
-    var mm = ((today.getMonth()) + 1).toString();
-    var yyyy = today.getFullYear().toString();
+    let today = new Date();
+    let dd = today.getDate().toString();
+    let mm = ((today.getMonth()) + 1).toString();
+    let yyyy = today.getFullYear().toString();
     today = yyyy + '-' + mm + '-' + dd
 
     try {
@@ -60,7 +60,7 @@ const addAppointment = async (req, res) => {
         const URL = process.env.Backend_URL + "Appointment/AppointmentDetails/" + accessToken;
 
         //sending email
-        await sendgrid.setApiKey(process.env.SG_API_KEY)
+        sendgrid.setApiKey(process.env.SG_API_KEY)
 
         sendgrid.send({
             to: {
@@ -137,7 +137,7 @@ const updateAppointment = async (req, res) => {
         const URL = process.env.Backend_URL + "Appointment/AppointmentDetails/" + accessToken;
 
         //sending email
-        await sendgrid.setApiKey(process.env.SG_API_KEY)
+        sendgrid.setApiKey(process.env.SG_API_KEY)
 
         sendgrid.send({
             to: {
