@@ -10,10 +10,17 @@
           </v-sheet>
           <!-- detail -->
           <div class="sheet-body text-center" v-if="detail">
-
-
             <div class="item" v-for="(item, i) in detail" :key="i">
-              {{ item.k }} :<b> {{ item.v }}</b>
+              {{ item.k }} :
+              <b>
+                <span v-if="item.k == 'available date'">
+                  {{ formatDate(item.v) }}
+                </span>
+                <span v-else-if="item.k == 'hour'">
+                  {{ addAmPm(item.v) }}
+                </span>
+                <span v-else>{{ item.v }}</span>
+              </b>
             </div>
 
           </div>
@@ -41,9 +48,7 @@
 <script>
 import appointmentService from '@/services/appointment'
 import Swal from "sweetalert2";
-
 export default {
-
   data() {
     return {
       loading: false,
@@ -109,24 +114,35 @@ export default {
 
     },
     async edit() {
-      // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoxNSwiaWF0IjoxNjc0MjAzNDEwfQ.aCYG6SMObTYs9OYNXmouk13AaBYVDp3RFDuQTt1y89o
       const token = this.$route.params.token
       if (!token) return
       this.$router.push({ name: 'Appointment', query: { token } })
     },
-
+    addAmPm(hour) {
+      if (hour < 12) return hour + ':00 AM'
+      else if (hour == 12) return hour + ':00 PM'
+      else return (hour - 12) + ':00 PM'
+    },
+    formatDate(date) {
+      const d = new Date(date)
+      return d.toLocaleDateString('en-CA', {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
+    }
   },
   mounted() {
     this.getDetail()
   },
-
 }
 </script>
 <style scoped>
 .sheet-body{
   display: flex;
   flex-direction: column;
-padding:  10px;
+  padding:  10px;
 }
 .item{
   border-bottom: 1px dashed gray;
