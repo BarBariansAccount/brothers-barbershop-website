@@ -122,7 +122,7 @@ returns --> res.status(200).json(appointmentDetails.rows)
 Notes and assumptions: This route will provide All the following appointment details,
 
 
-{
+{       "appointment_id": 50
         "barber_name": "Admin",
         "available_date": "2023-01-17T05:00:00.000Z",
         "hour": "20",
