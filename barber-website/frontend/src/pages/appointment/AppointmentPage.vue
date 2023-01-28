@@ -41,17 +41,18 @@
             <v-progress-circular v-if="loadingHours" indeterminate color="primary"></v-progress-circular>
             <ValidationProvider name="appointment" rules="required" v-slot="{ errors }">
               <v-chip-group class=" mt-4" v-model="form.appointment_id" column key="b" mandatory>
-                <v-chip v-for="t in availHours" :key="t.appointment_id" :value="t.appointment_id" filter outlined>
-                  {{ addAmPm(t.hour) }}
+                <v-chip v-for="t in availHours" :key="t.appointment_id" :value="t.appointment_id" filter outlined
+                  :disabled="t.booked && t.appointment_id != current_booked_id">
+                  {{ current_booked_id== t.appointment_id ? '[ current ]' : '' }} {{ addAmPm(t.hour) }}
                 </v-chip>
               </v-chip-group>
-              <span class="error--text">
+              <span class="error--text" v-if="!loadingHours">
                 {{ errors[0] }}
               </span>
             </ValidationProvider>
           </v-col>
         </v-row>
-        <!-- step 3 Form-->
+        <!-- step 4 Form-->
         <h2 class="mt-4 mb-2">4. You are nearly done ,Enter your details below</h2>
         <v-row>
           <v-col cols="6">
@@ -145,7 +146,8 @@ export default {
         Customer_appointment_notes: null,
         service: null
       },
-      editMode: false
+      editMode: false,
+      current_booked_id: -1
     }
   },
   methods: {
@@ -163,6 +165,8 @@ export default {
         this.form.Customer_telephone = res.data[0].customer_telephone;
         this.form.Customer_appointment_notes = res.data[0].customer_appointment_notes;
         this.form.service = res.data[0].service;
+        this.form.appointment_id = res.data[0].appointment_id;
+        this.current_booked_id = res.data[0].appointment_id;
       } catch (error) {
         console.log(error);
         Swal.fire({
@@ -310,7 +314,7 @@ export default {
         this.getAvailDates(newVal)
       }
     }
-  },
+  }
 }
 </script>
 

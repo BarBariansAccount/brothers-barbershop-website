@@ -127,14 +127,13 @@ const updateAppointment = async (req, res) => {
         appointment_id = appointment_id.data;
 
         await pool.query(AppointmentModel.addAppointment, [appointment_id, Customer_First_name, Customer_Last_name, Customer_email, Customer_telephone, service, Customer_appointment_notes])
-        // accessToken2 = await JWT.sign(
-        //     {
-
-        //         data: appointment_id,
-        //     },
-        //     process.env.ACCESS_TOKEN_SECRET
-        // );
-        const URL = process.env.Backend_URL + "Appointment/AppointmentDetails/" + accessToken;
+        const accessToken2 = await JWT.sign(
+            {
+                data: appointment_id,
+            },
+            process.env.ACCESS_TOKEN_SECRET
+        );
+        const URL = process.env.Backend_URL + "Appointment/AppointmentDetails/" + accessToken2;
 
         //sending email
         await sendgrid.setApiKey(process.env.SG_API_KEY)
@@ -156,7 +155,7 @@ const updateAppointment = async (req, res) => {
 
         }).then(() =>
             //change accordingly
-            res.send({ accessToken })
+            res.send({ accessToken:accessToken2 })
         )
 
     } catch (error) {
@@ -185,7 +184,6 @@ const cancelAppointment = async (req, res) => {
         res.status(400).send(error)
     }
 }
-
 module.exports = {
     BarberAvailablityDates,
     getBarberAvailablity_Hours,
