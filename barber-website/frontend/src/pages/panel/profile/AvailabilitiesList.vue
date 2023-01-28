@@ -37,15 +37,15 @@
         </td>
       </template>
       <!-- date -->
-      <template v-slot:item.available_date="{ item }">
+      <template v-slot:[`item.available_date`]="{ item }">
         {{ formatDate(item.available_date) }}
       </template>
       <!-- hour -->
-      <template v-slot:item.hour="{ item }">
+      <template v-slot:[`item.hour`]="{ item }">
         {{ addAmPm(item.hour) }}
       </template>
       <!-- booked -->
-      <template v-slot:item.booked="{ item }">
+      <template v-slot:[`item.booked`]="{ item }">
         <v-chip small :color="item.booked ? 'green' : 'red'" dark>
           {{ item.booked ? 'Yes' : 'No' }}
         </v-chip>
