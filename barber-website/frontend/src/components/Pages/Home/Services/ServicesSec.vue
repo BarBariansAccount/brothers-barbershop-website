@@ -22,7 +22,7 @@
           color="#F7F7F7"
           to="/appointment"
         >
-          <img class="haircut-types-image" src="../../../../assets/hair.png" />
+          <img class="haircut-types-image" src="/images/hair.png" />
           <p class="font-weight-bold mt-3 text-h5">Haircut</p>
         </v-card>
       </v-col>
@@ -40,7 +40,7 @@
         >
           <img
             class="haircut-types-image-2"
-            src="../../../../assets/braids.png"
+            src="/images/braids.png"
           />
           <p class="font-weight-bold mt-6 text-h5">Braids</p>
         </v-card>
@@ -59,7 +59,7 @@
         >
           <img
             class="haircut-types-image-2"
-            src="../../../../assets/beard.png"
+            src="/images/beard.png"
           />
           <p class="font-weight-bold mt-6 text-h5">Beard</p>
         </v-card>
@@ -78,7 +78,7 @@
         >
           <img
             class="haircut-types-image"
-            src="../../../../assets/hairdress.png"
+            src="/images/hairdress.png"
           />
           <p class="font-weight-bold mt-3 text-h5">Line-Up</p>
         </v-card>

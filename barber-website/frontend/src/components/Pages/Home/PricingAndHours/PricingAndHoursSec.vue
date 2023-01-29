@@ -60,7 +60,7 @@ export default {
   /* border-color: red;
   border-style: solid; */
   margin-bottom: 100px;
-  background: url("../../../../assets/bshop-5.jpg") no-repeat;
+  background: url("/images/bshop-5.jpg") no-repeat;
   background-size: cover;
   height: 950px;
 }
