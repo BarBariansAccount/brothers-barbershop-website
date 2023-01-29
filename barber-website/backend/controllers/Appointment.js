@@ -57,7 +57,7 @@ const addAppointment = async (req, res) => {
             },
             process.env.ACCESS_TOKEN_SECRET
         );
-        const URL = process.env.Backend_URL + "Appointment/AppointmentDetails/" + accessToken;
+        const URL = process.env.Frontend_URL + "Appointment/AppointmentDetails/" + accessToken;
 
         //sending email
         sendgrid.setApiKey(process.env.SG_API_KEY)
@@ -133,7 +133,7 @@ const updateAppointment = async (req, res) => {
             },
             process.env.ACCESS_TOKEN_SECRET
         );
-        const URL = process.env.Backend_URL + "Appointment/AppointmentDetails/" + accessToken2;
+        const URL = process.env.Frontend_URL + "Appointment/AppointmentDetails/" + accessToken2;
 
         //sending email
         sendgrid.setApiKey(process.env.SG_API_KEY)
