@@ -1,9 +1,9 @@
 <template>
-  <v-dialog width="500px" height="450px">
+  <v-dialog width="400px" height="420px">
     <template v-slot:activator="{ on, attrs }">
       <v-btn text v-bind="attrs" v-on="on"> Sign In </v-btn>
     </template>
-    <v-card height="400px" width="400px" color="#F9F9F9">
+    <v-card height="420px" width="400px" color="#F9F9F9">
       <v-card-title class="text-h4 justify-center"> Sign In </v-card-title>
       <v-card-text>
         <v-text-field
@@ -30,8 +30,9 @@
         </v-btn>
 
         <div class="mt-6 text-center">
-          <div>Don"t have an account?</div>
-          <SignUp />
+          <div>Don't have an account?</div>
+           <SignUp />
+           <div>Forgot password ?</div>
         </div>
       </v-card-text>
     </v-card>
