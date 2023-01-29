@@ -154,6 +154,7 @@ const updateAppointment = async (req, res) => {
                 name: Customer_First_name
             },
 
+
         }).then(() =>
             //change accordingly
             res.send({ accessToken })

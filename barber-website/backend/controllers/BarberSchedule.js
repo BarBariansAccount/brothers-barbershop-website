@@ -30,7 +30,6 @@ const addAvaliblilty = async (req, res) => {
     }
 }
 
-
 const getBarberAvailablity_barberView=async (req,res)=>{
     const {
         Date
