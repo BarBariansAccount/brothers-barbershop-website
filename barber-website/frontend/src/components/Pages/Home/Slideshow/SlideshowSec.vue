@@ -1,16 +1,7 @@
 <template>
   <v-container class="mx-auto my-auto" fluid>
     <v-row class="slideshow-sec">
-      <v-col
-        cols="12"
-        lg="6"
-        class="d-flex flex-column justify-end align-center"
-      >
-        <v-btn class="book-now-btn1" text dark @click="bookNow()" height="50px"
-          >BOOK A HAIRCUT NOW</v-btn
-        >
-      </v-col>
-      <v-col cols="12" lg="6" align="right">
+      <v-col cols="12" align="right">
         <v-card class="rounded-lg pa-4 text-center" width="290px"  :elevation="25">
           Barbershop Current Status: <strong>{{ status }}</strong> <br />
           Next Availability: <strong>{{ nextAvailability }}</strong>

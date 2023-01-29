@@ -15,8 +15,8 @@
         <v-chip-group v-if="!editMode" v-model="selectedBarber" column>
           <v-chip v-for="b in barbers" :key="b.userid" x-large :value="b.userid" filter class="ma-2" color="indigo"
             text-color="white">
-            <v-avatar left>
-              <v-img alt="Avatar" :src="b.picturelink ? b.picturelink : '/avatar.svg'" />
+            <v-avatar left size="50">
+              <v-img alt="Avatar" width="90" :src="b.picturelink ? b.picturelink : '/avatar.svg'" />
             </v-avatar>
             {{ b.firstname + ' ' + b.lastname }}
 
@@ -151,7 +151,6 @@ export default {
     }
   },
   methods: {
-    // maybe need edit
     async getDetail() {
       const token = this.$route.query.token
       if (!token) return
@@ -319,7 +318,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style  >
 .v-card__title {
   flex-direction: column;
   align-items: flex-start;
@@ -333,8 +332,8 @@ export default {
   border: 3px solid green;
 
 }
-:deep .v-chip .v-avatar{
-  width: 55px !important;
-  height: 55px !important;
+ .v-chip .v-avatar{
+  width: 65px !important;
+  height: 65px !important;
 }
 </style>

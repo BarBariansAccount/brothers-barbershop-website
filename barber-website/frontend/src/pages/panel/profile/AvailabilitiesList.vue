@@ -1,6 +1,6 @@
 <template>
   <v-card :loading="loading">
-    <AddAvailabilityModalVue v-model="showModal" @input="get()" />
+    <AddAvailabilityModalVue v-if="showModal" v-model="showModal" @input="get()" />
     <!-- title -->
     <h3 class="d-flex justify-space-between align-center">
       Available

@@ -1,5 +1,5 @@
 <template>
-  <v-dialog :v-model="signUpDialog" width="500px" height="750px">
+  <v-dialog :v-model="signUpDialog" width="400px" height="600px">
     <template v-slot:activator="{ on, attrs }">
       <v-btn class="mt-2" text v-bind="attrs" v-on="on" depressed>
         Sign Up
