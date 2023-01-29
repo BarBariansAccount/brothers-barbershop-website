@@ -4,15 +4,15 @@
       <form @submit.prevent="handleSubmit(onSubmit)" class="px-4">
         <h1>Set an Appointment</h1>
         <!-- step 1 -->
-        <h2 class="mt-4">1. Select Service</h2>
-        <v-chip-group v-model="form.service" column mandatory>
+        <h2 class="mt-4" v-if="!editMode">1. Select Service</h2>
+        <v-chip-group v-if="!editMode" v-model="form.service" column mandatory>
           <v-chip v-for="t in services" :key="t" :value="t" filter mandatory active-class="primary--text">
             {{ t }}
           </v-chip>
         </v-chip-group>
         <!-- step 2 , barber -->
-        <h2 class="mt-4">2. Select Staff Member</h2>
-        <v-chip-group v-model="selectedBarber" column>
+        <h2 class="mt-4" v-if="!editMode">2. Select Staff Member</h2>
+        <v-chip-group v-if="!editMode" v-model="selectedBarber" column>
           <v-chip v-for="b in barbers" :key="b.userid" x-large :value="b.userid" filter class="ma-2" color="indigo"
             text-color="white">
             <v-avatar left>
@@ -23,10 +23,10 @@
           </v-chip>
         </v-chip-group>
         <!-- step 3 Dates -->
-        <h2 class="mt-4 mb-2">3. Select prefered Date and Time
+        <h2 class="mt-4 mb-2" v-if="!editMode">3. Select prefered Date and Time
           <v-progress-circular v-if="loadingDate" indeterminate color="primary"></v-progress-circular>
         </h2>
-        <v-row>
+        <v-row v-if="!editMode">
           <v-col cols="12" md="6">
             <v-date-picker landscape v-model="picker" full-width :allowed-dates="allowedDates"
               @click:date="getAvailHours" />
@@ -42,8 +42,8 @@
             <ValidationProvider name="appointment" rules="required" v-slot="{ errors }">
               <v-chip-group class=" mt-4" v-model="form.appointment_id" column key="b" mandatory>
                 <v-chip v-for="t in availHours" :key="t.appointment_id" :value="t.appointment_id" filter outlined
-                  :disabled="t.booked && t.appointment_id != current_booked_id">
-                  {{ current_booked_id== t.appointment_id ? '[ current ]' : '' }} {{ addAmPm(t.hour) }}
+                  :disabled="t.booked">
+                  {{ addAmPm(t.hour) }}
                 </v-chip>
               </v-chip-group>
               <span class="error--text" v-if="!loadingHours">
@@ -147,7 +147,7 @@ export default {
         service: null
       },
       editMode: false,
-      current_booked_id: -1
+
     }
   },
   methods: {
@@ -158,15 +158,12 @@ export default {
       this.loading = true;
       try {
         const res = await appointmentService.appointmentDetail(token);
-        console.log('res', res.data[0].customer_first_name);
         this.form.Customer_First_name = res.data[0].customer_first_name;
         this.form.Customer_Last_name = res.data[0].customer_last_name;
         this.form.Customer_email = res.data[0].customer_email;
         this.form.Customer_telephone = res.data[0].customer_telephone;
         this.form.Customer_appointment_notes = res.data[0].customer_appointment_notes;
-        this.form.service = res.data[0].service;
-        this.form.appointment_id = res.data[0].appointment_id;
-        this.current_booked_id = res.data[0].appointment_id;
+
       } catch (error) {
         console.log(error);
         Swal.fire({
@@ -263,8 +260,12 @@ export default {
       if (!token) return
       this.loading = true;
       this.form.accessToken = token
+      let data = Object.assign({}, this.form)
+      delete data.appointment_id
+      delete data.service
+      console.log('data', data);
       try {
-        const res = await appointmentService.updateAppointment(this.form);
+        const res = await appointmentService.updateAppointment(data);
         this.$router.push(`/appointment/${res.data.accessToken}`)
         Swal.fire({
           icon: "success",
