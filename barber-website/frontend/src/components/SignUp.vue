@@ -2,11 +2,16 @@
   <v-dialog :v-model="signUpDialog" width="400px" height="600px">
     <template v-slot:activator="{ on, attrs }">
       <v-btn class="mt-2" text v-bind="attrs" v-on="on" depressed>
+      <slot>
         Sign Up
+      </slot>  
       </v-btn>
     </template>
     <v-card height="600px" width="400px" color="#F9F9F9">
-      <v-card-title class="text-h4 justify-center"> Sign Up </v-card-title>
+      <v-card-title class="text-h4 justify-center">      
+      <slot>
+        Sign Up
+      </slot> </v-card-title>
       <v-card-text>
         <v-text-field
           label="First Name"
