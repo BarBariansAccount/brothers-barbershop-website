@@ -66,21 +66,67 @@ const checkAndGetAdminId = async function () {
 
 }
 
+const createCustomer = async function () {
+    req = mockRequest(userData);
+    res = mockResponse();
+    await createUser_customers(req, res);
+    assert.equal(res.status.calledWith(200), true);
+    //detailed info verified here
+    assert.equal(res.json.getCall(0).args[0].User.firstname, userData.FirstName);
+
+
+    return res.json.getCall(0).args[0].User.userid;
+}
+const createBarber = async function () {
+    res = mockResponse();
+    req = mockRequest(userData2);
+    req.Logged_userId = { data: adminId };
+    await createUser(req, res);
+    assert.equal(res.status.calledWith(200), true);
+    // data checked by get users bellow
+
+    res = mockResponse();
+    await getusers(req, res);
+    assert.equal(res.status.calledWith(200), true);
+    assert.equal(res.json.getCall(0).args[0].length, 3);
+    const allUsers = {};
+    //reorganize because the order might not follow the order in the database
+    res.json.getCall(0).args[0].forEach((user) => {
+        allUsers[user.firstname] = user;
+    })
+    // more check here
+    assert.equal(allUsers[updateData.FirstName].lastname, updateData.LastName);
+    assert.equal(allUsers[userData2.FirstName].lastname, userData2.LastName);
+
+    //verify login and get userid for barber
+    res = mockResponse();
+    req = mockRequest(userData2);
+    await validateLogin(req, res);
+    assert.equal(res.status.calledWith(200), true);
+    //detailed info verified here
+    assert.equal(res.json.getCall(0).args[0].User.firstname, userData2.FirstName);
+
+    return res.json.getCall(0).args[0].User.userid;
+}
+
+const deleteAccount = async function (adId, deleteId) {
+    res = mockResponse();
+    req = { body: { UserID: deleteId } };
+    req.Logged_userId = { data: adId };
+    await deleteUser(req, res);
+    assert.equal(res.status.calledWith(200), true);
+
+
+}
+
 describe("UserController related Tests", function () {
 
     it("test create user", async function () {
-        req = mockRequest(userData);
-        res = mockResponse();
-        await createUser_customers(req, res);
-        assert.equal(res.status.calledWith(200), true);
-        //detailed info verified here
-        assert.equal(res.json.getCall(0).args[0].User.firstname, userData.FirstName);
 
-
-        userId = res.json.getCall(0).args[0].User.userid;
-        req.Logged_userId = { data: userId };
+        userId = await createCustomer();
 
     })
+
     it("test create duplicate user error", async function () {
         res = mockResponse();
         req = mockRequest(userData);
@@ -242,36 +288,7 @@ describe("UserController related Tests", function () {
 
     it('test create user by admin and get users', async function () {
 
-        res = mockResponse();
-        req = mockRequest(userData2);
-        req.Logged_userId = { data: adminId };
-        await createUser(req, res);
-        assert.equal(res.status.calledWith(200), true);
-        // data checked by get users bellow
-
-        res = mockResponse();
-        await getusers(req, res);
-        assert.equal(res.status.calledWith(200), true);
-        assert.equal(res.json.getCall(0).args[0].length, 3);
-        const allUsers = {};
-        //reorganize because the order might not follow the order in the database
-        res.json.getCall(0).args[0].forEach((user) => {
-            allUsers[user.firstname] = user;
-        })
-        // more check here
-        assert.equal(allUsers[updateData.FirstName].lastname, updateData.LastName);
-        assert.equal(allUsers[userData2.FirstName].lastname, userData2.LastName);
-
-        //verify login and get userid for barber
-        res = mockResponse();
-        req = mockRequest(userData2);
-        await validateLogin(req, res);
-        assert.equal(res.status.calledWith(200), true);
-        //detailed info verified here
-        assert.equal(res.json.getCall(0).args[0].User.firstname, userData2.FirstName);
-
-        userId2 = res.json.getCall(0).args[0].User.userid;
-
+        userId2 = await createBarber();
     })
 
     it('test picture related feature', async function () {
@@ -303,17 +320,11 @@ describe("UserController related Tests", function () {
 
     })
 
-    it('test delete user', async function () {
-        res = mockResponse();
-        req = { body: { UserID: userId } };
-        req.Logged_userId = { data: adminId };
-        await deleteUser(req, res);
-        assert.equal(res.status.calledWith(200), true);
 
-        req.body.UserID = userId2;
-        res = mockResponse();
-        await deleteUser(req, res);
-        assert.equal(res.status.calledWith(200), true);
+    it('test delete user', async function () {
+        await deleteAccount(adminId, userId);
+
+        await deleteAccount(adminId, userId2);
 
         // verify delete result
         req = mockRequest(userData2);
@@ -339,5 +350,8 @@ describe("UserController related Tests", function () {
 })
 
 module.exports = {
-    checkAndGetAdminId
+    checkAndGetAdminId,
+    createCustomer,
+    createBarber,
+    deleteAccount
 }
