@@ -35,6 +35,13 @@
               <v-icon left> mdi-pen </v-icon>
               Edit
             </v-btn>
+            <div>
+
+              <v-btn text to="/appointment" color="primary" class="my-2">
+                <v-icon left> mdi-plus </v-icon>
+                Book another Appoitment
+              </v-btn>
+            </div>
           </div>
           <v-alert dense border="left" class="text-center" type="warning">
             For updating your date and hour , Cancel your appoitment first.
