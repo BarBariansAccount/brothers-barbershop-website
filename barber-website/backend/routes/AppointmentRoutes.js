@@ -208,7 +208,7 @@ Route: http://localhost:5001/Appointment/getAllBookedAppointment
 
 */
 
-router.get('/getAllBookedAppointment', authenticateToken, Appointment.getAllBookedAppointment)
+router.post('/getAllBookedAppointment', authenticateToken, Appointment.getAllBookedAppointment)
 
 /*
 
