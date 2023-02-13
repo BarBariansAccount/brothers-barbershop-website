@@ -15,6 +15,7 @@ const { mockRequest, mockResponse, sleep } = require('./commonTestingMethods')
 const fs = require("fs")
 
 
+
 const userData = {
     UserRole: 'Customer',
     Email: 'unitTesing@gmail.com',
@@ -83,20 +84,7 @@ const createBarber = async function () {
     req.Logged_userId = { data: adminId };
     await createUser(req, res);
     assert.equal(res.status.calledWith(200), true);
-    // data checked by get users bellow
-
-    res = mockResponse();
-    await getusers(req, res);
-    assert.equal(res.status.calledWith(200), true);
-    assert.equal(res.json.getCall(0).args[0].length, 3);
-    const allUsers = {};
-    //reorganize because the order might not follow the order in the database
-    res.json.getCall(0).args[0].forEach((user) => {
-        allUsers[user.firstname] = user;
-    })
-    // more check here
-    assert.equal(allUsers[updateData.FirstName].lastname, updateData.LastName);
-    assert.equal(allUsers[userData2.FirstName].lastname, userData2.LastName);
+    // verified detailed info by validateLogin bellow
 
     //verify login and get userid for barber
     res = mockResponse();
@@ -291,6 +279,24 @@ describe("UserController related Tests", function () {
         userId2 = await createBarber();
     })
 
+    it("test get all users", async function () {
+        // data checked by get users bellow
+        req = mockRequest(userData2);
+        req.Logged_userId = { data: adminId };
+        res = mockResponse();
+        await getusers(req, res);
+        assert.equal(res.status.calledWith(200), true);
+        assert.equal(res.json.getCall(0).args[0].length, 3);
+        const allUsers = {};
+        //reorganize because the order might not follow the order in the database
+        res.json.getCall(0).args[0].forEach((user) => {
+            allUsers[user.firstname] = user;
+        })
+        // more check here
+        assert.equal(allUsers[updateData.FirstName].lastname, updateData.LastName);
+        assert.equal(allUsers[userData2.FirstName].lastname, userData2.LastName);
+    })
+
     it('test picture related feature', async function () {
         //mock image upload by create an empty test image
         const picturePath = "http://localhost:5001/uploads/" + pictureRequest.file.filename;
@@ -336,6 +342,7 @@ describe("UserController related Tests", function () {
         assert.equal(res.json.getCall(0).args[0][0].userrole, 'Admin');
 
     })
+
     it('test delete user error', async function () {
         // try to delete an account that not there(already deleted)
         res = mockResponse();
