@@ -5,6 +5,25 @@ const Appointment = require("../controllers/Appointment.js");
 const JWT = require("jsonwebtoken");
 
 /*
+JWT authentication
+*/
+function authenticateToken(req, res, next) {
+        const authHeader = req.headers['authorization'];
+        const token = authHeader && authHeader.split(' ')[1]
+        if (token == null) {
+            return res.status(401).send('Send Token Please!')
+        }
+        JWT.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, Logged_userId) => {
+            if (err) {
+                return res.status(403).send("Please Login again.");
+            }
+            req.Logged_userId = Logged_userId;
+    
+            next()
+        })
+    }
+
+/*
 Takes --> Nothing
 
 Returs --> returns --> res.status(200).json(AllBarbers.rows)
@@ -170,5 +189,30 @@ route: http://localhost:5001/Appointment/cancelAppointment
 */
 
 router.put('/cancelAppointment', Appointment.cancelAppointment)
+
+//SPRINT 7//
+
+/*It's for Admin
+
+Takes --> JWT token and
+{
+        UserID: "barbers user ID"
+}
+
+Returnes -->  res.send(results.rows).status(200)||
+              res.status(400).send(error)
+
+Notes: It will return all the appointment details for the booked appointment for the selected barber.
+
+Route: http://localhost:5001/Appointment/getAllBookedAppointment 
+
+*/
+
+router.get('/getAllBookedAppointment', authenticateToken, Appointment.getAllBookedAppointment)
+
+/*
+
+
+*/
 
 module.exports = router;

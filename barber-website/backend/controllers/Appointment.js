@@ -188,8 +188,29 @@ const cancelAppointment = async (req, res) => {
 
 
     } catch (error) {
+        res.status(400).send(error)
+    }
+}
 
-        console.log(error)
+const getAllBookedAppointment =  async (req, res) => {
+    const {
+        UserID
+    } = req.body;
+
+    let today = new Date();
+    let dd = today.getDate().toString();
+    let mm = ((today.getMonth()) + 1).toString();
+    let yyyy = today.getFullYear().toString();
+    today = yyyy + '-' + mm + '-' + dd
+    try{
+
+        let results= await pool.query(AppointmentModel.getAllBookedAppointment,[UserID,today])
+
+        res.send(results.rows).status(200)
+
+
+
+    }catch (error) {
         res.status(400).send(error)
     }
 }
@@ -201,5 +222,6 @@ module.exports = {
     getAllBarbers,
     customerAppointmentDetails,
     updateAppointment,
-    cancelAppointment
+    cancelAppointment,
+    getAllBookedAppointment
 }

@@ -16,6 +16,8 @@ const cancelAppointment = "UPDATE barber_schedule SET booked=False, Customer_Fir
 //Me added for checking booked or not an appointmnet 
 const isBooked = "SELECT booked FROM barber_schedule WHERE appointment_id = $1 AND booked=True"
 
+const getAllBookedAppointment="Select * From barber_schedule where UserID =$1 AND Available_Date>=$2 AND booked='t' Order by Available_Date , hour "
+
 module.exports = {
     getBarberAvailablityDates,
     getBarberAvailablity_Hours,
@@ -24,5 +26,6 @@ module.exports = {
     customerAppointmentDetails,
     cancelAppointment,
     isBooked,
-    updateAppointment
+    updateAppointment,
+    getAllBookedAppointment
 }
