@@ -39,9 +39,9 @@ export default new (class UserService {
     return api.post("/FAQ/addFAQ", data);
   };
   deleteFaq = (data) => {
-    return api.delete("/FAQ/deleteFAQ", data);
+    return api.put("/FAQ/deleteFAQ", data);
   };
   updateFAQ = (data) => {
-    return api.put("/FAQ/updateFAQ", data)
-  }
+    return api.put("/FAQ/updateFAQ", data);
+  };
 })();
