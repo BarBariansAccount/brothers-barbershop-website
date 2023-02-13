@@ -77,7 +77,6 @@ export default {
       },
       { text: "Hour", value: "hour" },
       { text: "Booked", value: "booked" },
-      { text: "Service", value: "service" },
       { text: "", value: "" },
     ],
     expanded: [],

@@ -8,19 +8,21 @@
     <v-container v-if="menuItemSelected == 'BARBERS'">
       <BarbersManagementPageVue />
     </v-container>
+    <v-container v-else-if="menuItemSelected == 'STATS'">
+      <v-col md="12">
+        <Graph />
+      </v-col>
+    </v-container>
     <v-container v-else-if="menuItemSelected == 'Editable Info'">
       <FaqAdminCardEdit />
     </v-container>
-    <v-container v-else>
+    <v-container v-else-if="menuItemSelected == 'APPOINTMENT'">
       <v-toolbar color="rgba(0,0,0,0)" flat class="mt-n5">
         <v-toolbar-title>View</v-toolbar-title>
       </v-toolbar>
       <v-row>
-        <v-col md="6">
+        <v-col md="12">
           <AdminTable />
-        </v-col>
-        <v-col md="6">
-          <Graph />
         </v-col>
       </v-row>
     </v-container>
@@ -56,6 +58,7 @@ export default {
       console.log(menuItem);
       this.menuItemSelected = menuItem;
     },
+
   },
 };
 </script>
