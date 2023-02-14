@@ -28,7 +28,6 @@ const addSchedule = async function (localBarberId) {
 
     //check empty slot first
     await getBarberAvailablity_barberView(barberViewReq, res);
-    console.log("Message in send", res.send.getCall(0).args[0]);
     assert.equal(res.status.calledWith(200), true);
     assert.equal(res.send.calledWith("There is no Availablity recorded for this date. Kindly, record the availablity on update availablity page."), true);
 
