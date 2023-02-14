@@ -4,8 +4,6 @@ const {
     deleteBarberSchedule
 } = require("../controllers/BarberSchedule")
 const {
-    checkAndGetAdminId,
-    createCustomer,
     createBarber,
     deleteAccount
 } = require("./userModelTest")
@@ -87,3 +85,8 @@ describe("BarberSchedule Related Tests", function () {
         await deleteAccount(barberId);
     })
 })
+
+module.exports = {
+    addSchedule,
+    deleteSchedules
+}
