@@ -28,6 +28,7 @@ const addSchedule = async function (localBarberId) {
 
     //check empty slot first
     await getBarberAvailablity_barberView(barberViewReq, res);
+    assert.equal(res.status.calledWith(200), true);
     assert.equal(res.send.calledWith("There is no Availablity recorded for this date. Kindly, record the availablity on update availablity page."), true);
 
     // add schedule
@@ -57,16 +58,17 @@ const addSchedule = async function (localBarberId) {
 
 const deleteSchedules = async function (localBarberId, aptIds) {
 
-    console.log(aptIds)
     let req = mockRequest({ aptIdsTodelete: aptIds });
     let res = mockResponse();
     await deleteBarberSchedule(req, res);
+    assert.equal(res.status.calledWith(200), true);
 
     // verify result after delete
     let barberViewReq = mockRequest({ Date: bookingData.Available_Date });
     barberViewReq.Logged_userId = { data: localBarberId };
     res = mockResponse();
     await getBarberAvailablity_barberView(barberViewReq, res);
+    assert.equal(res.status.calledWith(200), true);
     assert.equal(res.send.calledWith("There is no Availablity recorded for this date. Kindly, record the availablity on update availablity page."), true);
 }
 
