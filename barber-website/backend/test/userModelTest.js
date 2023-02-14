@@ -97,10 +97,10 @@ const createBarber = async function () {
     return res.json.getCall(0).args[0].User.userid;
 }
 
-const deleteAccount = async function (adId, deleteId) {
+const deleteAccount = async function (deleteId) {
     res = mockResponse();
     req = { body: { UserID: deleteId } };
-    req.Logged_userId = { data: adId };
+    req.Logged_userId = { data: adminId };
     await deleteUser(req, res);
     assert.equal(res.status.calledWith(200), true);
 
@@ -328,9 +328,9 @@ describe("UserController related Tests", function () {
 
 
     it('test delete user', async function () {
-        await deleteAccount(adminId, userId);
+        await deleteAccount(userId);
 
-        await deleteAccount(adminId, userId2);
+        await deleteAccount(userId2);
 
         // verify delete result
         req = mockRequest(userData2);
