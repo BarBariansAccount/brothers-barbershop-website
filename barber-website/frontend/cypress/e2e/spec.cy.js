@@ -1,4 +1,5 @@
 
+
 describe('test cypress is working ', () => {
   it('test true equal true', () => {
     expect(true).to.equal(true);
@@ -44,15 +45,18 @@ describe('Test UserStories', () => {
   // a function to click login
   const clickSignIn = () => {
     clickIcon();
-    cy.get('.row > .v-btn').click();
+    //cy.get('.row > .v-btn').click();
+    clickButtonWith("sign in")
   }
   // a function for login
   const loginAccount = (account) => {
     cy.visit('/');
 
     clickSignIn();
-    cy.get(':nth-child(2) > .col > .v-input > .v-input__control > .v-input__slot').type(account.Telephone);
-    cy.get('.v-text-field__slot>[type="password"]').type(account.Password);
+    // cy.get(':nth-child(2) > .col > .v-input > .v-input__control > .v-input__slot').type(account.Telephone);
+    // cy.get('.v-text-field__slot>[type="password"]').type(account.Password);
+    completeFiledWithPlaceHolder("Phone Number", account.Telephone);
+    completeFiledWithPlaceHolder("Password", account.Password);
     cy.get('.mt-8').last().click();
   }
 
@@ -67,19 +71,25 @@ describe('Test UserStories', () => {
       .last()
       .type("{backspace}".repeat(50) + input)
   }
+
+  const completeFiledWithPlaceHolder = (placeHolder, input) => {
+    cy.get(`input[placeholder="${placeHolder}"]`)
+      .last().type(input);
+
+  }
   const completeSignupData = (data) => {
-    completeField(2, data.FirstName);
-    completeField(3, data.LastName);
-    completeField(4, data.Telephone);
-    completeField(5, data.Email);
-    completeField(6, data.Password);
-    completeField(7, data.Password);
+    completeFiledWithPlaceHolder("First Name", data.FirstName);
+    completeFiledWithPlaceHolder("Last Name", data.LastName);
+    completeFiledWithPlaceHolder("Phone Number", data.Telephone);
+    completeFiledWithPlaceHolder("Email", data.Email);
+    completeFiledWithPlaceHolder("Password", data.Password);
+    completeFiledWithPlaceHolder("Confirm Password", data.Password);
   }
 
 
 
   const clickButtonWith = (text) => {
-    cy.contains(text, { matchCase: false }).click();
+    cy.contains(text, { matchCase: false }).last().click();
   }
   const logOut = async () => {
     cy.wait(WAIT_TIME)
@@ -109,7 +119,7 @@ describe('Test UserStories', () => {
     cy.contains('Sign UP', { matchCase: false }).click();
 
     completeSignupData(TestUserInfo);
-    cy.get(':nth-child(8)>button').contains('sign up', { matchCase: false }).click();
+    cy.get('.mt-5').contains('sign up', { matchCase: false }).click();
     cy.wait(WAIT_TIME);
     cy.wait(WAIT_TIME);
     cy.visit('/');
@@ -218,7 +228,7 @@ describe('Test UserStories', () => {
     cy.get(':nth-child(2) > .d-flex > .row > .col-sm-12').click();
     cy.get('button>span').contains("Add Account").click();
     completeSignupData(TestBarberInfo);
-    cy.get(':nth-child(8)>button').contains('Add Account').click();
+    cy.get('.mt-5').contains('sign up', { matchCase: false }).click();
 
     cy.get('body').click(0, 0);
 
