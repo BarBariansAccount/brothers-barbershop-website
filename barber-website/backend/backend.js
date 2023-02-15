@@ -9,6 +9,8 @@ const AppointmentRoutes = require('./routes/AppointmentRoutes.js')
 const ResetPasswordRoutes = require('./routes/ResetPasswordRoutes.js')
 const BarberScheduleRoutes = require('./routes/BarberScheduleRoutes.js')
 
+const Productsrouter = require('./routes/ProductsRoutes.js')
+
 const bodyParser = require('body-parser')
 const cors = require("cors")
 
@@ -30,6 +32,6 @@ app.use('/BusyStatus', BusyStatusrouter)
 app.use('/resetPassword', ResetPasswordRoutes)
 app.use('/BarberSchedule', BarberScheduleRoutes)
 app.use('/Appointment', AppointmentRoutes)
-
+app.use('/Products', Productsrouter)
 
 app.listen(process.env.PORT || 5001)

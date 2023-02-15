@@ -69,3 +69,11 @@ CREATE TABLE barber_schedule(
  default value for booked is False
  */
 /*INSERT INTO barber_schedule (UserID, barber_name,Available_Date,hour) VALUES(37,'test','2022-11-22','11');*/
+
+CREATE TABLE products(
+    productsid SERIAL,
+    title varchar(255) NOT NULL,
+    description varchar(65534) NOT NULL,
+    picturelink varchar(255),
+    PRIMARY KEY (productsid)
+)
