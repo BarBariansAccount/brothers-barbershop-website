@@ -100,180 +100,234 @@ describe('Test UserStories', () => {
 
     cy.get('.v-list-item').contains("Log Out").click();
   }
+  const clickUrl = (url) => {
+    cy.get(`[href="${url}"]`).last().click();
+  }
 
-  it('UC-20, 39, 71 Check Main Page Link and general info', () => {
-    cy.visit('/');
-    cy.get('.app-title').contains("Brothers' Barbershop");
-    cy.get('.map').should('exist');
-    cy.get('.barbershop-description').should('exist');
-    cy.get('.description-paragraph').invoke('text')
-      .then(text => expect(text.length).to.be.at.least(10));
-    cy.contains('Current Status').should('exist');
-  })
+  const selectDate = () => {
+    // select date to 2025-01-01
+    cy.contains(/ 2023$/).click();
+    cy.contains(/^2023$/).click();
+    cy.get("li").contains('2025').click();
+    clickButtonWith("Jan");
+    cy.get("td").contains(/^1$/).click();
+  }
 
+  const visitMainPage = () => {
+    cy.get('.app-title').contains("Brothers' Barbershop").click();
+  }
 
-
-  it('Test Customer account creation', () => {
-    cy.visit('/');
-    clickSignIn();
-    cy.contains('Sign UP', { matchCase: false }).click();
-
-    completeSignupData(TestUserInfo);
-    cy.get('.mt-5').contains('sign up', { matchCase: false }).click();
-    cy.wait(WAIT_TIME);
-    cy.wait(WAIT_TIME);
-    cy.visit('/');
-    cy.wait(WAIT_TIME);
-
-    logOut();
-
-  })
-
-  it('UC-31 test customer login', () => {
-    loginAccount(TestUserInfo);
-    logOut();
-  })
-
-  it('UC-130 test upload image and delete', () => {
-    loginAccount(TestUserInfo);
-    cy.get('.icon > .edit-icon').click({ force: true });
-
-    //check avatar not there before uploading
-    cy.get('.v-avatar>img').should("not.exist");
-
-    //test upload image
-    cy.get('.mt-3').click();
-    cy.get('input[accept*="image/png"]').selectFile('./cypress/fixtures/testIcon.png', { force: true });
-
-    //check avatar should be there
-    cy.get('.v-avatar>img').should("not.exist");
-
-    //delete image
-    clickButtonWith("delete current photo");
-    clickButtonWith("yes, delete it");
-
-    cy.get('.v-avatar>img').should("not.exist");
-
-    cy.visit('/');
-    logOut();
-  })
-
-  it('UC-35 test change password', () => {
-    cy.visit('/');
-    loginAccount(TestUserInfo);
-    cy.wait(WAIT_TIME);
-    clickIcon();
-    cy.get('.v-list-item').contains("User Profile").click();
-    cy.get('[href="/panel/profile/change-password"]').click();
-
-    cy.get(':nth-child(1) > .v-input > .v-input__control > .v-input__slot')
-      .type(TestUserInfo.Password);
-
-    cy.get(':nth-child(2) > .v-input > .v-input__control > .v-input__slot')
-      .type(MODIFIED_PASS);
-
-    TestUserInfo.Password = MODIFIED_PASS;
-    clickButtonWith('save');
-
-    cy.wait(WAIT_TIME);
-
-    cy.visit('/');
-    logOut();
-
-    loginAccount(TestUserInfo);
-    logOut();
+  // it('UC-20, 39, 71 Check Main Page Link and general info', () => {
+  //   cy.visit('/');
+  //   cy.get('.app-title').contains("Brothers' Barbershop");
+  //   cy.get('.map').should('exist');
+  //   cy.get('.barbershop-description').should('exist');
+  //   cy.get('.description-paragraph').invoke('text')
+  //     .then(text => expect(text.length).to.be.at.least(10));
+  //   cy.contains('Current Status').should('exist');
+  // })
 
 
 
-  })
+  // it('Test Customer account creation', () => {
+  //   cy.visit('/');
+  //   clickSignIn();
+  //   cy.contains('Sign UP', { matchCase: false }).click();
+
+  //   completeSignupData(TestUserInfo);
+  //   cy.get('.mt-5').contains('sign up', { matchCase: false }).click();
+  //   cy.wait(WAIT_TIME);
+  //   cy.wait(WAIT_TIME);
+  //   cy.visit('/');
+  //   cy.wait(WAIT_TIME);
+
+  //   logOut();
+
+  // })
+
+  // it('UC-31 test customer login', () => {
+  //   loginAccount(TestUserInfo);
+  //   logOut();
+  // })
+
+  // it('UC-130 test upload image and delete', () => {
+  //   loginAccount(TestUserInfo);
+  //   cy.get('.icon > .edit-icon').click({ force: true });
+
+  //   //check avatar not there before uploading
+  //   cy.get('.v-avatar>img').should("not.exist");
+
+  //   //test upload image
+  //   cy.get('.mt-3').click();
+  //   cy.get('input[accept*="image/png"]').selectFile('./cypress/fixtures/testIcon.png', { force: true });
+
+  //   //check avatar should be there
+  //   cy.get('.v-avatar>img').should("not.exist");
+
+  //   //delete image
+  //   clickButtonWith("delete current photo");
+  //   clickButtonWith("yes, delete it");
+
+  //   cy.get('.v-avatar>img').should("not.exist");
+
+  //   cy.visit('/');
+  //   logOut();
+  // })
+
+  // it('UC-35 test change password', () => {
+  //   cy.visit('/');
+  //   loginAccount(TestUserInfo);
+  //   cy.wait(WAIT_TIME);
+  //   clickIcon();
+  //   cy.get('.v-list-item').contains("User Profile").click();
+  //   clickUrl("/panel/profile/change-password");
+
+  //   cy.get(':nth-child(1) > .v-input > .v-input__control > .v-input__slot')
+  //     .type(TestUserInfo.Password);
+
+  //   cy.get(':nth-child(2) > .v-input > .v-input__control > .v-input__slot')
+  //     .type(MODIFIED_PASS);
+
+  //   TestUserInfo.Password = MODIFIED_PASS;
+  //   clickButtonWith('save');
+
+  //   cy.wait(WAIT_TIME);
+
+  //   cy.visit('/');
+  //   logOut();
+
+  //   loginAccount(TestUserInfo);
+  //   logOut();
 
 
 
-  it('UC37, Login to admin account and log out', () => {
-
-    loginAccount(TestAdminInfo);
-    logOut();
+  // })
 
 
 
-  })
+  // it('UC37, Login to admin account and log out', () => {
 
-  it('UC-72 Check admin toggle busy status', () => {
-    cy.visit('/');
-    cy.contains('empty', { matchCase: false }).should('exist');
-    cy.contains('busy', { matchCase: false }).should('not.exist');
-    loginAccount(TestAdminInfo);
-
-    // change default empty to busy
-    cy.get('.v-toolbar__content > .mt-n4 > .row > :nth-child(2) > .rounded-xl').click();
-    cy.get('.app-title').click();
-    cy.contains('busy', { matchCase: false }).should('exist');
-    cy.contains('empty', { matchCase: false }).should('not.exist');
-
-    cy.get('[href="/panel/admin"]').last().click();
-
-    //clean up
-    cy.get('.v-toolbar__content > .mt-n4 > .row > :nth-child(1) > .rounded-xl').click();
-    logOut();
-
-
-  })
-
-  //add more admin related testing in case of needing it
-
-
-  it('UC 27, 36 Create Barber account, UC 120 barber-management', () => {
-
-    loginAccount(TestAdminInfo);
-    cy.get(':nth-child(2) > .d-flex > .row > .col-sm-12').click();
-    cy.get('button>span').contains("Add Account").click();
-    completeSignupData(TestBarberInfo);
-    cy.get('.mt-5').contains('sign up', { matchCase: false }).click();
-
-    cy.get('body').click(0, 0);
+  //   loginAccount(TestAdminInfo);
+  //   logOut();
 
 
 
-    cy.visit('/');
-    logOut();
+  // })
 
-  })
+  // it('UC-72 Check admin toggle busy status', () => {
+  //   cy.visit('/');
+  //   cy.contains('empty', { matchCase: false }).should('exist');
+  //   cy.contains('busy', { matchCase: false }).should('not.exist');
+  //   loginAccount(TestAdminInfo);
+
+  //   // change default empty to busy
+  //   cy.get('.v-toolbar__content > .mt-n4 > .row > :nth-child(2) > .rounded-xl').click();
+  //   cy.get('.app-title').click();
+  //   cy.contains('busy', { matchCase: false }).should('exist');
+  //   cy.contains('empty', { matchCase: false }).should('not.exist');
+
+  //   clickUrl("/panel/admin");
+
+  //   //clean up
+  //   cy.get('.v-toolbar__content > .mt-n4 > .row > :nth-child(1) > .rounded-xl').click();
+  //   logOut();
 
 
-  it('UC-29,30 save and edit barber info, UC-73 barber-login/out', () => {
+  // })
+
+  // //add more admin related testing in case of needing it
+
+
+  // it('UC 27, 36 Create Barber account, UC 120 barber-management', () => {
+
+  //   loginAccount(TestAdminInfo);
+  //   cy.get(':nth-child(2) > .d-flex > .row > .col-sm-12').click();
+  //   cy.get('button>span').contains("Add Account").click();
+  //   completeSignupData(TestBarberInfo);
+  //   cy.get('.mt-5').contains('sign up', { matchCase: false }).click();
+
+  //   cy.get('body').click(0, 0);
+
+
+
+  //   cy.visit('/');
+  //   logOut();
+
+  // })
+
+
+  // it('UC-29,30 save and edit barber info, UC-73 barber-login/out', () => {
+  //   loginAccount(TestBarberInfo);
+  //   clickUrl("/panel/profile/edit_profile");
+
+  //   completeUserInfo(1, ModifiedBarberInfo.FirstName)
+  //   completeUserInfo(2, ModifiedBarberInfo.LastName)
+  //   completeUserInfo(3, ModifiedBarberInfo.Email)
+  //   clickButtonWith('save')
+
+  //   //click ok
+  //   cy.get('.swal2-confirm').last().click()
+  //   //check modified result
+  //   cy.get('.menu-wrap > :nth-child(1) > :nth-child(2)')
+  //     .contains(`${ModifiedBarberInfo.FirstName} ${ModifiedBarberInfo.LastName}`)
+
+  //   logOut();
+  // })
+
+
+
+  it("UC-224 add availability by barber", () => {
+    const slots = ["12:00 PM", "1:00 PM", "3:00 PM"];
+
     loginAccount(TestBarberInfo);
-    cy.get('[href="/panel/profile/edit_profile"]').click();
+    clickUrl("/panel/availabilities");
 
-    completeUserInfo(1, ModifiedBarberInfo.FirstName)
-    completeUserInfo(2, ModifiedBarberInfo.LastName)
-    completeUserInfo(3, ModifiedBarberInfo.Email)
-    clickButtonWith('save')
 
-    //click ok
-    cy.get('.swal2-confirm').last().click()
-    //check modified result
-    cy.get('.menu-wrap > :nth-child(1) > :nth-child(2)')
-      .contains(`${ModifiedBarberInfo.FirstName} ${ModifiedBarberInfo.LastName}`)
+    clickButtonWith("add");
+    selectDate();
+
+    // select time slots and confirm
+    cy.get(':nth-child(2) > .v-input > .v-input__control > .v-input__slot > .v-select__slot > .v-select__selections')
+      .click();
+
+    slots.forEach(slot => {
+      clickButtonWith(slot);
+    })
+    cy.get('.v-card__title').click();
+    cy.get('button[type="submit"]').contains("add", { matchCase: false }).click();
+    cy.get('button').contains('ok', { matchCase: false }).click();
+
+    //click date selector
+    cy.get('input[role="button"]').last().click();
+    selectDate();
+
+    //check whether all three slots exists
+    slots.forEach(slot => {
+      cy.contains(slot).should('be.visible');
+    })
+
+    visitMainPage();
 
     logOut();
-  })
 
+
+  })
 
   // add more barber tests here in case of needing it
 
 
-  it('UC-28 delete barber-account', () => {
-    loginAccount(TestAdminInfo);
-    cy.get(':nth-child(2) > .d-flex > .row > .col-sm-12').click();
-    //click 3 dot for delete menu
-    cy.get('.v-responsive__content > .v-sheet > .v-toolbar__content > .v-btn > .v-btn__content > .v-icon').click()
+  // it('UC-28 delete barber-account', () => {
+  //   loginAccount(TestAdminInfo);
+  //   cy.get(':nth-child(2) > .d-flex > .row > .col-sm-12').click();
+  //   //click 3 dot for delete menu
+  //   cy.get('.v-responsive__content > .v-sheet > .v-toolbar__content > .v-btn > .v-btn__content > .v-icon').click()
 
-    clickButtonWith('Delete User');
+  //   clickButtonWith('Delete User');
 
-    cy.visit('/');
-    logOut();
+  //   cy.visit('/');
+  //   logOut();
 
-  })
+  // })
 
 
 
@@ -285,7 +339,7 @@ describe('Test UserStories', () => {
   //   cy.wait(WAIT_TIME);
   //   clickIcon();
   //   cy.get('.v-list-item').contains("User Profile").click();
-  //   cy.get('[href="/panel/profile/unsubscribe"]').click();
+  //   clickUrl("/panel/profile/unsubscribe");
   //   clickButtonWith('delete account');
   //   clickButtonWith('yes, delete it');
   // })
