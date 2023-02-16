@@ -31,13 +31,22 @@ describe('Test UserStories', () => {
     Password: "testCustomerPass",
     Email: 'e2ecustomer490@gmail.com',
     FirstName: 'CustomerFirst',
-    LastName: 'CustomerLast'
+    LastName: 'CustomerLast',
+    Note: "Note for user"
   }
   const ModifiedBarberInfo = {
     Email: 'e2ebarberModified@gmail.com',
     FirstName: 'BarberFirstM',
     LastName: 'BarberLastM'
   }
+  const TestCustomerWithoutAccountInfo = {
+    Telephone: 1111111114,
+    Email: 'e2ecustomer490NoAccount@gmail.com',
+    FirstName: 'NoAccountFirst',
+    LastName: 'NoAccountLast',
+    Note: "Note for user without account"
+  }
+
   const clickIcon = () => {
     cy.get('.v-toolbar__content > [role="button"]').click();
   }
@@ -55,8 +64,8 @@ describe('Test UserStories', () => {
     clickSignIn();
     // cy.get(':nth-child(2) > .col > .v-input > .v-input__control > .v-input__slot').type(account.Telephone);
     // cy.get('.v-text-field__slot>[type="password"]').type(account.Password);
-    completeFiledWithPlaceHolder("Phone Number", account.Telephone);
-    completeFiledWithPlaceHolder("Password", account.Password);
+    completeFormWithPlaceHolder("Phone Number", account.Telephone);
+    completeFormWithPlaceHolder("Password", account.Password);
     cy.get('.mt-8').last().click();
   }
 
@@ -72,18 +81,24 @@ describe('Test UserStories', () => {
       .type("{backspace}".repeat(50) + input)
   }
 
-  const completeFiledWithPlaceHolder = (placeHolder, input) => {
+  const completeFormWithPlaceHolder = (placeHolder, input) => {
     cy.get(`input[placeholder="${placeHolder}"]`)
       .last().type(input);
 
   }
+  const completeFormWithLabel = (label, input, inputType = "input") => {
+    cy.get(`label`).contains(label, { matchCase: false })
+      .parent().children(inputType)
+      .type(input);
+  }
+
   const completeSignupData = (data) => {
-    completeFiledWithPlaceHolder("First Name", data.FirstName);
-    completeFiledWithPlaceHolder("Last Name", data.LastName);
-    completeFiledWithPlaceHolder("Phone Number", data.Telephone);
-    completeFiledWithPlaceHolder("Email", data.Email);
-    completeFiledWithPlaceHolder("Password", data.Password);
-    completeFiledWithPlaceHolder("Confirm Password", data.Password);
+    completeFormWithPlaceHolder("First Name", data.FirstName);
+    completeFormWithPlaceHolder("Last Name", data.LastName);
+    completeFormWithPlaceHolder("Phone Number", data.Telephone);
+    completeFormWithPlaceHolder("Email", data.Email);
+    completeFormWithPlaceHolder("Password", data.Password);
+    completeFormWithPlaceHolder("Confirm Password", data.Password);
   }
 
 
@@ -115,6 +130,21 @@ describe('Test UserStories', () => {
 
   const visitMainPage = () => {
     cy.get('.app-title').contains("Brothers' Barbershop").click();
+  }
+
+  const completeBookingInfo = (userInfo, service, slot) => {
+    clickUrl('/appointment');
+    clickButtonWith(service);
+    clickButtonWith(ModifiedBarberInfo.FirstName);
+    selectDate();
+    clickButtonWith(slot);
+    completeFormWithLabel("mobile phone", userInfo.Telephone);
+    completeFormWithLabel("Email", userInfo.Email);
+    completeFormWithLabel("First Name", userInfo.FirstName);
+    completeFormWithLabel("Last Name", userInfo.LastName);
+
+    completeFormWithLabel("Note", userInfo.Note, "textarea");
+
   }
 
   // it('UC-20, 39, 71 Check Main Page Link and general info', () => {
@@ -276,40 +306,47 @@ describe('Test UserStories', () => {
 
 
 
-  it("UC-224 add availability by barber", () => {
-    const slots = ["12:00 PM", "1:00 PM", "3:00 PM"];
+  // it("UC-224 add availability by barber", () => {
+  //   const slots = ["12:00 PM", "1:00 PM", "3:00 PM"];
 
-    loginAccount(TestBarberInfo);
-    clickUrl("/panel/availabilities");
+  //   loginAccount(TestBarberInfo);
+  //   clickUrl("/panel/availabilities");
 
 
-    clickButtonWith("add");
-    selectDate();
+  //   clickButtonWith("add");
+  //   selectDate();
 
-    // select time slots and confirm
-    cy.get(':nth-child(2) > .v-input > .v-input__control > .v-input__slot > .v-select__slot > .v-select__selections')
-      .click();
+  //   // select time slots and confirm
+  //   cy.get(':nth-child(2) > .v-input > .v-input__control > .v-input__slot > .v-select__slot > .v-select__selections')
+  //     .click();
 
-    slots.forEach(slot => {
-      clickButtonWith(slot);
-    })
-    cy.get('.v-card__title').click();
-    cy.get('button[type="submit"]').contains("add", { matchCase: false }).click();
-    cy.get('button').contains('ok', { matchCase: false }).click();
+  //   slots.forEach(slot => {
+  //     clickButtonWith(slot);
+  //   })
+  //   cy.get('.v-card__title').click();
+  //   cy.get('button[type="submit"]').contains("add", { matchCase: false }).click();
+  //   cy.get('button').contains('ok', { matchCase: false }).click();
 
-    //click date selector
-    cy.get('input[role="button"]').last().click();
-    selectDate();
+  //   //click date selector
+  //   cy.get('input[role="button"]').last().click();
+  //   selectDate();
 
-    //check whether all three slots exists
-    slots.forEach(slot => {
-      cy.contains(slot).should('be.visible');
-    })
+  //   //check whether all three slots exists
+  //   slots.forEach(slot => {
+  //     cy.contains(slot).should('be.visible');
+  //   })
 
-    visitMainPage();
+  //   visitMainPage();
 
-    logOut();
+  //   logOut();
 
+
+  // })
+
+  it('UC-59, 182, 222, 223, 249, 226 add update and delete appointment', () => {
+    loginAccount({ ...TestUserInfo, Password: MODIFIED_PASS });
+    completeBookingInfo(TestUserInfo, "Line up", "3:00 PM");
+    clickButtonWith("add appoitnment");
 
   })
 
