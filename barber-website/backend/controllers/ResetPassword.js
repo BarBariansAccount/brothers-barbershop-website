@@ -14,11 +14,13 @@ const SendEmail = async (req, res) => {
     
     
     try {
+        
         let Results = await pool.query(UserModel.checkUserExists_telephone, [Telephone])
         
         if (Results.rows.length == 0) {
             res.status(400).send(`There is no user with ${Telephone}.`);
         } 
+        
         else if (Results.rows.length == 1) {
             
             let random=Math.floor(Math.random()*process.env.SECRET_VERIFICATION_CODE);
@@ -65,7 +67,8 @@ const Verification= async (req, res) => {
         Telephone,
         Reset_Code
     } = req.body;
-
+    console.log("body",Telephone,
+      )
     try {
         let Results = await pool.query(UserModel.checkUserExists_telephone, [Telephone])
         let resetCode = await pool.query(ResetPasswordModel.getResetCode,[Telephone])

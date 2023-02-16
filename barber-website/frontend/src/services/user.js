@@ -44,4 +44,10 @@ export default new (class UserService {
   updateFAQ = (data) => {
     return api.put("/FAQ/updateFAQ", data);
   };
+  resetPassword = (data) => {
+    return api.post('/ResetPassword/SendEmail', data);
+  };
+  getGeneratedPassword(data){
+    return api.put('/ResetPassword/Verification',data)
+  }
 })();

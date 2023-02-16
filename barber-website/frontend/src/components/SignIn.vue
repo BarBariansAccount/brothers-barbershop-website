@@ -31,8 +31,8 @@
 
         <div class="mt-6 text-center">
           <div>Don't have an account?</div>
-           <SignUp />
-           <div>Forgot password ?</div>
+          <SignUp />
+          <div><ForgotPassword /></div>
         </div>
       </v-card-text>
     </v-card>
@@ -41,9 +41,10 @@
 
 <script>
 import SignUp from "./SignUp.vue";
+import ForgotPassword from "./Pages/ForgotPassword.vue";
 import UserRegister from "@/services/user";
 export default {
-  components: { SignUp },
+  components: { SignUp, ForgotPassword },
   data: () => ({
     signInDialogValue: false,
     form: {
@@ -102,4 +103,3 @@ export default {
   },
 };
 </script>
-

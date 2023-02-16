@@ -54,7 +54,7 @@ The code will expire in 1 day
 route: http://localhost:5001/resetPassword/Verification
 */
 
-router.get('/Verification',ResetPassword.Verification)
+router.put('/Verification',ResetPassword.Verification)
 
 /*
 Takes --> {
