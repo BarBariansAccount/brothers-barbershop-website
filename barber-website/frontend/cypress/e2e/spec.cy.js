@@ -11,6 +11,7 @@ describe('test cypress is working ', () => {
 describe('Test UserStories', () => {
   const WAIT_TIME = 1000;
   const MODIFIED_PASS = 'modifiedPass';
+  const EDITED_NOTE = "edited note";
   //a testing admin account should already in the database before starting
   const TestAdminInfo = {
     Telephone: 1111111111,
@@ -347,6 +348,22 @@ describe('Test UserStories', () => {
     loginAccount({ ...TestUserInfo, Password: MODIFIED_PASS });
     completeBookingInfo(TestUserInfo, "Line up", "3:00 PM");
     clickButtonWith("add appoitnment");
+    cy.get('.swal2-confirm').click();
+
+    //test modify appointment
+    clickButtonWith('edit');
+    completeFormWithLabel("Note", "{backspace}".repeat(50) + EDITED_NOTE, "textarea");
+    clickButtonWith("update appoitnment");
+    cy.get('.swal2-confirm').click();
+    // check the modified info
+    cy.contains(EDITED_NOTE).should("exist");
+
+    //test delete appointment
+    clickButtonWith('cancel');
+    clickButtonWith('yes, delete it!');
+    cy.get('.swal2-confirm').click();
+
+    logOut();
 
   })
 
