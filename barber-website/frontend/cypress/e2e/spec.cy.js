@@ -148,6 +148,21 @@ describe('Test UserStories', () => {
 
   }
 
+  const updateAndDeleteAppointment = () => {
+    //test modify appointment
+    clickButtonWith('edit');
+    completeFormWithLabel("Note", "{backspace}".repeat(50) + EDITED_NOTE, "textarea");
+    clickButtonWith("update appoitnment");
+    cy.get('.swal2-confirm').click();
+    // check the modified info
+    cy.contains(EDITED_NOTE).should("exist");
+
+    //test delete appointment
+    clickButtonWith('cancel');
+    clickButtonWith('yes, delete it!');
+    cy.get('.swal2-confirm').click();
+  }
+
   // it('UC-20, 39, 71 Check Main Page Link and general info', () => {
   //   cy.visit('/');
   //   cy.get('.app-title').contains("Brothers' Barbershop");
@@ -344,27 +359,27 @@ describe('Test UserStories', () => {
 
   // })
 
-  it('UC-59, 182, 222, 223, 249, 226 add update and delete appointment', () => {
+
+  it('UC-59, 182, 222, 223, 249 add update and delete appointment', () => {
     loginAccount({ ...TestUserInfo, Password: MODIFIED_PASS });
     completeBookingInfo(TestUserInfo, "Line up", "3:00 PM");
     clickButtonWith("add appoitnment");
     cy.get('.swal2-confirm').click();
 
-    //test modify appointment
-    clickButtonWith('edit');
-    completeFormWithLabel("Note", "{backspace}".repeat(50) + EDITED_NOTE, "textarea");
-    clickButtonWith("update appoitnment");
-    cy.get('.swal2-confirm').click();
-    // check the modified info
-    cy.contains(EDITED_NOTE).should("exist");
-
-    //test delete appointment
-    clickButtonWith('cancel');
-    clickButtonWith('yes, delete it!');
-    cy.get('.swal2-confirm').click();
+    updateAndDeleteAppointment();
 
     logOut();
 
+  })
+
+  it("UC-226 add update and delete appointment as guest", () => {
+    cy.visit("/");
+    completeBookingInfo(TestCustomerWithoutAccountInfo, "Line up", "1:00 PM");
+    clickButtonWith("add appoitnment");
+    cy.get('.swal2-confirm').click();
+
+    updateAndDeleteAppointment();
+    cy.visit("/");
   })
 
   // add more barber tests here in case of needing it
