@@ -60,7 +60,6 @@ export default {
 
   methods: {
     onCancel() {
-      this.ForgotPasswordDialog = false;
       this.$emit("passwordChanged", false);
     },
 
@@ -85,7 +84,6 @@ export default {
         } else {
           this.$router.push("/panel");
         }
-        this.$emit("passwordChanged", false);
       }
     },
   },

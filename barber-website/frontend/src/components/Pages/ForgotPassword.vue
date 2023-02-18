@@ -102,18 +102,13 @@ export default {
         const user = await UserRegister.resetPassword({
           Telephone: this.form.phoneNumber,
         });
-        if (!user) {
-          this.errorPhoneNumber = "invalid User";
-        } else {
-          this.errorPhoneNumber = "valid User";
+        if (user) {
           this.showTokenForm = true;
         }
         return;
-        //     console.log("A email was sent");
-
-        //     //return (this.signUpValue = !this.signUpValue);
       } catch (error) {
-        //     console.log("In error occured while creating the user account");
+        this.errorPhoneNumber = "invalid User";
+
         console.log(error.response);
       }
     },
