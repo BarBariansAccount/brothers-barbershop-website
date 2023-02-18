@@ -13,7 +13,7 @@ const bodyParser = require('body-parser')
 const cors = require("cors")
 
 const app = express()
-app.use(morgan('combine'))
+app.use(morgan('tiny'))
 
 // use cors
 app.use(cors());
