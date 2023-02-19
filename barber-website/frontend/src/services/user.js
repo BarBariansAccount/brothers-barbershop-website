@@ -50,4 +50,7 @@ export default new (class UserService {
   getGeneratedPassword(data){
     return api.put('/ResetPassword/Verification',data)
   }
+  changePasswordForgottenPassword(data,config){
+    return api.put('/ResetPassword/Change_Password',data,config)
+  }
 })();

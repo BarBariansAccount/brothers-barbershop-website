@@ -43,6 +43,8 @@
 </template>
 
 <script>
+import UserRegister from "@/services/user";
+import { response } from "express";
 export default {
   props: {
     userData: {
@@ -71,12 +73,17 @@ export default {
       } else if (this.form.confirmedPassword != this.form.newPassword) {
         this.errorPassword = "Password are not matching";
       } else {
-        // const user = await UserRegister.updatePassword({
-        //   NewPassword: this.form.phoneNumber,
-        // });
+        response = await UserRegister.changePasswordForgottenPassword(
+          {
+            NewPassword: this.form.newPassword,
+          },
+          { headers: { Authorization: "Bearer " + this.userData.data.Token } }
+        );
+        console.log("status", response.status);
         const { userrole } = this.userData.data.User;
         this.$store.commit("setToken", this.userData.data.Token);
         this.$store.commit("setUser", this.userData.data.User);
+        console.log("Rerouting to the home page");
         if (userrole == "Admin") {
           this.$router.push("/panel/admin");
         } else if (userrole == "Barber") {
