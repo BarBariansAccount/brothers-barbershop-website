@@ -26,6 +26,9 @@
         </v-col>
       </v-row>
     </v-container>
+    <v-container v-else-if="menuItemSelected == 'PRODUCTS'">
+      <AdminProducts />
+    </v-container>
   </div>
 </template>
 
@@ -34,6 +37,7 @@ import AdminMenuCards from "@/components/AdminMenuCards.vue";
 import FaqAdminCardEdit from "@/components/FaqAdminCardEdit.vue";
 import BusyToolBar from "@/components/BusyToolbar.vue";
 import AdminTable from "@/components/AdminTable.vue";
+import AdminProducts from "@/components/AdminProducts.vue";
 import Graph from "@/components/AdminGraph.vue";
 import BarbersManagementPageVue from "./BarbersManagementPage.vue";
 
@@ -46,6 +50,7 @@ export default {
     BusyToolBar,
     AdminMenuCards,
     FaqAdminCardEdit,
+    AdminProducts,
   },
 
   data() {
@@ -58,7 +63,6 @@ export default {
       console.log(menuItem);
       this.menuItemSelected = menuItem;
     },
-
   },
 };
 </script>

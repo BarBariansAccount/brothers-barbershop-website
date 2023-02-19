@@ -62,7 +62,7 @@ export default {
         { title: "BARBERS", icon: mdiAccountGroupOutline },
         { title: "Editable Info", icon: mdiAccountEdit },
         { title: "APPOINTMENT", icon: mdiCalendar },
-        { title: "GALLERY", icon: mdiImage },
+        { title: "PRODUCTS", icon: mdiImage },
         { title: "STATS", icon: mdiFinance },
       ],
       menuItemSelected: "",
