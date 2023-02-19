@@ -1,5 +1,5 @@
+<!-- Testing jira -->
 <template>
-  <!-- Testing jira -->
   <div>
     <v-container>
       <BusyToolBar />
@@ -29,6 +29,10 @@
     <v-container v-else-if="menuItemSelected == 'PRODUCTS'">
       <AdminProducts />
     </v-container>
+    <v-container v-else-if="menuItemSelected == 'Barber`s Availability'">
+      <AvailabilityTable />
+
+    </v-container>
   </div>
 </template>
 
@@ -40,7 +44,7 @@ import AdminTable from "@/components/AdminTable.vue";
 import AdminProducts from "@/components/AdminProducts.vue";
 import Graph from "@/components/AdminGraph.vue";
 import BarbersManagementPageVue from "./BarbersManagementPage.vue";
-
+import AvailabilityTable from "@/components/AvailabilityTable.vue";
 export default {
   name: "AdminPage",
   components: {
@@ -51,6 +55,7 @@ export default {
     AdminMenuCards,
     FaqAdminCardEdit,
     AdminProducts,
+    AvailabilityTable
   },
 
   data() {

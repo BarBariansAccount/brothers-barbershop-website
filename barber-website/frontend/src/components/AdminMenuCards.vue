@@ -47,7 +47,7 @@
 import {
   mdiFinance,
   mdiImage,
-  mdiInformationOutline,
+  //mdiInformationOutline,
   mdiCalendar,
   mdiAccountGroupOutline,
   mdiAccountEdit,
@@ -58,11 +58,13 @@ export default {
   data() {
     return {
       menuItems: [
-        { title: "OVERVIEW", icon: mdiInformationOutline },
+      //{ title: "OVERVIEW", icon: mdiInformationOutline },
         { title: "BARBERS", icon: mdiAccountGroupOutline },
         { title: "Editable Info", icon: mdiAccountEdit },
         { title: "APPOINTMENT", icon: mdiCalendar },
         { title: "PRODUCTS", icon: mdiImage },
+        { title: "Barber`s Availability", icon: mdiCalendar },
+        { title: "GALLERY", icon: mdiImage },
         { title: "STATS", icon: mdiFinance },
       ],
       menuItemSelected: "",

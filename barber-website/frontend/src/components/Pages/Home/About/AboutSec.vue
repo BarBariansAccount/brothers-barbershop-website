@@ -28,7 +28,11 @@
         <div class="barbershop-description">
           <h2 class="mt-2">ABOUT BROTHERS' BARBERSHOP</h2>
           <br />
-          <p class="description-paragraph">
+          <p
+            class="description-paragraph"
+            :contenteditable="userRole == 'Admin'"
+            @input="onInput"
+          >
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident
             fuga, molestias deleniti vel rerum nisi aperiam. Quibusdam corrupti
             rem voluptate explicabo minus officia, incidunt eum dolorem voluptas
@@ -40,6 +44,18 @@
             aperiam voluptate iure non alias, esse fugiat, quas nam! Voluptates
             velit sed labore ipsum nobis provident corrupti.
           </p>
+          <div class="mb-10 px-6" v-if="!isHidden">
+            <v-row style="justify-content: center;">
+              <v-col cols="auto">
+                <v-btn color="green" outlined @click="onSaveDescription()"
+                  >save</v-btn
+                >
+              </v-col>
+              <v-col cols="auto">
+                <v-btn color="red" outlined @click="onCancel()">cancel</v-btn>
+              </v-col>
+            </v-row>
+          </div>
           <v-btn color="black" class="mt-12" @click="bookNow()" outlined
             >BOOK NOW</v-btn
           >
@@ -51,10 +67,38 @@
 
 <script>
 export default {
+  data() {
+    return {
+      description: "",
+      userRole: "",
+      isHidden: true,
+    };
+  },
   methods: {
     bookNow() {
       this.$router.push("/appointment");
     },
+    onSaveDescription() {
+      console.log(this.description);
+      this.isHidden = true;
+    },
+    onInput(e) {
+      this.description = e.target.innerText;
+      this.isHidden = false;
+    },
+    onCancel() {
+      this.isHidden = true;
+    },
+    getUser() {
+      if (this.$store.state.user) {
+        this.userRole = this.$store.state.user.userrole;
+        console.log("userRole", this.userRole);
+      }
+    },
+  },
+
+  created: function() {
+    this.getUser();
   },
 };
 </script>
