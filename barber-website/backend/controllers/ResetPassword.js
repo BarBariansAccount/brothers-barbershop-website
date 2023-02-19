@@ -99,7 +99,29 @@ const Verification= async (req, res) => {
     }
 }
 
+const Change_Password= async (req, res) => {
+    const {
+        NewPassword
+    } = req.body;
+    const logged_userId = req.Logged_userId.data;
+
+    try{
+        const hash = bcrypt.hashSync(NewPassword, 12);
+      await pool.query(UserModel.updatePassword, [logged_userId, hash]);
+      res.status(200).send("Password is changed sucessfully.");
+
+
+    }catch (error) {
+        res.status(400)
+   
+    }
+
+}
+
+
+
 module.exports={
     SendEmail,
-    Verification
+    Verification,
+    Change_Password
 }

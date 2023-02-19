@@ -210,9 +210,6 @@ Route: http://localhost:5001/Appointment/getAllBookedAppointment
 
 router.post('/getAllBookedAppointment', authenticateToken, Appointment.getAllBookedAppointment)
 
-/*
 
-
-*/
 
 module.exports = router;
