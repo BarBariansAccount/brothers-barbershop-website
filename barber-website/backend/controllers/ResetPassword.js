@@ -5,6 +5,7 @@ const ResetPasswordModel = require("../models/ResetPasswordModel.js")
 const datefns = require('date-fns');
 const JWT = require("jsonwebtoken");
 const sendgrid = require("@sendgrid/mail");
+const bcrypt = require("bcrypt");
  
 const SendEmail = async (req, res) => {
     const {
