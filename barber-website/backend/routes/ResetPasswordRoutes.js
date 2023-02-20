@@ -54,7 +54,7 @@ The code will expire in 1 day
 route: http://localhost:5001/resetPassword/Verification
 */
 
-router.get('/Verification',ResetPassword.Verification)
+router.put('/Verification',ResetPassword.Verification)
 
 /*
 Takes --> {
@@ -70,8 +70,6 @@ Note: you just need to send the authenticate token which I am sending back after
 Route:  http://localhost:5001/resetPassword/Change_Password
 */
 
-
-router.put('/Change_Password', authenticateToken, ResetPassword.Change_Password);
-
+router.put('/Change_Password', authenticateToken,ResetPassword.Change_Password);
 
 module.exports = router;
