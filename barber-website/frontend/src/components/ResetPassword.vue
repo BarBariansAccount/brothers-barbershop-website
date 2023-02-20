@@ -44,7 +44,7 @@
 
 <script>
 import UserRegister from "@/services/user";
-import { response } from "express";
+
 export default {
   props: {
     userData: {
@@ -73,24 +73,26 @@ export default {
       } else if (this.form.confirmedPassword != this.form.newPassword) {
         this.errorPassword = "Password are not matching";
       } else {
-        response = await UserRegister.changePasswordForgottenPassword(
+        console.log(this.userData.data.Token, "token");
+        const { userrole } = this.userData.data.User;
+        this.$store.commit("setToken", this.userData.data.Token);
+
+        await UserRegister.changePasswordForgottenPassword(
           {
             NewPassword: this.form.newPassword,
           },
           { headers: { Authorization: "Bearer " + this.userData.data.Token } }
-        );
-        console.log("status", response.status);
-        const { userrole } = this.userData.data.User;
-        this.$store.commit("setToken", this.userData.data.Token);
-        this.$store.commit("setUser", this.userData.data.User);
-        console.log("Rerouting to the home page");
-        if (userrole == "Admin") {
-          this.$router.push("/panel/admin");
-        } else if (userrole == "Barber") {
-          this.$router.push("/panel/barber");
-        } else {
-          this.$router.push("/panel");
-        }
+        ).then(() => {
+          this.$store.commit("setUser", this.userData.data.User);
+          console.log("Rerouting to the home page");
+          if (userrole == "Admin") {
+            this.$router.push("/panel/admin");
+          } else if (userrole == "Barber") {
+            this.$router.push("/panel/barber");
+          } else {
+            this.$router.push("/panel");
+          }
+        });
       }
     },
   },
