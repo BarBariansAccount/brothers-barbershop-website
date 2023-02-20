@@ -67,11 +67,16 @@
         <v-btn @click="dialog = true" class="mb-4">Add Product</v-btn>
       </v-col>
     </v-row>
+    <AdminProductCard />
   </div>
 </template>
 
 <script>
+import AdminProductCard from "./AdminProductCard.vue";
 export default {
+  components: {
+    AdminProductCard,
+  },
   data() {
     return {
       dialog: false,
