@@ -7,7 +7,7 @@ docker rm -f database
 docker rm -f backend-test
 docker rm -f frontend-test
 docker network rm barber-network
-docker network disconnect barber-network-dev $(docker ps --filter status=exited -q)
+docker network disconnect barber-network-dev database
 docker network rm barber-network-dev
 
 exit 0
