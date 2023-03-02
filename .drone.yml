@@ -15,6 +15,7 @@ concurrency:
 steps:
 - name: custom-clone
   commands:
+  - echo "TEST"
   - git init
   - git remote add origin https://github.com/BarBariansAccount/brothers-barbershop-website.git
   - git fetch
