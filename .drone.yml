@@ -56,10 +56,19 @@ steps:
   - ci-cd/docker/testing-clean-up.sh
 
 - name: build
+  environment:
+    DUSERNAME:
+      from_secret: dockerhub_user
+    DPASSWORD:
+      from_secret: dockerhub_password
   commands:
   - docker network create barber-network
-  - docker build -t barbershop:backend --target production -f "ci-cd/docker/backend-dockerfile" .
-  - docker build -t barbershop:frontend --target production -f "ci-cd/docker/frontend-dockerfile" .
+  - docker build -t brothersbarber/barbershop:backend --target production -f "ci-cd/docker/backend-dockerfile" .
+  - docker build -t brothersbarber/barbershop:frontend --target production -f "ci-cd/docker/frontend-dockerfile" .
+  - docker login -u $DUSERNAME -p $DPASSWORD
+  - docker push brothersbarber/barbershop:backend 
+  - docker push brothersbarber/barbershop:frontend 
+  - docker logout
   when:
     branch:
     - main
