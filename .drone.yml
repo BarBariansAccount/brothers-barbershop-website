@@ -23,7 +23,6 @@ steps:
 - name: full-clean-up
   commands:
   - ci-cd/docker/full-clean-up.sh
-  - docker network create barber-network-dev
 
 - name: test
   environment:
