@@ -73,7 +73,7 @@ steps:
 ---
 kind: pipeline
 type: exec
-name: deployment.server
+name: deployment
 
 platform:
   os: linux
@@ -114,7 +114,6 @@ steps:
     PASSWORD:
       from_secret: database_password
   commands:
-  - sleep 5
   - docker run -p 5001:5001 --net barber-network --name backend -d brothersbarber/barbershop:backend 
   - docker run -p 80:8080 --net barber-network --name frontend -d brothersbarber/barbershop:frontend
   when:
