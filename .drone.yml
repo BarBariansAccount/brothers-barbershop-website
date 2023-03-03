@@ -132,7 +132,7 @@ steps:
   - docker run --name database -v "$PWD/ci-cd/init-db.sh":/docker-entrypoint-initdb.d/init-db.sh -e POSTGRES_PASSWORD=$PASSWORD -e POSTGRES_DB=barbershop -p 5432:5432 --net barber-network -d postgres
   - sleep 5
   - docker run -p 5001:5001 --net barber-network --name backend -d brothersbarber/barbershop:backend 
-  - docker run -p 6001:8123 --net barber-network --name frontend -d brothersbarber/barbershop:frontend
+  - docker run -p 6001:80 --net barber-network --name frontend -d brothersbarber/barbershop:frontend
   when:
     branch:
     - main

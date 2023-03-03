@@ -9,8 +9,8 @@ WORKDIR frontend/
 
 RUN npm install
 
-ENV PORT=8123
-EXPOSE 8123/tcp
+ENV PORT=80
+EXPOSE 80/tcp
 
 FROM base as production
 CMD npm run serve
