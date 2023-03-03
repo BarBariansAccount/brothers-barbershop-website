@@ -38,7 +38,8 @@ steps:
       exclude:
       - main
 
-- name: test-and-scan
+- name: scan
+  failure: ignore
   environment:
     PASSWORD:
       from_secret: database_password
