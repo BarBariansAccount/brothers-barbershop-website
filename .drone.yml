@@ -136,3 +136,7 @@ steps:
   when:
     branch:
     - main
+
+depends_on:
+  - default
+
