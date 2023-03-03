@@ -33,10 +33,6 @@ steps:
   - sleep 5
   - DOCKER_BUILDKIT=0 docker build --network barber-network-dev -t brothersbarber/barbershop:backend-test --target test -f "ci-cd/docker/backend-dockerfile" .
   # DOCKER_BUILDKIT=0 docker build --network barber-network-dev -t brothersbarber/barbershop:frontend-test --target test -f "ci-cd/docker/frontend-dockerfile" .
-  when:
-    branch:
-      exclude:
-      - main
 
 - name: scan
   failure: ignore
