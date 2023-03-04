@@ -26,6 +26,9 @@ steps:
   - git checkout $DRONE_SOURCE_BRANCH
 
 - name: full-clean-up
+  environment:
+    WDIR:
+      from_secret: repo-dir
   commands:
   - $WDIR/ci-cd/docker/full-clean-up.sh
 
