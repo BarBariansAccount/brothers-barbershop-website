@@ -12,5 +12,14 @@ RUN npm install
 ENV PORT=8080
 EXPOSE 8080/tcp
 
+# For testing
+FROM base AS test
+# RUN npm run test-unit
+
+# For testing and scanning
+FROM base AS test-scan
+# RUN npm run test-unit
+RUN npm run sonar-scanner
+
 FROM base AS production
 CMD npm run serve
