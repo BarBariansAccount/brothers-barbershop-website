@@ -24,11 +24,6 @@ EXPOSE 5001/tcp
 FROM base AS test
 RUN npm run test-unit
 
-# For testing and scanning
-FROM base AS test-scan
-RUN npm run test-unit
-#RUN npm run sonar-scanner
-
 # For production
 FROM base AS production
 CMD npm start
