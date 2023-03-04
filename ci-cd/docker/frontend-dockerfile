@@ -1,6 +1,5 @@
 # syntax=docker/dockerfile:1
-# FROM alpine:3.14 AS base
-FROM cypress/base AS test
+FROM alpine:3.14 AS base
 
 RUN apk update && apk add npm
 
@@ -13,10 +12,21 @@ RUN npm install
 ENV PORT=8080
 EXPOSE 8080/tcp
 
+FROM cypress/base AS testbase
+
+RUN mkdir /frontend
+COPY barber-website/frontend/ frontend/
+WORKDIR frontend/
+
+RUN npm install
+
+ENV PORT=8080
+EXPOSE 8080/tcp
+
+# For testing
+FROM testbase AS test
+RUN npm run test
+
 # For production
 FROM base AS production
 CMD npm run serve
-
-# For testing
-FROM base AS test
-RUN npm run test
