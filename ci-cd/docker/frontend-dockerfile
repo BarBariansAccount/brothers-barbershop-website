@@ -29,6 +29,4 @@ CMD npm run serve
 
 # For testing
 FROM testbase AS test
-RUN npm run serve
-RUN sleep 10
 RUN npm run test
