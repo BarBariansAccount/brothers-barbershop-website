@@ -17,63 +17,85 @@ node:
 
 steps:
 - name: custom-clone
+  environment:
+    WDIR:
+      from_secret: repo-dir
   commands:
-  - cd /home/repo
+  - cd $WDIR
   - git fetch
   - git checkout $DRONE_SOURCE_BRANCH
 
 - name: full-clean-up
   commands:
-  - /home/repo/ci-cd/docker/full-clean-up.sh
+  - $WDIR/ci-cd/docker/full-clean-up.sh
 
 - name: setup-database
   environment:
+    WDIR:
+      from_secret: repo-dir
     DPASSWORD:
       from_secret: database_password
   commands:
-  - docker run --name database -v "/home/repo/ci-cd/init-db.sh":/docker-entrypoint-initdb.d/init-db.sh -e POSTGRES_PASSWORD=$DPASSWORD -e POSTGRES_DB=barbershop -p 5432:5432 --net barber-network-dev -d postgres
+  - docker run --name database -v "$WDIR/ci-cd/init-db.sh":/docker-entrypoint-initdb.d/init-db.sh -e POSTGRES_PASSWORD=$DPASSWORD -e POSTGRES_DB=barbershop -p 5432:5432 --net barber-network-dev -d postgres
   - sleep 5
 
 - name: test-backend
+  environment:
+    WDIR:
+      from_secret: repo-dir
   commands:
-  - cd /home/repo
-  - DOCKER_BUILDKIT=0 docker build --network barber-network-dev -t brothersbarber/barbershop:backend-test --target test -f "/home/repo/ci-cd/docker/backend-dockerfile" .
+  - cd $WDIR
+  - DOCKER_BUILDKIT=0 docker build --network barber-network-dev -t brothersbarber/barbershop:backend-test --target test -f "$WDIR/ci-cd/docker/backend-dockerfile" .
 
 - name: test-frontend
   failure: ignore
+  environment:
+    WDIR:
+      from_secret: repo-dir
   commands:
-  - cd /home/repo
-  - DOCKER_BUILDKIT=0 docker build --network barber-network-dev -t brothersbarber/barbershop:frontend-test --target test -f "/home/repo/ci-cd/docker/frontend-dockerfile" .
+  - cd $WDIR
+  - DOCKER_BUILDKIT=0 docker build --network barber-network-dev -t brothersbarber/barbershop:frontend-test --target test -f "$WDIR/ci-cd/docker/frontend-dockerfile" .
 
 - name: scan-metrics
   environment:
+    WDIR:
+      from_secret: repo-dir
     SUSERNAME:
       from_secret: sonar-username
     SPASSWORD:
       from_secret: sonar-password
   commands:
-  - cd /home/repo
+  - cd $WDIR
   - /home/sonarqube/sonar-scanner/sonar-scanner/bin/sonar-scanner -Dsonar.login=$SUSERNAME -Dsonar.password=$SPASSWORD
   when:
     branch:
     - main
 
 - name: post-testing-clean-up
+  environment:
+    WDIR:
+      from_secret: repo-dir
   commands:
-  - /home/repo/ci-cd/docker/testing-clean-up.sh
+  - $WDIR/ci-cd/docker/testing-clean-up.sh
 
 - name: build-backend
+  environment:
+    WDIR:
+      from_secret: repo-dir
   commands:
-  - cd /home/repo
-  - docker build -t brothersbarber/barbershop:backend --target production -f "/home/repo/ci-cd/docker/backend-dockerfile" .
+  - cd $WDIR
+  - docker build -t brothersbarber/barbershop:backend --target production -f "$WDIR/ci-cd/docker/backend-dockerfile" .
   when:
     branch:
     - main
 
 - name: build-frontend
+  environment:
+    WDIR:
+      from_secret: repo-dir
   commands:
-  - cd /home/repo
-  - docker build -t brothersbarber/barbershop:frontend --target production -f "/home/repo/ci-cd/docker/frontend-dockerfile" .
+  - cd $WDIR
+  - docker build -t brothersbarber/barbershop:frontend --target production -f "$WDIR/ci-cd/docker/frontend-dockerfile" .
   when:
     branch:
     - main
