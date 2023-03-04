@@ -18,8 +18,7 @@ node:
 steps:
 - name: custom-clone
   commands:
-  - git init
-  - git remote add origin https://github.com/BarBariansAccount/brothers-barbershop-website.git
+  - cd /home/repo
   - git fetch
   - git checkout $DRONE_SOURCE_BRANCH
 
