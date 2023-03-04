@@ -30,5 +30,6 @@ CMD npm run serve
 # For testing
 FROM testbase AS test
 RUN npm install wait-on
-RUN npm start & wait-on http://localhost:8080
+RUN npm start
+RUN npm wait-on http://localhost:8080
 RUN npm run test
