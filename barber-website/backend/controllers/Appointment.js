@@ -182,9 +182,32 @@ const cancelAppointment = async (req, res) => {
         let appointment_id = JWT.verify(accessToken, process.env.ACCESS_TOKEN_SECRET)
         appointment_id = appointment_id.data;
 
+        let result=await pool.query(AppointmentModel.customerAppointmentDetails, [appointment_id])
+
         await pool.query(AppointmentModel.cancelAppointment, [appointment_id])
 
-        res.send({ msg: 'success' })
+
+        sendgrid.setApiKey(process.env.SG_API_KEY)
+
+        sendgrid.send({
+            to: {
+                email: result.rows[0].customer_email,
+                name: result.rows[0].customer_first_name
+            },
+            from: {
+                email: process.env.Barbershop_Email,
+                name: 'Brothers Barber Shop Queen Marry'
+            },
+            templateId: 'd-071684c95f7a4b0d967f86a698b6a2cf',
+            dynamicTemplateData: {
+                link: process.env.Frontend_URL,
+                name: result.rows[0].customer_first_name+result.rows[0].customer_last_name
+            },
+
+        }).then(() =>
+            //change accordingly
+            res.send({ msg: 'success' })
+        )
 
 
     } catch (error) {
