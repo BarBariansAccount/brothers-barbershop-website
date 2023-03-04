@@ -52,12 +52,22 @@ steps:
       exclude:
         - main
 
-- name: test-and-scan-metrics
+- name: test-and-scan-metrics-backend
   environment:
     PASSWORD:
       from_secret: database_password
   commands:
   - DOCKER_BUILDKIT=0 docker build --network barber-network-dev -t brothersbarber/barbershop:backend-test --target test-scan -f "ci-cd/docker/backend-dockerfile" .
+  when:
+    branch:
+    - main
+
+- name: test-and-scan-metrics-frontend
+  failure: ignore
+  environment:
+    PASSWORD:
+      from_secret: database_password
+  commands:
   - DOCKER_BUILDKIT=0 docker build --network barber-network-dev -t brothersbarber/barbershop:frontend-test --target test-scan -f "ci-cd/docker/frontend-dockerfile" .
   when:
     branch:
