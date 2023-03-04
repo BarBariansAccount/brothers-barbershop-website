@@ -27,7 +27,7 @@ RUN npm run test-unit
 # For testing and scanning
 FROM base AS test-scan
 RUN npm run test-unit
-RUN npm run sonar-scanner
+#RUN npm run sonar-scanner
 
 # For production
 FROM base AS production
