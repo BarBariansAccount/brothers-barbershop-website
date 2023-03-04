@@ -9,8 +9,6 @@ WORKDIR frontend/
 
 RUN npm install
 
-RUN echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
-
 ENV PORT=8080
 EXPOSE 8080/tcp
 
