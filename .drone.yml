@@ -15,10 +15,12 @@ concurrency:
 node:
   webapp: testing
 
+workspace:
+  path: /home/repo
+
 steps:
 - name: custom-clone
   commands:
-  - cd /home/repo
   - git fetch
   - git checkout $DRONE_SOURCE_BRANCH
 
