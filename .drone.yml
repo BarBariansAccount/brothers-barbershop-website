@@ -43,8 +43,6 @@ steps:
     PASSWORD:
       from_secret: database_password
   commands:
-  - docker run --name database -v "$PWD/ci-cd/init-db.sh":/docker-entrypoint-initdb.d/init-db.sh -e POSTGRES_PASSWORD=$PASSWORD -e POSTGRES_DB=barbershop -p 5432:5432 --net barber-network-dev -d postgres
-  - sleep 5
   - DOCKER_BUILDKIT=0 docker build --network barber-network-dev -t brothersbarber/barbershop:backend-test --target test-scan -f "ci-cd/docker/backend-dockerfile" .
   # DOCKER_BUILDKIT=0 docker build --network barber-network-dev -t brothersbarber/barbershop:frontend-test --target test-scan -f "ci-cd/docker/frontend-dockerfile" .
   when:
