@@ -77,9 +77,15 @@ steps:
   commands:
   - ci-cd/docker/testing-clean-up.sh
 
-- name: build
+- name: build-backend
   commands:
   - docker build -t brothersbarber/barbershop:backend --target production -f "ci-cd/docker/backend-dockerfile" .
+  when:
+    branch:
+    - main
+
+- name: build-frontend
+  commands:
   - docker build -t brothersbarber/barbershop:frontend --target production -f "ci-cd/docker/frontend-dockerfile" .
   when:
     branch:
