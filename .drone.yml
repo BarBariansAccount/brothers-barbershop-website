@@ -62,7 +62,6 @@ steps:
     DPASSWORD:
       from_secret: dockerhub_password
   commands:
-  - docker network create barber-network
   - docker build -t brothersbarber/barbershop:backend --target production -f "ci-cd/docker/backend-dockerfile" .
   - docker build -t brothersbarber/barbershop:frontend --target production -f "ci-cd/docker/frontend-dockerfile" .
   - docker login -u $DUSERNAME -p $DPASSWORD
