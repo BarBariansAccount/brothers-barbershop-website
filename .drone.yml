@@ -12,6 +12,9 @@ clone:
 concurrency:
   limit: 1
 
+node:
+  webapp: testing
+
 steps:
 - name: custom-clone
   commands:
@@ -85,6 +88,12 @@ clone:
 concurrency:
   limit: 1
 
+node:
+  webapp: deployment
+
+depends_on:
+  - default
+
 steps:
 - name: clean-up
   commands:
@@ -119,7 +128,4 @@ steps:
   when:
     branch:
     - main
-
-depends_on:
-  - default
 
