@@ -27,18 +27,32 @@ steps:
   commands:
   - ci-cd/docker/full-clean-up.sh
 
-- name: test
+- name: setup-database
   environment:
     PASSWORD:
       from_secret: database_password
   commands:
   - docker run --name database -v "$PWD/ci-cd/init-db.sh":/docker-entrypoint-initdb.d/init-db.sh -e POSTGRES_PASSWORD=$PASSWORD -e POSTGRES_DB=barbershop -p 5432:5432 --net barber-network-dev -d postgres
   - sleep 5
-  - DOCKER_BUILDKIT=0 docker build --network barber-network-dev -t brothersbarber/barbershop:backend-test --target test -f "ci-cd/docker/backend-dockerfile" .
-  - DOCKER_BUILDKIT=0 docker build --network barber-network-dev -t brothersbarber/barbershop:frontend-test --target test -f "ci-cd/docker/frontend-dockerfile" .
 
-- name: scan
+- name: test-backend
+  commands:
+  - DOCKER_BUILDKIT=0 docker build --network barber-network-dev -t brothersbarber/barbershop:backend-test --target test -f "ci-cd/docker/backend-dockerfile" .
+  when:
+    branch:
+      exclude:
+        - main
+
+- name: test-frontend
   failure: ignore
+  commands:
+  - DOCKER_BUILDKIT=0 docker build --network barber-network-dev -t brothersbarber/barbershop:frontend-test --target test -f "ci-cd/docker/frontend-dockerfile" .
+  when:
+    branch:
+      exclude:
+        - main
+
+- name: test-and-scan-metrics
   environment:
     PASSWORD:
       from_secret: database_password
@@ -49,19 +63,25 @@ steps:
     branch:
     - main
 
-- name: testing-clean-up
+- name: post-testing-clean-up
   commands:
   - ci-cd/docker/testing-clean-up.sh
 
 - name: build
+  commands:
+  - docker build -t brothersbarber/barbershop:backend --target production -f "ci-cd/docker/backend-dockerfile" .
+  - docker build -t brothersbarber/barbershop:frontend --target production -f "ci-cd/docker/frontend-dockerfile" .
+  when:
+    branch:
+    - main
+
+- name: dockerhub-push
   environment:
     DUSERNAME:
       from_secret: dockerhub_user
     DPASSWORD:
       from_secret: dockerhub_password
   commands:
-  - docker build -t brothersbarber/barbershop:backend --target production -f "ci-cd/docker/backend-dockerfile" .
-  - docker build -t brothersbarber/barbershop:frontend --target production -f "ci-cd/docker/frontend-dockerfile" .
   - docker login -u $DUSERNAME -p $DPASSWORD
   - docker push brothersbarber/barbershop:backend 
   - docker push brothersbarber/barbershop:frontend 
@@ -91,16 +111,17 @@ node:
 depends_on:
   - default
 
+when:
+  branch:
+  - main
+
 steps:
 - name: clean-up
   commands:
   - docker rm -f backend
   - docker rm -f frontend
-  when:
-    branch:
-    - main
 
-- name: build
+- name: dockerhub-login
   environment:
     DUSERNAME:
       from_secret: dockerhub_user
@@ -108,21 +129,24 @@ steps:
       from_secret: dockerhub_password
   commands:
   - docker login -u $DUSERNAME -p $DPASSWORD
-  - docker pull brothersbarber/barbershop:backend 
-  - docker pull brothersbarber/barbershop:frontend 
-  - docker logout
-  when:
-    branch:
-    - main
 
-- name: deploy
-  environment:
-    PASSWORD:
-      from_secret: database_password
+- name: pull-backend
+  commands:
+  - docker pull brothersbarber/barbershop:backend 
+
+- name: pull-frontend
+  commands:
+  - docker pull brothersbarber/barbershop:frontend 
+
+- name: dockerhub-logout
+  commands:
+  - docker logout
+
+- name: deploy-backend
   commands:
   - docker run -p 5001:5001 --net barber-network --name backend -d brothersbarber/barbershop:backend 
+
+- name: deploy-frontend
+  commands:
   - docker run -p 80:8080 --net barber-network --name frontend -d brothersbarber/barbershop:frontend
-  when:
-    branch:
-    - main
 

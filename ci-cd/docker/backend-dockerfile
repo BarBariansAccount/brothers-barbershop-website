@@ -1,5 +1,5 @@
 # Syntax=docker/dockerfile:1
-FROM node:18 as base
+FROM node:18 AS base
 
 # Create app directory
 WORKDIR /usr/src/app
@@ -21,14 +21,14 @@ ENV PORT=5001
 EXPOSE 5001/tcp
 
 # For testing
-FROM base as test
+FROM base AS test
 RUN npm run test-unit
 
 # For testing and scanning
-FROM base as test-scan
+FROM base AS test-scan
 RUN npm run test-unit
 RUN npm run sonar-scanner
 
 # For production
-FROM base as production
+FROM base AS production
 CMD npm start
