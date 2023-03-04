@@ -36,11 +36,13 @@ steps:
 
 - name: test-backend
   commands:
+  - cd /home/repo
   - DOCKER_BUILDKIT=0 docker build --network barber-network-dev -t brothersbarber/barbershop:backend-test --target test -f "/home/repo/ci-cd/docker/backend-dockerfile" .
 
 - name: test-frontend
   failure: ignore
   commands:
+  - cd /home/repo
   - DOCKER_BUILDKIT=0 docker build --network barber-network-dev -t brothersbarber/barbershop:frontend-test --target test -f "/home/repo/ci-cd/docker/frontend-dockerfile" .
 
 - name: scan-metrics
@@ -62,6 +64,7 @@ steps:
 
 - name: build-backend
   commands:
+  - cd /home/repo
   - docker build -t brothersbarber/barbershop:backend --target production -f "/home/repo/ci-cd/docker/backend-dockerfile" .
   when:
     branch:
@@ -69,6 +72,7 @@ steps:
 
 - name: build-frontend
   commands:
+  - cd /home/repo
   - docker build -t brothersbarber/barbershop:frontend --target production -f "/home/repo/ci-cd/docker/frontend-dockerfile" .
   when:
     branch:
