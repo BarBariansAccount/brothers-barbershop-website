@@ -49,7 +49,7 @@ steps:
     SUSERNAME:
       from_secret: sonar-username
     SPASSWORD:
-      from_secret: sonar_password
+      from_secret: sonar-password
   commands:
   - /home/sonarqube/sonar-scanner/sonar-scanner/bin/sonar-scanner -Dsonar.login=$SUSERNAME -Dsonar.password=$SPASSWORD
   when:
