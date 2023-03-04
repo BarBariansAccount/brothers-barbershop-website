@@ -1,5 +1,6 @@
 # syntax=docker/dockerfile:1
-FROM alpine:3.14 AS base
+# FROM alpine:3.14 AS base
+FROM cypress/base AS test
 
 RUN apk update && apk add npm
 
