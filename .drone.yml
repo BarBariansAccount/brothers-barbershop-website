@@ -128,15 +128,14 @@ node:
 depends_on:
   - default
 
-when:
-  branch:
-  - main
-
 steps:
 - name: clean-up
   commands:
   - docker rm -f backend
   - docker rm -f frontend
+  when:
+    branch:
+    - main
 
 - name: dockerhub-login
   environment:
@@ -146,24 +145,42 @@ steps:
       from_secret: dockerhub_password
   commands:
   - docker login -u $DUSERNAME -p $DPASSWORD
+  when:
+    branch:
+    - main
 
 - name: pull-backend
   commands:
   - docker pull brothersbarber/barbershop:backend 
+  when:
+    branch:
+    - main
 
 - name: pull-frontend
   commands:
   - docker pull brothersbarber/barbershop:frontend 
+  when:
+    branch:
+    - main
 
 - name: dockerhub-logout
   commands:
   - docker logout
+  when:
+    branch:
+    - main
 
 - name: deploy-backend
   commands:
   - docker run -p 5001:5001 --net barber-network --name backend -d brothersbarber/barbershop:backend 
+  when:
+    branch:
+    - main
 
 - name: deploy-frontend
   commands:
   - docker run -p 80:8080 --net barber-network --name frontend -d brothersbarber/barbershop:frontend
+  when:
+    branch:
+    - main
 
