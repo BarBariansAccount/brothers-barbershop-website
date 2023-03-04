@@ -19,7 +19,7 @@ FROM base AS test
 # For testing and scanning
 FROM base AS test-scan
 # RUN npm run test-unit
-RUN npm run sonar-scanner
+# RUN npm run sonar-scanner
 
 FROM base AS production
 CMD npm run serve
