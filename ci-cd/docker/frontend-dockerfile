@@ -12,9 +12,10 @@ RUN npm install
 ENV PORT=8080
 EXPOSE 8080/tcp
 
+# For production
+FROM base AS production
+CMD npm run serve
+
 # For testing
 FROM base AS test
 RUN npm run test
-
-FROM base AS production
-CMD npm run serve
