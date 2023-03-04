@@ -12,19 +12,8 @@ RUN npm install
 ENV PORT=8080
 EXPOSE 8080/tcp
 
-FROM cypress/base AS testbase
-
-RUN mkdir /frontend
-COPY barber-website/frontend/ frontend/
-WORKDIR frontend/
-
-RUN npm install
-
-ENV PORT=8080
-EXPOSE 8080/tcp
-
 # For testing
-FROM testbase AS test
+FROM base AS test
 RUN npm run test
 
 # For production
