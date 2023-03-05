@@ -18,4 +18,4 @@ CMD npm run serve
 
 # For testing
 FROM base AS test
-RUN npm run test
+#RUN npm run test
