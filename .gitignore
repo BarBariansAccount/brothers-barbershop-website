@@ -1,4 +1,8 @@
 barber-website/backend/config/database.js
 node_modules
 ci-cd/jmeter/apache-jmeter-5.5/
+ci-cd/sonar-cube/sonarqube*
+barber-website/frontend/cypress/screenshots
+ci-cd/jmeter/jmeter.log
+ci-cd/jmeter/log.jtl
 
