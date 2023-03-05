@@ -153,6 +153,7 @@ const validateLogin = async (req, res) => {
   }
 };
 
+
 const updateUser = async (req, res) => {
   const { Email, FirstName, LastName } = req.body;
   const logged_userId = req.Logged_userId.data;
