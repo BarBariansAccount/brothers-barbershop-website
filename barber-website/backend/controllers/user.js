@@ -118,7 +118,6 @@ const createUser_customers = async (req, res) => {
     res.status(400).send(error);
   }
 };
-
 const validateLogin = async (req, res) => {
   const { Telephone, Password } = req.body;
 
