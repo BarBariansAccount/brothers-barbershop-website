@@ -2,9 +2,7 @@ require("dotenv").config();
 const pool = require("../config/database.js");
 const ProductsModel = require("../models/ProductsModel.js")
 const UserModel = require("../models/UserModel.js");
-const bcrypt = require("bcrypt");
-const JWT = require("jsonwebtoken");
-const fs = require("fs");
+
 
 
 
