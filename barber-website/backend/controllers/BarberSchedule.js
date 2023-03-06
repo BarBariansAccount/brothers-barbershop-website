@@ -11,7 +11,7 @@ const addAvaliblilty = async (req, res) => {
     const logged_userId = req.Logged_userId.data;
     try {
         let results = await pool.query(UserModel.checkUserExists, [logged_userId])
-        let barber_name = results.rows[0].firstname + results.rows[0].lastname;
+        let barber_name = results.rows[0].firstname +" " +results.rows[0].lastname;
 
         for (let i = 0; i < hoursPerday.length; i++) {
 
