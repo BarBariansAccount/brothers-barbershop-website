@@ -1,17 +1,8 @@
 <template>
   <v-container class="mx-auto my-auto" fluid>
     <v-row class="slideshow-sec">
-      <v-col
-        cols="12"
-        lg="6"
-        class="d-flex flex-column justify-center align-center"
-      >
-        <v-btn class="book-now-btn" @click="bookNow()" height="50px"
-          >BOOK A HAIRCUT NOW</v-btn
-        >
-      </v-col>
-      <v-col cols="12" lg="6" align="right">
-        <v-card class="rounded-lg" width="250px">
+      <v-col cols="12" align="right">
+        <v-card class="rounded-lg pa-4 text-center" width="290px"  :elevation="25">
           Barbershop Current Status: <strong>{{ status }}</strong> <br />
           Next Availability: <strong>{{ nextAvailability }}</strong>
         </v-card>
@@ -31,9 +22,9 @@ export default {
 </script>
 <style>
 .slideshow-sec {
-  background: url("../../../../assets/barbershop_gif.gif") no-repeat;
+  background: url("/images/barbershop_gif.gif") no-repeat;
   background-size: cover;
-  height: 950px;
+  height: 550px;
 }
 .book-now-btn {
   padding: 1rem 2.7rem;

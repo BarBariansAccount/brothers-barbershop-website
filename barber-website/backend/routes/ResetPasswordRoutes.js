@@ -2,6 +2,26 @@ require('dotenv').config();
 const express = require("express");
 const router = express.Router();
 const ResetPassword = require("../controllers/ResetPassword.js");
+const JWT = require("jsonwebtoken");
+
+/*
+JWT authentication
+*/
+function authenticateToken(req, res, next) {
+        const authHeader = req.headers["authorization"];
+        const token = authHeader && authHeader.split(" ")[1];
+        if (token == null) {
+          return res.status(401).send("Send Token Please!");
+        }
+        JWT.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, Logged_userId) => {
+          if (err) {
+            return res.status(403).send("Please Login again.");
+          }
+          req.Logged_userId = Logged_userId;
+      
+          next();
+        });
+      }
 
 
 /*
@@ -34,6 +54,22 @@ The code will expire in 1 day
 route: http://localhost:5001/resetPassword/Verification
 */
 
-router.get('/Verification',ResetPassword.Verification)
+router.put('/Verification',ResetPassword.Verification)
+
+/*
+Takes --> {
+        "NewPassword": "xyzxyz"
+} As json && 
+Also takes authentication token in headers in the format {'authorization': Bearer token}--> user login token who wants to change their password
+
+returns -->   res.status(200).send("Password is changed sucessfully.");
+             || res.status(400).send(error);
+
+Note: you just need to send the authenticate token which I am sending back after the verification and the new password user set
+
+Route:  http://localhost:5001/resetPassword/Change_Password
+*/
+
+router.put('/Change_Password', authenticateToken,ResetPassword.Change_Password);
 
 module.exports = router;

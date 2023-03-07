@@ -8,10 +8,10 @@ const BarberAvailablityDates = async (req, res) => {
     const {
         BarberID,
     } = req.body;
-    var today = new Date();
-    var dd = today.getDate().toString();
-    var mm = ((today.getMonth()) + 1).toString();
-    var yyyy = today.getFullYear().toString();
+    let today = new Date();
+    let dd = today.getDate().toString();
+    let mm = ((today.getMonth()) + 1).toString();
+    let yyyy = today.getFullYear().toString();
     today = yyyy + '-' + mm + '-' + dd
 
     try {
@@ -37,8 +37,8 @@ const getBarberAvailablity_Hours = async (req, res) => {
         res.status(400).send(error)
     }
 }
-//ME changed
 const addAppointment = async (req, res) => {
+    let is_booked = false
     const {
         appointment_id,
         Customer_First_name,
@@ -48,19 +48,31 @@ const addAppointment = async (req, res) => {
         service,
         Customer_appointment_notes
     } = req.body;
+    //Me changed 
+    // for chacking the selected appointment was booked or not 
+    try {
+        const result = await pool.query(AppointmentModel.isBooked, [appointment_id])
+        is_booked = result.rowCount > 0 ? true : false
+        if (is_booked) {
+            return res.status(400).send('booked already')
+        }
+    } catch (error) {
+        res.status(405).send(error)
+    }
+
     try {
         await pool.query(AppointmentModel.addAppointment, [appointment_id, Customer_First_name, Customer_Last_name, Customer_email, Customer_telephone, service, Customer_appointment_notes])
         const accessToken = await JWT.sign(
             {
-
                 data: appointment_id,
             },
             process.env.ACCESS_TOKEN_SECRET
         );
-        const URL = process.env.Backend_URL + "Appointment/AppointmentDetails/" + accessToken;
+
+        const URL = process.env.Frontend_URL + "appointment/" + accessToken;
 
         //sending email
-        await sendgrid.setApiKey(process.env.SG_API_KEY)
+        sendgrid.setApiKey(process.env.SG_API_KEY)
 
         sendgrid.send({
             to: {
@@ -96,7 +108,6 @@ const getAllBarbers = async (req, res) => {
     }
 
 }
-//ME changed
 const customerAppointmentDetails = async (req, res) => {
     const accessToken = req.params.token;
 
@@ -110,7 +121,6 @@ const customerAppointmentDetails = async (req, res) => {
         res.status(400).send(error)
     }
 }
-//changed
 const updateAppointment = async (req, res) => {
     const {
         accessToken,
@@ -118,7 +128,6 @@ const updateAppointment = async (req, res) => {
         Customer_Last_name,
         Customer_email,
         Customer_telephone,
-        service,
         Customer_appointment_notes
     } = req.body;
 
@@ -126,18 +135,17 @@ const updateAppointment = async (req, res) => {
         let appointment_id = JWT.verify(accessToken, process.env.ACCESS_TOKEN_SECRET)
         appointment_id = appointment_id.data;
 
-        await pool.query(AppointmentModel.addAppointment, [appointment_id, Customer_First_name, Customer_Last_name, Customer_email, Customer_telephone, service, Customer_appointment_notes])
-        // accessToken2 = await JWT.sign(
-        //     {
+        await pool.query(AppointmentModel.updateAppointment, [appointment_id, Customer_First_name, Customer_Last_name, Customer_email, Customer_telephone, Customer_appointment_notes])
+        const accessToken2 = await JWT.sign(
+            {
 
-        //         data: appointment_id,
-        //     },
-        //     process.env.ACCESS_TOKEN_SECRET
-        // );
-        const URL = process.env.Backend_URL + "Appointment/AppointmentDetails/" + accessToken;
-
+                data: appointment_id,
+            },
+            process.env.ACCESS_TOKEN_SECRET
+        );
+        const URL = process.env.Frontend_URL + "appointment/" + accessToken2;
         //sending email
-        await sendgrid.setApiKey(process.env.SG_API_KEY)
+        sendgrid.setApiKey(process.env.SG_API_KEY)
 
         sendgrid.send({
             to: {
@@ -156,7 +164,7 @@ const updateAppointment = async (req, res) => {
 
         }).then(() =>
             //change accordingly
-            res.send({ accessToken })
+            res.send({ accessToken: accessToken2 })
         )
 
     } catch (error) {
@@ -174,14 +182,58 @@ const cancelAppointment = async (req, res) => {
         let appointment_id = JWT.verify(accessToken, process.env.ACCESS_TOKEN_SECRET)
         appointment_id = appointment_id.data;
 
+        let result=await pool.query(AppointmentModel.customerAppointmentDetails, [appointment_id])
+
         await pool.query(AppointmentModel.cancelAppointment, [appointment_id])
 
-        res.send({ msg: 'success' })
+
+        sendgrid.setApiKey(process.env.SG_API_KEY)
+
+        sendgrid.send({
+            to: {
+                email: result.rows[0].customer_email,
+                name: result.rows[0].customer_first_name
+            },
+            from: {
+                email: process.env.Barbershop_Email,
+                name: 'Brothers Barber Shop Queen Marry'
+            },
+            templateId: 'd-071684c95f7a4b0d967f86a698b6a2cf',
+            dynamicTemplateData: {
+                link: process.env.Frontend_URL,
+                name: result.rows[0].customer_first_name+result.rows[0].customer_last_name
+            },
+
+        }).then(() =>
+            //change accordingly
+            res.send({ msg: 'success' })
+        )
 
 
     } catch (error) {
+        res.status(400).send(error)
+    }
+}
 
-        console.log(error)
+const getAllBookedAppointment =  async (req, res) => {
+    const {
+        UserID
+    } = req.body;
+
+    let today = new Date();
+    let dd = today.getDate().toString();
+    let mm = ((today.getMonth()) + 1).toString();
+    let yyyy = today.getFullYear().toString();
+    today = yyyy + '-' + mm + '-' + dd
+    try{
+
+        let results= await pool.query(AppointmentModel.getAllBookedAppointment,[UserID,today])
+
+        res.send(results.rows).status(200)
+
+
+
+    }catch (error) {
         res.status(400).send(error)
     }
 }
@@ -193,5 +245,6 @@ module.exports = {
     getAllBarbers,
     customerAppointmentDetails,
     updateAppointment,
-    cancelAppointment
+    cancelAppointment,
+    getAllBookedAppointment
 }

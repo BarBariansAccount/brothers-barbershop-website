@@ -39,9 +39,18 @@ export default new (class UserService {
     return api.post("/FAQ/addFAQ", data);
   };
   deleteFaq = (data) => {
-    return api.delete("/FAQ/deleteFAQ", data);
+    return api.put("/FAQ/deleteFAQ", data);
   };
   updateFAQ = (data) => {
-    return api.put("/FAQ/updateFAQ", data)
+    return api.put("/FAQ/updateFAQ", data);
+  };
+  resetPassword = (data) => {
+    return api.post('/ResetPassword/SendEmail', data);
+  };
+  getGeneratedPassword(data){
+    return api.put('/ResetPassword/Verification',data)
+  }
+  changePasswordForgottenPassword(data,config){
+    return api.put('/ResetPassword/Change_Password',data,config)
   }
 })();

@@ -13,7 +13,7 @@
           class="pa-10 mb-5"
         >
           <v-card class="d-flex align-center rounded-xl" dark height="200">
-            <v-img height="200px" src="../assets/black.jpeg">
+            <v-img height="200px" src="/images/black.jpeg">
               <v-app-bar flat color="rgba(0, 0, 0, 0)">
                 <v-spacer></v-spacer>
                 <v-menu bottom right>

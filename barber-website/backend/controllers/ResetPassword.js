@@ -5,6 +5,7 @@ const ResetPasswordModel = require("../models/ResetPasswordModel.js")
 const datefns = require('date-fns');
 const JWT = require("jsonwebtoken");
 const sendgrid = require("@sendgrid/mail");
+const bcrypt = require("bcrypt");
  
 const SendEmail = async (req, res) => {
     const {
@@ -13,11 +14,13 @@ const SendEmail = async (req, res) => {
     
     
     try {
+        
         let Results = await pool.query(UserModel.checkUserExists_telephone, [Telephone])
         
         if (Results.rows.length == 0) {
             res.status(400).send(`There is no user with ${Telephone}.`);
         } 
+        
         else if (Results.rows.length == 1) {
             
             let random=Math.floor(Math.random()*process.env.SECRET_VERIFICATION_CODE);
@@ -64,7 +67,8 @@ const Verification= async (req, res) => {
         Telephone,
         Reset_Code
     } = req.body;
-
+    console.log("body",Telephone,
+      )
     try {
         let Results = await pool.query(UserModel.checkUserExists_telephone, [Telephone])
         let resetCode = await pool.query(ResetPasswordModel.getResetCode,[Telephone])
@@ -99,7 +103,29 @@ const Verification= async (req, res) => {
     }
 }
 
+const Change_Password= async (req, res) => {
+    const {
+        NewPassword
+    } = req.body;
+    const logged_userId = req.Logged_userId.data;
+
+    try{
+        const hash = bcrypt.hashSync(NewPassword, 12);
+      await pool.query(UserModel.updatePassword, [logged_userId, hash]);
+      res.status(200).send("Password is changed sucessfully.");
+
+
+    }catch (error) {
+        res.status(400)
+   
+    }
+
+}
+
+
+
 module.exports={
     SendEmail,
-    Verification
+    Verification,
+    Change_Password
 }

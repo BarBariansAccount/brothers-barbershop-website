@@ -4,7 +4,7 @@ const Usersrouter = express.Router();
 const User = require("../controllers/user.js");
 const JWT = require("jsonwebtoken");
 const multer = require("multer");
-const path = require("path");
+
 
 /*
 JWT authentication
