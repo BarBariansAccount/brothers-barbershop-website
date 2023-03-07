@@ -16,7 +16,7 @@ CREATE TABLE users(
 );
 ALTER TABLE users
 ADD picturelink varchar(255);
-/*INSERT INTO USERS (UserRole, Email, firstname,LastName, Telephone, Password) VALUES('Admin','abdulqadir199853@gmail.com','Abdul Qadir','Ali','5148137498','Admin123@');*/
+INSERT INTO USERS (UserRole, Email, firstname,LastName, Telephone, Password) VALUES('Admin','abdulqadir199853@gmail.com','Abdul Qadir','Ali','1111111111','$2b$12$5eTD7nTPFAH4Y3LC3wThvuLz7fHTMygKnxIsLEIafBx0ACxtVer6C');
 CREATE TABLE faq(
 	faqid SERIAL,
 	question varchar(65534) NOT NULL,
