@@ -5,4 +5,4 @@ ci-cd/sonar-cube/sonarqube*
 barber-website/frontend/cypress/screenshots
 ci-cd/jmeter/jmeter.log
 ci-cd/jmeter/log.jtl
-
+barber-website/frontend/.env
