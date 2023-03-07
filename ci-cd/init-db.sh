@@ -79,11 +79,11 @@ CREATE TABLE products(
 	description varchar(65534) NOT NULL,
 	picturelink varchar(255),
 	PRIMARY KEY (productsid)
-)
+);
 /*****************************
  About on home page
  */
 CREATE TABLE About(title varchar(7000) NOT NULL);
 /*After creating the table also insert the following statement*/
-INSERT INTO About (title)
+INSERT INTO About (title);
 EOSQL
