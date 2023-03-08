@@ -84,7 +84,7 @@ steps:
     WDIR:
       from_secret: repo-dir
   commands:
-  - $WDIR/ci-cd/docker/testing-clean-up.sh
+  # $WDIR/ci-cd/docker/testing-clean-up.sh
 
 - name: build-backend
   environment:
