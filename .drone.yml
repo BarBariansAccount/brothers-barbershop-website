@@ -60,8 +60,8 @@ steps:
   # echo "Frontend testing does not work properly in pipeline"
   - cd $WDIR
   - DOCKER_BUILDKIT=0 docker build --network barber-network-dev -t brothersbarber/barbershop:frontend-test -f "$WDIR/ci-cd/docker/frontend-dockerfile" .
-  - docker run -p 5001:5001 --net barber-network-dev --name backend-testing -d brothersbarber/barbershop:backend-testing
-  - docker run -p 80:8080 --net barber-network-dev --name frontend-testing -d brothersbarber/barbershop:frontend-testing
+  - docker run -p 5001:5001 --net barber-network-dev --name backend-testing -d brothersbarber/barbershop:backend-test
+  - docker run -p 80:8080 --net barber-network-dev --name frontend-testing -d brothersbarber/barbershop:frontend-test
   - docker run -it -v $PWD/barber-website/frontend:/e2e -w /e2e cypress/included:12.4.0
 
 - name: scan-metrics
