@@ -61,7 +61,7 @@ steps:
   - cd $WDIR
   - DOCKER_BUILDKIT=0 docker build --network barber-network-dev -t brothersbarber/barbershop:frontend-test -f "$WDIR/ci-cd/docker/frontend-dockerfile" .
   - docker run -p 5001:5001 --net barber-network-dev --name backend-testing -d brothersbarber/barbershop:backend-test
-  - docker run --net barber-network-dev --name frontend-testing -d brothersbarber/barbershop:frontend-test
+  - docker run -p 4001:8080 --net barber-network-dev --name frontend-testing -d brothersbarber/barbershop:frontend-test
   - docker run -v $PWD/barber-website/frontend:/e2e -w /e2e cypress/included:12.4.0
 
 - name: scan-metrics
