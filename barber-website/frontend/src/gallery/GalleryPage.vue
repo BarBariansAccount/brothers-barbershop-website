@@ -1,10 +1,8 @@
 <template>
-  <div><h1>Gallery Page</h1>
-    <v-row>
-     <!--Istagram section-->
-     <InstaSection></InstaSection>
-    </v-row>
-  </div>
+  <v-row>
+    <!--Istagram section-->
+    <InstaSection></InstaSection>
+  </v-row>
 </template>
 
 <script>
@@ -19,5 +17,16 @@ export default {
 }
 </script>
 <style>
+.crt-post .crt-post-content-image:hover IMG {
+  transform: scale(1.3);
+}
+.crt-post .crt-post-content-image IMG{
+  transition: all 0.5s ease-in-out;
+
+}
+.crt-widget .crt-post-text  ,.crt-widget .crt-post-header {
+  display: none;
+}
+
 
 </style>
