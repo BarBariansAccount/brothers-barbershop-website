@@ -1,5 +1,6 @@
 const {
     createBarber,
+    createCustomer,
     deleteAccount
 } = require("./userModelTest")
 const {
@@ -23,21 +24,33 @@ const { assert } = require('chai')
 const { mockRequest, mockResponse, sleep } = require('./commonTestingMethods');
 
 
+
 const bookingData = {
     Available_Date: "2050-01-01",
     hoursPerday: [false, false, true, true, true]
 };
 const scheduleHour = [12, 13, 14];
+const userData = {
+    UserRole: 'Customer',
+    Email: 'unitTesing@gmail.com',
+    FirstName: 'UnitFirst',
+    LastName: 'UnitLast',
+    Telephone: 5555555555,
+    Password: 'testPassword'
+}
 
 
 describe("Appointment related tests", function () {
     let aptIds;
     let barberId;
+    let customerId;
+    let accessToken = Array(3);
 
     it("setup appointment and do different checks", async function () {
         // set up by creating schedule
         barberId = await createBarber();
         aptIds = await addSchedule(barberId);
+        customerId = await createCustomer();
 
         //check barber
         let req = mockRequest();
@@ -63,15 +76,30 @@ describe("Appointment related tests", function () {
         }
 
 
+    })
 
+    it("test add appointment", async function () {
+        let req = mockRequest({
+            appointment_id: aptIds[0],
+            Customer_First_name: userData.FirstName,
+            Customer_Last_name: userData.LastName,
+            Customer_email: userData.Email,
+            Customer_telephone: userData.Telephone,
+            service: 'Haircut',
+            Customer_appointment_notes: 'unit notes 1'
+        });
+        let res = mockResponse();
+        await addAppointment(req, res);
+        console.log(res.status.getCall(0))
+        assert.equal(res.status.calledWith(200), true);
 
-
-
+        console.log(res.json.getCall(0).args[0][0].accessToken);
 
     })
 
     it("clean up appointments", async function () {
         await deleteSchedules(barberId, aptIds);
         await deleteAccount(barberId);
+        await deleteAccount(customerId);
     })
 })
