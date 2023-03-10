@@ -40,11 +40,30 @@ const userData = {
 }
 
 
+
+
 describe("Appointment related tests", function () {
     let aptIds;
     let barberId;
     let customerId;
     let accessToken = Array(3);
+
+    const addAAppointment = async function (index) {
+        let req = mockRequest({
+            appointment_id: aptIds[index],
+            Customer_First_name: userData.FirstName,
+            Customer_Last_name: userData.LastName,
+            Customer_email: userData.Email,
+            Customer_telephone: userData.Telephone,
+            service: 'Haircut',
+            Customer_appointment_notes: 'unit notes 1',
+            doesnt_send_email: true
+        });
+        let res = mockResponse();
+        await addAppointment(req, res);
+        assert.equal(res.status.calledWith(200), true);
+        accessToken[index] = res.send.getCall(0).args[0].accessToken;
+    }
 
     it("setup appointment and do different checks", async function () {
         // set up by creating schedule
@@ -79,21 +98,18 @@ describe("Appointment related tests", function () {
     })
 
     it("test add appointment", async function () {
-        let req = mockRequest({
-            appointment_id: aptIds[0],
-            Customer_First_name: userData.FirstName,
-            Customer_Last_name: userData.LastName,
-            Customer_email: userData.Email,
-            Customer_telephone: userData.Telephone,
-            service: 'Haircut',
-            Customer_appointment_notes: 'unit notes 1'
-        });
-        let res = mockResponse();
-        await addAppointment(req, res);
-        console.log(res.status.getCall(0))
-        assert.equal(res.status.calledWith(200), true);
+        addAAppointment(0);
+        addAAppointment(1);
 
-        console.log(res.json.getCall(0).args[0][0].accessToken);
+        //verify actual result here
+        req = mockRequest({ BarberID: barberId, Available_Date: bookingData.Available_Date });
+        res = mockResponse();
+        await getBarberAvailablity_Hours(req, res);
+        assert.equal(res.status.calledWith(200), true);
+        // assert.equal(res.json.getCall(0).args[0].length, 1);
+        // assert.equal(res.json.getCall(0).args[0][0].hour, scheduleHour[2]);
+
+
 
     })
 
