@@ -166,7 +166,7 @@ const updateAppointment = async (req, res) => {
 
             })
         }
-        res.send({ accessToken: accessToken2 })
+        res.status(200).send({ accessToken: accessToken2 })
 
     } catch (error) {
         console.log(error)
@@ -231,7 +231,7 @@ const getAllBookedAppointment = async (req, res) => {
 
         let results = await pool.query(AppointmentModel.getAllBookedAppointment, [UserID, today])
 
-        res.send(results.rows).status(200)
+        res.status(200).send(results.rows)
 
 
 
