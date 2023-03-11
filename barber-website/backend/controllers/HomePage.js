@@ -40,8 +40,47 @@ const getAbout=async (req,res)=>{
     }
 }
 
+const getPricing=async (req,res)=>{
+  try{
+    let results=await pool.query(HomePageModel.getPricing)
+    res.status(200).send(results.rows);
+  }catch(err){
+    res.status(400).send(err);
+}
+}
+
+
+const updatePricing=async (req,res)=>{
+  const {service,price,duration} = req.body;
+  const logged_userId = req.Logged_userId.data;
+
+  try {
+    let loggedUserRole = await pool.query(UserModel.checkUserExists, [
+      logged_userId,
+    ]);
+    if (loggedUserRole.rows[0].userrole != "Admin") {
+      return res
+        .status(403)
+        .send("Malacious user. Only admin can alter this infomation.");
+    }
+    else{
+      await pool.query(HomePageModel.updatePricing,[service,price,duration]);
+      res.status(200).send("Updated Pricing and Duration.")
+    }
+
+
+  } catch (err) {
+    console.log(err)
+    res.status(400).send(err);
+  }
+
+}
+
+
 
 module.exports = {
     updateAbout,
-    getAbout
+    getAbout,
+    getPricing,
+    updatePricing
 }
