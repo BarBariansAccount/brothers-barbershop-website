@@ -101,3 +101,29 @@ INSERT INTO Pricing (service, price, duration)
 VALUES('Beard only', '$15', '30 Minutes');
 INSERT INTO Pricing (service, price, duration)
 VALUES('Line up + Beard', '$20', '30 Minutes');
+/******************Working Hours on home page
+ */
+CREATE TYPE Days AS ENUM (
+	'SUNDAY',
+	'MONDAY',
+	'TUESDAY',
+	'WEDNESDAY',
+	'THURSDAY',
+	'FRIDAY',
+	'SATURDAY'
+);
+CREATE TABLE workingHours (day days, description varchar(255));
+INSERT INTO workingHours (day, description)
+VALUES('SUNDAY', 'CLOSED');
+INSERT INTO workingHours (day, description)
+VALUES('MONDAY', '10 AM - 8 PM');
+INSERT INTO workingHours (day, description)
+VALUES('TUESDAY', '10 AM - 8 PM');
+INSERT INTO workingHours (day, description)
+VALUES('WEDNESDAY', '10 AM - 8 PM');
+INSERT INTO workingHours (day, description)
+VALUES('THURSDAY', '10 AM - 8 PM');
+INSERT INTO workingHours (day, description)
+VALUES('FRIDAY', '10 AM - 8 PM');
+INSERT INTO workingHours (day, description)
+VALUES('SATURDAY', 'CLOSED');

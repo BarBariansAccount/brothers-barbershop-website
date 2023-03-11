@@ -122,4 +122,14 @@ route: http://localhost:5001/HomePage/updatePricing
 router.post('/updatePricing',authenticateToken,HomePage.updatePricing)
 
 
+//******************WORKING HOURS************************ */
+
+router.get('/getWorkingHours',HomePage.getWorkingHours);
+
+
+router.post('/updateWorkingHours',authenticateToken,HomePage.updateWorkingHours)
+
+
+
+
 module.exports = router;
