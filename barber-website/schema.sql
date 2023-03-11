@@ -83,3 +83,21 @@ CREATE TABLE About(title varchar(7000) NOT NULL);
 /*After creating the table also insert the following statement*/
 INSERT INTO About (title)
 VALUES('hello');
+/*****************************
+ Pricing on home page
+ */
+Create table Pricing(
+	service service,
+	price varchar(255),
+	duration varchar(255)
+);
+INSERT INTO Pricing (service, price, duration)
+VALUES('Haircut', '$35', '45 Minutes');
+INSERT INTO Pricing (service, price, duration)
+VALUES('Haircut + Beard', '$40', '1 Hour');
+INSERT INTO Pricing (service, price, duration)
+VALUES('Line up', '$15', '30 Minutes');
+INSERT INTO Pricing (service, price, duration)
+VALUES('Beard only', '$15', '30 Minutes');
+INSERT INTO Pricing (service, price, duration)
+VALUES('Line up + Beard', '$20', '30 Minutes');
