@@ -124,8 +124,70 @@ router.post('/updatePricing',authenticateToken,HomePage.updatePricing)
 
 //******************WORKING HOURS************************ */
 
+/*
+Takes --> Nothing
+
+returns --> res.status(200).send(results.rows)
+            || res.status(400).send(err);
+
+Notes: it returns in the following form,
+
+{
+        "day": "SUNDAY",
+        "description": "CLOSED"
+    },
+    {
+        "day": "TUESDAY",
+        "description": "10 AM - 8 PM"
+    },
+    {
+        "day": "WEDNESDAY",
+        "description": "10 AM - 8 PM"
+    },
+    {
+        "day": "THURSDAY",
+        "description": "10 AM - 8 PM"
+    },
+    {
+        "day": "FRIDAY",
+        "description": "10 AM - 8 PM"
+    },
+    {
+        "day": "SATURDAY",
+        "description": "CLOSED"
+    },
+    {
+        "day": "MONDAY",
+        "description": "10 AM - 8 PM"
+    }
+
+
+route: http://localhost:5001/HomePage/getWorkingHours
+
+*/
+
+
 router.get('/getWorkingHours',HomePage.getWorkingHours);
 
+
+/*
+Takes --> it takes the JSON in the following format 
+{
+    "day":"MONDAY",
+    "description":"ygfyfjyfj....."
+}
+And the jwt token in the form of Bearer Token
+
+returns --> res.status(403).send("Malacious user. Only admin can alter this infomation.");--> if the user changing the info is not admin
+            || res.status(200).send("Updated working hours.")
+            || res.status(400).send(err);
+
+Notes: before using this route make sure you have created the about table from the .sql file and inserted a sample rows also present in the.sql file
+Table name is Workinhhours and insert all the rows in .sql file after pricing
+
+route: http://localhost:5001/HomePage/updateWorkingHours
+
+*/
 
 router.post('/updateWorkingHours',authenticateToken,HomePage.updateWorkingHours)
 
