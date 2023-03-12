@@ -75,6 +75,7 @@ const addProducts = async (req, res) => {
             return res.status(403).send("Malicious user. Only admin can add Products.");
         }
 
+
         //hardcoded
         const picturepath = process.env.Backend_URL +"uploads/"+ req.file.filename;
         await pool.query(ProductsModel.addProducts, [title, description, picturepath]);

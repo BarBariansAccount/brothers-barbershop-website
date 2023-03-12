@@ -148,6 +148,7 @@ const upload = multer({
   fileFilter: filefilter,
 });
 
+
 /*
 Takes --> Takes authentication token in headers in the format {'authorization': Bearer token} --> user login token
         && {UserImage: Image file}
