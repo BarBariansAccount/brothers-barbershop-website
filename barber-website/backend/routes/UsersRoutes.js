@@ -140,6 +140,8 @@ const filefilter = (req, res, cb) => {
   }
 };
 
+
+
 const upload = multer({
   storage: storage,
   limits: {
@@ -147,6 +149,7 @@ const upload = multer({
   },
   fileFilter: filefilter,
 });
+
 
 /*
 Takes --> Takes authentication token in headers in the format {'authorization': Bearer token} --> user login token

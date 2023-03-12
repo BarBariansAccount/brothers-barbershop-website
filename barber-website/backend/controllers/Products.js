@@ -35,7 +35,7 @@ const updateProducts = async (req, res) => {
             return res.status(400).send(`The Product ID does not exist.`);
         }
             //hardcoded
-            const picturepath = process.env.Backend_URL + req.file.filename;
+            const picturepath = process.env.Backend_URL +"uploads/"+ req.file.filename;
 
             await pool.query(ProductsModel.updateProducts, [productsid, title, description, picturepath]);
         res.status(200).send(`The Products  has been successfully updated.`)
@@ -75,9 +75,10 @@ const addProducts = async (req, res) => {
             return res.status(403).send("Malicious user. Only admin can add Products.");
         }
 
-        //hardcoded
-        const picturepath = process.env.Backend_URL + req.file.filename;
 
+
+        //hardcoded
+        const picturepath = process.env.Backend_URL +"uploads/"+ req.file.filename;
         await pool.query(ProductsModel.addProducts, [title, description, picturepath]);
 
         res.status(200).send(`The Product has been successfully added with this title: ${title}.`)
