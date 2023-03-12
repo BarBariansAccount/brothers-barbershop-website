@@ -76,6 +76,7 @@ const addProducts = async (req, res) => {
         }
 
 
+
         //hardcoded
         const picturepath = process.env.Backend_URL +"uploads/"+ req.file.filename;
         await pool.query(ProductsModel.addProducts, [title, description, picturepath]);
