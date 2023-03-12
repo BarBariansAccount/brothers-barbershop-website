@@ -17,5 +17,5 @@ FROM base AS production
 CMD npm run serve
 
 # For testing
-FROM base AS test
+#FROM base AS test
 #RUN npm run test

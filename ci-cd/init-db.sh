@@ -16,18 +16,22 @@ CREATE TABLE users(
 );
 ALTER TABLE users
 ADD picturelink varchar(255);
+INSERT INTO USERS (UserRole, Email, firstname,LastName, Telephone, Password) VALUES('Admin','testadmin@gmail.com','testAdminF','testAdminL','1111111111','\$2b\$12\$5eTD7nTPFAH4Y3LC3wThvuLz7fHTMygKnxIsLEIafBx0ACxtVer6C');
 CREATE TABLE faq(
 	faqid SERIAL,
 	question varchar(65534) NOT NULL,
 	answer varchar(65534) NOT NULL,
 	PRIMARY KEY (faqid)
 );
+/*INSERT INTO FAQ (question, answer) VALUES('This is a sample of question','This is a sample of answer');*/
+/*Password reset request table*/
 CREATE TABLE ResetPassword(
 	Telephone varchar(45) NOT NULL,
 	ResetCode varchar(45) NOT NULL,
 	Expiretime timestamp NOT NULL,
 	PRIMARY KEY (Telephone)
 );
+/*schedule table*/
 CREATE TYPE hour AS ENUM (
 	'10',
 	'11',
@@ -64,6 +68,22 @@ CREATE TABLE barber_schedule(
 	PRIMARY KEY (appointment_id),
 	CONSTRAINT fk_users FOREIGN KEY(userid) REFERENCES users(userid)
 );
-
-INSERT INTO USERS (UserRole, Email, firstname,LastName, Telephone, Password) VALUES('Admin','abdulqadir199853@gmail.com','Abdul Qadir','Ali','1111111111','\$2b\$12\$5eTD7nTPFAH4Y3LC3wThvuLz7fHTMygKnxIsLEIafBx0ACxtVer6C');
+/*
+ Date format is yyyy-mm-dd
+ default value for booked is False
+ */
+/*INSERT INTO barber_schedule (UserID, barber_name,Available_Date,hour) VALUES(37,'test','2022-11-22','11');*/
+CREATE TABLE products(
+	productsid SERIAL,
+	title varchar(255) NOT NULL,
+	description varchar(65534) NOT NULL,
+	picturelink varchar(255),
+	PRIMARY KEY (productsid)
+);
+/*****************************
+ About on home page
+ */
+CREATE TABLE About(title varchar(7000) NOT NULL);
+/*After creating the table also insert the following statement*/
+/*INSERT INTO About (title)*/
 EOSQL

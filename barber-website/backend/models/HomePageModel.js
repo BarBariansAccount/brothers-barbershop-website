@@ -2,11 +2,14 @@ const updateAbout="UPDATE About SET title = $1 WHERE 1=1";
 
 const getAbout="Select title from About";
 
+const getPricing= "Select * from pricing"
 
-
+const updatePricing="UPDATE pricing SET price = $2 , duration=$3 WHERE service=$1";
 
 
 module.exports={
     updateAbout,
-    getAbout
+    getAbout,
+    getPricing,
+    updatePricing
 }
