@@ -46,7 +46,8 @@ const addAppointment = async (req, res) => {
         Customer_email,
         Customer_telephone,
         service,
-        Customer_appointment_notes
+        Customer_appointment_notes,
+        doesnt_send_email = false
     } = req.body;
     //Me changed 
     // for chacking the selected appointment was booked or not 
@@ -71,29 +72,28 @@ const addAppointment = async (req, res) => {
 
         const URL = process.env.Frontend_URL + "appointment/" + accessToken;
 
-        //sending email
-        sendgrid.setApiKey(process.env.SG_API_KEY)
+        if (!doesnt_send_email) {
+            //sending email
+            sendgrid.setApiKey(process.env.SG_API_KEY)
 
-        sendgrid.send({
-            to: {
-                email: Customer_email,
-                name: Customer_First_name
-            },
-            from: {
-                email: process.env.Barbershop_Email,
-                name: 'Brothers Barber Shop Queen Marry'
-            },
-            templateId: 'd-c60813a5b72e451bad371d9a475e618d',
-            dynamicTemplateData: {
-                link: URL,
-                name: Customer_First_name
-            },
+            await sendgrid.send({
+                to: {
+                    email: Customer_email,
+                    name: Customer_First_name
+                },
+                from: {
+                    email: process.env.Barbershop_Email,
+                    name: 'Brothers Barber Shop Queen Marry'
+                },
+                templateId: 'd-c60813a5b72e451bad371d9a475e618d',
+                dynamicTemplateData: {
+                    link: URL,
+                    name: Customer_First_name
+                },
 
-        }).then(() =>
-            //change accordingly
-            res.status(200).send({ accessToken })
-        )
-
+            })
+        }
+        res.status(200).send({ accessToken })
     } catch (error) {
         res.status(400).send(error)
     }
@@ -128,7 +128,8 @@ const updateAppointment = async (req, res) => {
         Customer_Last_name,
         Customer_email,
         Customer_telephone,
-        Customer_appointment_notes
+        Customer_appointment_notes,
+        doesnt_send_email = false
     } = req.body;
 
     try {
@@ -145,27 +146,27 @@ const updateAppointment = async (req, res) => {
         );
         const URL = process.env.Frontend_URL + "appointment/" + accessToken2;
         //sending email
-        sendgrid.setApiKey(process.env.SG_API_KEY)
+        if (!doesnt_send_email) {
+            sendgrid.setApiKey(process.env.SG_API_KEY)
 
-        sendgrid.send({
-            to: {
-                email: Customer_email,
-                name: Customer_First_name
-            },
-            from: {
-                email: process.env.Barbershop_Email,
-                name: 'Brothers Barber Shop Queen Marry'
-            },
-            templateId: 'd-c60813a5b72e451bad371d9a475e618d',
-            dynamicTemplateData: {
-                link: URL,
-                name: Customer_First_name
-            },
+            await sendgrid.send({
+                to: {
+                    email: Customer_email,
+                    name: Customer_First_name
+                },
+                from: {
+                    email: process.env.Barbershop_Email,
+                    name: 'Brothers Barber Shop Queen Marry'
+                },
+                templateId: 'd-c60813a5b72e451bad371d9a475e618d',
+                dynamicTemplateData: {
+                    link: URL,
+                    name: Customer_First_name
+                },
 
-        }).then(() =>
-            //change accordingly
-            res.send({ accessToken: accessToken2 })
-        )
+            })
+        }
+        res.status(200).send({ accessToken: accessToken2 })
 
     } catch (error) {
         console.log(error)
@@ -175,39 +176,40 @@ const updateAppointment = async (req, res) => {
 
 const cancelAppointment = async (req, res) => {
     const {
-        accessToken
+        accessToken,
+        doesnt_send_email = false
     } = req.body;
 
     try {
         let appointment_id = JWT.verify(accessToken, process.env.ACCESS_TOKEN_SECRET)
         appointment_id = appointment_id.data;
 
-        let result=await pool.query(AppointmentModel.customerAppointmentDetails, [appointment_id])
+        let result = await pool.query(AppointmentModel.customerAppointmentDetails, [appointment_id])
 
         await pool.query(AppointmentModel.cancelAppointment, [appointment_id])
 
 
-        sendgrid.setApiKey(process.env.SG_API_KEY)
+        if (!doesnt_send_email) {
+            sendgrid.setApiKey(process.env.SG_API_KEY)
 
-        sendgrid.send({
-            to: {
-                email: result.rows[0].customer_email,
-                name: result.rows[0].customer_first_name
-            },
-            from: {
-                email: process.env.Barbershop_Email,
-                name: 'Brothers Barber Shop Queen Marry'
-            },
-            templateId: 'd-071684c95f7a4b0d967f86a698b6a2cf',
-            dynamicTemplateData: {
-                link: process.env.Frontend_URL,
-                name: result.rows[0].customer_first_name+result.rows[0].customer_last_name
-            },
+            await sendgrid.send({
+                to: {
+                    email: result.rows[0].customer_email,
+                    name: result.rows[0].customer_first_name
+                },
+                from: {
+                    email: process.env.Barbershop_Email,
+                    name: 'Brothers Barber Shop Queen Marry'
+                },
+                templateId: 'd-071684c95f7a4b0d967f86a698b6a2cf',
+                dynamicTemplateData: {
+                    link: process.env.Frontend_URL,
+                    name: result.rows[0].customer_first_name + result.rows[0].customer_last_name
+                },
 
-        }).then(() =>
-            //change accordingly
-            res.send({ msg: 'success' })
-        )
+            })
+        }
+        res.status(200).send({ msg: 'success' })
 
 
     } catch (error) {
@@ -215,7 +217,7 @@ const cancelAppointment = async (req, res) => {
     }
 }
 
-const getAllBookedAppointment =  async (req, res) => {
+const getAllBookedAppointment = async (req, res) => {
     const {
         UserID
     } = req.body;
@@ -225,15 +227,15 @@ const getAllBookedAppointment =  async (req, res) => {
     let mm = ((today.getMonth()) + 1).toString();
     let yyyy = today.getFullYear().toString();
     today = yyyy + '-' + mm + '-' + dd
-    try{
+    try {
 
-        let results= await pool.query(AppointmentModel.getAllBookedAppointment,[UserID,today])
+        let results = await pool.query(AppointmentModel.getAllBookedAppointment, [UserID, today])
 
-        res.send(results.rows).status(200)
+        res.status(200).send(results.rows)
 
 
 
-    }catch (error) {
+    } catch (error) {
         res.status(400).send(error)
     }
 }
