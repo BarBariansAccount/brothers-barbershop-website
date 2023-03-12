@@ -6,10 +6,16 @@ const getPricing= "Select * from pricing"
 
 const updatePricing="UPDATE pricing SET price = $2 , duration=$3 WHERE service=$1";
 
+const getWorkingHours="Select * from workinghours";
+
+const updateWorkingHours ="UPDATE workinghours SET description = $2  WHERE day=$1"
+
 
 module.exports={
     updateAbout,
     getAbout,
     getPricing,
-    updatePricing
+    updatePricing,
+    getWorkingHours,
+    updateWorkingHours
 }

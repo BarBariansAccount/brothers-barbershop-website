@@ -75,12 +75,49 @@ const updatePricing=async (req,res)=>{
   }
 
 }
+const getWorkingHours=async (req,res)=>{
+  try{
+      let results= await pool.query(HomePageModel.getWorkingHours)
 
+      res.status(200).send(results.rows);
+
+  }catch(err){
+      res.status(400).send(err);
+  }
+}
+
+const updateWorkingHours=async (req,res)=>{
+  const {day,description} = req.body;
+  const logged_userId = req.Logged_userId.data;
+
+  try {
+    let loggedUserRole = await pool.query(UserModel.checkUserExists, [
+      logged_userId,
+    ]);
+    if (loggedUserRole.rows[0].userrole != "Admin") {
+      return res
+        .status(403)
+        .send("Malacious user. Only admin can alter this infomation.");
+    }
+    else{
+      await pool.query(HomePageModel.updateWorkingHours,[day,description]);
+      res.status(200).send("Updated working hours.")
+    }
+
+
+  } catch (err) {
+    console.log(err)
+    res.status(400).send(err);
+  }
+
+}
 
 
 module.exports = {
     updateAbout,
     getAbout,
     getPricing,
-    updatePricing
+    updatePricing,
+    getWorkingHours,
+    updateWorkingHours
 }
