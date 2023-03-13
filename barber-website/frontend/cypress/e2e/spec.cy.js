@@ -287,7 +287,7 @@ describe('Test UserStories', () => {
   it('UC 27, 36 Create Barber account, UC 120 barber-management', () => {
 
     loginAccount(TestAdminInfo);
-    cy.get(':nth-child(2) > .d-flex > .row > .col-sm-12').click();
+    cy.get(':nth-child(1) > .d-flex > .row > .col-sm-12').click();
     cy.get('button>span').contains("Add Account").click();
     completeSignupData(TestBarberInfo);
     cy.get('.mt-5').contains('sign up', { matchCase: false }).click();
@@ -403,7 +403,7 @@ describe('Test UserStories', () => {
 
   it('UC-28 delete barber-account', () => {
     loginAccount(TestAdminInfo);
-    cy.get(':nth-child(2) > .d-flex > .row > .col-sm-12').click();
+    cy.get(':nth-child(1) > .d-flex > .row > .col-sm-12').click();
     //click 3 dot for delete menu
     cy.get('.v-responsive__content > .v-sheet > .v-toolbar__content > .v-btn > .v-btn__content > .v-icon').click()
 
