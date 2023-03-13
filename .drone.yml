@@ -169,6 +169,7 @@ steps:
   commands:
   - docker rm -f backend
   - docker rm -f frontend
+  - docker rmi $(docker images --all -q)
   when:
     branch:
     - main
