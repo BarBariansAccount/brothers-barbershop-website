@@ -17,6 +17,8 @@ import Appointment from "../pages/panel/profile/AppointmentsList.vue"
 import Availabilities from "../pages/panel/profile/AvailabilitiesList.vue"
 import ChangePassword from "../pages/panel/profile/ChangePassword"
 import DeleteAccount from "../pages/panel/profile/DeleteAccount"
+// Product Page Component
+import ProductPage from "../components/ProductComponents/ProductPage.vue"
 // import 
 import BarberPage from '../pages/panel/barber/barber-page.vue'
 
@@ -27,10 +29,11 @@ export default [
     path: "/", component: DefaultLayout, children: [
       { name: 'Home', path: "", component: HomePage },
       { name: 'BarbersManagement', path: "/barbersManagement", component: BarbersManagementPage },
-
+      
       { name: 'Gallery', path: "/gallery", component: GalleryPage },
       { name: 'Appointment', path: "/appointment", component: AppointmentPage },
       { name: 'AppointmentDetail', path: "/appointment/:token", component: AppointmentDetail },
+      {name: 'ProductsPage', path:"/products", component: ProductPage},
     ]
   },
   // pages under panel layout
