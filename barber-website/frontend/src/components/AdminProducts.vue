@@ -1,14 +1,14 @@
 <template>
   <div>
-    <v-dialog v-model="dialog" width="500px">
+    <v-dialog v-model="dialog" width="500px" persistent>
       <v-card class="py-2">
         <div class="icon text-center pt-4">
-          <v-avatar v-if="picturelink" size="120">
-            <img :src="picturelink" />
+          <v-avatar v-if="selectedImageData" size="120">
+            <img :src="selectedImageData" />
           </v-avatar>
           <v-icon v-else size="140"> mdi-image </v-icon>
         </div>
-        <v-btn ref="image" class="mt-3" block text @click="onEdit">
+        <v-btn ref="image" class="mt-3" block text @click="onSelect">
           <v-icon left color="blue">
             mdi-pencil
           </v-icon>
@@ -24,7 +24,7 @@
           class="pa-3"
           clearable
           clear-icon="mdi-close-circle"
-          v-model="ProductText"
+          v-model="productText"
           color="black"
           label="Product Description"
         ></v-textarea>
@@ -41,17 +41,17 @@
             cols="6"
             lg="6"
             class="d-flex flex-column justify-center align-center"
-            ><v-btn color="primary" width="150px" @click="dialog = false"
+            ><v-btn color="primary" width="150px" @click="onCancel()"
               >Cancel</v-btn
             ></v-col
           >
         </v-row>
         <v-file-input
-          accept="image/png, image/jpeg, image/bmp"
+          accept="image/*"
           size="sm"
           v-show="false"
           v-model="file"
-          ref="image"
+          ref="fileInput"
           truncate-length="15"
           @change="uploadPic"
         >
@@ -73,6 +73,8 @@
 
 <script>
 import AdminProductCard from "./AdminProductCard.vue";
+import productService from "../services/products";
+import Swal from "sweetalert2";
 export default {
   components: {
     AdminProductCard,
@@ -80,11 +82,65 @@ export default {
   data() {
     return {
       dialog: false,
+      file: null,
+      productTitle: "",
+      productText: "",
     };
   },
+  computed: {
+    selectedImageData() {
+      return this.$store.state.selectedImageData;
+    },
+    selectedImageFile() {
+      return this.$store.state.selectedImageFile;
+    },
+  },
   methods: {
-    addProduct() {},
-    saveProduct() {},
+    async saveProduct() {
+      console.log(this.selectedImageFile);
+      const formData = new FormData();
+      formData.append("ProductsImage", this.selectedImageFile);
+      formData.append("title", this.productTitle);
+      formData.append("description", this.productText);
+      try {
+        await productService.addProduct(formData);
+      } catch (err) {
+        console.log(err);
+      }
+      this.$store.commit("resetSelectedImageData");
+      this.$store.commit("resetSelectedImageFile");
+      this.productText = "";
+      this.productTitle = "";
+      this.dialog = false;
+    },
+    onCancel() {
+      this.$store.commit("resetSelectedImageData");
+      this.$store.commit("resetSelectedImageFile");
+      this.dialog = false;
+    },
+    onSelect() {
+      this.$refs.fileInput.$refs.input.click();
+    },
+    uploadPic() {
+      if (this.file.size > 200000) {
+        return Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Sorry ! File Size cant be more than 200KB",
+        });
+      }
+      const reader = new FileReader();
+      reader.readAsDataURL(this.file);
+      reader.onload = () => {
+        const imageData = reader.result;
+        this.$store.commit("setSelectedImageData", imageData);
+        this.$store.commit("setSelectedImageFile", this.file);
+      };
+    },
+  },
+  created() {
+    this.$store.commit("resetSelectedImageData");
+    this.$store.commit("resetSelectedImageFile");
   },
 };
 </script>

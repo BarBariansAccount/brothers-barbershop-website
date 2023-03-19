@@ -6,7 +6,12 @@
         lg="12"
         class="d-flex flex-column justify-center align-center"
       >
-        <p class="mb-1 text-h2">Reviews</p>
+        <p class="mb-4 text-h2">Reviews</p>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col v-for="n in 3" :key="n" cols="12" md="4">
+        <ReviewCard :num="n" />
       </v-col>
     </v-row>
     <v-row>
@@ -15,14 +20,9 @@
         lg="12"
         class="d-flex flex-column justify-center align-center"
       >
-        <v-btn @click="addReview()" class="mb-4"
+        <v-btn @click="addReview()" class="mb-4 mt-6"
           ><v-icon size="22">mdi-plus</v-icon></v-btn
         >
-      </v-col>
-    </v-row>
-    <v-row class="review-sec">
-      <v-col v-for="n in 3" :key="n" cols="12" md="4">
-        <ReviewCard />
       </v-col>
     </v-row>
   </v-container>
@@ -42,8 +42,3 @@ export default {
   },
 };
 </script>
-<style>
-.review-sec {
-  margin-bottom: 100px;
-}
-</style>

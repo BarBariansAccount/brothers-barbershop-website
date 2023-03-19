@@ -25,7 +25,7 @@ function authenticateToken(req, res, next) {
 }
 const storage = multer.diskStorage({
     destination: function (req, file, next) {
-        next(null, "./ProductsPic");
+        next(null, "./uploads");
     },
     filename: function (req, file, next) {
         const date = new Date().toISOString().replace(/:/g, "-");
