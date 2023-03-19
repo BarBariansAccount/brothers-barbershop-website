@@ -51,7 +51,7 @@
 <script>
 import Swal from "sweetalert2";
 import UserRegister from "@/services/user";
-import Swal from "sweetalert2";
+
 export default {
   data: () => ({
     form: {
