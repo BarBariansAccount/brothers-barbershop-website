@@ -3,6 +3,7 @@ const pool = require('../config/database.js')
 const UserModel = require("../models/UserModel.js")
 const BarberScheduleModel = require("../models/BarberScheduleModel.js")
 
+
 const addAvaliblilty = async (req, res) => {
     const {
         Available_Date,
@@ -10,6 +11,10 @@ const addAvaliblilty = async (req, res) => {
     } = req.body;
     const logged_userId = req.Logged_userId.data;
     try {
+        const d = new Date();
+        let today=d.getFullYear()+"-"+(d.getMonth()+1)+"-"+(d.getDate());
+        
+        await pool.query(BarberScheduleModel.deletePreviousData,[today])
         let results = await pool.query(UserModel.checkUserExists, [logged_userId])
         let barber_name = results.rows[0].firstname +" " +results.rows[0].lastname;
 

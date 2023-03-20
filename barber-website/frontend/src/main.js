@@ -20,7 +20,7 @@ router.beforeEach((to, _, next) => {
   const token = router.app.$store.state.token;
   // const role = router.app.$store.state.user?.role;
 
-  let publicPages = ["HomeRoute", "Home", 'BarbersManagement', 'Gallery', 'Appointment', 'AppointmentDetail'];
+  let publicPages = ["HomeRoute", "Home", 'BarbersManagement', 'Gallery', 'Appointment', 'AppointmentDetail', 'ProductsPage'];
 
   // public routes based on role
   // if (role == "Admin") publicPages.push(["/panel/admin", ""]);
