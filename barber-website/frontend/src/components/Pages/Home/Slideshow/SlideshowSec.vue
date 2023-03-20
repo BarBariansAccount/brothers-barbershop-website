@@ -22,9 +22,10 @@ export default {
 </script>
 <style>
 .slideshow-sec {
-  background: url("/images/barbershop_gif.gif") no-repeat;
-  background-size: cover;
-  height: 550px;
+  background:rgb(0,0,0) url("/images/barbershop_gif.gif") no-repeat;
+  background-position: center;
+  background-size: contain;
+  height: 650px;
 }
 .book-now-btn {
   padding: 1rem 2.7rem;

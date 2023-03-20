@@ -92,7 +92,7 @@
           </v-stepper-content>
 
           <v-stepper-step step="4" :editable="!editMode">
-            You are nearly done ,Enter your details below
+            You are nearly done. Enter your details below
           </v-stepper-step>
           <v-stepper-content step="4">
             <v-row>

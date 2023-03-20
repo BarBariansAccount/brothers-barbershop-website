@@ -1,6 +1,6 @@
 <template>
   <v-row>
-    <!--Istagram section-->
+    <!--Instagram section-->
     <InstaSection></InstaSection>
   </v-row>
 </template>
