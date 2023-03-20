@@ -67,7 +67,25 @@
         <v-btn @click="dialog = true" class="mb-4">Add Product</v-btn>
       </v-col>
     </v-row>
-    <AdminProductCard />
+    <v-row>
+      <v-col
+        v-for="product in allProducts"
+        :key="product.productsid"
+        cols="12"
+        lg="6"
+        md="12"
+        sm="12"
+        class="d-flex flex-column justify-center align-center"
+      >
+        <AdminProductCard
+          :productImage="product.picturelink"
+          :productDesc="product.description"
+          :productId="product.productsid"
+          :productTitle="product.title"
+          @onChildClick="handleChildClick"
+        />
+      </v-col>
+    </v-row>
   </div>
 </template>
 
@@ -85,6 +103,7 @@ export default {
       file: null,
       productTitle: "",
       productText: "",
+      allProducts: [],
     };
   },
   computed: {
@@ -111,11 +130,16 @@ export default {
       this.$store.commit("resetSelectedImageFile");
       this.productText = "";
       this.productTitle = "";
+      this.getAllProducts();
       this.dialog = false;
+    },
+    handleChildClick() {
+      this.getAllProducts();
     },
     onCancel() {
       this.$store.commit("resetSelectedImageData");
       this.$store.commit("resetSelectedImageFile");
+      this.getAllProducts();
       this.dialog = false;
     },
     onSelect() {
@@ -137,10 +161,16 @@ export default {
         this.$store.commit("setSelectedImageFile", this.file);
       };
     },
+    async getAllProducts() {
+      const data = await productService.getAllProducts();
+      this.allProducts = data.data;
+      console.log(this.allProducts);
+    },
   },
   created() {
     this.$store.commit("resetSelectedImageData");
     this.$store.commit("resetSelectedImageFile");
+    this.getAllProducts();
   },
 };
 </script>

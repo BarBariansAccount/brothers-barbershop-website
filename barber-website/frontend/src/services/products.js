@@ -11,6 +11,6 @@ export default new (class ProductService {
     return api.put("Products/updateProducts", data);
   };
   deleteProduct = (data) => {
-    return api.delete("Products/deleteProducts", data);
+    return api.put("Products/deleteProducts", data);
   };
 })();
