@@ -58,9 +58,13 @@ steps:
     WDIR:
       from_secret: repo-dir
   commands:
-  - echo "Frontend testing does not work properly in pipeline"
+  - cd $WDIR
+  - docker run --net barber-network -v $PWD/barber-website/frontend:/e2e -w /e2e cypress/included:12.4.0
+  # echo "Frontend testing does not work properly in pipeline"
   # cd $WDIR
   # DOCKER_BUILDKIT=0 docker build --network barber-network-dev -t brothersbarber/barbershop:frontend-test --target test -f "$WDIR/ci-cd/docker/frontend-dockerfile" .
+  depends_on:
+  - test-frontend-on-private-server
 
 - name: scan-metrics
   environment:
@@ -193,15 +197,14 @@ steps:
     branch:
     - main
 
-- name: test-frontend
+- name: test-frontend-on-private-server
   commands:
-  - cd /root/repo
-  - git pull
-  - git checkout $DRONE_SOURCE_BRANCH
-  - git pull
+  # cd /root/repo
+  # git pull
+  # git checkout $DRONE_SOURCE_BRANCH
+  # git pull
   - docker rm -f frontend-testing
   - docker run -p 81:8080 --net barber-network --name frontend-testing -d brothersbarber/barbershop:frontend
-  - docker run --net barber-network -v $PWD/barber-website/frontend:/e2e -w /e2e cypress/included:12.4.0
   # docker rm -f frontend-testing
 
 - name: deploy-frontend
