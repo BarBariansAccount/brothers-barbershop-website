@@ -61,7 +61,7 @@ steps:
   commands:
   # echo "Frontend testing does not work properly in pipeline"
   - cd $WDIR
-  # docker network create barber-network
+  - docker network create barber-network
   - docker rm -f database
   - docker run --name database -v "$WDIR/ci-cd/init-db.sh":/docker-entrypoint-initdb.d/init-db.sh -e POSTGRES_PASSWORD=$DPASSWORD -e POSTGRES_DB=barbershop -p 5432:5432 --net barber-network -d postgres
   - sleep 5
