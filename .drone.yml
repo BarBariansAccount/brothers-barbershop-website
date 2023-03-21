@@ -177,30 +177,18 @@ steps:
       from_secret: dockerhub_password
   commands:
   - docker login -u $DUSERNAME -p $DPASSWORD
-  when:
-    branch:
-    - main
 
 - name: pull-backend
   commands:
   - docker pull brothersbarber/barbershop:backend 
-  when:
-    branch:
-    - main
 
 - name: pull-frontend
   commands:
   - docker pull brothersbarber/barbershop:frontend 
-  when:
-    branch:
-    - main
 
 - name: dockerhub-logout
   commands:
   - docker logout
-  when:
-    branch:
-    - main
 
 - name: deploy-backend
   commands:
@@ -211,7 +199,9 @@ steps:
 
 - name: test-frontend
   commands:
-  - docker run -p 81:8080 --net barber-network --name frontend -d brothersbarber/barbershop:frontend
+  - docker run -p 81:8080 --net barber-network --name frontend-testing -d brothersbarber/barbershop:frontend
+  - docker run --net barber-network -v $PWD/barber-website/frontend:/e2e -w /e2e cypress/included:12.4.0
+  # docker rm -f frontend-testing
 
 - name: deploy-frontend
   commands:
