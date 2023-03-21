@@ -149,6 +149,10 @@ depends_on:
   - default
 
 steps:
+- name: remove-unused-images
+  commands:
+  - docker rmi $(docker images -q)
+
 - name: clean-up
   commands:
   - docker rm -f backend
