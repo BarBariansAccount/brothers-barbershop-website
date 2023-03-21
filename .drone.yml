@@ -204,7 +204,7 @@ steps:
 
 kind: pipeline
 type: exec
-name: default
+name: frontendtesting
 
 platform:
   os: linux
