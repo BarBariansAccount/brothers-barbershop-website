@@ -230,7 +230,7 @@ steps:
       from_secret: repo-dir
   commands:
   - cd $WDIR/barber-website/frontend
-  - npm install
-  - npm run test
+  - CYPRESS_CACHE_FOLDER=/home/e_tripet/.cache/Cypress/12.8.1 npm install
+  - CYPRESS_CACHE_FOLDER=/home/e_tripet/.cache/Cypress/12.8.1 npm run test
   # docker run --network=bridge -v $PWD/barber-website/frontend:/e2e -w /e2e cypress/included:12.4.0
 
