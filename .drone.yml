@@ -173,6 +173,9 @@ steps:
 - name: pull-backend
   commands:
   - docker pull brothersbarber/barbershop:backend 
+  when:
+    branch:
+    - main
 
 - name: pull-frontend
   commands:
