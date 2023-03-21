@@ -6,10 +6,13 @@ const getBarberAvailablity_barberView= "SELECT * FROM barber_schedule WHERE User
 
 const deleteAvailablity= "DELETE FROM barber_schedule WHERE appointment_id=$1";
 
+const deletePreviousData = "Delete from barber_schedule where  available_date<$1"
+
 module.exports={
     checkAvailablityExists,
     addAvailablity,
     getBarberAvailablity_barberView,
-    deleteAvailablity
+    deleteAvailablity,
+    deletePreviousData
 }
 

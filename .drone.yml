@@ -22,7 +22,7 @@ steps:
       from_secret: repo-dir
   commands:
   - cd $WDIR
-  - git pull origin
+  - git pull
   - git checkout $DRONE_SOURCE_BRANCH
 
 - name: full-clean-up

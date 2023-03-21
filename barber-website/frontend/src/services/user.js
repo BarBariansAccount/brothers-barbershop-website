@@ -11,7 +11,6 @@ export default new (class UserService {
     return api.put("/User/updateUser", data);
   };
   deleteAccount = (data) => {
-    console.log("barberid-data", data);
     return api.put("/User/deleteUser", data);
   };
   updatePassword = (data) => {
@@ -45,12 +44,12 @@ export default new (class UserService {
     return api.put("/FAQ/updateFAQ", data);
   };
   resetPassword = (data) => {
-    return api.post('/ResetPassword/SendEmail', data);
+    return api.post("/ResetPassword/SendEmail", data);
   };
-  getGeneratedPassword(data){
-    return api.put('/ResetPassword/Verification',data)
+  getGeneratedPassword(data) {
+    return api.put("/ResetPassword/Verification", data);
   }
-  changePasswordForgottenPassword(data,config){
-    return api.put('/ResetPassword/Change_Password',data,config)
+  changePasswordForgottenPassword(data, config) {
+    return api.put("/ResetPassword/Change_Password", data, config);
   }
 })();

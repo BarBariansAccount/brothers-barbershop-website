@@ -2,23 +2,16 @@
   <div>
     <v-container>
       <v-row>
-        <v-col
-          lg="3"
-          md="4"
-          sm="6"
-          xs="12"
-          justify="space-around"
-          v-for="barber in barbers"
-          :key="barber.index"
-          class="pa-10 mb-5"
-        >
-          <v-card class="d-flex align-center rounded-xl" dark height="200">
-            <v-img height="200px" src="/images/black.jpeg">
+        <v-col lg="3" md="4" sm="6" xs="12" justify="space-around" v-for="barber in barbers" :key="barber.index"
+          class="pa-10 mb-5">
+          <div :style="{ 'background-image': 'url(/images/avatar.svg)', height: '100px' }"></div>
+          <v-card class="d-flex1 align-center1 rounded-xl" height="200">
+            <v-img height="200px" :src="barber.picturelink ? barber.picturelink : '/images/avatar.svg'" v-if="1">
               <v-app-bar flat color="rgba(0, 0, 0, 0)">
                 <v-spacer></v-spacer>
                 <v-menu bottom right>
                   <template v-slot:activator="{ on, attrs }">
-                    <v-btn color="white" icon v-bind="attrs" v-on="on">
+                    <v-btn color="primary" icon v-bind="attrs" v-on="on">
                       <v-icon>mdi-dots-vertical</v-icon>
                     </v-btn>
                   </template>
@@ -26,26 +19,18 @@
                     <v-list-item-group>
                       <v-list-item v-for="(item, index) in items" :key="index">
                         <v-list-item-content>
-                          <v-list-item-title
-                            @click="
-                              selectedAction(item.optionID, barber.userid)
-                            "
-                            v-text="item.title"
-                          ></v-list-item-title>
+                          <v-list-item-title @click="
+                            selectedAction(item.optionID, barber.userid)
+                          "> {{ item.title }}</v-list-item-title>
                         </v-list-item-content>
                       </v-list-item>
                     </v-list-item-group>
                   </v-list>
                 </v-menu>
               </v-app-bar>
-              <v-card-title
-                class="white--text"
-                style="margin-right: auto; margin-left: auto"
-              >
-                <p style="margin-right: auto; margin-left: auto">
-                  {{ barber.firstname }}
-                </p>
-              </v-card-title>
+              <div class="barber-name" style="margin-right: auto; margin-left: auto;">
+                {{ barber.firstname }}
+              </div>
             </v-img>
           </v-card>
         </v-col>
@@ -118,4 +103,14 @@ export default {
   },
 };
 </script>
-<style></style>
+<style>
+.barber-name{
+  background-color: rgba(0, 0, 0, 0.6);
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  padding: 6px 0;
+  color: white;
+}
+</style>
