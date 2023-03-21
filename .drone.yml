@@ -157,6 +157,8 @@ steps:
   failure: ignore
   commands:
   - docker rmi $(docker images -q)
+  depends_on:
+  - dockerhub-logout
 
 - name: clean-up
   commands:
