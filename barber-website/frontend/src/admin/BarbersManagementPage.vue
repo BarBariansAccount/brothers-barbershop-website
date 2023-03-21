@@ -21,7 +21,7 @@
                         <v-list-item-content>
                           <v-list-item-title @click="
                             selectedAction(item.optionID, barber.userid)
-                          " v-text="item.title"></v-list-item-title>
+                          "> {{ item.title }}</v-list-item-title>
                         </v-list-item-content>
                       </v-list-item>
                     </v-list-item-group>

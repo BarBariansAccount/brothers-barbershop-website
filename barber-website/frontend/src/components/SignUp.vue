@@ -14,55 +14,24 @@
         </slot>
       </v-card-title>
       <v-card-text>
-        <v-text-field
-          label="First Name"
-          placeholder="First Name"
-          v-model="form.firstname"
-          :autocomplete="false"
-        >
+        <v-text-field label="First Name" placeholder="First Name" v-model="form.firstname" :autocomplete="false">
         </v-text-field>
 
-        <v-text-field
-          label="Last Name"
-          placeholder="Last Name"
-          v-model="form.lastname"
-          :autocomplete="false"
-        >
+        <v-text-field label="Last Name" placeholder="Last Name" v-model="form.lastname" :autocomplete="false">
         </v-text-field>
 
-        <v-text-field
-          label="Phone Number"
-          placeholder="Phone Number"
-          v-model="form.phoneNumber"
-          type="phone"
-          :autocomplete="false"
-          :error-messages="errorPhoneNumber"
-        >
+        <v-text-field label="Phone Number" placeholder="Phone Number" v-model="form.phoneNumber" type="phone"
+          :autocomplete="false" :error-messages="errorPhoneNumber">
         </v-text-field>
 
-        <v-text-field
-          label="Email"
-          placeholder="Email"
-          v-model="form.email"
-          type="email"
-          :autocomplete="false"
-        ></v-text-field>
+        <v-text-field label="Email" placeholder="Email" v-model="form.email" type="email"
+          :autocomplete="false"></v-text-field>
 
-        <v-text-field
-          label="Password"
-          placeholder="Password"
-          v-model="form.password"
-          :error-messages="passwordErrorMessage"
-          type="password"
-        ></v-text-field>
+        <v-text-field label="Password" placeholder="Password" v-model="form.password"
+          :error-messages="passwordErrorMessage" type="password"></v-text-field>
 
-        <v-text-field
-          label="Confirm Password"
-          placeholder="Confirm Password"
-          v-model="form.confirmPassword"
-          type="password"
-          :error-messages="errorEmptyFields"
-        >
+        <v-text-field label="Confirm Password" placeholder="Confirm Password" v-model="form.confirmPassword"
+          type="password" :error-messages="errorEmptyFields">
         </v-text-field>
 
         <v-btn
@@ -82,6 +51,7 @@
 <script>
 import Swal from "sweetalert2";
 import UserRegister from "@/services/user";
+
 export default {
   data: () => ({
     form: {
@@ -179,10 +149,31 @@ export default {
       } catch (error) {
         console.log("In error occured while creating the user account");
         console.log(error);
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-right',
+          iconColor: 'white',
+          customClass: {
+            popup: 'colored-toast'
+          },
+          showConfirmButton: false,
+          timer: 6000,
+          timerProgressBar: true
+        })
+
+        await Toast.fire({
+          icon: 'error',
+          title: 'Error',
+          text: error?.response?.data,
+        })
       }
     },
   },
 };
 </script>
 
-<style></style>
+<style>
+.colored-toast.swal2-icon-error {
+  background-color: #f27474 !important;
+}
+</style>
