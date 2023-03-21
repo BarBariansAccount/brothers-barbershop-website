@@ -150,15 +150,14 @@ node:
   webapp: deployment
 
 depends_on:
-  - default
+  - dockerhub-logout
+  # default
 
 steps:
 - name: remove-unused-images
   failure: ignore
   commands:
   - docker rmi $(docker images -q)
-  depends_on:
-  - dockerhub-logout
 
 - name: clean-up
   commands:
