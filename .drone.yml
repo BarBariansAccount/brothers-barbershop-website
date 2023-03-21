@@ -230,8 +230,8 @@ steps:
       from_secret: repo-dir
   commands:
   - cd $WDIR
-  # cd ./barber-website/frontend
-  # npm install
-  # npm run test
-  - docker run --network=bridge -v $PWD/barber-website/frontend:/e2e -w /e2e cypress/included:12.4.0
+  - cd ./barber-website/frontend
+  - npm install
+  - npm run test
+  # docker run --network=bridge -v $PWD/barber-website/frontend:/e2e -w /e2e cypress/included:12.4.0
 
