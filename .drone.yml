@@ -52,20 +52,6 @@ steps:
   - cd $WDIR
   - DOCKER_BUILDKIT=0 docker build --network barber-network-dev -t brothersbarber/barbershop:backend-test --target test -f "$WDIR/ci-cd/docker/backend-dockerfile" .
 
-- name: test-frontend
-  failure: ignore
-  environment:
-    WDIR:
-      from_secret: repo-dir
-  commands:
-  - cd $WDIR
-  - docker run --net barber-network -v $PWD/barber-website/frontend:/e2e -w /e2e cypress/included:12.4.0
-  # echo "Frontend testing does not work properly in pipeline"
-  # cd $WDIR
-  # DOCKER_BUILDKIT=0 docker build --network barber-network-dev -t brothersbarber/barbershop:frontend-test --target test -f "$WDIR/ci-cd/docker/frontend-dockerfile" .
-  depends_on:
-  - test-frontend-on-private-server
-
 - name: scan-metrics
   environment:
     WDIR:
@@ -150,8 +136,7 @@ node:
   webapp: deployment
 
 depends_on:
-  - dockerhub-logout
-  # default
+  - default
 
 steps:
 - name: remove-unused-images
@@ -214,4 +199,36 @@ steps:
   when:
     branch:
     - main
+
+---
+
+kind: pipeline
+type: exec
+name: default
+
+platform:
+  os: linux
+  arch: amd64
+
+clone:
+  disable: true
+
+concurrency:
+  limit: 1
+
+node:
+  webapp: testing
+
+depends_on:
+  - deployment
+
+steps:
+- name: test-frontend
+  failure: ignore
+  environment:
+    WDIR:
+      from_secret: repo-dir
+  commands:
+  - cd $WDIR
+  - docker run --net barber-network -v $PWD/barber-website/frontend:/e2e -w /e2e cypress/included:12.4.0
 
