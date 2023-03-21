@@ -195,6 +195,7 @@ steps:
 
 - name: test-frontend
   commands:
+  - docker rm -f frontend-testing
   - docker run -p 81:8080 --net barber-network --name frontend-testing -d brothersbarber/barbershop:frontend
   - docker run --net barber-network -v $PWD/barber-website/frontend:/e2e -w /e2e cypress/included:12.4.0
   # docker rm -f frontend-testing
