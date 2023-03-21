@@ -150,6 +150,7 @@ depends_on:
 
 steps:
 - name: remove-unused-images
+  failure: ignore
   commands:
   - docker rmi $(docker images -q)
 
