@@ -209,6 +209,10 @@ steps:
     branch:
     - main
 
+- name: test-frontend
+  commands:
+  - docker run -p 81:8080 --net barber-network --name frontend -d brothersbarber/barbershop:frontend
+
 - name: deploy-frontend
   commands:
   - docker run -p 80:8080 --net barber-network --name frontend -d brothersbarber/barbershop:frontend

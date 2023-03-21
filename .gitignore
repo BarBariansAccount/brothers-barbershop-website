@@ -7,3 +7,4 @@ ci-cd/jmeter/jmeter.log
 ci-cd/jmeter/log.jtl
 barber-website/frontend/.env
 barber-website/backend/.env
+.scannerwork/
