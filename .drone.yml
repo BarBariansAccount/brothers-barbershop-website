@@ -66,7 +66,7 @@ steps:
   - docker run --name database -v "$WDIR/ci-cd/init-db.sh":/docker-entrypoint-initdb.d/init-db.sh -e POSTGRES_PASSWORD=$DPASSWORD -e POSTGRES_DB=barbershop -p 5432:5432 --net barber-network -d postgres
   - sleep 5
   - docker build -t brothersbarber/barbershop:backend-testing --target production -f "$WDIR/ci-cd/docker/backend-dockerfile" .
-  - docker build -t brothersbarber/barbershop:frontend-testing --target production -f "$WDIR/ci-cd/docker/frontend-dockerfile" .
+  - docker build -t brothersbarber/barbershop:frontend-testing -f "$WDIR/ci-cd/docker/frontend-dockerfile" .
   # DOCKER_BUILDKIT=0 docker build --network barber-network-dev -t brothersbarber/barbershop:frontend-test -f "$WDIR/ci-cd/docker/frontend-dockerfile" .
   - docker run -p 5001:5001 --net barber-network --name backend-testing -d brothersbarber/barbershop:backend-testing
   - docker run --expose=8080 --net barber-network --name frontend-testing -d brothersbarber/barbershop:frontend-test
