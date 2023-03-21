@@ -102,9 +102,6 @@ steps:
   commands:
   - cd $WDIR
   - docker build -t brothersbarber/barbershop:frontend --target production -f "$WDIR/ci-cd/docker/frontend-dockerfile" .
-  when:
-    branch:
-    - main
 
 - name: dockerhub-login
   environment:
@@ -114,9 +111,6 @@ steps:
       from_secret: dockerhub_password
   commands:
   - docker login -u $DUSERNAME -p $DPASSWORD
-  when:
-    branch:
-    - main
 
 - name: dockerhub-push-backend
   commands:
@@ -128,16 +122,10 @@ steps:
 - name: dockerhub-push-frontend
   commands:
   - docker push brothersbarber/barbershop:frontend 
-  when:
-    branch:
-    - main
 
 - name: dockerhub-logout
   commands:
   - docker logout
-  when:
-    branch:
-    - main
 
 ---
 kind: pipeline
