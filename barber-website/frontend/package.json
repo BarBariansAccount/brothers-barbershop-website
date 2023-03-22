@@ -3,7 +3,7 @@
   "version": "",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "vue-cli-service serve --allowed-hosts all",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "test": "npx cypress run",
