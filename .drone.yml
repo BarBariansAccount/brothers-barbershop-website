@@ -16,138 +16,137 @@ node:
   webapp: testing
 
 steps:
-- name: custom-clone
-  environment:
-    WDIR:
-      from_secret: repo-dir
-  commands:
-  - cd $WDIR
-  - git pull
-  - git checkout $DRONE_SOURCE_BRANCH
+  - name: custom-clone
+    environment:
+      WDIR:
+        from_secret: repo-dir
+    commands:
+      - cd $WDIR
+      - git pull
+      - git checkout $DRONE_SOURCE_BRANCH
 
-- name: full-clean-up
-  environment:
-    WDIR:
-      from_secret: repo-dir
-  commands:
-  - $WDIR/ci-cd/docker/full-clean-up.sh
+  - name: full-clean-up
+    environment:
+      WDIR:
+        from_secret: repo-dir
+    commands:
+      - $WDIR/ci-cd/docker/full-clean-up.sh
 
-- name: setup-database
-  environment:
-    WDIR:
-      from_secret: repo-dir
-    DPASSWORD:
-      from_secret: database_password
-  commands:
-  - cd $WDIR
-  - docker run --name database -v "$WDIR/ci-cd/init-db.sh":/docker-entrypoint-initdb.d/init-db.sh -e POSTGRES_PASSWORD=$DPASSWORD -e POSTGRES_DB=barbershop -p 5432:5432 --net barber-network-dev -d postgres
-  - sleep 5
+  - name: setup-database
+    environment:
+      WDIR:
+        from_secret: repo-dir
+      DPASSWORD:
+        from_secret: database_password
+    commands:
+      - cd $WDIR
+      - docker run --name database -v "$WDIR/ci-cd/init-db.sh":/docker-entrypoint-initdb.d/init-db.sh -e POSTGRES_PASSWORD=$DPASSWORD -e POSTGRES_DB=barbershop -p 5432:5432 --net barber-network-dev -d postgres
+      - sleep 5
 
-- name: test-backend
-  environment:
-    WDIR:
-      from_secret: repo-dir
-  commands:
-  - cd $WDIR
-  - DOCKER_BUILDKIT=0 docker build --network barber-network-dev -t brothersbarber/barbershop:backend-test --target test -f "$WDIR/ci-cd/docker/backend-dockerfile" .
+  - name: test-backend
+    environment:
+      WDIR:
+        from_secret: repo-dir
+    commands:
+      - cd $WDIR
+      - DOCKER_BUILDKIT=0 docker build --network barber-network-dev -t brothersbarber/barbershop:backend-test --target test -f "$WDIR/ci-cd/docker/backend-dockerfile" .
 
-- name: test-frontend
-  failure: ignore
-  environment:
-    WDIR:
-      from_secret: repo-dir
-    DPASSWORD:
-      from_secret: database_password
-  commands:
-  # echo "Frontend testing does not work properly in pipeline"
-  - cd $WDIR
-  - docker network create barber-network
-  - docker rm -f database
-  - docker run --name database -v "$WDIR/ci-cd/init-db.sh":/docker-entrypoint-initdb.d/init-db.sh -e POSTGRES_PASSWORD=$DPASSWORD -e POSTGRES_DB=barbershop -p 5432:5432 --net barber-network -d postgres
-  - sleep 5
-  - docker build -t brothersbarber/barbershop:backend-testing --target production -f "$WDIR/ci-cd/docker/backend-dockerfile" .
-  - docker build -t brothersbarber/barbershop:frontend-testing -f "$WDIR/ci-cd/docker/frontend-dockerfile" .
-  # DOCKER_BUILDKIT=0 docker build --network barber-network-dev -t brothersbarber/barbershop:frontend-test -f "$WDIR/ci-cd/docker/frontend-dockerfile" .
-  - docker run -p 5001:5001 --net barber-network --name backend-testing -d brothersbarber/barbershop:backend-testing
-  - docker run --expose=8080 --net barber-network --name frontend-testing -d brothersbarber/barbershop:frontend-test
-  - docker run --net barber-network -v $PWD/barber-website/frontend:/e2e -w /e2e cypress/included:12.4.0
+  - name: test-frontend
+    environment:
+      WDIR:
+        from_secret: repo-dir
+      DPASSWORD:
+        from_secret: database_password
+    commands:
+      # echo "Frontend testing does not work properly in pipeline"
+      - cd $WDIR
+      - docker network create barber-network
+      - docker rm -f database
+      - docker run --name database -v "$WDIR/ci-cd/init-db.sh":/docker-entrypoint-initdb.d/init-db.sh -e POSTGRES_PASSWORD=$DPASSWORD -e POSTGRES_DB=barbershop -p 5432:5432 --net barber-network -d postgres
+      - sleep 5
+      - docker build -t brothersbarber/barbershop:backend-testing --target production -f "$WDIR/ci-cd/docker/backend-dockerfile" .
+      - docker build -t brothersbarber/barbershop:frontend-testing -f "$WDIR/ci-cd/docker/frontend-dockerfile" .
+      # DOCKER_BUILDKIT=0 docker build --network barber-network-dev -t brothersbarber/barbershop:frontend-test -f "$WDIR/ci-cd/docker/frontend-dockerfile" .
+      - docker run -p 5001:5001 --net barber-network --name backend-testing -d brothersbarber/barbershop:backend-testing
+      - docker run --expose=8080 --net barber-network --name frontend-testing -d brothersbarber/barbershop:frontend-test
+      - docker run --net barber-network -v $PWD/barber-website/frontend:/e2e -w /e2e cypress/included:12.4.0
 
-- name: scan-metrics
-  environment:
-    WDIR:
-      from_secret: repo-dir
-    SUSERNAME:
-      from_secret: sonar-username
-    SPASSWORD:
-      from_secret: sonar-password
-  commands:
-  - cd $WDIR
-  - /home/sonarqube/sonar-scanner/sonar-scanner/bin/sonar-scanner -Dsonar.login=$SUSERNAME -Dsonar.password=$SPASSWORD
-  when:
-    branch:
-    - main
+  - name: scan-metrics
+    environment:
+      WDIR:
+        from_secret: repo-dir
+      SUSERNAME:
+        from_secret: sonar-username
+      SPASSWORD:
+        from_secret: sonar-password
+    commands:
+      - cd $WDIR
+      - /home/sonarqube/sonar-scanner/sonar-scanner/bin/sonar-scanner -Dsonar.login=$SUSERNAME -Dsonar.password=$SPASSWORD
+    when:
+      branch:
+        - main
 
-- name: post-testing-clean-up
-  environment:
-    WDIR:
-      from_secret: repo-dir
-  commands:
-  # $WDIR/ci-cd/docker/testing-clean-up.sh
+  - name: post-testing-clean-up
+    environment:
+      WDIR:
+        from_secret: repo-dir
+    commands:
+    # $WDIR/ci-cd/docker/testing-clean-up.sh
 
-- name: build-backend
-  environment:
-    WDIR:
-      from_secret: repo-dir
-  commands:
-  - cd $WDIR
-  - docker build -t brothersbarber/barbershop:backend --target production -f "$WDIR/ci-cd/docker/backend-dockerfile" .
-  when:
-    branch:
-    - main
+  - name: build-backend
+    environment:
+      WDIR:
+        from_secret: repo-dir
+    commands:
+      - cd $WDIR
+      - docker build -t brothersbarber/barbershop:backend --target production -f "$WDIR/ci-cd/docker/backend-dockerfile" .
+    when:
+      branch:
+        - main
 
-- name: build-frontend
-  environment:
-    WDIR:
-      from_secret: repo-dir
-  commands:
-  - cd $WDIR
-  - docker build -t brothersbarber/barbershop:frontend --target production -f "$WDIR/ci-cd/docker/frontend-dockerfile" .
-  when:
-    branch:
-    - main
+  - name: build-frontend
+    environment:
+      WDIR:
+        from_secret: repo-dir
+    commands:
+      - cd $WDIR
+      - docker build -t brothersbarber/barbershop:frontend --target production -f "$WDIR/ci-cd/docker/frontend-dockerfile" .
+    when:
+      branch:
+        - main
 
-- name: dockerhub-login
-  environment:
-    DUSERNAME:
-      from_secret: dockerhub_user
-    DPASSWORD:
-      from_secret: dockerhub_password
-  commands:
-  - docker login -u $DUSERNAME -p $DPASSWORD
-  when:
-    branch:
-    - main
+  - name: dockerhub-login
+    environment:
+      DUSERNAME:
+        from_secret: dockerhub_user
+      DPASSWORD:
+        from_secret: dockerhub_password
+    commands:
+      - docker login -u $DUSERNAME -p $DPASSWORD
+    when:
+      branch:
+        - main
 
-- name: dockerhub-push-backend
-  commands:
-  - docker push brothersbarber/barbershop:backend 
-  when:
-    branch:
-    - main
+  - name: dockerhub-push-backend
+    commands:
+      - docker push brothersbarber/barbershop:backend
+    when:
+      branch:
+        - main
 
-- name: dockerhub-push-frontend
-  commands:
-  - docker push brothersbarber/barbershop:frontend 
-  when:
-    branch:
-    - main
+  - name: dockerhub-push-frontend
+    commands:
+      - docker push brothersbarber/barbershop:frontend
+    when:
+      branch:
+        - main
 
-- name: dockerhub-logout
-  commands:
-  - docker logout
-  when:
-    branch:
-    - main
+  - name: dockerhub-logout
+    commands:
+      - docker logout
+    when:
+      branch:
+        - main
 
 ---
 kind: pipeline
@@ -171,59 +170,58 @@ depends_on:
   - default
 
 steps:
-- name: clean-up
-  commands:
-  - docker rm -f backend
-  - docker rm -f frontend
-  - docker rmi $(docker images --all -q)
-  when:
-    branch:
-    - main
+  - name: clean-up
+    commands:
+      - docker rm -f backend
+      - docker rm -f frontend
+      - docker rmi $(docker images --all -q)
+    when:
+      branch:
+        - main
 
-- name: dockerhub-login
-  environment:
-    DUSERNAME:
-      from_secret: dockerhub_user
-    DPASSWORD:
-      from_secret: dockerhub_password
-  commands:
-  - docker login -u $DUSERNAME -p $DPASSWORD
-  when:
-    branch:
-    - main
+  - name: dockerhub-login
+    environment:
+      DUSERNAME:
+        from_secret: dockerhub_user
+      DPASSWORD:
+        from_secret: dockerhub_password
+    commands:
+      - docker login -u $DUSERNAME -p $DPASSWORD
+    when:
+      branch:
+        - main
 
-- name: pull-backend
-  commands:
-  - docker pull brothersbarber/barbershop:backend 
-  when:
-    branch:
-    - main
+  - name: pull-backend
+    commands:
+      - docker pull brothersbarber/barbershop:backend
+    when:
+      branch:
+        - main
 
-- name: pull-frontend
-  commands:
-  - docker pull brothersbarber/barbershop:frontend 
-  when:
-    branch:
-    - main
+  - name: pull-frontend
+    commands:
+      - docker pull brothersbarber/barbershop:frontend
+    when:
+      branch:
+        - main
 
-- name: dockerhub-logout
-  commands:
-  - docker logout
-  when:
-    branch:
-    - main
+  - name: dockerhub-logout
+    commands:
+      - docker logout
+    when:
+      branch:
+        - main
 
-- name: deploy-backend
-  commands:
-  - docker run -p 5001:5001 --net barber-network --name backend -d brothersbarber/barbershop:backend 
-  when:
-    branch:
-    - main
+  - name: deploy-backend
+    commands:
+      - docker run -p 5001:5001 --net barber-network --name backend -d brothersbarber/barbershop:backend
+    when:
+      branch:
+        - main
 
-- name: deploy-frontend
-  commands:
-  - docker run -p 80:8080 --net barber-network --name frontend -d brothersbarber/barbershop:frontend
-  when:
-    branch:
-    - main
-
+  - name: deploy-frontend
+    commands:
+      - docker run -p 80:8080 --net barber-network --name frontend -d brothersbarber/barbershop:frontend
+    when:
+      branch:
+        - main
