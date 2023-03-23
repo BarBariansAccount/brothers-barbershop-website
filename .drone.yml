@@ -57,7 +57,7 @@ steps:
         from_secret: repo-dir
       DPASSWORD:
         from_secret: database_password
-      BACKEND:
+      VUE_APP_API_URL:
         from_secret: backend_testing
     commands:
       - cd $WDIR
