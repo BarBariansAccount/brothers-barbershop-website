@@ -85,13 +85,24 @@ steps:
     branch:
     - main
 
+- name: build-frontend-testing
+  environment:
+    WDIR:
+      from_secret: repo-dir
+  commands:
+  - cd $WDIR
+  - docker build -t brothersbarber/barbershop:frontend-testing -f "$WDIR/ci-cd/docker/frontend-dockerfile" .
+
 - name: build-frontend
   environment:
     WDIR:
       from_secret: repo-dir
   commands:
   - cd $WDIR
-  - docker build -t brothersbarber/barbershop:frontend --target production -f "$WDIR/ci-cd/docker/frontend-dockerfile" .
+  - docker build -t brothersbarber/barbershop:frontend -f "$WDIR/ci-cd/docker/frontend-dockerfile" .
+  when:
+    branch:
+    - main
 
 - name: dockerhub-login
   environment:
@@ -109,9 +120,16 @@ steps:
     branch:
     - main
 
+- name: dockerhub-push-frontend-testing
+  commands:
+  - docker push brothersbarber/barbershop:frontend-testing
+
 - name: dockerhub-push-frontend
   commands:
   - docker push brothersbarber/barbershop:frontend 
+  when:
+    branch:
+    - main
 
 - name: dockerhub-logout
   commands:
@@ -190,8 +208,8 @@ steps:
   # git checkout $DRONE_SOURCE_BRANCH
   # git pull
   - docker rm -f frontend-testing
-  - docker run -p 81:8080 --net barber-network --name frontend-testing -d brothersbarber/barbershop:frontend
-  # docker rm -f frontend-testing
+  # docker run --expose=8080 --net barber-network --name frontend-testing -d brothersbarber/barbershop:frontend-testing
+  - docker run -p 81:8080 --net barber-network --name frontend-testing -d brothersbarber/barbershop:frontend-testing
 
 - name: deploy-frontend
   commands:
@@ -229,8 +247,6 @@ steps:
     WDIR:
       from_secret: repo-dir
   commands:
-  - cd $WDIR/barber-website/frontend
-  - CYPRESS_CACHE_FOLDER=/home/e_tripet/.cache/Cypress/12.8.1 npm install
-  - CYPRESS_CACHE_FOLDER=/home/e_tripet/.cache/Cypress/12.8.1 npm run test
-  # docker run --network=bridge -v $PWD/barber-website/frontend:/e2e -w /e2e cypress/included:12.4.0
+  - cd $WDIR
+  - docker run --net barber-network -v $PWD/barber-website/frontend:/e2e -w /e2e cypress/included:12.4.0
 
