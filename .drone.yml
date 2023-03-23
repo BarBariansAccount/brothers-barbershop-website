@@ -255,5 +255,5 @@ steps:
       from_secret: repo-dir
   commands:
   - cd $WDIR
-  - docker run --net barber-network -v $PWD/barber-website/frontend:/e2e -w /e2e cypress/included:12.4.0
+  - docker run --net host -v $PWD/barber-website/frontend:/e2e -w /e2e cypress/included:12.4.0
 
