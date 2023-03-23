@@ -173,7 +173,7 @@ node:
   webapp: deployment
 
 depends_on:
-  - default
+  - testing
 
 trigger:
   event:
