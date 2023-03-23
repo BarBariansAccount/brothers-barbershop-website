@@ -73,7 +73,7 @@ steps:
       branch:
         - main
 
-  - name: test-frontend
+  - name: frontend-testing-setup
     environment:
       WDIR:
         from_secret: repo-dir
@@ -82,6 +82,12 @@ steps:
       - docker run -p 5001:5001 --net barber-network-dev --name backend -d brothersbarber/barbershop:backend-testing
       - docker run --expose=8080 -e "VUE_APP_API_URL=http://backend:5001/" --net barber-network-dev --name frontend -d brothersbarber/barbershop:frontend-testing
 
+  - name: test-frontend
+    environment:
+      WDIR:
+        from_secret: repo-dir
+    commands:
+      - cd $WDIR
       - docker run --net barber-network-dev -v $PWD/barber-website/frontend:/e2e -w /e2e cypress/included:12.4.0
 
   - name: scan-metrics
