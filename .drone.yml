@@ -51,21 +51,36 @@ steps:
       - cd $WDIR
       - DOCKER_BUILDKIT=0 docker build --network barber-network-dev -t brothersbarber/barbershop:backend-test --target test -f "$WDIR/ci-cd/docker/backend-dockerfile" .
 
+  - name: build-backend
+    environment:
+      WDIR:
+        from_secret: repo-dir
+    commands:
+      - cd $WDIR
+      - docker build -t brothersbarber/barbershop:backend --target production -f "$WDIR/ci-cd/docker/backend-dockerfile" .
+
+  - name: build-frontend
+    environment:
+      WDIR:
+        from_secret: repo-dir
+    commands:
+      - cd $WDIR
+      - docker build -t brothersbarber/barbershop:frontend -f "$WDIR/ci-cd/docker/frontend-dockerfile" .
+    when:
+      event:
+        exclude:
+          - pull_request
+      branch:
+        - main
+
   - name: test-frontend
     environment:
       WDIR:
         from_secret: repo-dir
-      DPASSWORD:
-        from_secret: database_password
-      BACKEND:
-        from_secret: backend_testing
     commands:
       - cd $WDIR
-      - docker build -t brothersbarber/barbershop:backend-testing --target production -f "$WDIR/ci-cd/docker/backend-dockerfile" .
-      - docker build -t brothersbarber/barbershop:frontend-testing -f "$WDIR/ci-cd/docker/frontend-dockerfile" .
-
-      - docker run -p 5001:5001 --net barber-network-dev --name backend-testing -d brothersbarber/barbershop:backend-testing
-      - docker run --expose=8080 -e "VUE_APP_API_URL=http://backend-testing:5001/" --net barber-network-dev --name frontend-testing -d brothersbarber/barbershop:frontend-testing
+      - docker run -p 5001:5001 --net barber-network-dev --name backend -d brothersbarber/barbershop:backend-testing
+      - docker run --expose=8080 -e "VUE_APP_API_URL=http://backend:5001/" --net barber-network-dev --name frontend -d brothersbarber/barbershop:frontend-testing
 
       - docker run --net barber-network-dev -v $PWD/barber-website/frontend:/e2e -w /e2e cypress/included:12.4.0
 
@@ -93,34 +108,6 @@ steps:
         from_secret: repo-dir
     commands:
     # $WDIR/ci-cd/docker/testing-clean-up.sh
-
-  - name: build-backend
-    environment:
-      WDIR:
-        from_secret: repo-dir
-    commands:
-      - cd $WDIR
-      - docker build -t brothersbarber/barbershop:backend --target production -f "$WDIR/ci-cd/docker/backend-dockerfile" .
-    when:
-      event:
-        exclude:
-          - pull_request
-      branch:
-        - main
-
-  - name: build-frontend
-    environment:
-      WDIR:
-        from_secret: repo-dir
-    commands:
-      - cd $WDIR
-      - docker build -t brothersbarber/barbershop:frontend --target production -f "$WDIR/ci-cd/docker/frontend-dockerfile" .
-    when:
-      event:
-        exclude:
-          - pull_request
-      branch:
-        - main
 
   - name: dockerhub-login
     environment:
