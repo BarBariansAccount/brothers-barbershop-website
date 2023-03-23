@@ -216,4 +216,4 @@ steps:
 
   - name: deploy-frontend
     commands:
-      - docker run -p 80:8080 --net barber-network --name frontend -d brothersbarber/barbershop:frontend
+      - docker run -p 80:8080 -e "VUE_APP_API_URL=http://104.225.142.153:5001/" --net barber-network --name frontend -d brothersbarber/barbershop:frontend
