@@ -186,9 +186,16 @@ steps:
     branch:
     - main
 
+- name: pull-frontend-testing
+  commands:
+  - docker pull brothersbarber/barbershop:frontend-testing
+
 - name: pull-frontend
   commands:
   - docker pull brothersbarber/barbershop:frontend 
+  when:
+    branch:
+    - main
 
 - name: dockerhub-logout
   commands:
