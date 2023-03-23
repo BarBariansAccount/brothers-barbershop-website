@@ -57,6 +57,8 @@ steps:
         from_secret: repo-dir
       DPASSWORD:
         from_secret: database_password
+      BACKEND:
+        from_secret: backend_testing
     commands:
       # echo "Frontend testing does not work properly in pipeline"
       - cd $WDIR
