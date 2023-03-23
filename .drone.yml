@@ -65,7 +65,7 @@ steps:
       - docker build -t brothersbarber/barbershop:frontend-testing --build-arg VUE_APP_API_URL=$BACKEND -f "$WDIR/ci-cd/docker/frontend-dockerfile" .
 
       - docker run -p 5001:5001 --net barber-network-dev --name backend-testing -d brothersbarber/barbershop:backend-testing
-      - docker run --expose=8080 --net barber-network-dev --name frontend-testing -d brothersbarber/barbershop:frontend-testing
+      - docker run --expose=8080 -e "VUE_APP_API_URL=$BACKEND" --net barber-network-dev --name frontend-testing -d brothersbarber/barbershop:frontend-testing
 
       - docker run --net barber-network-dev -v $PWD/barber-website/frontend:/e2e -w /e2e cypress/included:12.4.0
 
