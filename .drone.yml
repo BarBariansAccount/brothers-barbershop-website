@@ -66,12 +66,6 @@ steps:
     commands:
       - cd $WDIR
       - docker build -t brothersbarber/barbershop:frontend -f "$WDIR/ci-cd/docker/frontend-dockerfile" .
-    when:
-      event:
-        exclude:
-          - pull_request
-      branch:
-        - main
 
   - name: frontend-testing-setup
     environment:
@@ -113,7 +107,7 @@ steps:
       WDIR:
         from_secret: repo-dir
     commands:
-    # $WDIR/ci-cd/docker/testing-clean-up.sh
+    - $WDIR/ci-cd/docker/testing-clean-up.sh
 
   - name: dockerhub-login
     environment:
