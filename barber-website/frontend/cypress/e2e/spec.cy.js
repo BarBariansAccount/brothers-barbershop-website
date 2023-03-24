@@ -1,5 +1,6 @@
 
 
+
 describe('test cypress is working ', () => {
   it('test true equal true', () => {
     expect(true).to.equal(true);
@@ -48,6 +49,10 @@ describe('Test UserStories', () => {
     Note: "Note for user without account"
   }
 
+  const clickButtonWith = (text) => {
+    cy.contains(text, { matchCase: false }).filter(':visible').last().click();
+  }
+
   const clickIcon = () => {
     cy.get('.v-toolbar__content > [role="button"]').click();
   }
@@ -55,16 +60,13 @@ describe('Test UserStories', () => {
   // a function to click login
   const clickSignIn = () => {
     clickIcon();
-    //cy.get('.row > .v-btn').click();
-    clickButtonWith("sign in")
+    clickButtonWith("sign in");
   }
   // a function for login
   const loginAccount = (account) => {
     cy.visit('/');
 
     clickSignIn();
-    // cy.get(':nth-child(2) > .col > .v-input > .v-input__control > .v-input__slot').type(account.Telephone);
-    // cy.get('.v-text-field__slot>[type="password"]').type(account.Password);
     completeFormWithPlaceHolder("Phone Number", account.Telephone);
     completeFormWithPlaceHolder("Password", account.Password);
     cy.get('.mt-8').last().click();
@@ -104,9 +106,7 @@ describe('Test UserStories', () => {
 
 
 
-  const clickButtonWith = (text) => {
-    cy.contains(text, { matchCase: false }).last().click();
-  }
+
   const logOut = async () => {
     cy.wait(WAIT_TIME)
 
@@ -132,17 +132,25 @@ describe('Test UserStories', () => {
   const visitMainPage = () => {
     cy.get('.app-title').contains("Brothers' Barbershop").click();
   }
+  const clickContinue = () => {
+    cy.get('button').filter(':visible').contains('continue', { matchCase: false }).click();
+  }
 
-  const completeBookingInfo = (userInfo, service, slot) => {
+  const completeBookingInfo = (userInfo, service, slot, isGuest = false) => {
     clickUrl('/appointment');
     clickButtonWith(service);
+    clickContinue();
     clickButtonWith(ModifiedBarberInfo.FirstName);
+    clickContinue();
     selectDate();
     clickButtonWith(slot);
-    completeFormWithLabel("mobile phone", userInfo.Telephone);
-    completeFormWithLabel("Email", userInfo.Email);
-    completeFormWithLabel("First Name", userInfo.FirstName);
-    completeFormWithLabel("Last Name", userInfo.LastName);
+    clickContinue();
+    completeFormWithLabel("phone number", userInfo.Telephone);
+    completeFormWithLabel("Email", "{backspace}".repeat(50) + userInfo.Email);
+    if (isGuest) {
+      completeFormWithLabel("First Name", userInfo.FirstName);
+      completeFormWithLabel("Last Name", userInfo.LastName);
+    }
 
     completeFormWithLabel("Note", userInfo.Note, "textarea");
 
@@ -162,6 +170,7 @@ describe('Test UserStories', () => {
     clickButtonWith('yes, delete it!');
     cy.get('.swal2-confirm').click();
   }
+
 
   it('UC-20, 39, 71 Check Main Page Link and general info', () => {
     cy.visit('/');
@@ -374,7 +383,7 @@ describe('Test UserStories', () => {
 
   it("UC-226 add update and delete appointment as guest", () => {
     cy.visit("/");
-    completeBookingInfo(TestCustomerWithoutAccountInfo, "Line up", "1:00 PM");
+    completeBookingInfo(TestCustomerWithoutAccountInfo, "Line up", "1:00 PM", true);
     clickButtonWith("add appoitnment");
     cy.get('.swal2-confirm').click();
 
