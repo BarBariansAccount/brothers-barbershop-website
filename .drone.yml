@@ -24,6 +24,7 @@ steps:
       - cd $WDIR
       - git pull
       - git checkout $DRONE_SOURCE_BRANCH
+      - git pull
 
   - name: full-clean-up
     environment:
