@@ -185,6 +185,7 @@ trigger:
 
 steps:
   - name: clean-up
+    failure: ignore
     commands:
       - docker rm -f backend
       - docker rm -f frontend
