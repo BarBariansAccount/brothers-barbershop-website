@@ -13,26 +13,9 @@
 
           <v-img height="250" :src="product.picturelink"></v-img>
 
-          <v-card-title>{{ product.name }}</v-card-title>
+          <v-card-title>{{ product.title }}</v-card-title>
 
           <v-card-text>
-            <v-row align="center" class="mx-0">
-              <v-rating
-                :value="product.rating"
-                color="amber"
-                dense
-                half-increments
-                readonly
-                size="14"
-              ></v-rating>
-
-              <div class="grey--text ms-4">{{ product.rating }} (413)</div>
-            </v-row>
-
-            <div class="my-4 text-subtitle-1">
-              $ • Italian, Cafe
-            </div>
-
             <div>
               {{ product.description }}
             </div>
