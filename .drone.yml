@@ -24,6 +24,7 @@ steps:
       - cd $WDIR
       - git pull
       - git checkout $DRONE_SOURCE_BRANCH
+      - git pull
 
   - name: full-clean-up
     environment:
@@ -184,6 +185,7 @@ trigger:
 
 steps:
   - name: clean-up
+    failure: ignore
     commands:
       - docker rm -f backend
       - docker rm -f frontend
