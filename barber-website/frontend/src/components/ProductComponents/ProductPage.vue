@@ -11,7 +11,7 @@
             ></v-progress-linear>
           </template>
 
-          <v-img height="250" :src="product.imageLink"></v-img>
+          <v-img height="250" :src="product.picturelink"></v-img>
 
           <v-card-title>{{ product.name }}</v-card-title>
 
@@ -46,51 +46,32 @@
 </template>
 
 <script>
+import product from "@/services/products";
 export default {
   data: () => ({
-    productsList: [
-      {
-        id: 1,
-        name: "bandito",
-        description:
-          "Small plates, salads & sandwiches - an intimate setting with 12 indoor seats plus patio seating",
-        imageLink: "https://cdn.vuetifyjs.com/images/cards/cooking.png",
-        rating: 1,
-      },
-      {
-        id: 2,
-        name: "bandito",
-        description:
-          "Small plates, salads & sandwiches - an intimate setting with 12 indoor seats plus patio seating",
-        imageLink: "https://cdn.vuetifyjs.com/images/cards/cooking.png",
-        rating: 4.5,
-      },
-      {
-        id: 3,
-        name: "bandito",
-        description:
-          "Small plates, salads & sandwiches - an intimate setting with 12 indoor seats plus patio seating",
-        imageLink: "https://cdn.vuetifyjs.com/images/cards/cooking.png",
-        rating: 3.5,
-      },
-      {
-        id: 4,
-        name: "bandito",
-        description: "Yours to discover",
-        imageLink: "https://cdn.vuetifyjs.com/images/cards/cooking.png",
-        rating: 3.5,
-      },
-    ],
+    productsList: [],
     loading: false,
     selection: 1,
   }),
 
   methods: {
+    async getAllproducts() {
+      var list;
+      try {
+        list = await product.getAllProducts();
+        this.productsList = list.data;
+        console.log(this.productsList);
+      } catch (err) {
+        console.log(err);
+      }
+    },
     reserve() {
       this.loading = true;
-
       setTimeout(() => (this.loading = false), 2000);
     },
+  },
+  created: function() {
+    this.getAllproducts();
   },
 };
 </script>
