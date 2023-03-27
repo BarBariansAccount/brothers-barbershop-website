@@ -1,11 +1,6 @@
 <template>
   <div>
-    <v-card
-      v-if="num == 1"
-      class="mx-auto rounded-xl"
-      color="#F7F7F7"
-      height="370px"
-    >
+    <v-card v-if="num == 1" class="mx-auto rounded-xl" color="#F7F7F7" height="370px">
       <v-card-text class="text-center">
         <v-avatar size="90" class="mt-6 mb-2">
           <v-icon size="90">mdi-account-circle</v-icon>
@@ -13,14 +8,7 @@
         <h3 class="my-2 text-center font-weight-bold">Aditya Pulya</h3>
 
         <div class="my-2 text-center">
-          <v-rating
-            :value="5"
-            color="amber"
-            dense
-            half-increments
-            readonly
-            size="20"
-          ></v-rating>
+          <v-rating :value="5" color="amber" dense half-increments readonly size="20"></v-rating>
         </div>
 
         <div class="text-center mt-3">
@@ -29,12 +17,7 @@
         </div>
       </v-card-text>
     </v-card>
-    <v-card
-      v-if="num == 2"
-      class="mx-auto rounded-xl"
-      color="#F7F7F7"
-      height="370px"
-    >
+    <v-card v-if="num == 2" class="mx-auto rounded-xl" color="#F7F7F7" height="370px">
       <v-card-text class="text-center">
         <v-avatar size="90" class="mt-6 mb-2">
           <v-icon size="90">mdi-account-circle</v-icon>
@@ -42,14 +25,7 @@
         <h3 class="my-2 text-center font-weight-bold">John Arumugam (Arumu)</h3>
 
         <div class="my-2 text-center">
-          <v-rating
-            :value="5"
-            color="amber"
-            dense
-            half-increments
-            readonly
-            size="20"
-          ></v-rating>
+          <v-rating :value="5" color="amber" dense half-increments readonly size="20"></v-rating>
         </div>
 
         <div class="text-center mt-3">
@@ -61,12 +37,7 @@
         </div>
       </v-card-text>
     </v-card>
-    <v-card
-      v-if="num == 3"
-      class="mx-auto rounded-xl"
-      color="#F7F7F7"
-      height="370px"
-    >
+    <v-card v-if="num == 3" class="mx-auto rounded-xl" color="#F7F7F7" height="370px">
       <v-card-text class="text-center">
         <v-avatar size="90" class="mt-6 mb-2">
           <v-icon size="90">mdi-account-circle</v-icon>
@@ -74,14 +45,7 @@
         <h3 class="my-2 text-center font-weight-bold">fdeyab</h3>
 
         <div class="my-2 text-center">
-          <v-rating
-            :value="5"
-            color="amber"
-            dense
-            half-increments
-            readonly
-            size="20"
-          ></v-rating>
+          <v-rating :value="5" color="amber" dense half-increments readonly size="20"></v-rating>
         </div>
 
         <div class="text-center mt-3">
@@ -114,3 +78,11 @@ export default {
   },
 };
 </script>
+<style scoped>
+.v-card{
+  transition: all 0.2s;
+}
+.v-card:hover{
+transform: scale(1.02);
+}
+</style>

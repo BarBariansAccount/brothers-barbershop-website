@@ -2,7 +2,7 @@
   <v-container class="mx-auto my-auto" fluid>
     <v-row class="slideshow-sec">
       <v-col cols="12" align="right">
-        <v-card class="rounded-lg pa-4 text-center" width="290px"  :elevation="25">
+        <v-card class="rounded-lg pa-4 text-center glass" width="290px" :elevation="25">
           Barbershop Current Status: <strong>{{ status }}</strong> <br />
           Next Availability: <strong>{{ nextAvailability }}</strong>
         </v-card>
@@ -40,5 +40,10 @@ export default {
   font-weight: bold;
   letter-spacing: 1px;
   box-shadow: 5px 5px 0px #000000;
+}
+.glass{
+  background-color: rgba(255, 255, 255, 0.3) !important;
+  color: white !important;
+  border: 2px solid white !important;
 }
 </style>
