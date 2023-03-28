@@ -74,7 +74,7 @@ steps:
         from_secret: repo-dir
     commands:
       - cd $WDIR
-      - docker run -p 5001:5001 --net barber-network-dev --name backend -d brothersbarber/barbershop:backend-testing
+      - docker run -p 5001:5001 -e "Backend_URL=http://backend:5001/" -e "Frontend_URL=http://frontend:8080" --net barber-network-dev --name backend -d brothersbarber/barbershop:backend-testing
       - docker run --expose=8080 -e "VUE_APP_API_URL=http://backend:5001/" --net barber-network-dev --name frontend -d brothersbarber/barbershop:frontend-testing
 
   - name: test-frontend
@@ -214,7 +214,7 @@ steps:
 
   - name: deploy-backend
     commands:
-      - docker run -p 5001:5001 --net barber-network --name backend -d brothersbarber/barbershop:backend
+      - docker run -p 5001:5001 -e "Backend_URL=http://104.225.142.153:5001/" -e "Frontend_URL=http://104.225.142.153:8080" --net barber-network --name backend -d brothersbarber/barbershop:backend
 
   - name: deploy-frontend
     commands:
