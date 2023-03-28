@@ -109,7 +109,6 @@ const deleteProducts = async (req, res) => {
     await pool.query(ProductsModel.deleteProducts, [productsid]);
     res.status(200).send(`The Products  has been successfully deleted.`)
 
-
   } catch (error) {
     res.status(400).send(error)
   }
