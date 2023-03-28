@@ -13,7 +13,7 @@
                   <v-col
                     v-if="userRole == 'Admin' && path == '/panel/admin'"
                     cols="1"
-                    class="px-3"
+                    class="px-2"
                   >
                     <v-icon
                       v-ripple="false"
@@ -29,12 +29,6 @@
                       @click.stop="editFAQS(faq.faqid)"
                       >{{
                         adminModificationIconList[0].mdiPencilOutline
-                      }}</v-icon
-                    >
-
-                    <v-icon v-ripple="false" @click.stop="">
-                      {{
-                        adminModificationIconList[0].mdiDragHorizontal
                       }}</v-icon
                     >
                   </v-col>
@@ -99,7 +93,7 @@ export default {
         cancelButtonColor: "#d33",
         confirmButtonText: "Yes, delete it!",
       })
-        .then(async function (result) {
+        .then(async function(result) {
           if (result.isConfirmed) {
             await faqServices.deleteFaq({
               faqid: faqID,
