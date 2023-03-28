@@ -44,7 +44,7 @@
             <v-btn text class="mt-5" small @click="step = 1">
               Previous
             </v-btn>
-            <v-btn color="primary" class="mt-5" small @click="step = 3">
+            <v-btn color="primary" class="mt-5" small @click="step=2">
               Continue
               <v-icon right small>
                 mdi-arrow-right
@@ -83,7 +83,7 @@
             <v-btn text class="mt-5" small @click="step = 2">
               Previous
             </v-btn>
-            <v-btn color="primary" class="mt-5" small @click="step = 4">
+            <v-btn color="primary" class="mt-5" small @click="onStep3">
               Continue
               <v-icon right small>
                 mdi-arrow-right
@@ -95,7 +95,8 @@
             You are nearly done. Enter your details below
           </v-stepper-step>
           <v-stepper-content step="4">
-            <v-row>
+            <v-container fluid>
+              <v-row>
               <v-col cols="6">
                 <ValidationProvider name="mobile" rules="required" v-slot="{ errors }">
                   <v-text-field label="Phone Number" v-model.number="form.Customer_telephone" dense
@@ -120,17 +121,25 @@
                     :error-messages="errors[0]"></v-text-field>
                 </ValidationProvider>
               </v-col>
-              <v-col cols="6">
-                <v-textarea label="Note" dense v-model="form.Customer_appointment_notes" />
+              <v-col cols="12">
+                <v-textarea label="Note" rows="1" dense v-model="form.Customer_appointment_notes" />
+              </v-col>
+              <v-col cols="12">
+                <v-alert color="#404144" dark icon="mdi-bell" dense>
+            By creating this appointment,you aknowledge you will recieve automatic transaction from this merchant.
+            Thank you!
+          </v-alert>
               </v-col>
             </v-row>
+            </v-container>
+
             <div v-for="(v, k) in errors" :key="k">
               <small v-show="v.length > 0" class="red--text"><b>{{ k }}</b>{{ ' : ' + v }}</small>
             </div>
             <v-btn text class="mt-5" @click="step = 3" v-if="!editMode">
               Previous
             </v-btn>
-            <v-btn class=" mt-5" color="primary" type="submit">{{ editMode ? "Update" : "Add" }} Appoitnment </v-btn>
+            <v-btn class=" mt-5" color="primary" type="submit">{{ editMode ? "Update" : "Book" }} </v-btn>
           </v-stepper-content>
         </v-stepper>
       </form>
@@ -385,6 +394,11 @@ export default {
         this.form.Customer_appointment_notes = parsed.Customer_appointment_notes
       }
     },
+    onStep3(){
+      if (!this.form.appointment_id){
+        return 
+    }
+    this.step=4}
   },
   mounted() {
     const token = this.$route.query.token
