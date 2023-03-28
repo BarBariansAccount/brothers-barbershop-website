@@ -50,7 +50,7 @@ steps:
         from_secret: repo-dir
     commands:
       - cd $WDIR
-      - DOCKER_BUILDKIT=0 docker build --network barber-network-dev --build-arg Backend_URL="http://localhost:5001/" Frontend_URL="http://localhost:8080" -t brothersbarber/barbershop:backend-test --target test -f "$WDIR/ci-cd/docker/backend-dockerfile" .
+      - DOCKER_BUILDKIT=0 docker build --network barber-network-dev --build-arg Backend_URL="http://localhost:5001/" --build-arg Frontend_URL="http://localhost:8080" -t brothersbarber/barbershop:backend-test --target test -f "$WDIR/ci-cd/docker/backend-dockerfile" .
 
   - name: build-backend
     environment:
