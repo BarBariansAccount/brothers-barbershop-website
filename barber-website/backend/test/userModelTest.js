@@ -12,7 +12,8 @@ const {
 } = require("../controllers/user")
 const { assert } = require('chai')
 const { mockRequest, mockResponse, sleep } = require('./commonTestingMethods')
-const fs = require("fs")
+const fs = require("fs");
+require("dotenv").config();
 
 
 
@@ -299,7 +300,7 @@ describe("UserController related Tests", function () {
 
     it('test picture related feature', async function () {
         //mock image upload by create an empty test image
-        const picturePath = "http://localhost:5001/uploads/" + pictureRequest.file.filename;
+        const picturePath = process.env.Backend_URL + "uploads/" + pictureRequest.file.filename;
         const dirPath = "./uploads/";
         const filePath = dirPath + pictureRequest.file.filename;
         if (!fs.existsSync(dirPath)) {

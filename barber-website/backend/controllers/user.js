@@ -239,8 +239,8 @@ const updatePicture = async (req, res) => {
   }
 
   try {
-    //hardcoded
-    const picturepath = "http://localhost:5001/uploads/" + req.file.filename;
+ 
+    const picturepath = process.env.Backend_URL+"uploads/" + req.file.filename;
 
     await pool.query(UserModel.updatePicture, [logged_userId, picturepath]);
 

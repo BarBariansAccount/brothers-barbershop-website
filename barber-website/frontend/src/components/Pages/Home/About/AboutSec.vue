@@ -2,7 +2,7 @@
   <v-row class="mb-8 mt-8" justify="center">
     <v-col cols="12" lg="6" justify="center">
       <v-card
-        class="text-center d-flex flex-column align-center justify-center"
+        class="d-flex flex-column align-center justify-center"
         height="100%"
         flat
       >
@@ -33,16 +33,7 @@
             :contenteditable="userRole == 'Admin'"
             @input="onInput"
           >
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident
-            fuga, molestias deleniti vel rerum nisi aperiam. Quibusdam corrupti
-            rem voluptate explicabo minus officia, incidunt eum dolorem voluptas
-            assumenda. Aut, quia? Lorem ipsum, dolor sit amet consectetur
-            adipisicing elit. Reiciendis maxime, enim et aliquid sunt quibusdam
-            quidem nam quo consectetur animi, dolore minima quam nostrum earum.
-            Commodi sint eligendi in ratione. Lorem ipsum dolor sit amet,
-            consectetur adipisicing elit. Asperiores accusamus harum ex incidunt
-            aperiam voluptate iure non alias, esse fugiat, quas nam! Voluptates
-            velit sed labore ipsum nobis provident corrupti.
+            {{ description }}
           </p>
           <div class="mb-10 px-6" v-if="!isHidden">
             <v-row style="justify-content: center;">
@@ -66,6 +57,8 @@
 </template>
 
 <script>
+import AdminService from "@/services/admin";
+import Swal from "sweetalert2";
 export default {
   data() {
     return {
@@ -78,9 +71,33 @@ export default {
     bookNow() {
       this.$router.push("/appointment");
     },
-    onSaveDescription() {
-      console.log(this.description);
-      this.isHidden = true;
+    async onSaveDescription() {
+      try {
+        const res = await AdminService.updateAbout(this.description);
+        this.description = res.data.about;
+        this.isHidden = true;
+        Swal.fire({
+          icon: "success",
+          title: "Update About",
+          text: "About updated successfully",
+        });
+        this.get();
+      } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: error?.response?.data,
+        });
+      }
+    },
+    async get() {
+      try {
+        const res = await AdminService.getAbout();
+        this.description = res.data.About;
+        console.log(res);
+      } catch (error) {
+        console.log(error);
+      }
     },
     onInput(e) {
       this.description = e.target.innerText;
@@ -96,9 +113,9 @@ export default {
       }
     },
   },
-
   created: function() {
     this.getUser();
+    this.get();
   },
 };
 </script>
@@ -106,14 +123,15 @@ export default {
 <style>
 .barbershop-description {
   text-align: center;
-  /* margin-left: 14%; */
   width: 75%;
   height: 100%;
+}
+iframe {
+  border-radius: 20px;
 }
 
 .map {
   text-align: center;
-  /* margin-left: 14%; */
   width: 75%;
   height: 100%;
   border-color: #424949;
@@ -121,8 +139,12 @@ export default {
 }
 
 .description-paragraph {
-  /* margin-right: 10%;
-  margin-left: 10%; */
   margin-top: 10px;
+}
+.v-btn {
+  transition: all 0.2s ease-in-out;
+}
+.v-btn:hover {
+  transform: scale(1.08);
 }
 </style>
