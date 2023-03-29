@@ -53,6 +53,11 @@ describe('Test UserStories', () => {
     answer: "E2E answer"
   }
 
+  const ModifiedFaq = {
+    question: "E2E Modified Question",
+    answer: "E2E Modified Answer"
+  }
+
   const clickTextWith = (text) => {
     cy.contains(text, { matchCase: false }).filter(':visible').last().click();
   }
@@ -203,10 +208,32 @@ describe('Test UserStories', () => {
     // edit
     loginAccount(TestAdminInfo);
     clickTextWith("editable info");
-    //click edit
+    // click first question
+    cy.get('.v-expansion-panel-header').first().click();
+    //  click edit
+    cy.get(':nth-child(1) > .v-expansion-panel-header >div> div>.px-3>:nth-child(2)').click();
+    completeFormWithPlaceHolder('Question', "{del}".repeat(50) + "{backspace}".repeat(50) + ModifiedFaq.question);
+    completeFormWithPlaceHolder('Answer', "{del}".repeat(50) + "{backspace}".repeat(50) + ModifiedFaq.answer);
+    //confirm edit
+    cy.get('.swal2-confirm').filter(":visible").click();
+    cy.get('.swal2-confirm').filter(":visible").click();
 
-    cy.get(':nth-child(1) > .v-expansion-panel-header > .v-expansion-panel-header__icon > .v-icon').click();
+    logOut();
 
+    // check FAQ after edit
+    cy.contains(ModifiedFaq.question).last().click();
+    cy.contains(ModifiedFaq.answer).should('exist');
+
+    loginAccount(TestAdminInfo);
+    clickTextWith("editable info");
+    // click first question
+    cy.get('.v-expansion-panel-header').first().click();
+    //  click delete
+    cy.get(':nth-child(1) > .v-expansion-panel-header >div> div>.px-3>:nth-child(1)').click();
+    clickButtonWith('yes, delete it!');
+    cy.get('.swal2-confirm').filter(":visible").click();
+
+    cy.contains(ModifiedFaq.question).should('not.visible');
 
 
 
