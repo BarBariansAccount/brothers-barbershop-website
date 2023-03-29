@@ -9,7 +9,7 @@ CREATE TABLE users(
 	Password varchar(64) NOT NULL,
 	PRIMARY KEY (UserID),
 	UNIQUE (Telephone)
-)
+);
 ALTER TABLE users
 ADD picturelink varchar(255);
 /*INSERT INTO USERS (UserRole, Email, firstname,LastName, Telephone, Password) VALUES('Admin','abdulqadir199853@gmail.com','Abdul Qadir','Ali','5148137498','Admin123@');*/
@@ -127,3 +127,21 @@ INSERT INTO workingHours (day, description)
 VALUES('FRIDAY', '10 AM - 8 PM');
 INSERT INTO workingHours (day, description)
 VALUES('SATURDAY', 'CLOSED');
+/*Admin Account*/
+INSERT INTO USERS (
+		UserRole,
+		Email,
+		firstname,
+		LastName,
+		Telephone,
+		Password
+	)
+VALUES(
+		'Admin',
+		'Althaqib02@gmail.com',
+		'Tk',
+		'DeLaFamilia',
+		'5143787856',
+		'$2b$12$GuGY8FE4MjIvZ8emuG3BJu8bFHHNYdh6v.tdsV.6Y6yQ4XSHOhq4.'
+	);
+/*The password for admin is Barbershop123@*/

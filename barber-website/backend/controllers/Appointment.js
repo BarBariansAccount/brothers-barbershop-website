@@ -204,7 +204,7 @@ const cancelAppointment = async (req, res) => {
                 templateId: 'd-071684c95f7a4b0d967f86a698b6a2cf',
                 dynamicTemplateData: {
                     link: process.env.Frontend_URL,
-                    name: result.rows[0].customer_first_name + result.rows[0].customer_last_name
+                    name: result.rows[0].customer_first_name +" "+ result.rows[0].customer_last_name
                 },
 
             })
