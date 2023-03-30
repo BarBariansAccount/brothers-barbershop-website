@@ -29,7 +29,6 @@
                         class="headline mb-1"
                         :class="active ? 'white--text' : 'black--text'"
                       >
-                        <strong>52</strong>
                       </v-list-item-title>
                     </v-list-item-content>
                   </v-list-item>
