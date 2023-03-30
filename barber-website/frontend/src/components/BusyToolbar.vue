@@ -3,9 +3,9 @@
     <v-toolbar color="rgba(0,0,0,0)" flat class="mt-n1">
       <v-spacer></v-spacer>
 
-      <v-item-group mandatory class="mt-n4">
+      <v-item-group v-model="activeItem" mandatory class="mt-n4">
         <v-row justify="center">
-          <v-col v-for="status in statusItems" :key="status.title">
+          <v-col v-for="(status, index) in statusItems" :key="status.title">
             <v-item v-slot="{ active, toggle }">
               <v-btn
                 :color="active ? 'green' : '#999999'"
@@ -13,8 +13,7 @@
                 dark
                 class="rounded-xl"
                 elevation="20"
-                @click="toggle"
-                @click.stop="onSelect(status.title)"
+                @click.stop="onToggle(toggle, index, status.title)"
               >
                 <!--TODO: add selectStatus(status.title) -->
                 {{ status.title }}
@@ -38,20 +37,30 @@ export default {
   data() {
     return {
       statusItems: [
-        { title: "Empty" },
-        { title: "Busy" },
-        { title: "Not Busy" },
+        { title: "Empty", isActive: true },
+        { title: "Busy", isActive: false },
+        { title: "Not Busy", isActive: false },
       ],
+      activeItem: "",
     };
   },
   methods: {
     onSelect(status) {
       this.updateStatus(status);
     },
-    async updateStatus(status) {
+
+    async onToggle(toggle, index, status) {
+      this.$store.state.activeElement = index;
       await BarbershopStatusService.updateStatus({ Status: status });
-      console.log(status);
+      toggle(true);
     },
+  },
+  mounted() {
+    // Get the active item from local storage
+    const storedActiveItem = this.$store.state.activeElement;
+    if (storedActiveItem) {
+      this.activeItem = storedActiveItem; // Set the active item if it exists
+    }
   },
 };
 </script>
