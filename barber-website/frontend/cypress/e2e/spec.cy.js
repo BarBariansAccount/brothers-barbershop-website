@@ -508,7 +508,7 @@ describe('Test UserStories', () => {
 
     logOut();
     //check added products
-    cy.get('[href="/products"]').click();
+    cy.get('[href="/products"]').filter(":visible").click();
     cy.contains(TestProductInfo.title).should('exist');
     cy.contains(TestProductInfo.description).should("exist");
 
@@ -517,6 +517,9 @@ describe('Test UserStories', () => {
     //click products
     cy.get(':nth-child(4) > .d-flex > .row > .col-sm-12').last().click();
     clickButtonWith('delete');
+
+    clickButtonWith('yes, delete it!');
+
 
     logOut();
 
