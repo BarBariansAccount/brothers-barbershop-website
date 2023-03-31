@@ -101,7 +101,7 @@ steps:
         exclude:
           - pull_request
       branch:
-        # main
+        - main
 
   - name: post-testing-clean-up
     environment:
@@ -123,7 +123,7 @@ steps:
         exclude:
           - pull_request
       branch:
-        # main
+        - main
 
   - name: dockerhub-push-backend
     commands:
@@ -133,7 +133,7 @@ steps:
         exclude:
           - pull_request
       branch:
-        # main
+        - main
 
   - name: dockerhub-push-frontend
     commands:
@@ -143,7 +143,7 @@ steps:
         exclude:
           - pull_request
       branch:
-        # main
+        - main
 
   - name: dockerhub-logout
     commands:
@@ -153,7 +153,7 @@ steps:
         exclude:
           - pull_request
       branch:
-        # main
+        - main
 
 ---
 kind: pipeline
@@ -181,7 +181,7 @@ trigger:
     exclude:
       - pull_request
   branch:
-    # main
+    - main
 
 steps:
   - name: clean-up
