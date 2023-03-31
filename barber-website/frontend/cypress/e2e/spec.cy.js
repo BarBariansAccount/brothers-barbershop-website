@@ -68,6 +68,7 @@ describe('Test UserStories', () => {
     appointmentWithAccount: "",
     appointmentWithoutAccount: ""
   }
+  const slots = ["12:00 PM", "1:00 PM", "3:00 PM"]
 
   const clickTextWith = (text) => {
     cy.contains(text, { matchCase: false }).filter(':visible').last().click();
@@ -206,7 +207,14 @@ describe('Test UserStories', () => {
     cy.get('.swal2-confirm').click();
   }
 
+  const clickNthAdminPage = (nth) => {
+    cy.get(`:nth-child(${nth}) > .d-flex > .row > .col-sm-12`).last().click();
+  }
 
+  const clickInputWithLabel = (label, inputType = 'div') => {
+    cy.get(`label`).contains(label, { matchCase: false })
+      .parent().children(inputType).first().click();
+  }
 
 
   it("UC-120, 129, 176 test add, edit and view  FAQ", () => {
@@ -376,7 +384,7 @@ describe('Test UserStories', () => {
   it('UC 27, 36 Create Barber account, UC 120 barber-management', () => {
 
     loginAccount(TestAdminInfo);
-    cy.get(':nth-child(1) > .d-flex > .row > .col-sm-12').click();
+    clickNthAdminPage(1);
     cy.get('button>span').contains("Add Account").click();
     completeSignupData(TestBarberInfo);
     cy.get('.mt-5').contains('sign up', { matchCase: false }).click();
@@ -412,7 +420,7 @@ describe('Test UserStories', () => {
 
 
   it("UC-224 add availability by barber", () => {
-    const slots = ["12:00 PM", "1:00 PM", "3:00 PM"];
+
 
     loginAccount(TestBarberInfo);
     clickUrl("/panel/availabilities");
@@ -454,7 +462,7 @@ describe('Test UserStories', () => {
     completeBookingInfo(TestUserInfo, "Line up", "3:00 PM");
     clickTextWith("book ");
     cy.get('.swal2-confirm').click();
-    cy.wait(1000);
+    cy.wait(WAIT_TIME + 1000);
     cy.location().then((loc) => {
       appointmentUrl.appointmentWithAccount = loc.href;
     })
@@ -465,17 +473,45 @@ describe('Test UserStories', () => {
 
   })
 
-  it("UC-226 add update appointment as guest", () => {
+  it("UC-226 add appointment as guest", () => {
     cy.visit("/");
     completeBookingInfo(TestCustomerWithoutAccountInfo, "Line up", "1:00 PM", true);
     clickTextWith("book ");
     cy.get('.swal2-confirm').click();
-    cy.wait(1000);
+    cy.wait(WAIT_TIME + 1000);
     cy.location().then((loc) => {
       appointmentUrl.appointmentWithoutAccount = loc.href;
     })
 
     cy.visit("/");
+  })
+
+  it("UC-267, 270 check availabilities and appointments by admin", () => {
+    loginAccount(TestAdminInfo);
+    //click appointment view
+    clickNthAdminPage(3);
+    //select the barber
+    clickInputWithLabel("select barber");
+    clickTextWith(TestBarberInfo.FirstName);
+
+    //check the appointment
+    cy.contains(TestUserInfo.FirstName).filter(":visible");
+    cy.contains(TestCustomerWithoutAccountInfo.FirstName).filter(":visible");
+
+    //click availability
+    clickNthAdminPage(5);
+    clickInputWithLabel("select barber");
+    clickTextWith(TestBarberInfo.FirstName);
+    clickInputWithLabel("select date", "input");
+    selectDate();
+    cy.contains(slots[0], { matchCase: false })
+      .parent().get(`td>span>span`).contains('no', { matchCase: false });
+    cy.contains(slots[1], { matchCase: false })
+      .parent().get(`td>span>span`).contains('yes', { matchCase: false });
+    logOut();
+
+
+
   })
 
   it("UC-223, 222, update and cancel appointment", () => {
@@ -512,7 +548,7 @@ describe('Test UserStories', () => {
 
   it('UC-28 delete barber-account', () => {
     loginAccount(TestAdminInfo);
-    cy.get(':nth-child(1) > .d-flex > .row > .col-sm-12').click();
+    clickNthAdminPage(1);
     //click 3 dot for delete menu
     cy.get('.v-responsive__content > .v-sheet > .v-toolbar__content > .v-btn > .v-btn__content > .v-icon').click()
 
@@ -525,7 +561,7 @@ describe('Test UserStories', () => {
   it('UC-41, 80, 277, 278 test add and view the list of products', () => {
     loginAccount(TestAdminInfo);
     //click products
-    cy.get(':nth-child(4) > .d-flex > .row > .col-sm-12').last().click();
+    clickNthAdminPage(4);
     //add product
     clickButtonWith('add product');
     clickButtonWith('upload photo');
@@ -543,7 +579,7 @@ describe('Test UserStories', () => {
     //delete product
     loginAccount(TestAdminInfo);
     //click products
-    cy.get(':nth-child(4) > .d-flex > .row > .col-sm-12').last().click();
+    clickNthAdminPage(4);
     clickButtonWith('delete');
 
     clickButtonWith('yes, delete it!');
