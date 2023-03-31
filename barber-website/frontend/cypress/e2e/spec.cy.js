@@ -63,6 +63,12 @@ describe('Test UserStories', () => {
     description: "E2E test description"
   }
 
+  // initial empty variable used to store appointment url later
+  const appointmentUrl = {
+    appointmentWithAccount: "",
+    appointmentWithoutAccount: ""
+  }
+
   const clickTextWith = (text) => {
     cy.contains(text, { matchCase: false }).filter(':visible').last().click();
   }
@@ -248,7 +254,7 @@ describe('Test UserStories', () => {
   })
 
 
-  it('UC-20, 39, 71 Check Main Page Link and general info', () => {
+  it('UC-20, 39, 71, 124 Check Main Page Link and general info', () => {
     cy.visit('/');
     cy.get('.app-title').contains("Brothers' Barbershop");
     cy.get('.map').should('exist');
@@ -443,26 +449,46 @@ describe('Test UserStories', () => {
   })
 
 
-  it('UC-59, 182, 222, 223, 249, 273 add update and delete appointment', () => {
+  it('UC-59, 182, 249, 273 add appointment', () => {
     loginAccount({ ...TestUserInfo, Password: MODIFIED_PASS });
     completeBookingInfo(TestUserInfo, "Line up", "3:00 PM");
     clickTextWith("book ");
     cy.get('.swal2-confirm').click();
+    cy.wait(1000);
+    cy.location().then((loc) => {
+      appointmentUrl.appointmentWithAccount = loc.href;
+    })
 
-    updateAndDeleteAppointment();
+
 
     logOut();
 
   })
 
-  it("UC-226 add update and delete appointment as guest", () => {
+  it("UC-226 add update appointment as guest", () => {
     cy.visit("/");
     completeBookingInfo(TestCustomerWithoutAccountInfo, "Line up", "1:00 PM", true);
     clickTextWith("book ");
     cy.get('.swal2-confirm').click();
+    cy.wait(1000);
+    cy.location().then((loc) => {
+      appointmentUrl.appointmentWithoutAccount = loc.href;
+    })
 
-    updateAndDeleteAppointment();
     cy.visit("/");
+  })
+
+  it("UC-223, 222, update and cancel appointment", () => {
+
+    loginAccount({ ...TestUserInfo, Password: MODIFIED_PASS });
+    cy.visit(appointmentUrl.appointmentWithAccount);
+    updateAndDeleteAppointment();
+
+
+    cy.visit(appointmentUrl.appointmentWithoutAccount);
+    updateAndDeleteAppointment();
+
+
   })
 
   it("UC-224(con't) delete slots", () => {
