@@ -110,6 +110,7 @@ export default {
     },
     logout() {
       this.$store.dispatch("logout");
+      this.menuItems.pop({ title: "Admin", path: "/panel/admin" });
       this.$router.push("/");
     },
   },
