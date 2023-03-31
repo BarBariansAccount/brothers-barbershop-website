@@ -101,7 +101,7 @@ steps:
         exclude:
           - pull_request
       branch:
-        - main
+        # main
 
   - name: post-testing-clean-up
     environment:
@@ -123,7 +123,7 @@ steps:
         exclude:
           - pull_request
       branch:
-        - main
+        # main
 
   - name: dockerhub-push-backend
     commands:
@@ -133,7 +133,7 @@ steps:
         exclude:
           - pull_request
       branch:
-        - main
+        # main
 
   - name: dockerhub-push-frontend
     commands:
@@ -143,7 +143,7 @@ steps:
         exclude:
           - pull_request
       branch:
-        - main
+        # main
 
   - name: dockerhub-logout
     commands:
@@ -153,7 +153,7 @@ steps:
         exclude:
           - pull_request
       branch:
-        - main
+        # main
 
 ---
 kind: pipeline
@@ -181,7 +181,7 @@ trigger:
     exclude:
       - pull_request
   branch:
-    - main
+    # main
 
 steps:
   - name: clean-up
@@ -214,7 +214,7 @@ steps:
 
   - name: deploy-backend
     commands:
-      - docker run -p 5001:5001 -e "Backend_URL=http://104.225.142.153:5001/" -e "Frontend_URL=http://104.225.142.153:8080" --net barber-network --name backend -d brothersbarber/barbershop:backend
+      - docker run -p 5001:5001 -e "database_password=POSTGRES" -e "Backend_URL=http://104.225.142.153:5001/" -e "Frontend_URL=http://104.225.142.153:8080" --net barber-network --name backend -d brothersbarber/barbershop:backend
 
   - name: deploy-frontend
     commands:
