@@ -2,7 +2,10 @@
   <v-container>
     <v-row justify="center" style="width: 100%">
       <v-col>
-        <v-expansion-panels popout>
+        <div v-show="!isEmpty">
+          <p style="text-align: center;">Nothing to show</p>
+        </div>
+        <v-expansion-panels v-show="isEmpty" popout>
           <v-expansion-panel v-for="faq in faqList" :key="faq.faqid">
             <v-expansion-panel-header>
               <div>
@@ -57,6 +60,7 @@ import Swal from "sweetalert2/src/sweetalert2.js";
 export default {
   data: () => ({
     faqList: [],
+    isEmpty: false,
     adminModificationIconList: [
       { mdiPencilOutline, mdiTrashCanOutline, mdiDragHorizontal },
     ],
@@ -66,13 +70,18 @@ export default {
   methods: {
     async getFAQ() {
       try {
+        this.isEmpty = true;
         console.log("Getting the list of FAQs");
         const response = await faqServices.getAllFaqs();
         console.log("retrieved the FAQs");
         this.getTheFAQsValues(response.data);
         console.log(this.faqList);
       } catch (error) {
-        console.log(error);
+        if (error.response.status == 400) {
+          this.faqList.pop;
+          this.isEmpty = false;
+          return;
+        }
       }
     },
     getTheFAQsValues(faqData) {
