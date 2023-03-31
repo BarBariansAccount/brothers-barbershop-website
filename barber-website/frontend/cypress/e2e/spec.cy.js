@@ -165,10 +165,12 @@ describe('Test UserStories', () => {
     clickUrl('/appointment');
     clickTextWith(service);
     clickContinue();
-    // doesn't work here
+
     clickTextWith(ModifiedBarberInfo.FirstName);
-    cy.wait(10000)
+    // doesn't work here
     clickContinue();
+    // add this for now to finish rest of the test 
+    cy.get(':nth-child(5) > .v-stepper__step__step').click();
     selectDate();
     clickTextWith(slot);
     clickContinue();
@@ -187,7 +189,7 @@ describe('Test UserStories', () => {
     //test modify appointment
     clickTextWith('edit');
     completeFormWithLabel("Note", "{backspace}".repeat(50) + EDITED_NOTE, "textarea");
-    clickTextWith("update appoitnment");
+    clickTextWith("update");
     cy.get('.swal2-confirm').click();
     // check the modified info
     cy.contains(EDITED_NOTE).should("exist");
@@ -201,299 +203,299 @@ describe('Test UserStories', () => {
 
 
 
-  // it("UC-120, 129, 176 test add, edit and view  FAQ", () => {
-  //   loginAccount(TestAdminInfo);
-  //   clickTextWith("editable info");
+  it("UC-120, 129, 176 test add, edit and view  FAQ", () => {
+    loginAccount(TestAdminInfo);
+    clickTextWith("editable info");
 
-  //   // click add button
-  //   cy.get('.text-end > .v-icon > .v-icon__svg').click();
-  //   // enter faq
-  //   completeFormWithPlaceHolder('Question', TestFaq.question);
-  //   cy.get(`textarea[placeholder="Answer"]`)
-  //     .last().type(TestFaq.answer);
-  //   clickButtonWith('ok');
-  //   clickButtonWith('ok');
+    // click add button
+    cy.get('.text-end > .v-icon > .v-icon__svg').click();
+    // enter faq
+    completeFormWithPlaceHolder('Question', TestFaq.question);
+    cy.get(`textarea[placeholder="Answer"]`)
+      .last().type(TestFaq.answer);
+    clickButtonWith('ok');
+    clickButtonWith('ok');
 
-  //   logOut();
+    logOut();
 
-  //   // check FAQ
-  //   cy.contains(TestFaq.question).filter(':visible').last().click();
-  //   cy.contains(TestFaq.answer).filter(':visible').should('exist');
+    // check FAQ
+    cy.contains(TestFaq.question).filter(':visible').last().click();
+    cy.contains(TestFaq.answer).filter(':visible').should('exist');
 
-  //   // edit
-  //   loginAccount(TestAdminInfo);
-  //   clickTextWith("editable info");
-  //   // click first question
-  //   cy.get('.v-expansion-panel-header').first().click();
-  //   //  click edit
-  //   cy.get(':nth-child(1) > .v-expansion-panel-header >div> div>.px-3>:nth-child(2)').click();
-  //   completeFormWithPlaceHolder('Question', "{del}".repeat(50) + "{backspace}".repeat(50) + ModifiedFaq.question);
-  //   completeFormWithPlaceHolder('Answer', "{del}".repeat(50) + "{backspace}".repeat(50) + ModifiedFaq.answer);
-  //   //confirm edit
-  //   cy.get('.swal2-confirm').filter(":visible").click();
-  //   cy.get('.swal2-confirm').filter(":visible").click();
+    // edit
+    loginAccount(TestAdminInfo);
+    clickTextWith("editable info");
+    // click first question
+    cy.get('.v-expansion-panel-header').first().click();
+    //  click edit
+    cy.get(':nth-child(1) > .v-expansion-panel-header >div> div>.px-2>:nth-child(2)').click();
+    completeFormWithPlaceHolder('Question', "{del}".repeat(50) + "{backspace}".repeat(50) + ModifiedFaq.question);
+    completeFormWithPlaceHolder('Answer', "{del}".repeat(50) + "{backspace}".repeat(50) + ModifiedFaq.answer);
+    //confirm edit
+    cy.get('.swal2-confirm').filter(":visible").click();
+    cy.get('.swal2-confirm').filter(":visible").click();
 
-  //   logOut();
+    logOut();
 
-  //   // check FAQ after edit
-  //   cy.contains(ModifiedFaq.question).last().click();
-  //   cy.contains(ModifiedFaq.answer).should('exist');
+    // check FAQ after edit
+    cy.contains(ModifiedFaq.question).last().click();
+    cy.contains(ModifiedFaq.answer).should('exist');
 
 
 
 
 
-  // })
+  })
 
 
-  // it('UC-20, 39, 71 Check Main Page Link and general info', () => {
-  //   cy.visit('/');
-  //   cy.get('.app-title').contains("Brothers' Barbershop");
-  //   cy.get('.map').should('exist');
-  //   cy.get('.barbershop-description').should('exist');
-  //   cy.contains('Current Status').should('exist');
-  // })
+  it('UC-20, 39, 71 Check Main Page Link and general info', () => {
+    cy.visit('/');
+    cy.get('.app-title').contains("Brothers' Barbershop");
+    cy.get('.map').should('exist');
+    cy.get('.barbershop-description').should('exist');
+    cy.contains('Current Status').should('exist');
+  })
 
 
 
-  // it('Test Customer account creation', () => {
-  //   cy.visit('/');
-  //   clickSignIn();
-  //   cy.contains('Sign UP', { matchCase: false }).click();
+  it('Test Customer account creation', () => {
+    cy.visit('/');
+    clickSignIn();
+    cy.contains('Sign UP', { matchCase: false }).click();
 
-  //   completeSignupData(TestUserInfo);
-  //   cy.get('.mt-5').contains('sign up', { matchCase: false }).click();
-  //   cy.wait(WAIT_TIME);
-  //   cy.wait(WAIT_TIME);
-  //   cy.visit('/');
-  //   cy.wait(WAIT_TIME);
+    completeSignupData(TestUserInfo);
+    cy.get('.mt-5').contains('sign up', { matchCase: false }).click();
+    cy.wait(WAIT_TIME);
+    cy.wait(WAIT_TIME);
+    cy.visit('/');
+    cy.wait(WAIT_TIME);
 
-  //   logOut();
+    logOut();
 
-  // })
+  })
 
-  // it('UC-31 test customer login', () => {
-  //   loginAccount(TestUserInfo);
-  //   logOut();
-  // })
+  it('UC-31 test customer login', () => {
+    loginAccount(TestUserInfo);
+    logOut();
+  })
 
-  // it('UC-130 test upload image and delete', () => {
-  //   loginAccount(TestUserInfo);
-  //   cy.get('.icon > .edit-icon').click({ force: true });
+  it('UC-130 test upload image and delete', () => {
+    loginAccount(TestUserInfo);
+    cy.get('.icon > .edit-icon').click({ force: true });
 
-  //   //check avatar not there before uploading
-  //   cy.get('.v-avatar>img').should("not.exist");
+    //check avatar not there before uploading
+    cy.get('.v-avatar>img').should("not.exist");
 
-  //   //test upload image
-  //   cy.get('.mt-3').click();
-  //   cy.get('input[accept*="image/png"]').selectFile('./cypress/fixtures/testIcon.png', { force: true });
+    //test upload image
+    cy.get('.mt-3').click();
+    cy.get('input[accept*="image/png"]').selectFile('./cypress/fixtures/testIcon.png', { force: true });
 
-  //   //check avatar should be there
-  //   cy.get('.v-avatar>img').should("not.exist");
+    //check avatar should be there
+    cy.get('.v-avatar>img').should("not.exist");
 
-  //   //delete image
-  //   clickTextWith("delete current photo");
-  //   clickTextWith("yes, delete it");
+    //delete image
+    clickTextWith("delete current photo");
+    clickTextWith("yes, delete it");
 
-  //   cy.get('.v-avatar>img').should("not.exist");
+    cy.get('.v-avatar>img').should("not.exist");
 
-  //   cy.visit('/');
-  //   logOut();
-  // })
+    cy.visit('/');
+    logOut();
+  })
 
-  // it('UC-35 test change password', () => {
-  //   cy.visit('/');
-  //   loginAccount(TestUserInfo);
-  //   cy.wait(WAIT_TIME);
-  //   clickIcon();
-  //   cy.get('.v-list-item').contains("User Profile").click();
-  //   clickUrl("/panel/profile/change-password");
+  it('UC-35 test change password', () => {
+    cy.visit('/');
+    loginAccount(TestUserInfo);
+    cy.wait(WAIT_TIME);
+    clickIcon();
+    cy.get('.v-list-item').contains("User Profile").click();
+    clickUrl("/panel/profile/change-password");
 
-  //   cy.get(':nth-child(1) > .v-input > .v-input__control > .v-input__slot')
-  //     .type(TestUserInfo.Password);
+    cy.get(':nth-child(1) > .v-input > .v-input__control > .v-input__slot')
+      .type(TestUserInfo.Password);
 
-  //   cy.get(':nth-child(2) > .v-input > .v-input__control > .v-input__slot')
-  //     .type(MODIFIED_PASS);
+    cy.get(':nth-child(2) > .v-input > .v-input__control > .v-input__slot')
+      .type(MODIFIED_PASS);
 
-  //   TestUserInfo.Password = MODIFIED_PASS;
-  //   clickTextWith('save');
+    TestUserInfo.Password = MODIFIED_PASS;
+    clickTextWith('save');
 
-  //   cy.wait(WAIT_TIME);
+    cy.wait(WAIT_TIME);
 
-  //   cy.visit('/');
-  //   logOut();
+    cy.visit('/');
+    logOut();
 
-  //   loginAccount(TestUserInfo);
-  //   logOut();
+    loginAccount(TestUserInfo);
+    logOut();
 
 
 
-  // })
+  })
 
 
 
-  // it('UC37, Login to admin account and log out', () => {
+  it('UC37, Login to admin account and log out', () => {
 
-  //   loginAccount(TestAdminInfo);
-  //   logOut();
+    loginAccount(TestAdminInfo);
+    logOut();
 
 
 
-  // })
+  })
 
-  // it('UC-72 Check admin toggle busy status', () => {
-  //   cy.visit('/');
-  //   cy.contains('empty', { matchCase: false }).should('exist');
-  //   cy.contains('busy', { matchCase: false }).should('not.exist');
-  //   loginAccount(TestAdminInfo);
+  it('UC-72 Check admin toggle busy status', () => {
+    cy.visit('/');
+    cy.contains('empty', { matchCase: false }).should('exist');
+    cy.contains('busy', { matchCase: false }).should('not.exist');
+    loginAccount(TestAdminInfo);
 
-  //   // change default empty to busy
-  //   cy.get('.v-toolbar__content > .mt-n4 > .row > :nth-child(2) > .rounded-xl').click();
-  //   cy.get('.app-title').click();
-  //   cy.contains('busy', { matchCase: false }).should('exist');
-  //   cy.contains('empty', { matchCase: false }).should('not.exist');
+    // change default empty to busy
+    cy.get('.v-toolbar__content > .mt-n4 > .row > :nth-child(2) > .rounded-xl').click();
+    cy.get('.app-title').click();
+    cy.contains('busy', { matchCase: false }).should('exist');
+    cy.contains('empty', { matchCase: false }).should('not.exist');
 
-  //   clickUrl("/panel/admin");
+    clickUrl("/panel/admin");
 
-  //   //clean up
-  //   cy.get('.v-toolbar__content > .mt-n4 > .row > :nth-child(1) > .rounded-xl').click();
-  //   logOut();
+    //clean up
+    cy.get('.v-toolbar__content > .mt-n4 > .row > :nth-child(1) > .rounded-xl').click();
+    logOut();
 
 
-  // })
+  })
 
-  // //add more admin related testing in case of needing it
+  //add more admin related testing in case of needing it
 
 
-  // it('UC 27, 36 Create Barber account, UC 120 barber-management', () => {
+  it('UC 27, 36 Create Barber account, UC 120 barber-management', () => {
 
-  //   loginAccount(TestAdminInfo);
-  //   cy.get(':nth-child(1) > .d-flex > .row > .col-sm-12').click();
-  //   cy.get('button>span').contains("Add Account").click();
-  //   completeSignupData(TestBarberInfo);
-  //   cy.get('.mt-5').contains('sign up', { matchCase: false }).click();
+    loginAccount(TestAdminInfo);
+    cy.get(':nth-child(1) > .d-flex > .row > .col-sm-12').click();
+    cy.get('button>span').contains("Add Account").click();
+    completeSignupData(TestBarberInfo);
+    cy.get('.mt-5').contains('sign up', { matchCase: false }).click();
 
-  //   cy.get('body').click(0, 0);
+    cy.get('body').click(0, 0);
 
 
 
-  //   cy.visit('/');
-  //   logOut();
+    cy.visit('/');
+    logOut();
 
-  // })
+  })
 
 
-  // it('UC-29,30 save and edit barber info, UC-73 barber-login/out', () => {
-  //   loginAccount(TestBarberInfo);
-  //   clickUrl("/panel/profile/edit_profile");
+  it('UC-29,30 save and edit barber info, UC-73 barber-login/out', () => {
+    loginAccount(TestBarberInfo);
+    clickUrl("/panel/profile/edit_profile");
 
-  //   completeUserInfo(1, ModifiedBarberInfo.FirstName)
-  //   completeUserInfo(2, ModifiedBarberInfo.LastName)
-  //   completeUserInfo(3, ModifiedBarberInfo.Email)
-  //   clickTextWith('save')
+    completeUserInfo(1, ModifiedBarberInfo.FirstName)
+    completeUserInfo(2, ModifiedBarberInfo.LastName)
+    completeUserInfo(3, ModifiedBarberInfo.Email)
+    clickTextWith('save')
 
-  //   //click ok
-  //   cy.get('.swal2-confirm').last().click()
-  //   //check modified result
-  //   cy.get('.menu-wrap > :nth-child(1) > :nth-child(2)')
-  //     .contains(`${ModifiedBarberInfo.FirstName} ${ModifiedBarberInfo.LastName}`)
+    //click ok
+    cy.get('.swal2-confirm').last().click()
+    //check modified result
+    cy.get('.menu-wrap > :nth-child(1) > :nth-child(2)')
+      .contains(`${ModifiedBarberInfo.FirstName} ${ModifiedBarberInfo.LastName}`)
 
-  //   logOut();
-  // })
+    logOut();
+  })
 
 
 
-  // it("UC-224 add availability by barber", () => {
-  //   const slots = ["12:00 PM", "1:00 PM", "3:00 PM"];
+  it("UC-224 add availability by barber", () => {
+    const slots = ["12:00 PM", "1:00 PM", "3:00 PM"];
 
-  //   loginAccount(TestBarberInfo);
-  //   clickUrl("/panel/availabilities");
+    loginAccount(TestBarberInfo);
+    clickUrl("/panel/availabilities");
 
 
-  //   clickTextWith("add");
-  //   selectDate();
+    clickTextWith("add");
+    selectDate();
 
-  //   // select time slots and confirm
-  //   cy.get(':nth-child(2) > .v-input > .v-input__control > .v-input__slot > .v-select__slot > .v-select__selections')
-  //     .click();
+    // select time slots and confirm
+    cy.get(':nth-child(2) > .v-input > .v-input__control > .v-input__slot > .v-select__slot > .v-select__selections')
+      .click();
 
-  //   slots.forEach(slot => {
-  //     clickTextWith(slot);
-  //   })
-  //   cy.get('.v-card__title').click();
-  //   cy.get('button[type="submit"]').contains("add", { matchCase: false }).click();
-  //   cy.get('button').contains('ok', { matchCase: false }).click();
+    slots.forEach(slot => {
+      clickTextWith(slot);
+    })
+    cy.get('.v-card__title').click();
+    cy.get('button[type="submit"]').contains("add", { matchCase: false }).click();
+    cy.get('button').contains('ok', { matchCase: false }).click();
 
-  //   //click date selector
-  //   cy.get('input[role="button"]').last().click();
-  //   selectDate();
+    //click date selector
+    cy.get('input[role="button"]').last().click();
+    selectDate();
 
-  //   //check whether all three slots exists
-  //   slots.forEach(slot => {
-  //     cy.contains(slot).should('be.visible');
-  //   })
+    //check whether all three slots exists
+    slots.forEach(slot => {
+      cy.contains(slot).should('be.visible');
+    })
 
-  //   visitMainPage();
+    visitMainPage();
 
-  //   logOut();
+    logOut();
 
 
-  // })
+  })
 
 
-  // it('UC-59, 182, 222, 223, 249, 273 add update and delete appointment', () => {
-  //   loginAccount({ ...TestUserInfo, Password: MODIFIED_PASS });
-  //   completeBookingInfo(TestUserInfo, "Line up", "3:00 PM");
-  //   clickTextWith("add appoitnment");
-  //   cy.get('.swal2-confirm').click();
+  it('UC-59, 182, 222, 223, 249, 273 add update and delete appointment', () => {
+    loginAccount({ ...TestUserInfo, Password: MODIFIED_PASS });
+    completeBookingInfo(TestUserInfo, "Line up", "3:00 PM");
+    clickTextWith("book ");
+    cy.get('.swal2-confirm').click();
 
-  //   updateAndDeleteAppointment();
+    updateAndDeleteAppointment();
 
-  //   logOut();
+    logOut();
 
-  // })
+  })
 
-  // it("UC-226 add update and delete appointment as guest", () => {
-  //   cy.visit("/");
-  //   completeBookingInfo(TestCustomerWithoutAccountInfo, "Line up", "1:00 PM", true);
-  //   clickTextWith("add appoitnment");
-  //   cy.get('.swal2-confirm').click();
+  it("UC-226 add update and delete appointment as guest", () => {
+    cy.visit("/");
+    completeBookingInfo(TestCustomerWithoutAccountInfo, "Line up", "1:00 PM", true);
+    clickTextWith("book ");
+    cy.get('.swal2-confirm').click();
 
-  //   updateAndDeleteAppointment();
-  //   cy.visit("/");
-  // })
+    updateAndDeleteAppointment();
+    cy.visit("/");
+  })
 
-  // it("UC-224(con't) delete slots", () => {
-  //   loginAccount(TestBarberInfo);
-  //   clickUrl("/panel/availabilities");
-  //   cy.get(`label`).contains('date', { matchCase: false })
-  //     .parent().children("input").click();
-  //   selectDate();
+  it("UC-224(con't) delete slots", () => {
+    loginAccount(TestBarberInfo);
+    clickUrl("/panel/availabilities");
+    cy.get(`label`).contains('date', { matchCase: false })
+      .parent().children("input").click();
+    selectDate();
 
-  //   cy.get('.v-data-table-header > tr > :nth-child(2) > .v-data-table__checkbox > .v-icon')
-  //     .click();
-  //   clickTextWith('delete');
-  //   cy.get('.swal2-confirm').click();
+    cy.get('.v-data-table-header > tr > :nth-child(2) > .v-data-table__checkbox > .v-icon')
+      .click();
+    clickTextWith('delete');
+    cy.get('.swal2-confirm').click();
 
-  //   logOut();
+    logOut();
 
-  // })
+  })
 
-  // // add more barber tests here in case of needing it
+  // add more barber tests here in case of needing it
 
 
-  // it('UC-28 delete barber-account', () => {
-  //   loginAccount(TestAdminInfo);
-  //   cy.get(':nth-child(1) > .d-flex > .row > .col-sm-12').click();
-  //   //click 3 dot for delete menu
-  //   cy.get('.v-responsive__content > .v-sheet > .v-toolbar__content > .v-btn > .v-btn__content > .v-icon').click()
+  it('UC-28 delete barber-account', () => {
+    loginAccount(TestAdminInfo);
+    cy.get(':nth-child(1) > .d-flex > .row > .col-sm-12').click();
+    //click 3 dot for delete menu
+    cy.get('.v-responsive__content > .v-sheet > .v-toolbar__content > .v-btn > .v-btn__content > .v-icon').click()
 
-  //   clickTextWith('Delete User');
+    clickTextWith('Delete User');
 
-  //   cy.visit('/');
-  //   logOut();
+    cy.visit('/');
+    logOut();
 
-  // })
+  })
   it('UC-41, 80, 277, 278 test add and view the list of products', () => {
     loginAccount(TestAdminInfo);
     //click products
@@ -529,20 +531,20 @@ describe('Test UserStories', () => {
   })
 
 
-  // it('UC-25 delete FAQs', () => {
-  //   loginAccount(TestAdminInfo);
-  //   clickTextWith("editable info");
-  //   // click first question
-  //   cy.get('.v-expansion-panel-header').first().click();
-  //   //  click delete
-  //   cy.get(':nth-child(1) > .v-expansion-panel-header >div> div>.px-3>:nth-child(1)').click();
-  //   clickButtonWith('yes, delete it!');
-  //   cy.get('.swal2-confirm').filter(":visible").click();
+  it('UC-25 delete FAQs', () => {
+    loginAccount(TestAdminInfo);
+    clickTextWith("editable info");
+    // click first question
+    cy.get('.v-expansion-panel-header').first().click();
+    //  click delete
+    cy.get(':nth-child(1) > .v-expansion-panel-header >div> div>.px-2>:nth-child(1)').click();
+    clickButtonWith('yes, delete it!');
+    cy.get('.swal2-confirm').filter(":visible").click();
 
-  //   //bugging, should not be visible
-  //   //cy.contains(ModifiedFaq.question).should('not.visible');
+    //bugging, should not be visible
+    //cy.contains(ModifiedFaq.question).should('not.visible');
 
-  // })
+  })
 
 
 
