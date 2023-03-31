@@ -12,8 +12,12 @@ const store = new Vuex.Store({
     selectedImageData: null,
     selectedImageFile: null,
     token: null,
+    activeElement:null,
   },
   mutations: {
+    setBarbershopStateToggle(state,p){
+      state.activeElement = p
+    },
     setUser(state, p) {
       state.user = p;
     },
