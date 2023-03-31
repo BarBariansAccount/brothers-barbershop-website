@@ -37,9 +37,9 @@ export default {
   data() {
     return {
       statusItems: [
-        { title: "Empty", isActive: true },
-        { title: "Busy", isActive: false },
-        { title: "Not Busy", isActive: false },
+        { title: "Empty" },
+        { title: "Busy" },
+        { title: "Not Busy" },
       ],
       activeItem: "",
     };
