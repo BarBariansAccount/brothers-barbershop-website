@@ -162,9 +162,16 @@ export default {
       };
     },
     async getAllProducts() {
-      const data = await productService.getAllProducts();
-      this.allProducts = data.data;
-      console.log(this.allProducts);
+      try {
+        const data = await productService.getAllProducts();
+        this.allProducts = data.data;
+        console.log(this.allProducts);
+      } catch (error) {
+        if (error.response.status == 400) {
+          this.allProducts = [];
+          return;
+        }
+      }
     },
   },
   created() {
