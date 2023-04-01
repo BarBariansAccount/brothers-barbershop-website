@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-dialog v-model="dialog" width="500px" persistent>
-      <v-card class="py-2">
+      <v-card class="py-2" style="overflow: hidden;">
         <div class="icon text-center pt-4">
           <v-avatar v-if="selectedImageData" size="120">
             <img :src="selectedImageData" />
@@ -17,7 +17,7 @@
         <v-text-field
           class="pa-3"
           v-model="productTitle"
-          label="Product tile"
+          label="Product title"
           variant="underlined"
         ></v-text-field>
         <v-textarea
