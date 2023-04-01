@@ -2,6 +2,7 @@ require("dotenv").config();
 const pool = require("../config/database.js");
 const ProductsModel = require("../models/ProductsModel.js");
 const UserModel = require("../models/UserModel.js");
+const fs = require("fs");
 
 const getProducts = async (req, res) => {
   try {
@@ -82,6 +83,7 @@ const deleteProducts = async (req, res) => {
     res.status(200).send(`The Products  has been successfully deleted.`)
 
   } catch (error) {
+    console.log(error)
     res.status(400).send(error)
   }
 };
