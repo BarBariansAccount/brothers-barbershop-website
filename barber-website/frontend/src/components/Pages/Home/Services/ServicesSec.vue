@@ -23,10 +23,9 @@
             <v-chip
             class="ma-2"
             color="red"
-            text-color="white"
-    >
-      Not Availble now ,contact barbershop
-    </v-chip>
+            text-color="white">
+          <div>Currently not available, </div>
+          <div>contact barbershop directly</div></v-chip>
           </div>
         </v-card>
       </v-col>
