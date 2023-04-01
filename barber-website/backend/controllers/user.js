@@ -250,6 +250,12 @@ const updatePicture = async (req, res) => {
   }
 };
 
+function extractFileName(url) {
+  const startIndex = url.indexOf("/uploads/") + "/uploads/".length;
+  const fileName = url.substring(startIndex);
+  return fileName;
+}
+
 const deletePicture = async (req, res) => {
   const logged_userId = req.Logged_userId.data;
 
@@ -258,7 +264,9 @@ const deletePicture = async (req, res) => {
 
     picturePath = picturePath.rows[0].picturelink;
 
-    picturePath = picturePath.substring(36, picturePath.length);
+    picturePath = extractFileName(picturePath)
+
+    //picturePath = picturePath.substring(36, picturePath.length);
 
     picturePath = "./uploads/" + picturePath;
 
