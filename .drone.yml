@@ -79,7 +79,7 @@ steps:
         from_secret: database_password
     commands:
       - cd $WDIR
-      - docker run -p 5001:5001 -e "database_password=$DPASSWORD" -e "Backend_URL=http://backend:5001/" -e "Frontend_URL=http://frontend:8080" --net barber-network-dev --name backend -d brothersbarber/barbershop:backend
+      - docker run -p 5001:5001 -e "database_password=$DPASSWORD" -e "Backend_URL=http://backend:5001/" -e "Frontend_URL=http://frontend:8080/" --net barber-network-dev --name backend -d brothersbarber/barbershop:backend
       - docker run --expose=8080 -e "VUE_APP_API_URL=http://backend:5001/" --net barber-network-dev --name frontend -d brothersbarber/barbershop:frontend
 
   - name: test-frontend
