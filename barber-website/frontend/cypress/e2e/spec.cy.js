@@ -577,7 +577,7 @@ describe('Test UserStories', () => {
     clickButtonWith('add product');
     clickButtonWith('upload photo');
     cy.get('input[accept*="image/*"]').selectFile('./cypress/fixtures/testIcon.png', { force: true });
-    completeFormWithLabel('Product tile', TestProductInfo.title);
+    completeFormWithLabel('Product title', TestProductInfo.title);
     completeFormWithLabel('Product description', TestProductInfo.description, "textarea");
     clickButtonWith("save");
 
