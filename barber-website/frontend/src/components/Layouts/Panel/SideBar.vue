@@ -129,11 +129,6 @@ export default {
       if (userrole == "Customer") {
         return [
           {
-            action: "mdi-home",
-            title: "Home",
-            to: "/panel",
-          },
-          {
             action: "mdi-basket",
             title: "Orders",
             to: "/panel/orders",
@@ -224,7 +219,11 @@ export default {
         await userService.updatePic(fd);
         this.get();
       } catch (err) {
-        console.log(err);
+        return Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Error Upload Avatar !",
+        });
       }
     },
     async deletePic() {

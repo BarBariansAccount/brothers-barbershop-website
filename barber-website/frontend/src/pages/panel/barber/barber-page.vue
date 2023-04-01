@@ -1,7 +1,6 @@
 <template>
     <div>
         <h1>
-            barber page
             <br />
             Bio :
         </h1>
