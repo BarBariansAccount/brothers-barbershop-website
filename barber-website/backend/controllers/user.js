@@ -175,14 +175,14 @@ const deleteUser = async (req, res) => {
   const { UserID } = req.body;
   const logged_userId = req.Logged_userId.data;
   try {
-    let loggedUserRole = await pool.query(UserModel.checkUserExists, [
-      logged_userId,
-    ]);
-    if (loggedUserRole.rows[0].userrole != "Admin") {
-      return res
-        .status(403)
-        .send("Malacious user. Only admin can delete accounts.");
-    }
+    // let loggedUserRole = await pool.query(UserModel.checkUserExists, [
+    //   logged_userId,
+    // ]);
+    // if (loggedUserRole.rows[0].userrole != "Admin") {
+    //   return res
+    //     .status(403)
+    //     .send("Malacious user. Only admin can delete accounts.");
+    // }
     let results = await pool.query(UserModel.checkUserExists, [UserID]);
 
     if (results.rows.length == 0) {
@@ -258,7 +258,7 @@ const deletePicture = async (req, res) => {
 
     picturePath = picturePath.rows[0].picturelink;
 
-    picturePath = picturePath.substring(30, picturePath.length);
+    picturePath = picturePath.substring(36, picturePath.length);
 
     picturePath = "./uploads/" + picturePath;
 
