@@ -348,7 +348,7 @@ describe('Test UserStories', () => {
 
 
 
-  it('UC37, Login to admin account and log out', () => {
+  it('UC-37, Login to admin account and log out', () => {
 
     loginAccount(TestAdminInfo);
     logOut();
@@ -381,7 +381,7 @@ describe('Test UserStories', () => {
   //add more admin related testing in case of needing it
 
 
-  it('UC 27, 36 Create Barber account, UC 120 barber-management', () => {
+  it('UC-27, 36, 313 Create Barber account, UC 120 barber-management', () => {
 
     loginAccount(TestAdminInfo);
     clickNthAdminPage(1);
@@ -513,6 +513,17 @@ describe('Test UserStories', () => {
 
 
   })
+  it("UC-275 check appointment by barber", () => {
+    loginAccount(TestBarberInfo);
+
+    clickTextWith("appointments");
+    //check the appointment
+    cy.contains(TestUserInfo.FirstName).filter(":visible");
+    cy.contains(TestCustomerWithoutAccountInfo.FirstName).filter(":visible");
+
+
+    logOut();
+  })
 
   it("UC-223, 222, update and cancel appointment", () => {
 
@@ -608,7 +619,53 @@ describe('Test UserStories', () => {
 
   })
 
+  it("UC-269, 316, 318 check admin main page info", () => {
+    // should be some text and data that is rare to see, so it will be easier to test
+    const TestDescription = "E2E Test description for the website, should be at least 10 char long";
+    const TestPrice = {
+      price: "100 billion CAD",
+      time: "1 year"
+    }
+    const TestWorkingHour = "All day";
 
+
+    loginAccount(TestAdminInfo);
+    clickUrl("/");
+    // try to edit description
+    cy.get('.description-paragraph').type("{del}{backspace}".repeat(100) + TestDescription);
+    clickButtonWith('save');
+    cy.get('.swal2-confirm').filter(":visible").click();
+
+    //try to edit price  
+    cy.contains('haircuts pricing', { matchCase: false }).parent().children(":nth-child(2)").children("button").click();
+    cy.get(".act").filter(":visible").first().type("{del}{backspace}".repeat(100) + TestPrice.price);
+    cy.get(".act").filter(":visible").last().type("{del}{backspace}".repeat(100) + TestPrice.time);
+    cy.get('.success--text').filter(":visible").click();
+
+    //try to edit hours
+    cy.contains('working hours', { matchCase: false }).parent().children(":nth-child(2)").children("button").click();
+    cy.get(".act").filter(":visible").first().type("{del}{backspace}".repeat(100) + TestWorkingHour);
+    cy.get('.success--text').filter(":visible").click();
+
+
+
+
+    // log out to check
+    cy.wait(5000);
+    //check info
+    logOut();
+    cy.visit("/");
+    cy.contains(TestDescription);
+    //check pricing info
+    cy.contains(TestPrice.price);
+    cy.contains(TestPrice.time);
+    //check working hours
+    cy.contains(TestWorkingHour);
+
+
+
+
+  })
 
 
 
