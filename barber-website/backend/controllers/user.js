@@ -281,6 +281,29 @@ const deletePicture = async (req, res) => {
   }
 };
 
+
+const deleteUser_profile=async (req, res) => {
+  const logged_userId = req.Logged_userId.data;
+  try {
+    
+    let results = await pool.query(UserModel.checkUserExists, [logged_userId]);
+
+    if (results.rows.length == 0) {
+      return res
+        .status(400)
+        .send(`There is no user with this user ID: ${logged_userId}.`);
+    }
+
+    await pool.query(UserModel.deleteUser, [logged_userId]);
+
+    res
+      .status(200)
+      .send(`User has been sucessfully deleted with User ID: ${logged_userId}.`);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+};
+
 module.exports = {
   getusers,
   createUser,
@@ -292,4 +315,5 @@ module.exports = {
   createUser_customers,
   updatePicture,
   deletePicture,
+  deleteUser_profile
 };
