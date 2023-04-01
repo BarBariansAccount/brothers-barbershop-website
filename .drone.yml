@@ -22,7 +22,7 @@ steps:
         from_secret: repo-dir
     commands:
       - cd $WDIR
-      - git stash drop
+      - git reset --hard
       - git pull
       - git checkout $DRONE_SOURCE_BRANCH
       - git pull
