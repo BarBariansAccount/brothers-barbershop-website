@@ -19,7 +19,7 @@ import DeleteAccount from "../pages/panel/profile/DeleteAccount"
 // Product Page Component
 import ProductPage from "../components/ProductComponents/ProductPage.vue"
 // import 
-import BarberPage from '../pages/panel/barber/barber-page.vue'
+
 
 export default [
   // pages under default layout
@@ -40,7 +40,7 @@ export default [
     path: "/panel", component: PanelLayout, children: [
  
       { path: "admin", component: AdminPage },
-      { path: "barber", component: BarberPage },
+     
       { path: "profile/edit_profile", component: CommonPage },
       { path: "profile/change-password", component: ChangePassword },
       { path: "profile/unsubscribe", component: DeleteAccount },
