@@ -250,6 +250,12 @@ const updatePicture = async (req, res) => {
   }
 };
 
+function extractFileName(url) {
+  const startIndex = url.indexOf("/uploads/") + "/uploads/".length;
+  const fileName = url.substring(startIndex);
+  return fileName;
+}
+
 const deletePicture = async (req, res) => {
   const logged_userId = req.Logged_userId.data;
 
@@ -258,7 +264,9 @@ const deletePicture = async (req, res) => {
 
     picturePath = picturePath.rows[0].picturelink;
 
-    picturePath = picturePath.substring(30, picturePath.length);
+    picturePath = extractFileName(picturePath)
+
+    //picturePath = picturePath.substring(36, picturePath.length);
 
     picturePath = "./uploads/" + picturePath;
 
@@ -269,6 +277,29 @@ const deletePicture = async (req, res) => {
     res.status(200).send("Picture has been removed.");
   } catch (error) {
     console.log(error);
+    res.status(400).send(error);
+  }
+};
+
+
+const deleteUser_profile=async (req, res) => {
+  const logged_userId = req.Logged_userId.data;
+  try {
+    
+    let results = await pool.query(UserModel.checkUserExists, [logged_userId]);
+
+    if (results.rows.length == 0) {
+      return res
+        .status(400)
+        .send(`There is no user with this user ID: ${logged_userId}.`);
+    }
+
+    await pool.query(UserModel.deleteUser, [logged_userId]);
+
+    res
+      .status(200)
+      .send(`User has been sucessfully deleted with User ID: ${logged_userId}.`);
+  } catch (error) {
     res.status(400).send(error);
   }
 };
@@ -284,4 +315,5 @@ module.exports = {
   createUser_customers,
   updatePicture,
   deletePicture,
+  deleteUser_profile
 };

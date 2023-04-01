@@ -71,30 +71,37 @@ const addAppointment = async (req, res) => {
         );
 
         const URL = process.env.Frontend_URL + "appointment/" + accessToken;
+        let emailMsg = 'Email success';
 
-        if (!doesnt_send_email) {
-            //sending email
-            sendgrid.setApiKey(process.env.SG_API_KEY)
+        try {
+            if (!doesnt_send_email) {
+                //sending email
+                sendgrid.setApiKey(process.env.SG_API_KEY)
 
-            await sendgrid.send({
-                to: {
-                    email: Customer_email,
-                    name: Customer_First_name
-                },
-                from: {
-                    email: process.env.Barbershop_Email,
-                    name: 'Brothers Barber Shop Queen Marry'
-                },
-                templateId: 'd-c60813a5b72e451bad371d9a475e618d',
-                dynamicTemplateData: {
-                    link: URL,
-                    name: Customer_First_name
-                },
+                await sendgrid.send({
+                    to: {
+                        email: Customer_email,
+                        name: Customer_First_name
+                    },
+                    from: {
+                        email: process.env.Barbershop_Email,
+                        name: 'Brothers Barber Shop Queen Marry'
+                    },
+                    templateId: 'd-c60813a5b72e451bad371d9a475e618d',
+                    dynamicTemplateData: {
+                        link: URL,
+                        name: Customer_First_name
+                    },
 
-            })
+                })
+            }
+
+        } catch (error) {
+            emailMsg = "Email failed";
         }
-        res.status(200).send({ accessToken })
+        res.status(200).send({ accessToken, emailMsg: emailMsg })
     } catch (error) {
+        console.log(error)
         res.status(400).send(error)
     }
 }
@@ -145,28 +152,33 @@ const updateAppointment = async (req, res) => {
             process.env.ACCESS_TOKEN_SECRET
         );
         const URL = process.env.Frontend_URL + "appointment/" + accessToken2;
+        let emailMsg = 'Email success';
         //sending email
-        if (!doesnt_send_email) {
-            sendgrid.setApiKey(process.env.SG_API_KEY)
+        try {
+            if (!doesnt_send_email) {
+                sendgrid.setApiKey(process.env.SG_API_KEY)
 
-            await sendgrid.send({
-                to: {
-                    email: Customer_email,
-                    name: Customer_First_name
-                },
-                from: {
-                    email: process.env.Barbershop_Email,
-                    name: 'Brothers Barber Shop Queen Marry'
-                },
-                templateId: 'd-c60813a5b72e451bad371d9a475e618d',
-                dynamicTemplateData: {
-                    link: URL,
-                    name: Customer_First_name
-                },
+                await sendgrid.send({
+                    to: {
+                        email: Customer_email,
+                        name: Customer_First_name
+                    },
+                    from: {
+                        email: process.env.Barbershop_Email,
+                        name: 'Brothers Barber Shop Queen Marry'
+                    },
+                    templateId: 'd-c60813a5b72e451bad371d9a475e618d',
+                    dynamicTemplateData: {
+                        link: URL,
+                        name: Customer_First_name
+                    },
 
-            })
+                })
+            }
+        } catch (error) {
+            emailMsg = "Email failed";
         }
-        res.status(200).send({ accessToken: accessToken2 })
+        res.status(200).send({ accessToken: accessToken2, emailMsg: emailMsg })
 
     } catch (error) {
         console.log(error)
@@ -187,29 +199,33 @@ const cancelAppointment = async (req, res) => {
         let result = await pool.query(AppointmentModel.customerAppointmentDetails, [appointment_id])
 
         await pool.query(AppointmentModel.cancelAppointment, [appointment_id])
+        let emailMsg = 'Email success';
 
+        try {
+            if (!doesnt_send_email) {
+                sendgrid.setApiKey(process.env.SG_API_KEY)
 
-        if (!doesnt_send_email) {
-            sendgrid.setApiKey(process.env.SG_API_KEY)
+                await sendgrid.send({
+                    to: {
+                        email: result.rows[0].customer_email,
+                        name: result.rows[0].customer_first_name
+                    },
+                    from: {
+                        email: process.env.Barbershop_Email,
+                        name: 'Brothers Barber Shop Queen Marry'
+                    },
+                    templateId: 'd-071684c95f7a4b0d967f86a698b6a2cf',
+                    dynamicTemplateData: {
+                        link: process.env.Frontend_URL,
+                        name: result.rows[0].customer_first_name + " " + result.rows[0].customer_last_name
+                    },
 
-            await sendgrid.send({
-                to: {
-                    email: result.rows[0].customer_email,
-                    name: result.rows[0].customer_first_name
-                },
-                from: {
-                    email: process.env.Barbershop_Email,
-                    name: 'Brothers Barber Shop Queen Marry'
-                },
-                templateId: 'd-071684c95f7a4b0d967f86a698b6a2cf',
-                dynamicTemplateData: {
-                    link: process.env.Frontend_URL,
-                    name: result.rows[0].customer_first_name +" "+ result.rows[0].customer_last_name
-                },
-
-            })
+                })
+            }
+        } catch (error) {
+            emailMsg = "Email failed";
         }
-        res.status(200).send({ msg: 'success' })
+        res.status(200).send({ msg: 'success', emailMsg })
 
 
     } catch (error) {
