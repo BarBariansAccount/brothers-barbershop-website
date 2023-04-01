@@ -50,6 +50,11 @@ const updateProducts = async (req, res) => {
     res.status(400).send(error);
   }
 };
+function extractFileName(url) {
+  const startIndex = url.indexOf("/uploads/") + "/uploads/".length;
+  const fileName = url.substring(startIndex);
+  return fileName;
+}
 
 const deleteProducts = async (req, res) => {
   const { productsid } = req.body;
@@ -67,7 +72,7 @@ const deleteProducts = async (req, res) => {
 
     picturePath = picturePath.rows[0].picturelink;
 
-    picturePath = picturePath.substring(36, picturePath.length);
+    picturePath = extractFileName(picturePath);
 
     picturePath = "./uploads/" + picturePath;
 
