@@ -1,1 +1,3 @@
-This folder is used for saving uploaded pictures onto the webapp
+
+this folder is used to store uploaded images from the webapp
+
