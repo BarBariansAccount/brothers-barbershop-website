@@ -72,6 +72,7 @@ const deleteProducts = async (req, res) => {
 
     picturePath = "./uploads/" + picturePath;
 
+
     fs.unlinkSync(picturePath);
 
     await pool.query(ProductsModel.deleteProducts, [productsid]);
