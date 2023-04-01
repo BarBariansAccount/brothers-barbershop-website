@@ -151,12 +151,6 @@ export default {
       } else if (userrole == "Barber") {
         return [
           {
-            action: "mdi-home",
-            title: "Home",
-            to: "/panel/barber",
-          },
-
-          {
             action: "mdi-calendar",
             title: "Appointments",
             to: "/panel/appointments",

@@ -23,7 +23,7 @@
       <img src="/images/barbershop-logo.gif" class="logo-img" />
       <v-toolbar-title>
         <router-link to="/" tag="span" style="cursor: pointer">
-          <span class="app-title">{{ appTitle }}</span>
+          <span class="app-title"> <img src="/images/logo.jpg" class="logo-img2" /></span>
         </router-link>
       </v-toolbar-title>
       <v-spacer></v-spacer>
@@ -136,6 +136,9 @@ export default {
   width: 25px;
   height: 45px;
   margin-right: 3px;
+}
+.logo-img2 {
+  height: 75px;
 }
 
 .v-menu__content {
