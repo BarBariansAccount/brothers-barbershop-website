@@ -28,11 +28,13 @@ steps:
       - git pull
 
   - name: full-clean-up
+    failure: ignore
     environment:
       WDIR:
         from_secret: repo-dir
     commands:
       - $WDIR/ci-cd/docker/full-clean-up.sh
+      - docker rmi $(docker images -q)
 
   - name: setup-database
     environment:
