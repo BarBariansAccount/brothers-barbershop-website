@@ -40,7 +40,7 @@ export default [
     path: "/panel", component: PanelLayout, children: [
  
       { path: "admin", component: AdminPage },
-     
+      //  home removed
       { path: "profile/edit_profile", component: CommonPage },
       { path: "profile/change-password", component: ChangePassword },
       { path: "profile/unsubscribe", component: DeleteAccount },
