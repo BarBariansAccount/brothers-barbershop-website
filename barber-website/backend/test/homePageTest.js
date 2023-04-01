@@ -1,6 +1,8 @@
 
 const {
+    createCustomer,
     checkAndGetAdminId,
+    deleteAccount
 } = require("./userModelTest")
 
 const {
@@ -23,7 +25,12 @@ describe("HomePage Related Tests", function () {
         price: "1 billion CAD",
         duration: "1 year"
     }
+    const WORKING_HOUR = {
+        day: "SUNDAY",
+        description: "ALL DAY"
+    }
     const SERVICE_NUMBER = 5;
+    const NUM_OF_DAY = 7;
     let adminId;
 
     const testAbout = async function (about) {
@@ -42,6 +49,14 @@ describe("HomePage Related Tests", function () {
         await getAbout(req, res);
         assert.equal(res.status.calledWith(200), true);
         assert.equal(res.json.getCall(0).args[0].About, about);
+    }
+    const testWithOutAdmin = async function (testFunction, testData, userId) {
+        let req = mockRequest(testData);
+        let res = mockResponse();
+        req.Logged_userId = { data: userId };
+        await testFunction(req, res);
+        assert.equal(res.status.calledWith(403), true);
+        assert.equal(res.send.calledWith("Malacious user. Only admin can alter this infomation."), true);
     }
 
     it("setup test", async function () {
@@ -71,8 +86,8 @@ describe("HomePage Related Tests", function () {
         assert.equal(res.status.calledWith(200), true);
         assert.equal(res.send.getCall(0).args[0].length, SERVICE_NUMBER);
         let serviceFound = false;
-        for (let i = 0; i < SERVICE_NUMBER; i++) {
-            let serviceAPrice = res.send.getCall(0).args[0][i];
+        for (let serviceAPrice of res.send.getCall(0).args[0]) {
+
             if (serviceAPrice.service == PRICE_DATA.service) {
 
                 assert.equal(serviceAPrice.price, PRICE_DATA.price);
@@ -82,6 +97,44 @@ describe("HomePage Related Tests", function () {
             }
         }
         assert.isTrue(serviceFound);
+
+    })
+    it("test update and get working hours", async function () {
+        //update
+        let req = mockRequest(WORKING_HOUR);
+        let res = mockResponse();
+        req.Logged_userId = { data: adminId };
+        await updateWorkingHours(req, res);
+        assert.equal(res.status.calledWith(200), true);
+        assert.equal(res.send.calledWith("Updated working hours."), true);
+
+
+        //actual check
+        req = mockRequest();
+        res = mockResponse();
+        await getWorkingHours(req, res);
+        assert.equal(res.status.calledWith(200), true);
+        assert.equal(res.send.getCall(0).args[0].length, NUM_OF_DAY);
+        let dayFound = false;
+        for (let workingDay of res.send.getCall(0).args[0]) {
+
+            if (workingDay.day == WORKING_HOUR.day) {
+
+                assert.equal(workingDay.description, WORKING_HOUR.description);
+                dayFound = true;
+                break;
+            }
+        }
+        assert.isTrue(dayFound);
+
+    })
+    it("test non admin access error cases", async function () {
+        let id = await createCustomer();
+        await testWithOutAdmin(updateAbout, TEST_ABOUT, id);
+        await testWithOutAdmin(updatePricing, PRICE_DATA, id);
+        await testWithOutAdmin(updateWorkingHours, WORKING_HOUR, id);
+
+        await deleteAccount(id);
 
     })
 
