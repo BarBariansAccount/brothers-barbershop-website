@@ -215,7 +215,7 @@ steps:
 
   - name: deploy-backend
     commands:
-      - docker run -p 5001:5001 -e "database_password=POSTGRES" -e "Backend_URL=http://brothers-barbershop.ca:5001/" -e "Frontend_URL=http://brothers-barbershop.ca:8080" --net barber-network --name backend -d brothersbarber/barbershop:backend
+      - docker run -p 5001:5001 -e "database_password=POSTGRES" -e "Backend_URL=http://brothers-barbershop.ca:5001/" -e "Frontend_URL=http://brothers-barbershop.ca:8080/" --net barber-network --name backend -d brothersbarber/barbershop:backend
 
   - name: deploy-frontend
     commands:
