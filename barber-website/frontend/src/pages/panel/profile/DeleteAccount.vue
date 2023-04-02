@@ -33,18 +33,23 @@ export default {
             });
 
             Swal.fire({
+              timer: 1000,
               icon: "success",
               title: "success",
               text: "Account deleted successfully",
             });
-            this.$store.dispatch("logout");
-            this.$router.push("/");
+
+            setTimeout(() => {
+              this.$store.dispatch("logout");
+              this.$router.push("/");
+              console.log("Delayed execution complete!");
+            }, 1000);
           } catch (error) {
             console.log("error", error);
             Swal.fire({
               icon: "error",
               title: "Oops...",
-              text: error.response.data,
+              text: "something went wrong",
             });
           }
         }
