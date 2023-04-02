@@ -181,10 +181,13 @@ describe('Test UserStories', () => {
     clickTextWith(slot);
     clickContinue();
     completeFormWithLabel("phone number", userInfo.Telephone);
-    completeFormWithLabel("Email", "a" + "{backspace}".repeat(30) + userInfo.Email);
+
     if (isGuest) {
+      completeFormWithLabel("Email", userInfo.Email);
       completeFormWithLabel("First Name", userInfo.FirstName);
       completeFormWithLabel("Last Name", userInfo.LastName);
+    } else {
+      completeFormWithLabel("Email", "{backspace}".repeat(30) + userInfo.Email);
     }
 
     completeFormWithLabel("Note", userInfo.Note, "textarea");
