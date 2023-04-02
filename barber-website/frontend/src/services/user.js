@@ -52,4 +52,7 @@ export default new (class UserService {
   changePasswordForgottenPassword(data, config) {
     return api.put("/ResetPassword/Change_Password", data, config);
   }
+  deleteUserProfile(config){
+    return api.put("/User/deleteUser_profile",config)
+  }
 })();
