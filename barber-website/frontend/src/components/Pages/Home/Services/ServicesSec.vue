@@ -19,7 +19,6 @@
           <img class="haircut-types-image-2" src="/images/braids.png" />
           <p class="font-weight-bold mt-6 text-h5">Braids
           </p>
-           <!-- add temprory messg for Braids service -->
           <div class="text-error">
             <v-chip
             class="ma-2"
