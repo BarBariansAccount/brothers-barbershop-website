@@ -181,7 +181,7 @@ describe('Test UserStories', () => {
     clickTextWith(slot);
     clickContinue();
     completeFormWithLabel("phone number", userInfo.Telephone);
-    completeFormWithLabel("Email", "{backspace}".repeat(30) + userInfo.Email);
+    completeFormWithLabel("Email", "a" + "{backspace}".repeat(30) + userInfo.Email);
     if (isGuest) {
       completeFormWithLabel("First Name", userInfo.FirstName);
       completeFormWithLabel("Last Name", userInfo.LastName);
