@@ -123,7 +123,7 @@ describe('Test UserStories', () => {
   const completeFormWithLabel = (label, input, inputType = "input") => {
     cy.get(`label`).contains(label, { matchCase: false })
       .parent().children(inputType)
-      .type(input, { delay: 50 });
+      .type(input, { delay: 100 });
   }
 
   const completeSignupData = (data) => {
