@@ -31,7 +31,7 @@ describe('Test UserStories', () => {
   const TestUserInfo = {
     Telephone: 1111111113,
     Password: "testCustomerPass",
-    Email: 'e2ecustomer490@gmail.com',
+    Email: 'e2e490customer@gmail.com',
     FirstName: 'CustomerFirst',
     LastName: 'CustomerLast',
     Note: "Note for user"
@@ -43,7 +43,7 @@ describe('Test UserStories', () => {
   }
   const TestCustomerWithoutAccountInfo = {
     Telephone: 1111111114,
-    Email: 'e2ecustomer490NoAccount@gmail.com',
+    Email: 'e2e490NoAccount@gmail.com',
     FirstName: 'NoAccountFirst',
     LastName: 'NoAccountLast',
     Note: "Note for user without account"
@@ -123,7 +123,7 @@ describe('Test UserStories', () => {
   const completeFormWithLabel = (label, input, inputType = "input") => {
     cy.get(`label`).contains(label, { matchCase: false })
       .parent().children(inputType)
-      .type(input);
+      .type(input, { delay: 100 });
   }
 
   const completeSignupData = (data) => {
@@ -174,18 +174,20 @@ describe('Test UserStories', () => {
     clickContinue();
 
     clickTextWith(ModifiedBarberInfo.FirstName);
-    // doesn't work here
     clickContinue();
-    // add this for now to finish rest of the test 
+    //another wait to continue
     cy.get(':nth-child(5) > .v-stepper__step__step').click();
     selectDate();
     clickTextWith(slot);
     clickContinue();
     completeFormWithLabel("phone number", userInfo.Telephone);
-    completeFormWithLabel("Email", "{backspace}".repeat(50) + userInfo.Email);
+
     if (isGuest) {
+      completeFormWithLabel("Email", userInfo.Email);
       completeFormWithLabel("First Name", userInfo.FirstName);
       completeFormWithLabel("Last Name", userInfo.LastName);
+    } else {
+      completeFormWithLabel("Email", "{backspace}".repeat(30) + userInfo.Email);
     }
 
     completeFormWithLabel("Note", userInfo.Note, "textarea");
@@ -613,8 +615,8 @@ describe('Test UserStories', () => {
     clickButtonWith('yes, delete it!');
     cy.get('.swal2-confirm').filter(":visible").click();
 
-    //bugging, should not be visible
-    //cy.contains(ModifiedFaq.question).should('not.visible');
+
+    cy.contains(ModifiedFaq.question).should('not.visible');
 
   })
 
@@ -637,8 +639,11 @@ describe('Test UserStories', () => {
 
     //try to edit price  
     cy.contains('haircuts pricing', { matchCase: false }).parent().children(":nth-child(2)").children("button").click();
-    cy.get(".act").filter(":visible").first().type("{del}{backspace}".repeat(100) + TestPrice.price);
-    cy.get(".act").filter(":visible").last().type("{del}{backspace}".repeat(100) + TestPrice.time);
+    cy.wait(WAIT_TIME);
+    cy.get(".act").filter(":visible").first().type("{del}{backspace}".repeat(20) + TestPrice.price);
+    cy.wait(WAIT_TIME);
+    cy.get(".act").filter(":visible").last().type("{del}{backspace}".repeat(20) + TestPrice.time);
+    cy.wait(WAIT_TIME);
     cy.get('.success--text').filter(":visible").click();
 
     //try to edit hours
@@ -669,17 +674,17 @@ describe('Test UserStories', () => {
 
 
 
-  //temp removed it for now since backend part for this is not there yet
 
-  // it('Test delete customer account', () => {
-  //   loginAccount(TestUserInfo);
-  //   cy.wait(WAIT_TIME);
-  //   clickIcon();
-  //   cy.get('.v-list-item').contains("User Profile").click();
-  //   clickUrl("/panel/profile/unsubscribe");
-  //   clickButtonWith('delete account');
-  //   clickButtonWith('yes, delete it');
-  // })
+
+  it('UC-33, Test delete customer account', () => {
+    loginAccount(TestUserInfo);
+    cy.wait(WAIT_TIME);
+    clickIcon();
+    cy.get('.v-list-item').contains("User Profile").click();
+    clickUrl("/panel/profile/unsubscribe");
+    clickButtonWith('delete account');
+    clickButtonWith('yes, delete it');
+  })
 
 
 
