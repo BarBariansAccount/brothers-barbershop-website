@@ -671,7 +671,7 @@ describe('Test UserStories', () => {
 
 
 
-  it('Test delete customer account', () => {
+  it('UC-33, Test delete customer account', () => {
     loginAccount(TestUserInfo);
     cy.wait(WAIT_TIME);
     clickIcon();
