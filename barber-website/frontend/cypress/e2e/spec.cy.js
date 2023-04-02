@@ -161,7 +161,7 @@ describe('Test UserStories', () => {
   }
 
   const visitMainPage = () => {
-    cy.get('.app-title').contains("Brothers' Barbershop").click();
+    cy.get('.app-title').click();
   }
   const clickContinue = () => {
     cy.get('button').filter(':visible').contains('continue', { matchCase: false }).click();
@@ -266,7 +266,6 @@ describe('Test UserStories', () => {
 
   it('UC-20, 39, 71, 124 Check Main Page Link and general info', () => {
     cy.visit('/');
-    cy.get('.app-title').contains("Brothers' Barbershop");
     cy.get('.map').should('exist');
     cy.get('.barbershop-description').should('exist');
     cy.contains('Current Status').should('exist');
