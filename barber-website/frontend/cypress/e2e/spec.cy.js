@@ -640,9 +640,11 @@ describe('Test UserStories', () => {
 
     //try to edit price  
     cy.contains('haircuts pricing', { matchCase: false }).parent().children(":nth-child(2)").children("button").click();
+    cy.wait(WAIT_TIME);
     cy.get(".act").filter(":visible").first().type("{del}{backspace}".repeat(20) + TestPrice.price);
     cy.wait(WAIT_TIME);
     cy.get(".act").filter(":visible").last().type("{del}{backspace}".repeat(20) + TestPrice.time);
+    cy.wait(WAIT_TIME);
     cy.get('.success--text').filter(":visible").click();
 
     //try to edit hours
