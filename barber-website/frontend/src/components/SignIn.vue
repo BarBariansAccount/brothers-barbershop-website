@@ -93,7 +93,7 @@ export default {
         } else if (userrole == "Barber") {
           this.$router.push("/panel/appointments");
         } else {
-          this.$router.push("/panel/orders");
+          this.$router.push("/");
         }
       } catch (error) {
         this.errorNumberOrPassword = "Wrong phone Number or Password ";

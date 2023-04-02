@@ -129,12 +129,6 @@ export default {
       if (userrole == "Customer") {
         return [
           {
-            action: "mdi-basket",
-            title: "Orders",
-            to: "/panel/orders",
-          },
-
-          {
             action: "mdi-account",
             active: true,
             items: [
@@ -169,7 +163,7 @@ export default {
                 title: "Change Password",
                 to: "/panel/profile/change-password",
               },
-              { title: "Unsubscribe", to: "/panel/profile/unsubscribe" },
+             
             ],
             title: "Profile",
           },
