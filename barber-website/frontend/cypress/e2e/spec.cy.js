@@ -31,7 +31,7 @@ describe('Test UserStories', () => {
   const TestUserInfo = {
     Telephone: 1111111113,
     Password: "testCustomerPass",
-    Email: 'e2ecustomer490@gmail.com',
+    Email: 'e2e490customer@gmail.com',
     FirstName: 'CustomerFirst',
     LastName: 'CustomerLast',
     Note: "Note for user"
@@ -43,7 +43,7 @@ describe('Test UserStories', () => {
   }
   const TestCustomerWithoutAccountInfo = {
     Telephone: 1111111114,
-    Email: 'e2ecustomer490NoAccount@gmail.com',
+    Email: 'e2e490NoAccount@gmail.com',
     FirstName: 'NoAccountFirst',
     LastName: 'NoAccountLast',
     Note: "Note for user without account"
@@ -181,7 +181,7 @@ describe('Test UserStories', () => {
     clickTextWith(slot);
     clickContinue();
     completeFormWithLabel("phone number", userInfo.Telephone);
-    completeFormWithLabel("Email", "{backspace}".repeat(50) + userInfo.Email);
+    completeFormWithLabel("Email", "{backspace}".repeat(30) + userInfo.Email);
     if (isGuest) {
       completeFormWithLabel("First Name", userInfo.FirstName);
       completeFormWithLabel("Last Name", userInfo.LastName);
