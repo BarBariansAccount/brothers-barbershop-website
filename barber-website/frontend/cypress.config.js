@@ -6,6 +6,7 @@ module.exports = defineConfig({
     baseUrl: 'http://frontend:8080',
     viewportWidth: 1920,
     viewportHeight: 1080,
+    defaultCommandTimeout: 6000,
     setupNodeEvents(on, config) {
       // implement node event listeners here
     },
