@@ -178,8 +178,8 @@ export default {
       const { value: formValues } = await Swal.fire({
         title: "Edit FAQ",
         html:
-          `<input value=${editQuestion} placeholder="Question" id="swal-input1" class="swal2-input" style="width: 18em">` +
-          `<input value=${editAnswer} placeholder="Answer"  id="swal-input2" class="swal2-input" style="width: 18em" value="ghi">`,
+          `<input value="${editQuestion}"" placeholder="Question" id="swal-input1" class="swal2-input" style="width: 18em">` +
+          `<input value="${editAnswer}" placeholder="Answer"  id="swal-input2" class="swal2-input" style="width: 18em" >`,
         focusConfirm: false,
         preConfirm: () => {
           return [

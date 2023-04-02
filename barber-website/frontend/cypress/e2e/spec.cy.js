@@ -221,7 +221,7 @@ describe('Test UserStories', () => {
 
   it("UC-120, 129, 176 test add, edit and view  FAQ", () => {
     loginAccount(TestAdminInfo);
-    clickTextWith("editable info");
+    clickTextWith("edit faqs");
 
     // click add button
     cy.get('.text-end > .v-icon > .v-icon__svg').click();
@@ -240,7 +240,7 @@ describe('Test UserStories', () => {
 
     // edit
     loginAccount(TestAdminInfo);
-    clickTextWith("editable info");
+    clickTextWith("edit faqs");
     // click first question
     cy.get('.v-expansion-panel-header').first().click();
     //  click edit
@@ -607,7 +607,7 @@ describe('Test UserStories', () => {
 
   it('UC-25 delete FAQs', () => {
     loginAccount(TestAdminInfo);
-    clickTextWith("editable info");
+    clickTextWith("edit faqs");
     // click first question
     cy.get('.v-expansion-panel-header').first().click();
     //  click delete
