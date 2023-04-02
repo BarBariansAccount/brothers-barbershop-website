@@ -174,9 +174,8 @@ describe('Test UserStories', () => {
     clickContinue();
 
     clickTextWith(ModifiedBarberInfo.FirstName);
-    // doesn't work here
     clickContinue();
-    // add this for now to finish rest of the test 
+    //another wait to continue
     cy.get(':nth-child(5) > .v-stepper__step__step').click();
     selectDate();
     clickTextWith(slot);
@@ -614,8 +613,8 @@ describe('Test UserStories', () => {
     clickButtonWith('yes, delete it!');
     cy.get('.swal2-confirm').filter(":visible").click();
 
-    //bugging, should not be visible
-    //cy.contains(ModifiedFaq.question).should('not.visible');
+
+    cy.contains(ModifiedFaq.question).should('not.visible');
 
   })
 
@@ -670,17 +669,17 @@ describe('Test UserStories', () => {
 
 
 
-  //temp removed it for now since backend part for this is not there yet
 
-  // it('Test delete customer account', () => {
-  //   loginAccount(TestUserInfo);
-  //   cy.wait(WAIT_TIME);
-  //   clickIcon();
-  //   cy.get('.v-list-item').contains("User Profile").click();
-  //   clickUrl("/panel/profile/unsubscribe");
-  //   clickButtonWith('delete account');
-  //   clickButtonWith('yes, delete it');
-  // })
+
+  it('Test delete customer account', () => {
+    loginAccount(TestUserInfo);
+    cy.wait(WAIT_TIME);
+    clickIcon();
+    cy.get('.v-list-item').contains("User Profile").click();
+    clickUrl("/panel/profile/unsubscribe");
+    clickButtonWith('delete account');
+    clickButtonWith('yes, delete it');
+  })
 
 
 
