@@ -9,7 +9,8 @@ const {
     createBarber,
     deleteAccount
 } = require("./userModelTest")
-const { assert } = require('chai')
+const { assert } = require('chai');
+const fs = require("fs");
 const { mockRequest, mockResponse, sleep } = require('./commonTestingMethods');
 
 const checkEmptyProduct = async function () {
@@ -40,7 +41,7 @@ describe("Product Related Tests", function () {
         description: "A test product for unit testing only"
     }
 
-    let fileName = "non-exist-filename";
+    let fileName = "non-exist-filename.png";
 
     const modifiedInfo = {
         title: "unit modified Product Tittle",
@@ -49,6 +50,14 @@ describe("Product Related Tests", function () {
 
     let adminId;
     let productInfo;
+    const addMockFile = async function (file) {
+        const dirPath = "./uploads/";
+        const filePath = dirPath + file;
+        if (!fs.existsSync(dirPath)) {
+            fs.mkdirSync(dirPath);
+        }
+        fs.closeSync(fs.openSync(filePath, 'w'));
+    }
 
 
 
@@ -64,6 +73,10 @@ describe("Product Related Tests", function () {
         //     description: 'A test product for unit testing only',
         //     picturelink: 'http://104.225.142.153:5001/non-exist-filename'
         //   }
+
+        //add mock picture 
+        addMockFile(fileName);
+
         let req = mockRequest(productDetails);
         let res = mockResponse();
         req.Logged_userId = { data: adminId };
@@ -88,6 +101,9 @@ describe("Product Related Tests", function () {
         let res = mockResponse();
         req.Logged_userId = { data: adminId };
         req.file = { filename: fileName };
+        //add mock picture 
+        addMockFile(fileName);
+
         await updateProducts(req, res);
         assert.equal(res.status.calledWith(200), true);
         assert.equal(res.send.getCall(0).args[0], `The Products  has been successfully updated.`);

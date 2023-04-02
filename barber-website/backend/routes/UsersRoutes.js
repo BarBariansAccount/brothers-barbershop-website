@@ -179,4 +179,13 @@ Usersrouter.delete(
   User.deletePicture
 );
 
+/*
+Takes --> Takes authentication token in headers in the format {'authorization': Bearer token} --> user login token
+        
+returns -->   res.status(200).send(`User has been sucessfully deleted with User ID: ${logged_userId}.`);
+             || res.status(400).send(error)
+*/
+
+Usersrouter.put("/deleteUser_profile", authenticateToken, User.deleteUser_profile);
+
 module.exports = Usersrouter;
