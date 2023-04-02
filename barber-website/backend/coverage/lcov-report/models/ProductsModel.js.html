@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for models/faqModel.js</title>
+    <title>Code coverage report for models/ProductsModel.js</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../prettify.css" />
     <link rel="stylesheet" href="../base.css" />
@@ -19,7 +19,7 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../index.html">All files</a> / <a href="index.html">models</a> faqModel.js</h1>
+        <h1><a href="../index.html">All files</a> / <a href="index.html">models</a> ProductsModel.js</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
@@ -81,8 +81,7 @@
 <a name='L16'></a><a href='#L16'>16</a>
 <a name='L17'></a><a href='#L17'>17</a>
 <a name='L18'></a><a href='#L18'>18</a>
-<a name='L19'></a><a href='#L19'>19</a>
-<a name='L20'></a><a href='#L20'>20</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L19'></a><a href='#L19'>19</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -100,27 +99,25 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const getFAQ = "SELECT faq.faqid, faq.question, faq.answer FROM faq";
+<span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">&nbsp;
+const getProducts = "SELECT products.productsid, products.title, products.description, products.picturelink FROM products";
 &nbsp;
-const addFAQ = "INSERT INTO faq (question, answer) VALUES ($1, $2)";
+const addProducts = "INSERT INTO products (title, description, picturelink ) VALUES ($1, $2, $3)";
 &nbsp;
-const updateFAQ = "UPDATE faq SET question = $2, answer = $3 WHERE faqid=$1";
+const updateProducts  = "UPDATE products SET title = $2, description = $3, picturelink=$4 WHERE productsid=$1";
 &nbsp;
-const deleteFAQ = "DELETE FROM faq WHERE faqid=$1";
+const deleteProducts = "DELETE FROM products WHERE productsid=$1";
 &nbsp;
-const checkFAQExists = "SELECT faq.faqid, faq.question, faq.answer FROM faq WHERE faq.faqid=$1";
-&nbsp;
-&nbsp;
-&nbsp;
+const checkProductsExists = "SELECT products.productsid, products.title, products.description FROM products WHERE products.productsid=$1";
+const getPicture = "SELECT products.picturelink FROM products WHERE products.productsid=$1";
 module.exports = {
-    getFAQ,
-    addFAQ,
-    updateFAQ,
-    deleteFAQ,
-    checkFAQExists
-}
-&nbsp;</pre></td></tr></table></pre>
+    getProducts,
+    addProducts,
+    updateProducts,
+    deleteProducts,
+    checkProductsExists,
+    getPicture,
+}</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->

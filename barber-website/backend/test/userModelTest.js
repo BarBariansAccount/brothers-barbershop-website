@@ -8,7 +8,8 @@ const {
     createUser_customers,
     getusers,
     updatePicture,
-    deletePicture
+    deletePicture,
+    deleteUser_profile
 } = require("../controllers/user")
 const { assert } = require('chai')
 const { mockRequest, mockResponse, sleep } = require('./commonTestingMethods')
@@ -329,7 +330,13 @@ describe("UserController related Tests", function () {
 
 
     it('test delete user', async function () {
-        await deleteAccount(userId);
+        req = mockRequest();
+        res = mockResponse();
+        req.Logged_userId = { data: userId };
+        await deleteUser_profile(req, res);
+        assert.equal(res.status.calledWith(200), true);
+        assert.equal(res.send.calledWith(`User has been sucessfully deleted with User ID: ${userId}.`), true);
+
 
         await deleteAccount(userId2);
 
@@ -352,6 +359,15 @@ describe("UserController related Tests", function () {
         await deleteUser(req, res);
         assert.equal(res.status.calledWith(400), true);
         assert.equal(res.send.calledWith(`There is no user with this user ID: ${userId}.`), true);
+        assert.equal(res.status.calledWith(200), false);
+
+        // same but with delete user profile
+        res = mockResponse();
+        req = mockRequest();
+        req.Logged_userId = { data: userId };
+        await deleteUser_profile(req, res);
+        assert.equal(res.status.calledWith(400), true);
+        assert.equal(res.send.getCall(0).args[0], `There is no user with this user ID: ${userId}.`);
         assert.equal(res.status.calledWith(200), false);
     })
 

@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for models/faqModel.js</title>
+    <title>Code coverage report for models/HomePageModel.js</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../prettify.css" />
     <link rel="stylesheet" href="../base.css" />
@@ -19,13 +19,13 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../index.html">All files</a> / <a href="index.html">models</a> faqModel.js</h1>
+        <h1><a href="../index.html">All files</a> / <a href="index.html">models</a> HomePageModel.js</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>19/19</span>
+                <span class='fraction'>21/21</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>19/19</span>
+                <span class='fraction'>21/21</span>
             </div>
         
             
@@ -82,7 +82,9 @@
 <a name='L17'></a><a href='#L17'>17</a>
 <a name='L18'></a><a href='#L18'>18</a>
 <a name='L19'></a><a href='#L19'>19</a>
-<a name='L20'></a><a href='#L20'>20</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L20'></a><a href='#L20'>20</a>
+<a name='L21'></a><a href='#L21'>21</a>
+<a name='L22'></a><a href='#L22'>22</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -101,24 +103,28 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const getFAQ = "SELECT faq.faqid, faq.question, faq.answer FROM faq";
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const updateAbout="UPDATE About SET title = $1 WHERE 1=1";
 &nbsp;
-const addFAQ = "INSERT INTO faq (question, answer) VALUES ($1, $2)";
+const getAbout="Select title from About";
 &nbsp;
-const updateFAQ = "UPDATE faq SET question = $2, answer = $3 WHERE faqid=$1";
+const getPricing= "Select * from pricing order by service"
 &nbsp;
-const deleteFAQ = "DELETE FROM faq WHERE faqid=$1";
+const updatePricing="UPDATE pricing SET price = $2 , duration=$3 WHERE service=$1";
 &nbsp;
-const checkFAQExists = "SELECT faq.faqid, faq.question, faq.answer FROM faq WHERE faq.faqid=$1";
+const getWorkingHours="Select * from workinghours order by day";
+&nbsp;
+const updateWorkingHours ="UPDATE workinghours SET description = $2  WHERE day=$1"
 &nbsp;
 &nbsp;
-&nbsp;
-module.exports = {
-    getFAQ,
-    addFAQ,
-    updateFAQ,
-    deleteFAQ,
-    checkFAQExists
+module.exports={
+    updateAbout,
+    getAbout,
+    getPricing,
+    updatePricing,
+    getWorkingHours,
+    updateWorkingHours
 }
 &nbsp;</pre></td></tr></table></pre>
 
