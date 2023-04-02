@@ -195,7 +195,7 @@ const deleteUser = async (req, res) => {
 
     res
       .status(200)
-      .send(`User has been sucessfully deleted with User ID: ${UserID}.`);
+      .send(`User has been successfully deleted with User ID: ${UserID}.`);
   } catch (error) {
     res.status(400).send(error);
   }
@@ -265,8 +265,6 @@ const deletePicture = async (req, res) => {
     picturePath = picturePath.rows[0].picturelink;
 
     picturePath = extractFileName(picturePath)
-
-    //picturePath = picturePath.substring(36, picturePath.length);
 
     picturePath = "./uploads/" + picturePath;
 
