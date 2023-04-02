@@ -13,10 +13,10 @@
         <Graph />
       </v-col>
     </v-container>
-    <v-container v-else-if="menuItemSelected == 'Editable Info'">
+    <v-container v-else-if="menuItemSelected == 'EDIT FAQs'">
       <FaqAdminCardEdit />
     </v-container>
-    <v-container v-else-if="menuItemSelected == 'APPOINTMENT'">
+    <v-container v-else-if="menuItemSelected == 'APPOINTMENTS'">
       <v-toolbar color="rgba(0,0,0,0)" flat class="mt-n5">
         <v-toolbar-title>View</v-toolbar-title>
       </v-toolbar>
@@ -29,9 +29,8 @@
     <v-container v-else-if="menuItemSelected == 'PRODUCTS'">
       <AdminProducts />
     </v-container>
-    <v-container v-else-if="menuItemSelected == 'Barber`s Availability'">
+    <v-container v-else-if="menuItemSelected == 'BARBER`S AVAILABILITY'">
       <AvailabilityTable />
-
     </v-container>
   </div>
 </template>
@@ -55,7 +54,7 @@ export default {
     AdminMenuCards,
     FaqAdminCardEdit,
     AdminProducts,
-    AvailabilityTable
+    AvailabilityTable,
   },
 
   data() {
