@@ -22,7 +22,7 @@ export default {
 </script>
 <style>
 .slideshow-sec {
-  background:rgb(0,0,0) url("/images/barbershop_gif.gif") no-repeat;
+  background:rgb(0,0,0) url("/images/barbershop.gif") no-repeat;
   background-position: center;
   background-size: contain;
   height: 650px;

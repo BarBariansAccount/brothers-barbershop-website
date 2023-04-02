@@ -10,7 +10,6 @@ import AppointmentPage from "../pages/appointment/AppointmentPage.vue";
 import AppointmentDetail from "../pages/appointment/AppointmentDetail.vue";
 import BarbersManagementPage from "../admin/BarbersManagementPage.vue";
 // panell components
-import PanelHome from '@/pages/panel/home/HomePage.vue'
 import CommonPage from "../pages/panel/profile/ProfileForm.vue";
 import OrdersList from "../pages/panel/profile/OrdersList.vue";
 import Appointment from "../pages/panel/profile/AppointmentsList.vue"
@@ -20,7 +19,7 @@ import DeleteAccount from "../pages/panel/profile/DeleteAccount"
 // Product Page Component
 import ProductPage from "../components/ProductComponents/ProductPage.vue"
 // import 
-import BarberPage from '../pages/panel/barber/barber-page.vue'
+
 
 export default [
   // pages under default layout
@@ -39,9 +38,9 @@ export default [
   // pages under panel layout
   {
     path: "/panel", component: PanelLayout, children: [
-      { path: "", component: PanelHome },
+ 
       { path: "admin", component: AdminPage },
-      { path: "barber", component: BarberPage },
+      //  home removed
       { path: "profile/edit_profile", component: CommonPage },
       { path: "profile/change-password", component: ChangePassword },
       { path: "profile/unsubscribe", component: DeleteAccount },

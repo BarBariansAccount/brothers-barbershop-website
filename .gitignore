@@ -8,3 +8,5 @@ ci-cd/jmeter/log.jtl
 barber-website/frontend/.env
 barber-website/backend/.env
 .scannerwork
+barber-website/frontend/cypress/videos/
+barber-website/backend/uploads/

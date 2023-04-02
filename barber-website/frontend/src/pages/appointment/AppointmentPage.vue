@@ -44,7 +44,8 @@
             <v-btn text class="mt-5" small @click="step = 1">
               Previous
             </v-btn>
-            <v-btn color="primary" class="mt-5" small @click="step=2">
+            <!-- active continue button to the next step -->
+            <v-btn color="primary" class="mt-5" small @click="step=3">
               Continue
               <v-icon right small>
                 mdi-arrow-right
