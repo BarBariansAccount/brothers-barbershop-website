@@ -101,12 +101,6 @@ describe('Test UserStories', () => {
     }
   }
 
-  // a function to fill the form 
-  const completeField = (nth, input) => {
-    cy.get(`:nth-child(${nth}) > .col > .v-input > .v-input__control > .v-input__slot`)
-      .last()
-      .type(input);
-  }
   const completeUserInfo = (nth, input) => {
     cy.get(`:nth-child(${nth}) > :nth-child(1) > .v-input > .v-input__control > .v-input__slot`)
       .last()
@@ -118,11 +112,7 @@ describe('Test UserStories', () => {
       .last().type(input);
 
   }
-  const completeTextAreaWithPlaceHolder = (placeHolder, input) => {
-    cy.get(`textarea[placeholder="${placeHolder}"]`)
-      .last().type(input);
 
-  }
   const completeFormWithLabel = (label, input, inputType = "input") => {
     cy.get(`label`).contains(label, { matchCase: false })
       .parent().children(inputType)

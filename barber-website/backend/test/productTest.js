@@ -24,11 +24,11 @@ const checkEmptyProduct = async function () {
 const checkByAllProducts = async function (productDetails) {
 
 
-    req = mockRequest();
-    res = mockResponse();
+    let req = mockRequest();
+    let res = mockResponse();
     await getProducts(req, res);
     assert.equal(res.status.calledWith(200), true);
-    productInfo = res.json.getCall(0).args[0][0];
+    const productInfo = res.json.getCall(0).args[0][0];
     assert.equal(productInfo.title + productInfo.description, productDetails.title + productDetails.description);
     return productInfo;
 }
@@ -49,7 +49,6 @@ describe("Product Related Tests", function () {
     }
 
     let adminId;
-    let productInfo;
     const addMockFile = async function (file) {
         const dirPath = "./uploads/";
         const filePath = dirPath + file;

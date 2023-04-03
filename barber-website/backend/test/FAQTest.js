@@ -26,12 +26,7 @@ describe("FAQ related tests", function () {
         question: "testQuestionModified",
         answer: "testAnswer"
     })
-    // const adminData = {
-    //     body: {
-    //         Telephone: 1111111111,
-    //         Password: "modifiedPass"
-    //     }
-    // }
+
 
     let req, res;
     let faqid;
