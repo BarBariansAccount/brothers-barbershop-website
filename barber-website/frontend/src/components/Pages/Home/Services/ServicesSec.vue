@@ -24,7 +24,7 @@
             class="ma-2"
             color="red"
             text-color="white">
-            <span class="d-none d-md-inline"> Currently </span>not available<span class="d-none d-md-inline">,contact us directly</span>
+            <span class="d-none d-md-inline"> </span>not available now<span class="d-none d-md-inline">,contact us</span>
         </v-chip>
           </div>
         </v-card>
