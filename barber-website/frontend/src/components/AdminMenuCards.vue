@@ -56,10 +56,10 @@ export default {
     return {
       menuItems: [
         { title: "BARBERS", icon: mdiAccountGroupOutline },
-        { title: "Editable Info", icon: mdiAccountEdit },
-        { title: "APPOINTMENT", icon: mdiCalendar },
+        { title: "EDIT FAQs", icon: mdiAccountEdit },
+        { title: "APPOINTMENTS", icon: mdiCalendar },
         { title: "PRODUCTS", icon: mdiImage },
-        { title: "Barber`s Availability", icon: mdiCalendar },
+        { title: "BARBER`S AVAILABILITY", icon: mdiCalendar },
       ],
       menuItemSelected: "",
     };
@@ -69,6 +69,12 @@ export default {
       this.menuItemSelected = menuItem;
       this.$emit("theMenuItem", this.menuItemSelected);
     },
+  },
+  mounted() {
+    if (!this.menuItemSelected) {
+      this.menuItemSelected = "BARBERS";
+      this.$emit("theMenuItem", this.menuItemSelected);
+    }
   },
 };
 </script>

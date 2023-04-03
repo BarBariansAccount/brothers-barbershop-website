@@ -44,7 +44,8 @@
             <v-btn text class="mt-5" small @click="step = 1">
               Previous
             </v-btn>
-            <v-btn color="primary" class="mt-5" small @click="step=2">
+            <!-- active continue button to the next step -->
+            <v-btn color="primary" class="mt-5" small @click="step=3">
               Continue
               <v-icon right small>
                 mdi-arrow-right
@@ -60,7 +61,7 @@
           <v-stepper-content step="3">
             <v-row v-if="!editMode">
               <v-col cols="12" md="6">
-                <v-date-picker landscape v-model="picker" full-width :allowed-dates="allowedDates"
+                <v-date-picker  v-model="picker" full-width :allowed-dates="allowedDates"
                   @click:date="getAvailHours" />
               </v-col>
               <v-col cols="12" md="6">

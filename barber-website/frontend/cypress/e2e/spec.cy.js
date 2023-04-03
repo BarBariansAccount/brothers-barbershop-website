@@ -89,13 +89,16 @@ describe('Test UserStories', () => {
     clickTextWith("sign in");
   }
   // a function for login
-  const loginAccount = (account) => {
+  const loginAccount = (account, isCustomer = false) => {
     cy.visit('/');
 
     clickSignIn();
     completeFormWithPlaceHolder("Phone Number", account.Telephone);
     completeFormWithPlaceHolder("Password", account.Password);
     cy.get('.mt-8').last().click();
+    if (isCustomer) {
+      cy.get('.v-list-item').contains("user profile", { matchCase: false }).click();
+    }
   }
 
   // a function to fill the form 
@@ -161,7 +164,7 @@ describe('Test UserStories', () => {
   }
 
   const visitMainPage = () => {
-    cy.get('.app-title').contains("Brothers' Barbershop").click();
+    cy.get('.app-title').click();
   }
   const clickContinue = () => {
     cy.get('button').filter(':visible').contains('continue', { matchCase: false }).click();
@@ -221,7 +224,7 @@ describe('Test UserStories', () => {
 
   it("UC-120, 129, 176 test add, edit and view  FAQ", () => {
     loginAccount(TestAdminInfo);
-    clickTextWith("editable info");
+    clickTextWith("edit faqs");
 
     // click add button
     cy.get('.text-end > .v-icon > .v-icon__svg').click();
@@ -240,7 +243,7 @@ describe('Test UserStories', () => {
 
     // edit
     loginAccount(TestAdminInfo);
-    clickTextWith("editable info");
+    clickTextWith("edit faqs");
     // click first question
     cy.get('.v-expansion-panel-header').first().click();
     //  click edit
@@ -266,7 +269,6 @@ describe('Test UserStories', () => {
 
   it('UC-20, 39, 71, 124 Check Main Page Link and general info', () => {
     cy.visit('/');
-    cy.get('.app-title').contains("Brothers' Barbershop");
     cy.get('.map').should('exist');
     cy.get('.barbershop-description').should('exist');
     cy.contains('Current Status').should('exist');
@@ -291,12 +293,13 @@ describe('Test UserStories', () => {
   })
 
   it('UC-31 test customer login', () => {
-    loginAccount(TestUserInfo);
+    loginAccount(TestUserInfo, true);
     logOut();
   })
 
   it('UC-130 test upload image and delete', () => {
-    loginAccount(TestUserInfo);
+    loginAccount(TestUserInfo, true);
+
     cy.get('.icon > .edit-icon').click({ force: true });
 
     //check avatar not there before uploading
@@ -321,7 +324,7 @@ describe('Test UserStories', () => {
 
   it('UC-35 test change password', () => {
     cy.visit('/');
-    loginAccount(TestUserInfo);
+    loginAccount(TestUserInfo, true);
     cy.wait(WAIT_TIME);
     clickIcon();
     cy.get('.v-list-item').contains("User Profile").click();
@@ -341,7 +344,7 @@ describe('Test UserStories', () => {
     cy.visit('/');
     logOut();
 
-    loginAccount(TestUserInfo);
+    loginAccount(TestUserInfo, true);
     logOut();
 
 
@@ -460,7 +463,7 @@ describe('Test UserStories', () => {
 
 
   it('UC-59, 182, 249, 273 add appointment', () => {
-    loginAccount({ ...TestUserInfo, Password: MODIFIED_PASS });
+    loginAccount({ ...TestUserInfo, Password: MODIFIED_PASS }, true);
     completeBookingInfo(TestUserInfo, "Line up", "3:00 PM");
     clickTextWith("book ");
     cy.get('.swal2-confirm').click();
@@ -529,7 +532,7 @@ describe('Test UserStories', () => {
 
   it("UC-223, 222, update and cancel appointment", () => {
 
-    loginAccount({ ...TestUserInfo, Password: MODIFIED_PASS });
+    loginAccount({ ...TestUserInfo, Password: MODIFIED_PASS }, true);
     cy.visit(appointmentUrl.appointmentWithAccount);
     updateAndDeleteAppointment();
 
@@ -608,7 +611,7 @@ describe('Test UserStories', () => {
 
   it('UC-25 delete FAQs', () => {
     loginAccount(TestAdminInfo);
-    clickTextWith("editable info");
+    clickTextWith("edit faqs");
     // click first question
     cy.get('.v-expansion-panel-header').first().click();
     //  click delete
@@ -678,7 +681,7 @@ describe('Test UserStories', () => {
 
 
   it('UC-33, Test delete customer account', () => {
-    loginAccount(TestUserInfo);
+    loginAccount(TestUserInfo, true);
     cy.wait(WAIT_TIME);
     clickIcon();
     cy.get('.v-list-item').contains("User Profile").click();

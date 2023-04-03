@@ -15,9 +15,18 @@
       </v-col>
       <v-col cols="6" lg="3" class="d-flex flex-column justify-center align-center">
         <v-card class="text-center d-flex flex-column align-center justify-center rounded-xl" height="85%" width="80%"
-          color="#F7F7F7" to="/appointment">
+          color="#F7F7F7" to="/">
           <img class="haircut-types-image-2" src="/images/braids.png" />
-          <p class="font-weight-bold mt-6 text-h5">Braids</p>
+          <p class="font-weight-bold mt-6 text-h5">Braids
+          </p>
+          <div class="text-error">
+            <v-chip
+            class="ma-2"
+            color="red"
+            text-color="white">
+            <span class="d-none d-md-inline"> Currently </span>not available<span class="d-none d-md-inline">,contact us directly</span>
+        </v-chip>
+          </div>
         </v-card>
       </v-col>
       <v-col cols="6" lg="3" class="d-flex flex-column justify-center align-center">

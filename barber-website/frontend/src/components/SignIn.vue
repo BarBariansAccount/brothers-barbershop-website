@@ -91,9 +91,9 @@ export default {
         if (userrole == "Admin") {
           this.$router.push("/panel/admin");
         } else if (userrole == "Barber") {
-          this.$router.push("/panel/barber");
+          this.$router.push("/panel/appointments");
         } else {
-          this.$router.push("/panel");
+          this.$router.push("/");
         }
       } catch (error) {
         this.errorNumberOrPassword = "Wrong phone Number or Password ";

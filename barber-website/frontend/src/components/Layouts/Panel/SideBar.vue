@@ -129,17 +129,6 @@ export default {
       if (userrole == "Customer") {
         return [
           {
-            action: "mdi-home",
-            title: "Home",
-            to: "/panel",
-          },
-          {
-            action: "mdi-basket",
-            title: "Orders",
-            to: "/panel/orders",
-          },
-
-          {
             action: "mdi-account",
             active: true,
             items: [
@@ -155,12 +144,6 @@ export default {
         ];
       } else if (userrole == "Barber") {
         return [
-          {
-            action: "mdi-home",
-            title: "Home",
-            to: "/panel/barber",
-          },
-
           {
             action: "mdi-calendar",
             title: "Appointments",
@@ -180,7 +163,7 @@ export default {
                 title: "Change Password",
                 to: "/panel/profile/change-password",
               },
-              { title: "Unsubscribe", to: "/panel/profile/unsubscribe" },
+             
             ],
             title: "Profile",
           },
@@ -224,7 +207,11 @@ export default {
         await userService.updatePic(fd);
         this.get();
       } catch (err) {
-        console.log(err);
+        return Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Error Upload Avatar !",
+        });
       }
     },
     async deletePic() {
