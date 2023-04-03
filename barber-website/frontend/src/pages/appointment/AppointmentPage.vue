@@ -55,7 +55,6 @@
 
           <v-stepper-step :complete="step > 3" step="3" :editable="!editMode">
             Select prefered Date and Time
-            <!-- <v-progress-circular v-if="loadingDate" indeterminate color="primary"></v-progress-circular> -->
           </v-stepper-step>
 
           <v-stepper-content step="3">

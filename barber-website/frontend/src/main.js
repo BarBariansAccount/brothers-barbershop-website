@@ -4,7 +4,6 @@ import vuetify from "./plugins/vuetify";
 import VueRouter from "vue-router";
 import Routes from "./routes/routes.js";
 import store from "./stores/index";
-// import auth from "./middleware/auth"
 
 Vue.use(VueRouter);
 Vue.config.productionTip = false;
@@ -18,17 +17,9 @@ const router = new VueRouter({
 router.beforeEach((to, _, next) => {
   // get token
   const token = router.app.$store.state.token;
-  // const role = router.app.$store.state.user?.role;
 
   let publicPages = ["HomeRoute", "Home", 'BarbersManagement', 'Gallery', 'Appointment', 'AppointmentDetail', 'ProductsPage'];
-
-  // public routes based on role
-  // if (role == "Admin") publicPages.push(["/panel/admin", ""]);
-  // if (role == "Barber") publicPages.push('/panel/barber', '/panel/availabilities', '/panel/profile/edit_profile', '/panel/profile/change-password', '/panel/profile/unsubscribe')
-  // if (role == "Customer") publicPages.push('/panel', '/panel/orders', '/panel/profile/edit_profile', '/panel/profile/change-password', '/panel/profile/unsubscribe')
-
-
-  // needed auth routes
+// needed auth routes
   const authRequired = !publicPages.includes(to.name);
 
   // trying to access a restricted page + no token
