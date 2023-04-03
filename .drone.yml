@@ -218,6 +218,7 @@ steps:
       - docker logout
 
   - name: deploy-backend
+    environment:
       DPASSWORD:
         from_secret: database_password
     commands:
