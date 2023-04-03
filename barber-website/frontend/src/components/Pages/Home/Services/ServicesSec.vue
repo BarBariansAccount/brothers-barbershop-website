@@ -24,8 +24,8 @@
             class="ma-2"
             color="red"
             text-color="white">
-          <div>Currently not available, </div>
-          <div>contact barbershop directly</div></v-chip>
+            <span class="d-none d-md-inline"> Currently </span>not available<span class="d-none d-md-inline">,contact us directly</span>
+        </v-chip>
           </div>
         </v-card>
       </v-col>

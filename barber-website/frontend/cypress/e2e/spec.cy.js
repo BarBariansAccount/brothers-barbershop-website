@@ -89,13 +89,16 @@ describe('Test UserStories', () => {
     clickTextWith("sign in");
   }
   // a function for login
-  const loginAccount = (account) => {
+  const loginAccount = (account, isCustomer = false) => {
     cy.visit('/');
 
     clickSignIn();
     completeFormWithPlaceHolder("Phone Number", account.Telephone);
     completeFormWithPlaceHolder("Password", account.Password);
     cy.get('.mt-8').last().click();
+    if (isCustomer) {
+      cy.get('.v-list-item').contains("user profile", { matchCase: false }).click();
+    }
   }
 
   // a function to fill the form 
@@ -290,12 +293,13 @@ describe('Test UserStories', () => {
   })
 
   it('UC-31 test customer login', () => {
-    loginAccount(TestUserInfo);
+    loginAccount(TestUserInfo, true);
     logOut();
   })
 
   it('UC-130 test upload image and delete', () => {
-    loginAccount(TestUserInfo);
+    loginAccount(TestUserInfo, true);
+
     cy.get('.icon > .edit-icon').click({ force: true });
 
     //check avatar not there before uploading
@@ -320,7 +324,7 @@ describe('Test UserStories', () => {
 
   it('UC-35 test change password', () => {
     cy.visit('/');
-    loginAccount(TestUserInfo);
+    loginAccount(TestUserInfo, true);
     cy.wait(WAIT_TIME);
     clickIcon();
     cy.get('.v-list-item').contains("User Profile").click();
@@ -340,7 +344,7 @@ describe('Test UserStories', () => {
     cy.visit('/');
     logOut();
 
-    loginAccount(TestUserInfo);
+    loginAccount(TestUserInfo, true);
     logOut();
 
 
@@ -459,7 +463,7 @@ describe('Test UserStories', () => {
 
 
   it('UC-59, 182, 249, 273 add appointment', () => {
-    loginAccount({ ...TestUserInfo, Password: MODIFIED_PASS });
+    loginAccount({ ...TestUserInfo, Password: MODIFIED_PASS }, true);
     completeBookingInfo(TestUserInfo, "Line up", "3:00 PM");
     clickTextWith("book ");
     cy.get('.swal2-confirm').click();
@@ -528,7 +532,7 @@ describe('Test UserStories', () => {
 
   it("UC-223, 222, update and cancel appointment", () => {
 
-    loginAccount({ ...TestUserInfo, Password: MODIFIED_PASS });
+    loginAccount({ ...TestUserInfo, Password: MODIFIED_PASS }, true);
     cy.visit(appointmentUrl.appointmentWithAccount);
     updateAndDeleteAppointment();
 
@@ -677,7 +681,7 @@ describe('Test UserStories', () => {
 
 
   it('UC-33, Test delete customer account', () => {
-    loginAccount(TestUserInfo);
+    loginAccount(TestUserInfo, true);
     cy.wait(WAIT_TIME);
     clickIcon();
     cy.get('.v-list-item').contains("User Profile").click();

@@ -4,7 +4,7 @@
     <form @submit.prevent="handleSubmit(onSubmit)" class="px-4">
       <v-row>
         <!-- old -->
-        <v-col cols="4">
+        <v-col cols="12" md="4">
           <ValidationProvider name="oldPassword" rules="required" v-slot="{ errors }">
             <v-text-field outlined dense label="old password" v-model="oldPassword" :error-messages="errors[0]"
               @click:append="show4 = !show4" :append-icon="show4 ? 'mdi-eye' : 'mdi-eye-off'"

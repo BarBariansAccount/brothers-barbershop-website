@@ -11,7 +11,6 @@ import AppointmentDetail from "../pages/appointment/AppointmentDetail.vue";
 import BarbersManagementPage from "../admin/BarbersManagementPage.vue";
 // panell components
 import CommonPage from "../pages/panel/profile/ProfileForm.vue";
-import OrdersList from "../pages/panel/profile/OrdersList.vue";
 import Appointment from "../pages/panel/profile/AppointmentsList.vue"
 import Availabilities from "../pages/panel/profile/AvailabilitiesList.vue"
 import ChangePassword from "../pages/panel/profile/ChangePassword"
@@ -44,8 +43,6 @@ export default [
       { path: "profile/edit_profile", component: CommonPage },
       { path: "profile/change-password", component: ChangePassword },
       { path: "profile/unsubscribe", component: DeleteAccount },
-
-      { path: "orders", component: OrdersList },
       { path: "appointments", component: Appointment },
       { path: "availabilities", component: Availabilities },
     ]
