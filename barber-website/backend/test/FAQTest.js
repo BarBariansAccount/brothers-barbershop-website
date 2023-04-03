@@ -11,7 +11,9 @@ const {
 
 
 const {
-    checkAndGetAdminId
+    createCustomer,
+    checkAndGetAdminId,
+    deleteAccount
 } = require("./userModelTest");
 
 
@@ -24,16 +26,19 @@ describe("FAQ related tests", function () {
         question: "testQuestionModified",
         answer: "testAnswer"
     })
-    // const adminData = {
-    //     body: {
-    //         Telephone: 1111111111,
-    //         Password: "modifiedPass"
-    //     }
-    // }
+
 
     let req, res;
     let faqid;
     let adminId;
+    const testWithOutAdmin = async function (testFunction, testData, userId) {
+        let req = mockRequest(testData);
+        let res = mockResponse();
+        req.Logged_userId = { data: userId };
+        await testFunction(req, res);
+        assert.equal(res.status.calledWith(403), true);
+        assert.equal(res.send.calledWith("Malacious user. Only admin can alter this infomation."), true);
+    }
 
     it("get admin id first", async function () {
         adminId = await checkAndGetAdminId();
@@ -87,5 +92,28 @@ describe("FAQ related tests", function () {
         assert.equal(res.status.calledWith(400), true);
         assert.equal(res.send.calledWith(`There are no FAQ to be shown.`), true)
 
+    })
+    it("test error cases", async function () {
+        const customerId = await createCustomer();
+        testWithOutAdmin(updateFAQ, modifiedFAQ, customerId);
+        testWithOutAdmin(deleteFAQ, modifiedFAQ, customerId);
+        testWithOutAdmin(addFAQ, modifiedFAQ, customerId);
+
+        //test non exist faq
+        res = mockResponse();
+        req = modifiedFAQ;
+        req.Logged_userId = { data: adminId };
+        req.body.faqid = faqid;
+        await updateFAQ(req, res);
+        assert.equal(res.status.calledWith(400), true);
+        assert.equal(res.send.calledWith(`The FAQ ID does not exist.`), true);
+
+        res = mockResponse();
+        await deleteFAQ(req, res);
+        assert.equal(res.status.calledWith(400), true);
+        assert.equal(res.send.calledWith(`The FAQ ID does not exist.`), true);
+
+
+        deleteAccount(customerId);
     })
 })

@@ -14,7 +14,7 @@ describe('BusyStatus related tests', function () {
     let res = mockResponse();
 
     it('get admin id first', async function () {
-        adminId = await checkAndGetAdminId();
+        const adminId = await checkAndGetAdminId();
         req.Logged_userId = { data: adminId };
     })
     it('test get busy status', async function () {

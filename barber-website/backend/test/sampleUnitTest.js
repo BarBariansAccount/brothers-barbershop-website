@@ -1,4 +1,4 @@
-var chai = require('chai');
+const chai = require('chai');
 //Testing
 describe('Sample Unit Test', () => {
     it('Show the testing framework is working', () => {
