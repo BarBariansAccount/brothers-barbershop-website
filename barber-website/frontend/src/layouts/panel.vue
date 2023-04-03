@@ -12,7 +12,6 @@
 </template>
   
 <script>
-// import TopNav from '@/components/Layouts/Panel/TopNav.vue'
 import Navbar from "@/components/Layouts/Default/Navbar.vue";
 import SideBar from '@/components/Layouts/Panel/SideBar.vue'
 import Footer from "@/components/Layouts/Default/Footer.vue";

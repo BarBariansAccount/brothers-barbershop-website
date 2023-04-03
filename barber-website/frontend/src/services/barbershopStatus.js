@@ -15,7 +15,6 @@ export default new (class BarberShopStatus {
     return api.post("/BarberSchedule/getBarberSchedule_barberView", payload);
   };
   getAvailabilities = (payload) => {
-    // return api.get("/BarberSchedule/getBarberSchedule_barberView", { params: payload })
     return api.post("/BarberSchedule/getBarberSchedule_barberView", payload);
   };
   delAvailabilities = (array) => {

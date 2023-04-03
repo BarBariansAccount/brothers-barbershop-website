@@ -15,7 +15,6 @@
                 elevation="20"
                 @click.stop="onToggle(toggle, index, status.title)"
               >
-                <!--TODO: add selectStatus(status.title) -->
                 {{ status.title }}
               </v-btn>
             </v-item>

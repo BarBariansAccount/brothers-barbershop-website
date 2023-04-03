@@ -82,8 +82,6 @@ export default {
   },
   methods: {
     async get(UserID) {
-      // console.log('v', v);
-      // return
       this.appointments = [];
       this.loading = true;
       try {
