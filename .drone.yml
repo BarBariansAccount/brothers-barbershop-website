@@ -218,9 +218,10 @@ steps:
       - docker logout
 
   - name: deploy-backend
+      DPASSWORD:
+        from_secret: database_password
     commands:
-
-      - docker run -p 5001:5001 -e "database_password=POSTGRES" -e "Backend_URL=http://104.225.142.153:5001/" -e "Frontend_URL=http://brothers-barbershop.ca/" --net barber-network --name backend -d brothersbarber/barbershop:backend
+      - docker run -p 5001:5001 -e "database_password=$DPASSWORD" -e "Backend_URL=http://104.225.142.153:5001/" -e "Frontend_URL=http://brothers-barbershop.ca/" --net barber-network --name backend -d brothersbarber/barbershop:backend
 
 
   - name: deploy-frontend
